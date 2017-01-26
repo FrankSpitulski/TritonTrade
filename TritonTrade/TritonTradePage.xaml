@@ -15,7 +15,65 @@
             Aspect="AspectFill"
 		/>
 		
-		<StackLayout>
+		<StackLayout 
+
+			RelativeLayout.XConstraint =
+      		"{ConstraintExpression Type=RelativeToParent,
+                             Property=Width,
+                             Factor=0.5,
+                             Constant=-130}"
+
+			RelativeLayout.YConstraint =
+      		"{ConstraintExpression Type=RelativeToParent,
+                             Property=Width,
+                             Factor=0.5,
+                             Constant=0}"
+
+			RelativeLayout.WidthConstraint="{ConstraintExpression
+            Type=RelativeToParent,Property=Width,Factor=0.7,Constant=0}"
+
+			>
+
+			<RelativeLayout HorizontalOptions="Center">
+
+				<Label Text="Triton Trade" TextColor="#2D61C2"
+					HorizontalOptions="Center"
+					FontFamily="Helvetica"
+					FontSize="45"
+					FontAttributes="Bold"
+
+					RelativeLayout.XConstraint =
+      				"{ConstraintExpression Type=RelativeToParent,
+                             Property=Width,
+                             Factor=0.0,
+                             Constant=2}"
+
+					RelativeLayout.YConstraint =
+      				"{ConstraintExpression Type=RelativeToParent,
+                             Property=Width,
+                             Factor=0.0,
+                             Constant=2}"
+				/>
+
+				<Label Text="Triton Trade" TextColor="#FFEE00"
+				HorizontalOptions="Center"
+				FontFamily="Helvetica"
+				FontSize="45"
+				FontAttributes="Bold"
+				/>
+				
+			</RelativeLayout>
+
+			<Entry Placeholder="Username" />
+			<Entry Placeholder="Password" IsPassword="true" />
+			<Button Text="Log in" FontAttributes="Bold"
+				FontFamily="Helvetica" FontSize="18"
+			BackgroundColor="#2D61C2" TextColor="#FFEE00"/>
+
+			<Button Text="Forgot Password?" Font="Helvetica"
+				TextColor="#FFF" BackgroundColor="Transparent"
+
+			/>
 
 			
 			
