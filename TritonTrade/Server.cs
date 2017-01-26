@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using MySql.Data.MySqlClient;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 public static class Server
 {
@@ -11,7 +11,7 @@ public static class Server
 	const string database = "TritonTrade";
 
 	//the server connection
-	private static MySqlConnection connection;
+	//private static MySqlConnection connection;
 
 	//whether or not the server is currently connected
 	private static bool connected;
@@ -24,7 +24,7 @@ public static class Server
 	private static bool connect()
 	{
 
-		string myConnectionString = "server=" + serverName + ";uid=" + uid + ";pwd=" + pwd + ";database=" + database + ";";
+		/*string myConnectionString = "server=" + serverName + ";uid=" + uid + ";pwd=" + pwd + ";database=" + database + ";";
 
 		try
 		{
@@ -34,10 +34,11 @@ public static class Server
 		}
 		catch (Exception e)
 		{
-			Console.Error.WriteLine(e);
+			Debug.WriteLine(e);
 			connected = false;
 			return false;
 		}
+        */
 		return true;
 	}
 
@@ -48,7 +49,7 @@ public static class Server
      */
 	private static bool disconnect()
 	{
-		if (!connected)
+		/*if (!connected)
 		{
 			return true;
 		}
@@ -59,9 +60,9 @@ public static class Server
 		}
 		catch (Exception e)
 		{
-			Console.Error.WriteLine(e);
+			Debug.WriteLine(e);
 			return false;
-		}
+		}*/
 		return true;
 	}
 
@@ -80,7 +81,7 @@ public static class Server
 			}
 			catch (Exception e)
 			{
-				Console.Error.WriteLine(e);
+				Debug.WriteLine(e);
 				return false;
 			}
 
@@ -104,10 +105,10 @@ public static class Server
 		// ucsd.edu only!
 		if (!Regex.IsMatch(email, @"ucsd.edu$", RegexOptions.IgnoreCase))
 		{
-			Console.Error.WriteLine("email rejected");
+			Debug.WriteLine("email rejected");
 			return false;
 		}
-		Console.Error.WriteLine("email accepted");
+		Debug.WriteLine("email accepted");
 
 		// connect
 		while (!connected)
@@ -118,13 +119,13 @@ public static class Server
 			}
 			catch (Exception e)
 			{
-				Console.Error.WriteLine(e);
-				Console.Error.WriteLine("connection failed");
+				Debug.WriteLine(e);
+				Debug.WriteLine("connection failed");
 				return false;
 			}
 		}
-		Console.Error.WriteLine("connection established");
-
+		Debug.WriteLine("connection established");
+        /*
 		// check to see if email is already registered
 		string sqlString = "SELECT profileID FROM users WHERE email='" + email + "'";
 		MySqlCommand cmd = new MySqlCommand(sqlString, connection);
@@ -134,12 +135,12 @@ public static class Server
 
 		if (data.Tables[0].Rows.Count != 0)
 		{
-			Console.Error.WriteLine("user duplicate");
+			Debug.WriteLine("user duplicate");
 			disconnect();
 			return false;
 		}
 
-		Console.Error.WriteLine("user not duplicate");
+		Debug.WriteLine("user not duplicate");
 
 		// get userID
 		sqlString = "SELECT COUNT(*) FROM users";
@@ -148,7 +149,7 @@ public static class Server
 		adapter.Fill(data);
 		if (data.Tables[0].Rows.Count == 0)
 		{
-			Console.Error.WriteLine("bad count querry");
+			Debug.WriteLine("bad count querry");
 			disconnect();
 			return false; // bad query
 		}
@@ -160,7 +161,7 @@ public static class Server
 			profileID++;
 		}
 
-		Console.Error.WriteLine("new ID found " + profileID);
+		Debug.WriteLine("new ID found " + profileID);
 
 		// get salt for passowrd
 		string salt = BCrypt.Net.BCrypt.GenerateSalt();
@@ -170,7 +171,7 @@ public static class Server
 			BCrypt.Net.BCrypt.HashPassword(password, salt), salt, new List<ulong>(),
 			true, new List<ulong>());
 
-		Console.Error.WriteLine("user object generated");
+		Debug.WriteLine("user object generated");
 
 		// add user object to server
 		sqlString = "INSERT INTO users (name,photo,profileID,bio,mobileNumber"
@@ -197,8 +198,8 @@ public static class Server
 			}
 			catch (Exception e)
 			{
-				Console.Error.WriteLine(e);
-				Console.Error.WriteLine("connection failed");
+				Debug.WriteLine(e);
+				Debug.WriteLine("connection failed");
 				return false;
 			}
 		}
@@ -206,9 +207,10 @@ public static class Server
 		cmd = new MySqlCommand(sqlString, connection);
 		cmd.ExecuteNonQuery();
 
-		Console.Error.WriteLine("user added to database");
+		Debug.WriteLine("user added to database");
 
 		disconnect();
+        */
 		return true;
 	}
 
@@ -227,14 +229,14 @@ public static class Server
 			}
 			catch (Exception e)
 			{
-				Console.Error.WriteLine(e);
-				Console.Error.WriteLine("connection failed");
+				Debug.WriteLine(e);
+				Debug.WriteLine("connection failed");
 				return null;
 			}
 		}
 
-		Console.Error.WriteLine("connected");
-
+		Debug.WriteLine("connected");
+        /*
 		// sql lookup command
 		string sqlString = "SELECT profileID FROM users WHERE email='" + email + "'";
 		MySqlCommand cmd = new MySqlCommand(sqlString, connection);
@@ -245,7 +247,7 @@ public static class Server
 		// duplicate or no emails
 		if (data.Tables.Count != 1 || data.Tables[0].Rows.Count != 1)
 		{
-			Console.Error.WriteLine("bad email search");
+			Debug.WriteLine("bad email search");
 			disconnect();
 			return null;
 		}
@@ -258,7 +260,7 @@ public static class Server
 
 		if (!user.getVerified())
 		{
-			Console.Error.WriteLine("user not verified");
+			Debug.WriteLine("user not verified");
 			disconnect();
 			return null; // unverified cannot login
 		}
@@ -267,13 +269,14 @@ public static class Server
 		if (BCrypt.Net.BCrypt.HashPassword(password, user.getSalt())
 			== user.getPassword())
 		{
-			Console.Error.WriteLine("user login successful");
+			Debug.WriteLine("user login successful");
 			return user;
 		}
 
 		// password did not match
-		Console.Error.WriteLine("password mismatch");
+		Debug.WriteLine("password mismatch");
 		disconnect();
+        */
 		return null;
 	}
 
@@ -325,7 +328,7 @@ public static class Server
 			}
 			catch (Exception e)
 			{
-				Console.Error.WriteLine(e);
+				Debug.WriteLine(e);
 				return new List<User>();
 			}
 		}
@@ -343,7 +346,7 @@ public static class Server
 		//final string should not have an OR profileID= appended
 		sqlString += ids[ids.Count - 1];
 		sqlString += "'";
-
+        /*
 		//create command with sqlString and run it
 		MySqlCommand cmd = new MySqlCommand(sqlString, connection);
 		MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
@@ -376,6 +379,7 @@ public static class Server
 		//disconnect from server
 		disconnect();
 		//return list of users
+        */
 		return users;
 	}
 

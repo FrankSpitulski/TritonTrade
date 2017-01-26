@@ -23,6 +23,17 @@ namespace TritonTrade.Droid
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
 			LoadApplication(new App());
+
+            test();
 		}
+
+        private void test()
+        {
+            Server.login("test@ucsd.edu", "123");
+
+            Server.addNewUser("Test", "/defaultUser.jpg", "bio", "(555) 555-5555", "test@ucsd.edu", "123");
+
+            Server.login("test@ucsd.edu", "123");
+        }
 	}
 }
