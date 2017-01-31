@@ -21,7 +21,7 @@ public class Server {
 
 
 
-    /*
+    /**
      * @author https://stackoverflow.com/a/16507509
      * @param in stream input
      * @return String that was in the stream
@@ -49,18 +49,21 @@ public class Server {
         return builder.toString();
     }
 
-
-    public static void test()
-    {
+    /**
+     * Wrapper to simplify requests
+     * @param request String formatted like /db/api.php...
+     * @return response string
+     */
+    private static String httpGetRequest(String request){
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url;
         HttpURLConnection client = null;
+        String output = null;
         try {
-            url = new URL(serverName + "/db/api.php/users");
+            url = new URL(serverName + request);
             client = (HttpURLConnection) url.openConnection();
-            String in = readStream(client.getInputStream());
-            Log.d("DEBUG", in);
+            output = readStream(client.getInputStream());
         }catch (Exception e){
             Log.d("DEBUG", e.toString());
         }
@@ -69,6 +72,13 @@ public class Server {
                 client.disconnect();
             }
         }
+        return output;
+    }
+    public static void test()
+    {
+
+        Log.d("DEBUG", httpGetRequest("/db/api.php/users"));
+
         String path = "doge.png";
         //System.IO.Stream stream = new System.IO.FileStream(path, System.IO.FileMode.Open);
         //HttpContent fileStreamContent = new StreamContent(stream);
