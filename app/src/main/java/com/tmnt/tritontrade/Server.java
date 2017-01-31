@@ -21,9 +21,34 @@ public class Server {
 
 
 
+    /*
+     * @author https://stackoverflow.com/a/16507509
+     * @param in stream input
+     * @return String that was in the stream
+     */
+    private static String readStream(InputStream in) {
+        BufferedReader reader = null;
+        StringBuilder builder = new StringBuilder();
+        try {
+            reader = new BufferedReader(new InputStreamReader(in));
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return builder.toString();
+    }
 
-    //whether or not the server is currently connected
-    private static boolean connected;
 
     public static void test()
     {
@@ -34,8 +59,8 @@ public class Server {
         try {
             url = new URL(serverName + "/db/api.php/users");
             client = (HttpURLConnection) url.openConnection();
-            BufferedInputStream in = new BufferedInputStream(client.getInputStream());
-            Log.d("DEBUG", new BufferedReader(new InputStreamReader(in)).readLine());
+            String in = readStream(client.getInputStream());
+            Log.d("DEBUG", in);
         }catch (Exception e){
             Log.d("DEBUG", e.toString());
         }
@@ -44,7 +69,6 @@ public class Server {
                 client.disconnect();
             }
         }
-        //Console.WriteLine(client.GetStringAsync("http://spitulski.no-ip.biz/db/api.php/users").Result);
         String path = "doge.png";
         //System.IO.Stream stream = new System.IO.FileStream(path, System.IO.FileMode.Open);
         //HttpContent fileStreamContent = new StreamContent(stream);
