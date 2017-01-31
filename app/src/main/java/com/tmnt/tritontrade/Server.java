@@ -1,4 +1,6 @@
 package com.tmnt.tritontrade;
+import android.content.Context;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -20,71 +22,16 @@ public class Server {
     final static String database = "TritonTrade";
 
 
-
-    /**
-     * @author https://stackoverflow.com/a/16507509
-     * @param in stream input
-     * @return String that was in the stream
-     */
-    private static String readStream(InputStream in) {
-        BufferedReader reader = null;
-        StringBuilder builder = new StringBuilder();
+    public static void test(Context c)
+    {
         try {
-            reader = new BufferedReader(new InputStreamReader(in));
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return builder.toString();
-    }
-
-    /**
-     * Wrapper to simplify requests
-     * @param request String formatted like /db/api.php...
-     * @return response string
-     */
-    private static String httpGetRequest(String request){
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        URL url;
-        HttpURLConnection client = null;
-        String output = null;
-        try {
-            url = new URL(serverName + request);
-            client = (HttpURLConnection) url.openConnection();
-            output = readStream(client.getInputStream());
-        }catch (Exception e){
+            Log.d("DEBUG", httpGetRequest("/db/api.php/users")); // test pull info
+            String response = uploadImage(c.getResources().openRawResource(R.raw.doge), "jpg"); // test file upload
+            Log.d("DEBUG", response);
+        }catch(IOException e){
             Log.d("DEBUG", e.toString());
         }
-        finally {
-            if (client != null) {
-                client.disconnect();
-            }
-        }
-        return output;
-    }
-    public static void test()
-    {
 
-        Log.d("DEBUG", httpGetRequest("/db/api.php/users"));
-
-        String path = "doge.png";
-        //System.IO.Stream stream = new System.IO.FileStream(path, System.IO.FileMode.Open);
-        //HttpContent fileStreamContent = new StreamContent(stream);
-        //var formData = new MultipartFormDataContent();
-        //formData.Add(fileStreamContent, "name", "Image.jpg");
-        //System.out.print(client.PostAsync(serverAddress + "/img/images.php", formData).Result.Content.ReadAsStringAsync().Result);
     }
 
 
@@ -473,5 +420,222 @@ public class Server {
     private static User postToJson(String json){
 
         return null;
+    }
+
+    /**
+     * @author https://stackoverflow.com/a/16507509
+     * @param in stream input
+     * @return String that was in the stream
+     */
+    private static String readStream(InputStream in) {
+        BufferedReader reader = null;
+        StringBuilder builder = new StringBuilder();
+        try {
+            reader = new BufferedReader(new InputStreamReader(in));
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return builder.toString();
+    }
+
+    /**
+     * Wrapper to simplify requests
+     * @param request String formatted like /db/api.php...
+     * @return response string
+     */
+    private static String httpGetRequest(String request) throws IOException{
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitNetwork().build();
+        StrictMode.setThreadPolicy(policy);
+        URL url;
+        HttpURLConnection client = null;
+        String output = null;
+        try {
+            url = new URL(serverName + request);
+            client = (HttpURLConnection) url.openConnection();
+            output = readStream(client.getInputStream());
+        }catch (Exception e){
+            Log.d("DEBUG", e.toString());
+        }
+        finally {
+            if (client != null) {
+                client.disconnect();
+            }
+        }
+        return output;
+    }
+
+    /**
+     * uploads an image to the server
+     * @param fileStream a steam of the image to be sent
+     * @param fileExtension the extension of the file without the period (ex. jpg, png)
+     * @return String of where the file is now located
+     * @throws IOException
+     */
+    private static String uploadImage(InputStream fileStream, String fileExtension) throws IOException{
+        String charset = "UTF-8";
+        String requestURL = serverName + "/img/images.php";
+        MultipartUtility multipart = new MultipartUtility(requestURL, charset);
+        multipart.addFilePart("name", "doge." + fileExtension, fileStream);
+        return multipart.finish(); // response from server.
+    }
+
+
+    /**
+     * @author https://stackoverflow.com/a/33149413, Frank
+     * usage:
+     *      String charset = "UTF-8";
+     *      String requestURL = "YOUR_URL";
+     *      MultipartUtility multipart = new MultipartUtility(requestURL, charset);
+     *      multipart.addFormField("param_name_1", "param_value");
+     *      multipart.addFormField("param_name_2", "param_value");
+     *      multipart.addFormField("param_name_3", "param_value");
+     *      multipart.addFilePart("file_param_1", InputStream);
+     *      String response = multipart.finish(); // response from server.
+     */
+    private static class MultipartUtility {
+
+        private final String boundary;
+        private static final String LINE_FEED = "\r\n";
+        private HttpURLConnection httpConn;
+        private String charset;
+        private OutputStream outputStream;
+        private PrintWriter writer;
+
+        /**
+         * This constructor initializes a new HTTP POST request with content type
+         * is set to multipart/form-data
+         *
+         * @param requestURL
+         * @param charset
+         * @throws IOException
+         */
+        public MultipartUtility(String requestURL, String charset)
+                throws IOException {
+            this.charset = charset;
+
+            // creates a unique boundary based on time stamp
+            boundary = "===" + System.currentTimeMillis() + "===";
+
+            URL url = new URL(requestURL);
+            Log.e("URL", "URL : " + requestURL.toString());
+            httpConn = (HttpURLConnection) url.openConnection();
+            httpConn.setUseCaches(false);
+            httpConn.setDoOutput(true); // indicates POST method
+            httpConn.setDoInput(true);
+            httpConn.setRequestProperty("Content-Type",
+                    "multipart/form-data; boundary=" + boundary);
+            httpConn.setRequestProperty("User-Agent", "CodeJava Agent");
+            httpConn.setRequestProperty("Test", "Bonjour");
+            outputStream = httpConn.getOutputStream();
+            writer = new PrintWriter(new OutputStreamWriter(outputStream, charset),
+                    true);
+        }
+
+        /**
+         * Adds a form field to the request
+         *
+         * @param name  field name
+         * @param value field value
+         */
+        public void addFormField(String name, String value) {
+            writer.append("--" + boundary).append(LINE_FEED);
+            writer.append("Content-Disposition: form-data; name=\"" + name + "\"")
+                    .append(LINE_FEED);
+            writer.append("Content-Type: text/plain; charset=" + charset).append(
+                    LINE_FEED);
+            writer.append(LINE_FEED);
+            writer.append(value).append(LINE_FEED);
+            writer.flush();
+        }
+
+        /**
+         * Adds a upload file section to the request
+         *
+         * @param fieldName  name attribute in <input type="file" name="..." />
+         * @param fileName name of File to be uploaded
+         * @param inputStream stream of File to be uploaded
+         * @throws IOException
+         */
+        public void addFilePart(String fieldName, String fileName, InputStream inputStream)
+                throws IOException {
+            writer.append("--" + boundary).append(LINE_FEED);
+            writer.append(
+                    "Content-Disposition: form-data; name=\"" + fieldName
+                            + "\"; filename=\"" + fileName + "\"")
+                    .append(LINE_FEED);
+            writer.append(
+                    "Content-Type: "
+                            + java.net.URLConnection.guessContentTypeFromName(fileName))
+                    .append(LINE_FEED);
+            writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED);
+            writer.append(LINE_FEED);
+            writer.flush();
+
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.flush();
+            inputStream.close();
+
+            writer.append(LINE_FEED);
+            writer.flush();
+        }
+
+        /**
+         * Adds a header field to the request.
+         *
+         * @param name  - name of the header field
+         * @param value - value of the header field
+         */
+        public void addHeaderField(String name, String value) {
+            writer.append(name + ": " + value).append(LINE_FEED);
+            writer.flush();
+        }
+
+        /**
+         * Completes the request and receives response from the server.
+         *
+         * @return a list of Strings as response in case the server returned
+         * status OK, otherwise an exception is thrown.
+         * @throws IOException
+         */
+        public String finish() throws IOException {
+            StringBuffer response = new StringBuffer();
+
+            writer.append(LINE_FEED).flush();
+            writer.append("--" + boundary + "--").append(LINE_FEED);
+            writer.close();
+
+            // checks server's status code first
+            int status = httpConn.getResponseCode();
+            if (status == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        httpConn.getInputStream()));
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+                httpConn.disconnect();
+            } else {
+                throw new IOException("Server returned non-OK status: " + status);
+            }
+
+            return response.toString();
+        }
     }
 }
