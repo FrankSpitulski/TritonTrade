@@ -37,84 +37,22 @@ public class User implements Parcelable {
         this.verified = verified;
         this.cartIDs = cartIDs;
         this.emailVerificationLink = emailVerificationLink;
-        Server.addNewUser(name, photo, bio, mobileNumber, email, password);
-    }
-
-    /**
-     * No bio constructor
-     */
-    public User(String name, String photo, int profileID, String mobileNumber, String email,
-                String password, String salt, ArrayList<Integer> postHistory, boolean verified, ArrayList<Integer> cartIDs)
-    {
-        //TODO ERROR CHECKS
-        this.name = name;
-        this.photo = photo;
-        this.profileID = profileID;
-        this.bio = "";
-        this.mobileNumber = mobileNumber;
-        this.email = email;
-        this.password = password;
-        this.salt = salt;
-        this.postHistory = postHistory;
-        this.verified = verified;
-        this.cartIDs = cartIDs;
-        Server.addNewUser(name, photo, bio, mobileNumber, email, password);
-    }
-
-    /**
-     * No photo constructor
-     */
-    public User(String name, int profileID, String bio,
-                String mobileNumber, String email, String password, String salt,
-                ArrayList<Integer> postHistory, boolean verified, ArrayList<Integer> cartIDs)
-    {
-        //TODO ERROR CHECKS
-        this.name = name;
-        this.photo = "";
-        this.profileID = profileID;
-        this.bio = bio;
-        this.mobileNumber = mobileNumber;
-        this.email = email;
-        this.password = password;
-        this.salt = salt;
-        this.postHistory = postHistory;
-        this.verified = verified;
-        this.cartIDs = cartIDs;
-        Server.addNewUser(name, photo, bio, mobileNumber, email, password);
-    }
-
-    /**
-     * No bio nor photo constructor
-     */
-    public User(String name, int profileID, String mobileNumber, String email, String password, String salt,
-                ArrayList<Integer> postHistory, boolean verified, ArrayList<Integer> cartIDs)
-    {
-        //TODO ERROR CHECKS
-        this.name = name;
-        this.photo = "";
-        this.profileID = profileID;
-        this.bio = "";
-        this.mobileNumber = mobileNumber;
-        this.email = email;
-        this.password = password;
-        this.salt = salt;
-        this.postHistory = postHistory;
-        this.verified = verified;
-        this.cartIDs = cartIDs;
-        Server.addNewUser(name, photo, bio, mobileNumber, email, password);
     }
 
     /**
      * Getter for name
+     * @return the name of user
      */
     public String getName()
     {
         return name;
     }
 
+
     /**
      * Setter for name
-     * If invalid input, nothing is updated and returns false
+     * @param name the name of the user
+     * @return If invalid input, nothing is updated and returns false
      */
     public boolean setName(String name)
     {
@@ -127,6 +65,7 @@ public class User implements Parcelable {
 
     /**
      * Getter for photo
+     * @return the user photo
      */
     public String getPhoto()
     {
@@ -135,7 +74,8 @@ public class User implements Parcelable {
 
     /**
      * Setter for photo
-     * If invalid input, nothing is updated and returns false
+     * @param photo the photo of the user
+     * @return If invalid input, nothing is updated and returns false
      */
     public boolean setPhoto(String photo)
     {
@@ -147,6 +87,7 @@ public class User implements Parcelable {
 
     /**
      * Getter for profileID
+     * @return the profileID
      */
     public int getProfileID()
     {
@@ -155,7 +96,8 @@ public class User implements Parcelable {
 
     /**
      * Setter for profileID
-     * If invalid input, nothing is updated and returns false
+     * @param profileID the profileID
+     * @return If invalid input, nothing is updated and returns false
      */
     public boolean setProfileID(int profileID)
     {
@@ -167,6 +109,7 @@ public class User implements Parcelable {
 
     /**
      * Getter for bio
+     * @return the user bio
      */
     public String getBio()
     {
@@ -175,7 +118,8 @@ public class User implements Parcelable {
 
     /**
      * Setter for bio
-     * If invalid input, nothing is updated and returns false
+     * @param bio the user bio
+     * @return If invalid input, nothing is updated and returns false
      */
     public boolean setBio(String bio)
     {
@@ -186,7 +130,8 @@ public class User implements Parcelable {
     }
 
     /**
-     * Getter for mobile number
+     * Getter for mobileNumber
+     * @return the mobile number
      */
     public String getMobileNumber()
     {
@@ -194,8 +139,9 @@ public class User implements Parcelable {
     }
 
     /**
-     * Setter for mobile number
-     * If invalid input, nothing is updated and returns false
+     * Setter for mobileNumber
+     * @param mobileNumber the mobile number
+     * @return If invalid input, nothing is updated and returns false
      */
     public boolean setMobileNumber(String mobileNumber)
     {
@@ -207,6 +153,7 @@ public class User implements Parcelable {
 
     /**
      * Getter for email
+     * @return the email
      */
     public String getEmail()
     {
@@ -215,7 +162,8 @@ public class User implements Parcelable {
 
     /**
      * Setter for email
-     * If invalid input, nothing is updated and returns false
+     * @param email the user email
+     * @return If invalid input, nothing is updated and returns false
      */
     public boolean setEmail(String email)
     {
@@ -226,7 +174,8 @@ public class User implements Parcelable {
     }
 
     /**
-     * Getter for cartIDs
+     * Getter for CartIDs
+     * @return a list of cartIDs
      */
     public ArrayList<Integer> getCartIDs()
     {
@@ -235,7 +184,8 @@ public class User implements Parcelable {
 
     /**
      * Setter for cartIDs
-     * If invalid input, nothing is updated and returns false
+     * @param cartIDs a list of cartIDs
+     * @return If invalid input, nothing is updated and returns false
      */
     public boolean setCartIDs(ArrayList<Integer> cartIDs)
     {
@@ -247,6 +197,7 @@ public class User implements Parcelable {
 
     /**
      * Getter for password
+     * @return the password
      */
     public String getPassword()
     {
@@ -254,8 +205,9 @@ public class User implements Parcelable {
     }
 
     /**
-     * Sets user password
-     * If invalid input, nothing is updated and returns false
+     * Setter for password
+     * @param password the password
+     * @return If invalid input, nothing is updated and returns false
      */
     public boolean setPassword(String password)
     {
@@ -266,7 +218,8 @@ public class User implements Parcelable {
     }
 
     /**
-     * Getter for salt
+     * Setter for salt
+     * @return salt
      */
     public String getSalt()
     {
@@ -275,7 +228,8 @@ public class User implements Parcelable {
 
     /**
      * Setter for salt
-     * If invalid input, nothing is updated and returns false
+     * @param salt
+     * @return If invalid input, nothing is updated and returns false
      */
     public boolean setSalt(String salt)
     {
@@ -286,7 +240,8 @@ public class User implements Parcelable {
     }
 
     /**
-     * Getter for verified field
+     * Getter for verified
+     * @return true if user is verified, else false
      */
     public boolean getVerified()
     {
@@ -294,8 +249,9 @@ public class User implements Parcelable {
     }
 
     /**
-     * Sets the user as verified
-     * If invalid input, nothing is updated and returns false
+     * Setter for verified
+     * @param verified
+     * @return
      */
     public boolean setVerified(boolean verified)
     {
@@ -304,23 +260,30 @@ public class User implements Parcelable {
     }
 
     /**
-     * Getter for emailVerificationLink string
+     * Getter for emailVerificationLink
+     * @return the email verification link
      */
     public String getEmailVerificationLink(){
         return emailVerificationLink;
     }
 
     /**
-     * Setter for emailVerificationLink
-     * If invalid input, nothing is updated and returns false
+     * Setter for email verification link
+     * @param emailVerificationLink
+     * @return If invalid input, nothing is updated and returns false
      */
     public boolean setEmailVerificationLink(String emailVerificationLink){
+        if(emailVerificationLink == null){
+            return false;
+        }
         this.emailVerificationLink=emailVerificationLink;
         return Server.modifyExistingUser(this);
     }
 
     /**
-     * Adds post to postHistory by ID
+     * Adds post to history by id
+     * @param id the id of the post
+     * @return If invalid input, nothing is updated and returns false
      */
     public boolean addToPostHistory(int id)
     {
@@ -343,7 +306,8 @@ public class User implements Parcelable {
     }
 
     /**
-     * Returns the post history
+     * Returns the postHistory
+     * @return the postHistory
      */
     public String getPostHistoryString()
     {
@@ -360,7 +324,8 @@ public class User implements Parcelable {
     }
 
     /**
-     * Returns the cardIDs
+     * Returns the cartIDs
+     * @return the cartIDs
      */
     public String getCartIDsString()
     {
@@ -377,7 +342,9 @@ public class User implements Parcelable {
     }
 
     /**
-     * Returns an ArrayList of postIDs from paramter
+     * Returns the postHistory (List)
+     * @param history the post history(String)
+     * @return a list of postIDs
      */
     static ArrayList<Integer> getPostHistoryFromString(String history)
     {
@@ -395,7 +362,9 @@ public class User implements Parcelable {
     }
 
     /**
-     * Returns an ArrayList of cardIDs parsed from parameter
+     * Returns a list of cartIDs parsed from input
+     * @param history
+     * @return a list of CartIDs
      */
     static ArrayList<Integer> getCartIDsFromString(String history)
     {
