@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+import javax.net.ssl.HttpsURLConnection;
+
 /**
  * Static server class for interaction with the database
  * Server to be accessed with https://github.com/mevdschee/php-crud-api
@@ -21,7 +23,7 @@ import java.util.regex.Pattern;
 
 public class Server {
     //Information of Frank's Server TODO DELETE AFTER SQL METHODS ARE REWRITTEN
-    final private static String serverName = "http://spitulski.no-ip.biz";
+    final private static String serverName = "https://spitulski.no-ip.biz";
     final private static String uid = "Michelangelo";
     final private static String pwd = "Leonardo";
     final private static String database = "TritonTrade";
@@ -453,11 +455,11 @@ public class Server {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitNetwork().build();
         StrictMode.setThreadPolicy(policy);
         URL url;
-        HttpURLConnection client = null;
+        HttpsURLConnection client = null;
         String output = null;
         try {
             url = new URL(serverName + request);
-            client = (HttpURLConnection) url.openConnection();
+            client = (HttpsURLConnection) url.openConnection();
             output = readStream(client.getInputStream());
         }catch (Exception e){
             Log.d("DEBUG", e.toString());
@@ -524,7 +526,7 @@ public class Server {
 
             URL url = new URL(requestURL);
             Log.e("URL", "URL : " + requestURL.toString());
-            httpConn = (HttpURLConnection) url.openConnection();
+            httpConn = (HttpsURLConnection) url.openConnection();
             httpConn.setUseCaches(false);
             httpConn.setDoOutput(true); // indicates POST method
             httpConn.setDoInput(true);
