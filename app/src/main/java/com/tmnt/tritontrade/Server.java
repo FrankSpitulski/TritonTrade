@@ -7,6 +7,7 @@ import android.util.Log;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -103,7 +104,7 @@ public class Server {
 
             String emailLink = sendEmailVerification();
 
-            // get salt for passowrd
+            // get salt for password
             String salt = BCrypt.gensalt(10);
 
             // create user object, TODO implement verification, true for now
@@ -112,34 +113,29 @@ public class Server {
                     true, new ArrayList<Integer>(), emailLink);
 
             Log.d("DEBUG", "user object generated");
-/*
-            // add user object to server
-            sqlString = "INSERT INTO users (name,photo,profileID,bio,mobileNumber"
-                    + ",email,password,salt,postHistory,verified,cartIDs)"
-                    + "\nVALUES('" + newUser.getName() + "'"
-                    + ", '" + newUser.getPhoto() + "'"
-                    + ", " + newUser.getProfileID()
-                    + ", '" + newUser.getBio() + "'"
-                    + ", '" + newUser.getMobileNumber() + "'"
-                    + ", '" + newUser.getEmail() + "'"
-                    + ", '" + newUser.getPassword() + "'"
-                    + ", '" + newUser.getSalt() + "'"
-                    + ", '" + newUser.getPostHistoryString() + "'"
-                    + ", " + newUser.getVerified()
-                    + ", '" + newUser.getCartIDsString() + "'"
-                    + ");";
 
-            cmd = new MySqlCommand(sqlString, connection);
-            cmd.ExecuteNonQuery();
+            ArrayList<User> newUserList = new ArrayList<User>();
+            newUserList.add(newUser);
 
-            Log.d("DEBUG", "user added to database");
-
+            URL url = new URL(serverName + "/db/api.php/users");
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setRequestMethod("PUT");
+            OutputStreamWriter out = new OutputStreamWriter(
+                    connection.getOutputStream());
+            out.write(userToJson(newUserList));
+            out.close();
+            response = readStream(connection.getInputStream());
+            if(response == null || response.equals("")){
+                Log.d("DEBUG", "user failed to add");
+                return false;
+            }
+            Log.d("DEBUG", "user added");
             return true;
-            */
+
         }catch(IOException e){
             Log.d("DEBUG", e.toString());
         }
-
         return false;
     }
 
