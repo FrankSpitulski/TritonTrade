@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
         Server.test(this);
     }
 
+    //If the user clicks on the "Forgot Password?" button, they will be redirected to
+    //the forgot password activity
     public void sendToForgotActivity(View view) {
 
         Intent intent = new Intent(this, ForgotPassword.class);
