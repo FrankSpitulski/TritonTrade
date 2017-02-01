@@ -51,6 +51,7 @@ public class Post implements Parcelable {
 
     /**
      * Setter for product name
+     * If invalid input, nothing is updated and returns false
      */
     public boolean setProductName(String productName)
     {
@@ -72,6 +73,7 @@ public class Post implements Parcelable {
 
     /**
      * Setter for photos
+     * If invalid input, nothing is updated and returns false
      */
     public boolean setPhotos(String photos)
     {
@@ -93,6 +95,7 @@ public class Post implements Parcelable {
 
     /**
      * Setter for description
+     * If invalid input, nothing is updated and returns false
      */
     public boolean setDescription(String description)
     {
@@ -114,10 +117,11 @@ public class Post implements Parcelable {
 
     /**
      * Setter for price
+     * If invalid input, nothing is updated and returns false
      */
     public boolean setPrice(float price)
     {
-        if (price == 0)
+        if (price < 0)
         {
             return false;
         }
@@ -135,6 +139,7 @@ public class Post implements Parcelable {
 
     /**
      * Setter for tags
+     * If invalid input, nothing is updated and returns false
      */
     public boolean setTags(ArrayList<String> tags)
     {
@@ -156,6 +161,7 @@ public class Post implements Parcelable {
 
     /**
      * Setter for profileID
+     * If invalid input, nothing is updated and returns false
      */
     public boolean setProfileID(int profileID)
     {
@@ -177,6 +183,7 @@ public class Post implements Parcelable {
 
     /**
      * Setter for postID
+     * If invalid input, nothing is updated and returns false
      */
     public boolean setPostID(int postID)
     {
@@ -198,6 +205,7 @@ public class Post implements Parcelable {
 
     /**
      * Setter for selling
+     * If invalid input, nothing is updated and returns false
      */
     public boolean setSelling(boolean selling)
     {
@@ -215,6 +223,7 @@ public class Post implements Parcelable {
 
     /**
      * Setter for dateCreated
+     * If invalid input, nothing is updated and returns false
      */
     public boolean setDateCreated(Date dateCreated)
     {
@@ -236,8 +245,9 @@ public class Post implements Parcelable {
 
     /**
      * Setter for contactInfo
+     * If invalid input, nothing is updated and returns false
      */
-    public boolean setContacInfo(String contactInfo)
+    public boolean setContactInfo(String contactInfo)
     {
         if (contactInfo == null)
         {
