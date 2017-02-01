@@ -23,7 +23,7 @@ import javax.net.ssl.HttpsURLConnection;
  */
 
 public class Server {
-    //Information of Frank's Server TODO DELETE AFTER SQL METHODS ARE REWRITTEN
+    //Information of Frank's Server
     final private static String serverName = "https://spitulski.no-ip.biz";
     final private static String uid = "Michelangelo";
     final private static String pwd = "Leonardo";
@@ -42,6 +42,10 @@ public class Server {
         }
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private static String sendEmailVerification(){
         String verfificationString = new BigInteger(130, new Random()).toString(32);
         return verfificationString;
@@ -374,7 +378,7 @@ public class Server {
 
     /**
      * Gets the user with the specified id
-     *
+     * TODO
      * @param post The id to search for
      * @return The user with the given id
      */
@@ -386,6 +390,11 @@ public class Server {
         return false; // when doesn't exist
     }
 
+    /**
+     * TODO
+     * @param user
+     * @return
+     */
     public static boolean modifyExistingUser(User user)
     {
         // modify user based on a search of postID from the argument with the
@@ -394,21 +403,41 @@ public class Server {
         return false; // when doesn't exist
     }
 
+    /**
+     * TODO
+     * @param json
+     * @return
+     */
     private static ArrayList<User> jsonToUser(String json){
 
         return null;
     }
 
+    /**
+     * TODO
+     * @param json
+     * @return
+     */
     private static ArrayList<Post> jsonToPost(String json){
 
         return null;
     }
 
+    /**
+     * TODO
+     * @param users
+     * @return
+     */
     private static String userToJson(ArrayList<User> users){
 
         return null;
     }
 
+    /**
+     * TODO
+     * @param posts
+     * @return
+     */
     private static String postToJson(ArrayList<Post> posts){
 
         return null;
