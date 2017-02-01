@@ -21,6 +21,21 @@ public class User implements Parcelable {
     private ArrayList<Integer> cartIDs;
     private String emailVerificationLink;
 
+    /**
+     *
+     * @param name
+     * @param photo
+     * @param profileID
+     * @param bio
+     * @param mobileNumber
+     * @param email
+     * @param password
+     * @param salt
+     * @param postHistory
+     * @param verified
+     * @param cartIDs
+     * @param emailVerificationLink
+     */
     public User(String name, String photo, int profileID, String bio, String mobileNumber,
                 String email, String password, String salt, ArrayList<Integer> postHistory,
                 boolean verified, ArrayList<Integer> cartIDs,String emailVerificationLink)
