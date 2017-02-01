@@ -4,36 +4,45 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.io.*;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 /**
- * Created by Frank on 31/01/2017.
+ * Static server class for interaction with the database
+ * Server to be accessed with https://github.com/mevdschee/php-crud-api
  */
 
 public class Server {
     //Information of Frank's Server TODO DELETE AFTER SQL METHODS ARE REWRITTEN
-    final static String serverName = "http://spitulski.no-ip.biz";
-    final static String uid = "Michelangelo";
-    final static String pwd = "Leonardo";
-    final static String database = "TritonTrade";
+    final private static String serverName = "http://spitulski.no-ip.biz";
+    final private static String uid = "Michelangelo";
+    final private static String pwd = "Leonardo";
+    final private static String database = "TritonTrade";
 
 
     public static void test(Context c)
     {
         try {
-            Log.d("DEBUG", httpGetRequest("/db/api.php/users")); // test pull info
+            Log.d("DEBUG", httpGetRequest("/db/api.php/users"  + "?transform=1")); // test pull info
             String response = uploadImage(c.getResources().openRawResource(R.raw.doge), "jpg"); // test file upload
             Log.d("DEBUG", response);
+            Log.d("DEBUG", httpGetRequest("/db/userCount.php"));
         }catch(IOException e){
             Log.d("DEBUG", e.toString());
         }
-
     }
 
+    private static String sendEmailVerification(){
+        String verfificationString = new BigInteger(130, new Random()).toString(32);
+        return verfificationString;
+    }
 
     /**
      * Add a post to the database
@@ -57,134 +66,119 @@ public class Server {
     public static boolean addNewUser(String name, String photo, String bio,
                                      String mobileNumber, String email, String password)
     {
-        // Makes sure that the email given is a ucsd email
-        if (!Pattern.matches("ucsd.edu$", email))
-        {
-            Log.d("DEBUG", "email rejected");
-            return false;
+        try {
+            // Makes sure that the email given is a ucsd email
+            if (!Pattern.matches("ucsd.edu$", email)) {
+                Log.d("DEBUG", "email rejected");
+                return false;
+            }
+
+            //debug message
+            Log.d("DEBUG", "email accepted");
+
+
+            // check to see if email is already registered
+            String response = httpGetRequest("/db/api.php/users?filter[]=email,eq,"
+                    + email + "&transform=1");
+            ArrayList<User> users = jsonToUser(response);
+
+            if (users.size() != 0) {
+                Log.d("DEBUG", "duplicate email");
+                return false;
+            }
+
+            Log.d("DEBUG", "user not duplicate");
+
+            // get userID
+            int profileID = Integer.getInteger(httpGetRequest("/db/userCount.php")) + 1;
+
+            // get unused ID
+            while (searchUserIDs(profileID) != null) {
+                profileID++;
+            }
+
+            Log.d("DEBUG", "new ID found " + profileID);
+
+            String emailLink = sendEmailVerification();
+
+            // get salt for passowrd
+            String salt = BCrypt.gensalt(10);
+
+            // create user object, TODO implement verification, true for now
+            User newUser = new User(name, photo, profileID, bio, mobileNumber, email,
+                    BCrypt.hashpw(password, salt), salt, new ArrayList<Integer>(),
+                    true, new ArrayList<Integer>(), emailLink);
+
+            Log.d("DEBUG", "user object generated");
+/*
+            // add user object to server
+            sqlString = "INSERT INTO users (name,photo,profileID,bio,mobileNumber"
+                    + ",email,password,salt,postHistory,verified,cartIDs)"
+                    + "\nVALUES('" + newUser.getName() + "'"
+                    + ", '" + newUser.getPhoto() + "'"
+                    + ", " + newUser.getProfileID()
+                    + ", '" + newUser.getBio() + "'"
+                    + ", '" + newUser.getMobileNumber() + "'"
+                    + ", '" + newUser.getEmail() + "'"
+                    + ", '" + newUser.getPassword() + "'"
+                    + ", '" + newUser.getSalt() + "'"
+                    + ", '" + newUser.getPostHistoryString() + "'"
+                    + ", " + newUser.getVerified()
+                    + ", '" + newUser.getCartIDsString() + "'"
+                    + ");";
+
+            cmd = new MySqlCommand(sqlString, connection);
+            cmd.ExecuteNonQuery();
+
+            Log.d("DEBUG", "user added to database");
+
+            return true;
+            */
+        }catch(IOException e){
+            Log.d("DEBUG", e.toString());
         }
 
-        //debug message
-        Log.d("DEBUG", "email accepted");
-
-
-        /*
-
-        // check to see if email is already registered
-        String sqlString = "SELECT profileID FROM users WHERE email='" + email + "'";
-        MySqlCommand cmd = new MySqlCommand(sqlString, connection);
-        MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-        System.Data.DataSet data = new System.Data.DataSet();
-        adapter.Fill(data);
-
-        if (data.Tables[0].Rows.Count != 0)
-        {
-            Log.d("DEBUG", "user duplicate");
-            return false;
-        }
-
-        Log.d("DEBUG", "user not duplicate");
-
-        // get userID
-        sqlString = "SELECT COUNT(*) FROM users";
-        cmd = new MySqlCommand(sqlString, connection);
-        adapter = new MySqlDataAdapter(cmd);
-        adapter.Fill(data);
-        if (data.Tables[0].Rows.Count == 0)
-        {
-            Log.d("DEBUG", "bad count querry");
-            return false; // bad query
-        }
-        int profileID = (int)(System.Int64)data.Tables[0].Rows[0][1] + 1;
-
-        // get unused ID
-        while (searchUserIDs(profileID) != null)
-        {
-            profileID++;
-        }
-
-        Log.d("DEBUG", "new ID found " + profileID);
-
-        // get salt for passowrd
-        String salt = BCrypt.Net.BCrypt.GenerateSalt();
-
-        // create user object, TODO implement verification, true for now
-        User newUser = new User(name, photo, profileID, bio, mobileNumber, email,
-                BCrypt.Net.BCrypt.HashPassword(password, salt), salt, new ArrayList<Integer>(),
-                true, new ArrayList<Integer>());
-
-        Log.d("DEBUG", "user object generated");
-
-        // add user object to server
-        sqlString = "INSERT INTO users (name,photo,profileID,bio,mobileNumber"
-                + ",email,password,salt,postHistory,verified,cartIDs)"
-                + "\nVALUES('" + newUser.getName() + "'"
-                + ", '" + newUser.getPhoto() + "'"
-                + ", " + newUser.getProfileID()
-                + ", '" + newUser.getBio() + "'"
-                + ", '" + newUser.getMobileNumber() + "'"
-                + ", '" + newUser.getEmail() + "'"
-                + ", '" + newUser.getPassword() + "'"
-                + ", '" + newUser.getSalt() + "'"
-                + ", '" + newUser.getPostHistoryString() + "'"
-                + ", " + newUser.getVerified()
-                + ", '" + newUser.getCartIDsString() + "'"
-                + ");";
-
-        cmd = new MySqlCommand(sqlString, connection);
-        cmd.ExecuteNonQuery();
-
-        Log.d("DEBUG", "user added to database");
-        */
-        return true;
+        return false;
     }
 
     /**
      * Attempts to log in to the server with a given login and password
      * @param email email login
      * @param password password login
-     * @return true if add successful
+     * @return user if login successful, null if unsuccessful
      */
-    public static User login(String email, String password) // returns a null or empty User if bad login
+    public static User login(String email, String password)
     {
-    /*
-        // sql lookup command
-        String sqlString = "SELECT profileID FROM users WHERE email='" + email + "'";
-        MySqlCommand cmd = new MySqlCommand(sqlString, connection);
-        MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-        System.Data.DataSet data = new System.Data.DataSet();
-        adapter.Fill(data);
+        try {
+            String response = httpGetRequest("/db/api.php/users?filter[]=email,eq,"
+                    + email + "&transform=1");
+            ArrayList<User> users = jsonToUser(response);
 
-        // duplicate or no emails
-        if (data.Tables.Count != 1 || data.Tables[0].Rows.Count != 1) {
-            Log.d("DEBUG", "bad email search");
-            return null;
+            if(users.size() != 1){
+                Log.d("DEBUG", "bad email search");
+                return null;
+            }
+
+            // get data of valid user
+            User user = users.get(0);
+
+            if (!user.getVerified()) {
+                Log.d("DEBUG", "user not verified");
+                return null; // unverified cannot login
+            }
+
+            // password test
+            if (BCrypt.hashpw(password, user.getSalt()).equals(user.getPassword())) {
+                Log.d("DEBUG", "user login successful");
+                return user;
+            }
+
+            // password did not match
+            Log.d("DEBUG", "password mismatch");
+
+        }catch(IOException e){
+            Log.d("DEBUG", e.toString());
         }
-
-        // get ID of email
-        int userID = (int)(System.Int64)data.Tables[0].Rows[0][0];
-
-        // get data of valid user
-        User user = searchUserIDs(userID);
-
-        if (!user.getVerified())
-        {
-            Log.d("DEBUG", "user not verified");
-            return null; // unverified cannot login
-        }
-
-        // password test
-        if (BCrypt.Net.BCrypt.HashPassword(password, user.getSalt())
-                == user.getPassword())
-        {
-            Log.d("DEBUG", "user login successful");
-            return user;
-        }
-
-        // password did not match
-        Log.d("DEBUG", "password mismatch");
-
-        */
         return null;
     }
 
@@ -402,22 +396,22 @@ public class Server {
         return false; // when doesn't exist
     }
 
-    private static User jsonToUser(String json){
+    private static ArrayList<User> jsonToUser(String json){
 
         return null;
     }
 
-    private static Post jsonToPost(String json){
+    private static ArrayList<Post> jsonToPost(String json){
 
         return null;
     }
 
-    private static User userToJson(String json){
+    private static String userToJson(ArrayList<User> users){
 
         return null;
     }
 
-    private static User postToJson(String json){
+    private static String postToJson(ArrayList<Post> posts){
 
         return null;
     }
@@ -501,7 +495,7 @@ public class Server {
      *      multipart.addFormField("param_name_1", "param_value");
      *      multipart.addFormField("param_name_2", "param_value");
      *      multipart.addFormField("param_name_3", "param_value");
-     *      multipart.addFilePart("file_param_1", InputStream);
+     *      multipart.addFilePart("file_param_1", "file_name", new InputStream());
      *      String response = multipart.finish(); // response from server.
      */
     private static class MultipartUtility {

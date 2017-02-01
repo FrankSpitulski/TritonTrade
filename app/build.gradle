@@ -26,4 +26,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.1'
     testCompile 'junit:junit:4.12'
+    // https://mvnrepository.com/artifact/org.mindrot/jbcrypt
+    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4-atlassian-1'
+
 }

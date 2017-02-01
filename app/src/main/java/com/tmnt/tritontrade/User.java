@@ -1,10 +1,13 @@
 package com.tmnt.tritontrade;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 /**
  * Created by Frank on 31/01/2017.
  */
 
-public class User implements Parcelable{
+public class User implements Parcelable {
     private String name;
     private String photo; // URL to image
     private int profileID;
@@ -16,10 +19,11 @@ public class User implements Parcelable{
     private ArrayList<Integer> postHistory;
     private boolean verified;
     private ArrayList<Integer> cartIDs;
+    private String emailVerificationLink;
 
-    public User(String name, String photo, int profileID, String bio,
-                String mobileNumber, String email, String password, String salt,
-                ArrayList<Integer> postHistory, boolean verified, ArrayList<Integer> cartIDs)
+    public User(String name, String photo, int profileID, String bio, String mobileNumber,
+                String email, String password, String salt, ArrayList<Integer> postHistory,
+                boolean verified, ArrayList<Integer> cartIDs,String emailVerificationLink)
     {
         //TODO ERROR CHECKS
         this.name = name;
@@ -33,6 +37,7 @@ public class User implements Parcelable{
         this.postHistory = postHistory;
         this.verified = verified;
         this.cartIDs = cartIDs;
+        this.emailVerificationLink = emailVerificationLink;
         Server.addNewUser(name, photo, bio, mobileNumber, email, password);
     }
 

@@ -1,4 +1,7 @@
 package com.tmnt.tritontrade;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.*;
@@ -7,7 +10,7 @@ import java.util.*;
  * Created by Frank on 31/01/2017.
  */
 
-public class Post implements Parcelable{
+public class Post implements Parcelable {
     private String productName;
     private String photos; // URL to image
     private String description;
