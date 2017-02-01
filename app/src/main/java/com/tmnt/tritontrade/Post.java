@@ -1,12 +1,13 @@
 package com.tmnt.tritontrade;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.*;
 
 /**
  * Created by Frank on 31/01/2017.
  */
 
-public class Post {
+public class Post implements Parcelable{
     private String productName;
     private String photos; // URL to image
     private String description;
@@ -263,5 +264,66 @@ public class Post {
                 + "[" + getDateCreated() + "], "
                 + "[" + getContactInfo() + "]]";
     }
+
+    //*********PARCELABLE METHODS************
+    protected Post(Parcel in) {
+        productName = in.readString();
+        photos = in.readString();
+        description = in.readString();
+        price = in.readFloat();
+        if (in.readByte() == 0x01) {
+            tags = new ArrayList<String>();
+            in.readList(tags, String.class.getClassLoader());
+        } else {
+            tags = null;
+        }
+        profileID = in.readInt();
+        postID = in.readInt();
+        selling = in.readByte() != 0x00;
+        long tmpDateCreated = in.readLong();
+        dateCreated = tmpDateCreated != -1 ? new Date(tmpDateCreated) : null;
+        contactInfo = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(productName);
+        dest.writeString(photos);
+        dest.writeString(description);
+        dest.writeFloat(price);
+        if (tags == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(tags);
+        }
+        dest.writeInt(profileID);
+        dest.writeInt(postID);
+        dest.writeByte((byte) (selling ? 0x01 : 0x00));
+        dest.writeLong(dateCreated != null ? dateCreated.getTime() : -1L);
+        dest.writeString(contactInfo);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Post> CREATOR = new Parcelable.Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
+
+
+
+
 
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * Created by Frank on 31/01/2017.
  */
 
-public class User {
+public class User implements Parcelable{
     private String name;
     private String photo; // URL to image
     private int profileID;
@@ -390,4 +390,72 @@ public class User {
                 + "[" + getVerified() + "], "
                 + "[" + getCartIDs() + "]]";
     }
+
+    //******PARCELABLE METHODS********
+    protected User(Parcel in) {
+        name = in.readString();
+        photo = in.readString();
+        profileID = in.readInt();
+        bio = in.readString();
+        mobileNumber = in.readString();
+        email = in.readString();
+        password = in.readString();
+        salt = in.readString();
+        if (in.readByte() == 0x01) {
+            postHistory = new ArrayList<Integer>();
+            in.readList(postHistory, Integer.class.getClassLoader());
+        } else {
+            postHistory = null;
+        }
+        verified = in.readByte() != 0x00;
+        if (in.readByte() == 0x01) {
+            cartIDs = new ArrayList<Integer>();
+            in.readList(cartIDs, Integer.class.getClassLoader());
+        } else {
+            cartIDs = null;
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(photo);
+        dest.writeInt(profileID);
+        dest.writeString(bio);
+        dest.writeString(mobileNumber);
+        dest.writeString(email);
+        dest.writeString(password);
+        dest.writeString(salt);
+        if (postHistory == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(postHistory);
+        }
+        dest.writeByte((byte) (verified ? 0x01 : 0x00));
+        if (cartIDs == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(cartIDs);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }
