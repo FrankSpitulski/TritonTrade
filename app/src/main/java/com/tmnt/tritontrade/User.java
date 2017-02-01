@@ -21,6 +21,21 @@ public class User implements Parcelable {
     private ArrayList<Integer> cartIDs;
     private String emailVerificationLink;
 
+    /**
+     *
+     * @param name
+     * @param photo
+     * @param profileID
+     * @param bio
+     * @param mobileNumber
+     * @param email
+     * @param password
+     * @param salt
+     * @param postHistory
+     * @param verified
+     * @param cartIDs
+     * @param emailVerificationLink
+     */
     public User(String name, String photo, int profileID, String bio, String mobileNumber,
                 String email, String password, String salt, ArrayList<Integer> postHistory,
                 boolean verified, ArrayList<Integer> cartIDs,String emailVerificationLink)
@@ -37,71 +52,6 @@ public class User implements Parcelable {
         this.verified = verified;
         this.cartIDs = cartIDs;
         this.emailVerificationLink = emailVerificationLink;
-        Server.addNewUser(name, photo, bio, mobileNumber, email, password);
-    }
-
-    /**
-     * No bio constructor
-     */
-    public User(String name, String photo, int profileID, String mobileNumber, String email,
-                String password, String salt, ArrayList<Integer> postHistory, boolean verified, ArrayList<Integer> cartIDs)
-    {
-        //TODO ERROR CHECKS
-        this.name = name;
-        this.photo = photo;
-        this.profileID = profileID;
-        this.bio = "";
-        this.mobileNumber = mobileNumber;
-        this.email = email;
-        this.password = password;
-        this.salt = salt;
-        this.postHistory = postHistory;
-        this.verified = verified;
-        this.cartIDs = cartIDs;
-        Server.addNewUser(name, photo, bio, mobileNumber, email, password);
-    }
-
-    /**
-     * No photo constructor
-     */
-    public User(String name, int profileID, String bio,
-                String mobileNumber, String email, String password, String salt,
-                ArrayList<Integer> postHistory, boolean verified, ArrayList<Integer> cartIDs)
-    {
-        //TODO ERROR CHECKS
-        this.name = name;
-        this.photo = "";
-        this.profileID = profileID;
-        this.bio = bio;
-        this.mobileNumber = mobileNumber;
-        this.email = email;
-        this.password = password;
-        this.salt = salt;
-        this.postHistory = postHistory;
-        this.verified = verified;
-        this.cartIDs = cartIDs;
-        Server.addNewUser(name, photo, bio, mobileNumber, email, password);
-    }
-
-    /**
-     * No bio nor photo constructor
-     */
-    public User(String name, int profileID, String mobileNumber, String email, String password, String salt,
-                ArrayList<Integer> postHistory, boolean verified, ArrayList<Integer> cartIDs)
-    {
-        //TODO ERROR CHECKS
-        this.name = name;
-        this.photo = "";
-        this.profileID = profileID;
-        this.bio = "";
-        this.mobileNumber = mobileNumber;
-        this.email = email;
-        this.password = password;
-        this.salt = salt;
-        this.postHistory = postHistory;
-        this.verified = verified;
-        this.cartIDs = cartIDs;
-        Server.addNewUser(name, photo, bio, mobileNumber, email, password);
     }
 
     /**
