@@ -45,12 +45,22 @@ public class Server {
     }
 
     /**
-     * TODO
-     * @return
+     * calls the verification email code on the server
+     * @param email email to send to
+     * @return null on fail, verification string on success
      */
-    private static String sendEmailVerification(){
-        String verfificationString = new BigInteger(130, new Random()).toString(32);
-        return verfificationString;
+    private static String sendEmailVerification(String email){
+        String verificationString = new BigInteger(130, new Random()).toString(32);
+        String response = "";
+        try {
+            response = httpGetRequest("/db/sendEmailValidation.php?validation=" +
+                    verificationString + "&email=" + email);
+        }catch (IOException e){
+            Log.d("DEBUG", response);
+            Log.d("DEBUG", e.toString());
+            return null;
+        }
+        return verificationString;
     }
 
     /**
@@ -134,7 +144,11 @@ public class Server {
 
             Log.d("DEBUG", "new ID found " + profileID);
 
-            String emailLink = sendEmailVerification();
+            String emailLink = sendEmailVerification(email);
+
+            if(emailLink == null){
+                return false; // bad email verification
+            }
 
             // get salt for password
             String salt = BCrypt.gensalt(10);
