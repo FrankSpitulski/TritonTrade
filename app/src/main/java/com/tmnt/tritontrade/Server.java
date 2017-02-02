@@ -60,6 +60,9 @@ public class Server {
             Log.d("DEBUG", e.toString());
             return null;
         }
+        if(response.equals("")){
+            return null;
+        }
         return verificationString;
     }
 
