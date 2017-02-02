@@ -26,7 +26,11 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Server {
     //Information of Frank's Server
+
+    //domain name of server
     final private static String serverName = "https://spitulski.no-ip.biz";
+
+    //old SQL data, delete later if unneeded
     final private static String uid = "Michelangelo";
     final private static String pwd = "Leonardo";
     final private static String database = "TritonTrade";
@@ -191,6 +195,7 @@ public class Server {
 
     /**
      * Attempts to log in to the server with a given login and password
+     *
      * @param email email login
      * @param password password login
      * @return user if login successful, null if unsuccessful
@@ -255,9 +260,10 @@ public class Server {
         {
             request = request + "&filter[]=profileID,cs,:" + tags.get(x) + ":";
         }
-        //add so that only has to be one of the ids in the list
+        //add so that only has to be one of the ids in the list and convert to objects
         request = request + "&satisfy=any&transform=1";
 
+        //attempt to convert to array list from json
         try {
             posts = jsonToPost(httpGetRequest(request));
         }catch(IOException e){
@@ -280,7 +286,11 @@ public class Server {
         //Calls search on a list with a single entry inside
         ArrayList<String> single = new ArrayList<String>(1);
         single.add(tag);
+
+        //call method
         ArrayList<Post> post = searchPostTags(single);
+
+        //if not null, return list, else return empty array list
         return (post != null) ? post : new ArrayList<Post>();
     }
 
@@ -289,7 +299,6 @@ public class Server {
      *
      * @param ids The list of ids to grab
      * @return The list of User objects with the given ids
-     *
      */
     public static ArrayList<User> searchUserIDs(ArrayList<Integer> ids)
     {
@@ -311,9 +320,10 @@ public class Server {
         {
             request = request + "&filter[]=profileID,eq," + ids.get(x);
         }
-        //add so that only has to be one of the ids in the list
+        //add so that only has to be one of the ids in the list and convert to json
         request = request + "&satisfy=any&transform=1";
 
+        //try to convert to json
         try {
             users = jsonToUser(httpGetRequest(request));
         }catch(IOException e){
@@ -334,9 +344,14 @@ public class Server {
      */
     public static User searchUserIDs(int id)
     {
+        //Call searchUserIds on list with one element
         ArrayList<Integer> single = new ArrayList<Integer>(1);
         single.add(id);
+
+        //call method on single element array
         ArrayList<User> users = searchUserIDs(single);
+
+        //sanity check
         if(users.size() == 0)
         {
             return null;
@@ -369,11 +384,13 @@ public class Server {
         {
             request = request + "&filter[]=postID,eq," + ids.get(x);
         }
-        //add so that only has to be one of the ids in the list
+        //add so that only has to be one of the ids in the list and convert to json
         request = request + "&satisfy=any&transform=1";
 
+        //list to be outputted
         ArrayList<Post> posts = new ArrayList<Post>();
 
+        //try to convert json string to ArrayList of Posts
         try{
             posts = jsonToPost(httpGetRequest(request));
         }catch (IOException e){
@@ -381,6 +398,7 @@ public class Server {
             return posts;
         }
 
+        //return list of posts
         return posts;
     }
 
@@ -409,14 +427,19 @@ public class Server {
 
     /**
      * modify post based on a search of postID from the argument with the changed fields
+     *
      * @param post The post to update
      * @return true on success false on failure
      */
     public static boolean modifyExistingPost(Post post)
     {
+        //Json methods handle lists of users
         ArrayList<Post> posts = new ArrayList<Post>();
         posts.add(post);
+
+        //try to connect to server
         try {
+            //open http connection and send to server
             URL url = new URL(serverName + "/db/api.php/posts/" + post.getPostID());
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setDoOutput(true);
@@ -425,24 +448,32 @@ public class Server {
                     connection.getOutputStream());
             out.write(postToJson(posts));
             out.close();
-            String response = readStream(connection.getInputStream());
+
         }catch(IOException e){
+            //print error
             Log.d("DEBUG", e.toString());
             return false;// when doesn't exist
         }
+
+        //return success
         return true;
     }
 
     /**
      * modify post based on a search of postID from the argument with the changed fields
+     *
      * @param user The post to update
      * @return true on success false on failure
      */
     public static boolean modifyExistingUser(User user)
     {
+        //Json handles arrays of users, not individual users
         ArrayList<User> users = new ArrayList<User>();
         users.add(user);
+
+        //attempt to connect
         try {
+            //open http connection and send command
             URL url = new URL(serverName + "/db/api.php/users/" + user.getProfileID());
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setDoOutput(true);
@@ -451,11 +482,13 @@ public class Server {
                     connection.getOutputStream());
             out.write(userToJson(users));
             out.close();
-            String response = readStream(connection.getInputStream());
         }catch(IOException e){
+            //print error
             Log.d("DEBUG", e.toString());
             return false;// when doesn't exist
         }
+
+        //return success
         return true;
     }
 
@@ -466,7 +499,7 @@ public class Server {
      * @return an Array List of users in the JSON. Order is arbritrary
      */
     private static ArrayList<User> jsonToUser(String json){
-
+        //TODO IMPLEMENT
         return null;
     }
 
@@ -477,7 +510,7 @@ public class Server {
      * @return The ArrayList of Posts represented in json
      */
     private static ArrayList<Post> jsonToPost(String json){
-
+       //TODO IMPLEMENT
         return null;
     }
 
@@ -488,7 +521,7 @@ public class Server {
      * @return The json of the list
      */
     private static String userToJson(ArrayList<User> users){
-
+       //TODO IMPLEMENT
         return null;
     }
 
@@ -499,11 +532,13 @@ public class Server {
      * @return The json of the list
      */
     private static String postToJson(ArrayList<Post> posts){
-
+        //TODO IMPLEMENT
         return null;
     }
 
     /**
+     * Converts an InputStream to a string
+     *
      * @author https://stackoverflow.com/a/16507509
      * @param in stream input
      * @return String that was in the stream
@@ -533,6 +568,7 @@ public class Server {
 
     /**
      * Wrapper to simplify requests
+     *
      * @param request String formatted like /db/api.php...
      * @return response string
      */
@@ -559,6 +595,7 @@ public class Server {
 
     /**
      * uploads an image to the server
+     *
      * @param fileStream a steam of the image to be sent
      * @param fileExtension the extension of the file without the period (ex. jpg, png)
      * @return String of where the file is now located
