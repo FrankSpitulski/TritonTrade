@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Post implements Parcelable {
     private String productName;
-    private String photos; // URL to image
+    private ArrayList<String> photos; // URL to image
     private String description;
     private float price;
     private ArrayList<String> tags;
@@ -17,13 +17,13 @@ public class Post implements Parcelable {
     private boolean selling;
     private Date dateCreated;
     private String contactInfo;
-
+    private boolean deleted;
     /***
      * Constructor for the post class
      */
-    public Post(String productName, String photos, String description,
-                float price, ArrayList<String> tags, String profileID, int postID,
-                boolean selling, Date dateCreated, String contactInfo)
+    public Post(String productName, ArrayList<String> photos, String description,
+                float price, ArrayList<String> tags, int profileID, int postID,
+                boolean selling, Date dateCreated, String contactInfo, boolean deleted)
     {
         this.productName = productName;
         this.photos = photos;
@@ -31,10 +31,12 @@ public class Post implements Parcelable {
         this.price = price;
         this.tags = tags;
         this.productName = productName;
+        this.profileID = profileID;
         this.postID = postID;
         this.selling = selling;
         this.dateCreated = dateCreated;
         this.contactInfo = contactInfo;
+        this.deleted = deleted;
     }
 
     /**
@@ -65,7 +67,7 @@ public class Post implements Parcelable {
      * Getter for photos
      * @return string containing photos
      */
-    public String getPhotos()
+    public ArrayList<String> getPhotos()
     {
         return photos;
     }
@@ -75,7 +77,7 @@ public class Post implements Parcelable {
      * @param photos
      * @return If invalid input, nothing is updated and returns false
      */
-    public boolean setPhotos(String photos)
+    public boolean setPhotos(ArrayList<String> photos)
     {
         if (photos == null)
         {
@@ -274,6 +276,24 @@ public class Post implements Parcelable {
     }
 
     /**
+     * Getter for deleted
+     * @return deleted
+     */
+    public boolean getDeleted(){
+        return deleted;
+    }
+
+    /**
+     * Setter for deleted
+     * @param deleted
+     * @return true if updated, false if not updated
+     */
+    public boolean setDeleted(boolean deleted){
+        this.deleted = deleted;
+        return Server.modifyExistingPost(this);
+    }
+
+    /**
      * Returns a unique String identifying the post
      *
      * @return The String representing the post
@@ -285,19 +305,24 @@ public class Post implements Parcelable {
                 + "[" + getPhotos() + "], "
                 + "[" + getDescription() + "], "
                 + "[" + getPrice() + "], "
-                + "[" + getPrice() + "], "
                 + "[" + getTags() + "], "
                 + "[" + getProfileID() + "], "
                 + "[" + getPostID() + "], "
                 + "[" + getSelling() + "], "
                 + "[" + getDateCreated() + "], "
-                + "[" + getContactInfo() + "]]";
+                + "[" + getContactInfo() + "], "
+                + "[" + getDeleted() + "]]";
     }
 
     //*********PARCELABLE METHODS************
     protected Post(Parcel in) {
         productName = in.readString();
-        photos = in.readString();
+        if (in.readByte() == 0x01) {
+            photos = new ArrayList<String>();
+            in.readList(photos, String.class.getClassLoader());
+        } else {
+            photos = null;
+        }
         description = in.readString();
         price = in.readFloat();
         if (in.readByte() == 0x01) {
@@ -322,7 +347,12 @@ public class Post implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(productName);
-        dest.writeString(photos);
+        if (photos == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(photos);
+        }
         dest.writeString(description);
         dest.writeFloat(price);
         if (tags == null) {

@@ -12,6 +12,7 @@ import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Deque;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -57,13 +58,39 @@ public class Server {
      *
      * @return Whether or not the operation was successful
      */
-    public static boolean addPost(Post post)
+    public static boolean addPost(String productName, ArrayList<String> photos, String description,
+                                  float price, ArrayList<String> tags, int profileID,
+                                  boolean selling, String contactInfo)
     {
+        try {
+            // get postID
+            int postID = Integer.getInteger(httpGetRequest("/db/postCount.php")) + 1;
 
-        // TODO add post
+            // get unused ID
+            while (searchUserIDs(postID) != null) {
+                postID++;
+            }
 
-        // no duplicate posts allowed, return false if duplicate postID
-        return false;
+            ArrayList<Post> newPostList = new ArrayList<Post>();
+            newPostList.add(new Post(productName, photos, description, price, tags, profileID,
+                    postID, selling, new Date(), contactInfo, false));
+
+            URL url = new URL(serverName + "/db/api.php/posts");
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            OutputStreamWriter out = new OutputStreamWriter(
+                    connection.getOutputStream());
+            out.write(postToJson(newPostList));
+            out.close();
+            String response = readStream(connection.getInputStream());
+
+        }catch(IOException e){
+            Log.d("DEBUG", e.toString());
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -412,7 +412,8 @@ public class User implements Parcelable {
                 + "[" + getSalt() + "], "
                 + "[" + getPostHistoryString() + "], "
                 + "[" + getVerified() + "], "
-                + "[" + getCartIDs() + "]]";
+                + "[" + getCartIDsString() + "], "
+                + "[" + getEmailVerificationLink() + "]]";
     }
 
     //******PARCELABLE METHODS********
