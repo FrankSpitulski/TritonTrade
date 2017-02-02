@@ -3,9 +3,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-/**
- * Created by Frank on 31/01/2017.
- */
 
 public class User implements Parcelable {
     private String name;
@@ -363,7 +360,7 @@ public class User implements Parcelable {
      */
     static ArrayList<Integer> getPostHistoryFromString(String history)
     {
-        if(history == "")
+        if(history.equals(""))
         {
             return new ArrayList<Integer>();
         }

@@ -1,5 +1,6 @@
 package com.tmnt.tritontrade;
 import android.content.Context;
+import android.os.Debug;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
@@ -7,11 +8,11 @@ import android.util.Log;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -124,12 +125,13 @@ public class Server {
             URL url = new URL(serverName + "/db/api.php/users");
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setDoOutput(true);
-            connection.setRequestMethod("PUT");
+            connection.setRequestMethod("POST");
             OutputStreamWriter out = new OutputStreamWriter(
                     connection.getOutputStream());
             out.write(userToJson(newUserList));
             out.close();
             response = readStream(connection.getInputStream());
+
             if(response == null || response.equals("")){
                 Log.d("DEBUG", "user failed to add");
                 return false;
@@ -230,67 +232,25 @@ public class Server {
         //ArrayList to be outputted
         ArrayList<User> users = new ArrayList<User>();
 
-
-        //TODO USE NEW API THAT RETURNS JSON TO GET DATA OF OBJECTS
-
         //uses HTTP GET
         //first element of list
-        String databaseString = serverName + "/db/api.php/users?filter[]=profileID,eq," + ids.get(0);
+        String request = "/db/api.php/users?filter[]=profileID,eq," + ids.get(0);
 
         //for every id after the first one
         for (int x = 1; x < ids.size(); x++)
         {
-            databaseString = databaseString + "&filter[]=profileID,eq," + ids.get(x);
+            request = request + "&filter[]=profileID,eq," + ids.get(x);
         }
         //add so that only has to be one of the ids in the list
-        databaseString = databaseString + "&satisfy=any";
+        request = request + "&satisfy=any&transform=1";
 
-        //TODO USE HTTP TO GET JSON AND THEN PARSE IN TO OBJECTs AND RETURN LIST OF OBJECTS
-
-
-        //old SQL method of retrieval
-
-        /*
-        //beginning part of sql command
-        String sqlString = "SELECT * FROM users WHERE profileID='";
-        //iterate through ids and add them to the sql String command
-        for (int i = 0; i < ids.Count - 1; i++)
-        {
-            sqlString += ids[i] + "' OR profileID='";
+        try {
+            users = jsonToUser(httpGetRequest(request));
+        }catch(IOException e){
+            Log.d("DEBUG", e.toString());
+            return users;
         }
-        //final String should not have an OR profileID= appended
-        sqlString += ids[ids.Count - 1];
-        sqlString += "'";
 
-        //create command with sqlString and run it
-        MySqlCommand cmd = new MySqlCommand(sqlString, connection);
-        MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-        System.Data.DataSet data = new System.Data.DataSet();
-        adapter.Fill(data);
-        // duplicate or no emails
-        if (data.Tables.Count == 0 || data.Tables[0].Rows.Count == 0)
-        {
-            disconnect();
-            return new ArrayList<User>();
-        }
-        //grab data from adapter and make into user object
-        for (int i = 0; i < data.Tables[0].Rows.Count; i++)
-        {
-            users.Add(new User(
-                (String)(System.String)data.Tables[0].Rows[i][0],
-                (String)(System.String)data.Tables[0].Rows[i][1],
-                (int)(System.Int64)data.Tables[0].Rows[i][2],
-                (String)(System.String)data.Tables[0].Rows[i][3],
-                (String)(System.String)data.Tables[0].Rows[i][4],
-                (String)(System.String)data.Tables[0].Rows[i][5],
-                (String)(System.String)data.Tables[0].Rows[i][6],
-                (String)(System.String)data.Tables[0].Rows[i][7],
-                User.getPostHistoryFromString(((String)(System.String)data.Tables[0].Rows[i][8])),
-                (int)(System.SByte)data.Tables[0].Rows[i][9] == 1,
-                User.getCartIDsFromString((String)(System.String)data.Tables[0].Rows[i][10])
-                ));
-        }
-        */
 
         //return list of users
         return users;
@@ -330,27 +290,28 @@ public class Server {
             return new ArrayList<Post>();
         }
 
-
-        //TODO USE NEW API THAT RETURNS JSON TO GET DATA OF OBJECTS
-
         //uses HTTP GET
         //first element of list
-        String databaseString = serverName + "/db/api.php/posts?filter[]=postID,eq," + ids.get(0);
+        String request = "/db/api.php/posts?filter[]=postID,eq," + ids.get(0);
 
         //for every id after the first one
         for (int x = 1; x < ids.size(); x++)
         {
-            databaseString = databaseString + "&filter[]=postID,eq," + ids.get(x);
+            request = request + "&filter[]=postID,eq," + ids.get(x);
         }
         //add so that only has to be one of the ids in the list
-        databaseString = databaseString + "&satisfy=any";
+        request = request + "&satisfy=any&transform=1";
 
+        ArrayList<Post> posts = new ArrayList<Post>();
 
-        //TODO USE NEW API THAT RETURNS JSON TO GET DATA OF OBJECTS
+        try{
+            posts = jsonToPost(httpGetRequest(request));
+        }catch (IOException e){
+            Log.d("DEBUG", e.toString());
+            return posts;
+        }
 
-
-        //TODO UPDATE RETURN TYPE
-        return new ArrayList<Post>();
+        return posts;
     }
 
     /**
@@ -377,30 +338,55 @@ public class Server {
     }
 
     /**
-     * Gets the user with the specified id
-     * TODO
-     * @param post The id to search for
-     * @return The user with the given id
+     * modify post based on a search of postID from the argument with the changed fields
+     * @param post The post to update
+     * @return true on success false on failure
      */
     public static boolean modifyExistingPost(Post post)
     {
-        // modify post based on a search of postID from the argument with the
-        // changed fields
-        // return true on success
-        return false; // when doesn't exist
+        ArrayList<Post> posts = new ArrayList<Post>();
+        posts.add(post);
+        try {
+            URL url = new URL(serverName + "/db/api.php/posts/" + post.getPostID());
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setRequestMethod("PUT");
+            OutputStreamWriter out = new OutputStreamWriter(
+                    connection.getOutputStream());
+            out.write(postToJson(posts));
+            out.close();
+            String response = readStream(connection.getInputStream());
+        }catch(IOException e){
+            Log.d("DEBUG", e.toString());
+            return false;// when doesn't exist
+        }
+        return true;
     }
 
     /**
-     * TODO
-     * @param user
-     * @return
+     * modify post based on a search of postID from the argument with the changed fields
+     * @param user The post to update
+     * @return true on success false on failure
      */
     public static boolean modifyExistingUser(User user)
     {
-        // modify user based on a search of postID from the argument with the
-        // changed fields
-        // return true on success
-        return false; // when doesn't exist
+        ArrayList<User> users = new ArrayList<User>();
+        users.add(user);
+        try {
+            URL url = new URL(serverName + "/db/api.php/users/" + user.getProfileID());
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setRequestMethod("PUT");
+            OutputStreamWriter out = new OutputStreamWriter(
+                    connection.getOutputStream());
+            out.write(userToJson(users));
+            out.close();
+            String response = readStream(connection.getInputStream());
+        }catch(IOException e){
+            Log.d("DEBUG", e.toString());
+            return false;// when doesn't exist
+        }
+        return true;
     }
 
     /**
@@ -529,7 +515,7 @@ public class Server {
 
         private final String boundary;
         private static final String LINE_FEED = "\r\n";
-        private HttpURLConnection httpConn;
+        private HttpsURLConnection httpConn;
         private String charset;
         private OutputStream outputStream;
         private PrintWriter writer;
@@ -538,8 +524,8 @@ public class Server {
          * This constructor initializes a new HTTP POST request with content type
          * is set to multipart/form-data
          *
-         * @param requestURL
-         * @param charset
+         * @param requestURL url to send request
+         * @param charset what type of character to send, normally utf8
          * @throws IOException
          */
         public MultipartUtility(String requestURL, String charset)
@@ -550,7 +536,8 @@ public class Server {
             boundary = "===" + System.currentTimeMillis() + "===";
 
             URL url = new URL(requestURL);
-            Log.e("URL", "URL : " + requestURL.toString());
+
+            Log.e("URL", "URL : " + requestURL);
             httpConn = (HttpsURLConnection) url.openConnection();
             httpConn.setUseCaches(false);
             httpConn.setDoOutput(true); // indicates POST method
