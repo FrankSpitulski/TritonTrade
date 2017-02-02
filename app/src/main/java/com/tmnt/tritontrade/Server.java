@@ -460,9 +460,10 @@ public class Server {
     }
 
     /**
-     * TODO
-     * @param json
-     * @return
+     * Converts a json string to an Array List of users
+     *
+     * @param json The string representing the JSON of the array of users
+     * @return an Array List of users in the JSON. Order is arbritrary
      */
     private static ArrayList<User> jsonToUser(String json){
 
@@ -470,9 +471,10 @@ public class Server {
     }
 
     /**
-     * TODO
-     * @param json
-     * @return
+     * Converts a string in json format to an Array List of posts
+     *
+     * @param json The string that represents json data
+     * @return The ArrayList of Posts represented in json
      */
     private static ArrayList<Post> jsonToPost(String json){
 
@@ -480,9 +482,10 @@ public class Server {
     }
 
     /**
-     * TODO
-     * @param users
-     * @return
+     * Converts the list of Users into json format
+     *
+     * @param users The array list of users
+     * @return The json of the list
      */
     private static String userToJson(ArrayList<User> users){
 
@@ -490,9 +493,10 @@ public class Server {
     }
 
     /**
-     * TODO
-     * @param posts
-     * @return
+     * Converts the list of Posts into json format
+     *
+     * @param posts The array list of posts
+     * @return The json of the list
      */
     private static String postToJson(ArrayList<Post> posts){
 
