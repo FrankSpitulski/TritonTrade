@@ -235,9 +235,35 @@ public class Server {
      */
     public static ArrayList<Post> searchPostTags(ArrayList<String> tags)
     {
-        //TODO IMPLEMENENT
-        Log.d("DEBUG", "NOT IMPLEMENTED");
-        return new ArrayList<Post>();
+        if (tags.size() == 0)
+        {
+            return new ArrayList<Post>();
+        }
+
+        //ArrayList to be outputted
+        ArrayList<Post> posts = new ArrayList<Post>();
+
+        //uses HTTP GET
+        //first element of list
+        String request = "/db/api.php/posts?filter[]=profileID,cs,:" + tags.get(0) + ":";
+
+        //for every id after the first one
+        for (int x = 1; x < tags.size(); x++)
+        {
+            request = request + "&filter[]=profileID,cs,:" + tags.get(x) + ":";
+        }
+        //add so that only has to be one of the ids in the list
+        request = request + "&satisfy=any&transform=1";
+
+        try {
+            posts = jsonToPost(httpGetRequest(request));
+        }catch(IOException e){
+            Log.d("DEBUG", e.toString());
+            return posts;
+        }
+
+        //return list of users
+        return posts;
     }
 
     /**
