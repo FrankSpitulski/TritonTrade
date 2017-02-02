@@ -1,7 +1,10 @@
 package com.tmnt.tritontrade;
 
 import org.junit.Test;
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
+import static com.tmnt.tritontrade.Server.*;
 
 /**
  * Unit tests for Server class
@@ -17,8 +20,8 @@ public class ServerTest {
         //user to convert to JSON
         User user1 = new User(
                 "NAME", "PHOTOURL", 12345, "MY LIFE ARE INTERESTING", "(555) 555-5555",
-            "BOB@ucsd.edu", "hunter2", "SALTY", new ArrayList<Integer>,
-        true, new ArrayList<Integer>,"EMLIIA VERI LINK ARE HERE");
+            "BOB@ucsd.edu", "hunter2", "SALTY", new ArrayList<Integer>(),
+        true, new ArrayList<Integer>(),"EMAIl VERIFY LINK ARE HERE");
 
         //add to one element list
         ArrayList<User> list = new ArrayList<User>();
@@ -29,7 +32,7 @@ public class ServerTest {
         ArrayList<User> list2 = jsonToUser(json);
 
         //compare to strings that are the same
-        asertTrue(list2.get(0).toString().equals(list.get(0).toString()));
+        assertTrue(list2.get(0).toString().equals(list.get(0).toString()));
 
     }
 
