@@ -153,10 +153,10 @@ public class Server {
             // get salt for password
             String salt = BCrypt.gensalt(10);
 
-            // create user object, TODO implement verification, true for now
+            // create user object
             User newUser = new User(name, photo, profileID, bio, mobileNumber, email,
                     BCrypt.hashpw(password, salt), salt, new ArrayList<Integer>(),
-                    true, new ArrayList<Integer>(), emailLink);
+                    false, new ArrayList<Integer>(), emailLink);
 
             Log.d("DEBUG", "user object generated");
 
