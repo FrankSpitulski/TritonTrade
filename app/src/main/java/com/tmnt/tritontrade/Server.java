@@ -163,7 +163,7 @@ public class Server {
             // create user object
             User newUser = new User(name, photo, profileID, bio, mobileNumber, email,
                     BCrypt.hashpw(password, salt), salt, new ArrayList<Integer>(),
-                    false, new ArrayList<Integer>(), emailLink);
+                    false, new ArrayList<Integer>(), emailLink, false);
 
             Log.d("DEBUG", "user object generated");
 
@@ -601,7 +601,7 @@ public class Server {
      * @return String of where the file is now located
      * @throws IOException
      */
-    private static String uploadImage(InputStream fileStream, String fileExtension) throws IOException{
+    public static String uploadImage(InputStream fileStream, String fileExtension) throws IOException{
         String charset = "UTF-8";
         String requestURL = serverName + "/img/images.php";
         MultipartUtility multipart = new MultipartUtility(requestURL, charset);

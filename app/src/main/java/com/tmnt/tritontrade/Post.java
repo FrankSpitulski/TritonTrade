@@ -18,6 +18,7 @@ public class Post implements Parcelable {
     private Date dateCreated;
     private String contactInfo;
     private boolean deleted;
+
     /***
      * Constructor for the post class
      */
@@ -337,6 +338,7 @@ public class Post implements Parcelable {
         long tmpDateCreated = in.readLong();
         dateCreated = tmpDateCreated != -1 ? new Date(tmpDateCreated) : null;
         contactInfo = in.readString();
+        deleted = in.readByte() != 0x00;
     }
 
     @Override
@@ -366,6 +368,7 @@ public class Post implements Parcelable {
         dest.writeByte((byte) (selling ? 0x01 : 0x00));
         dest.writeLong(dateCreated != null ? dateCreated.getTime() : -1L);
         dest.writeString(contactInfo);
+        dest.writeByte((byte) (deleted ? 0x01 : 0x00));
     }
 
     @SuppressWarnings("unused")

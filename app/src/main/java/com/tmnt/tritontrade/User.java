@@ -17,6 +17,7 @@ public class User implements Parcelable {
     private boolean verified;
     private ArrayList<Integer> cartIDs;
     private String emailVerificationLink;
+    private boolean deleted;
 
     /**
      *
@@ -35,7 +36,8 @@ public class User implements Parcelable {
      */
     public User(String name, String photo, int profileID, String bio, String mobileNumber,
                 String email, String password, String salt, ArrayList<Integer> postHistory,
-                boolean verified, ArrayList<Integer> cartIDs,String emailVerificationLink)
+                boolean verified, ArrayList<Integer> cartIDs,String emailVerificationLink,
+                boolean deleted)
     {
         this.name = name;
         this.photo = photo;
@@ -49,6 +51,7 @@ public class User implements Parcelable {
         this.verified = verified;
         this.cartIDs = cartIDs;
         this.emailVerificationLink = emailVerificationLink;
+        this.deleted=deleted;
     }
 
     /**
@@ -293,6 +296,24 @@ public class User implements Parcelable {
     }
 
     /**
+     * Getter for deleted
+     * @return deleted
+     */
+    public boolean getDeleted(){
+        return deleted;
+    }
+
+    /**
+     * Setter for deleted
+     * @param deleted
+     * @return true if updated, false if not updated
+     */
+    public boolean setDeleted(boolean deleted){
+        this.deleted = deleted;
+        return Server.modifyExistingUser(this);
+    }
+
+    /**
      * Adds post to history by id
      * @param id the id of the post
      * @return If invalid input, nothing is updated and returns false
@@ -399,7 +420,7 @@ public class User implements Parcelable {
      *
      * @return A unique String representing the user
      */
-    public String ToString()
+    public String toString()
     {
         return "["
                 + "[" + getName() + "], "
@@ -413,7 +434,8 @@ public class User implements Parcelable {
                 + "[" + getPostHistoryString() + "], "
                 + "[" + getVerified() + "], "
                 + "[" + getCartIDsString() + "], "
-                + "[" + getEmailVerificationLink() + "]]";
+                + "[" + getEmailVerificationLink() + "], "
+                + "[" + getDeleted()+"]";
     }
 
     //******PARCELABLE METHODS********
@@ -439,6 +461,7 @@ public class User implements Parcelable {
         } else {
             cartIDs = null;
         }
+        deleted = in.readByte() != 0x00;
     }
 
     @Override
@@ -469,6 +492,7 @@ public class User implements Parcelable {
             dest.writeByte((byte) (0x01));
             dest.writeList(cartIDs);
         }
+        dest.writeByte((byte) (deleted ? 0x01 : 0x00));
     }
 
     @SuppressWarnings("unused")
@@ -483,4 +507,6 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+
 }
