@@ -163,7 +163,7 @@ public class Server {
             // create user object
             User newUser = new User(name, photo, profileID, bio, mobileNumber, email,
                     BCrypt.hashpw(password, salt), salt, new ArrayList<Integer>(),
-                    false, new ArrayList<Integer>(), emailLink);
+                    false, new ArrayList<Integer>(), emailLink, false);
 
             Log.d("DEBUG", "user object generated");
 
