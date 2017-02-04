@@ -15,7 +15,7 @@ public class Post implements Parcelable {
     private int profileID;
     private int postID;
     private boolean selling;
-    private boolean sold;
+    private boolean active;
     private Date dateCreated;
     private String contactInfo;
     private boolean deleted;
@@ -25,7 +25,7 @@ public class Post implements Parcelable {
      */
     public Post(String productName, ArrayList<String> photos, String description,
                 float price, ArrayList<String> tags, int profileID, int postID,
-                boolean selling, boolean sold,Date dateCreated, String contactInfo, boolean deleted)
+                boolean selling, boolean active,Date dateCreated, String contactInfo, boolean deleted)
     {
         this.productName = productName;
         this.photos = photos;
@@ -36,7 +36,7 @@ public class Post implements Parcelable {
         this.profileID = profileID;
         this.postID = postID;
         this.selling = selling;
-        this.sold = sold;
+        this.active = active;
         this.dateCreated = dateCreated;
         this.contactInfo = contactInfo;
         this.deleted = deleted;
@@ -231,20 +231,20 @@ public class Post implements Parcelable {
     }
 
     /**
-     * Getter for sold
-     * @return true if item of post is sold, false otherwise
+     * Getter for active
+     * @return true if item of post is active, false otherwise
      */
     public boolean getSold(){
-        return sold;
+        return active;
     }
 
     /**
-     * Setter for sold
-     * @param sold
+     * Setter for active
+     * @param active
      * @return If invalid input, nothing is updated and returns false
      */
-    public boolean setSold(boolean sold){
-        this.sold = sold;
+    public boolean setActive(boolean active){
+        this.active = active;
         return Server.modifyExistingPost(this);
     }
 
@@ -356,7 +356,7 @@ public class Post implements Parcelable {
         profileID = in.readInt();
         postID = in.readInt();
         selling = in.readByte() != 0x00;
-        sold = in.readByte() != 0x00;
+        active = in.readByte() != 0x00;
         long tmpDateCreated = in.readLong();
         dateCreated = tmpDateCreated != -1 ? new Date(tmpDateCreated) : null;
         contactInfo = in.readString();
@@ -388,7 +388,7 @@ public class Post implements Parcelable {
         dest.writeInt(profileID);
         dest.writeInt(postID);
         dest.writeByte((byte) (selling ? 0x01 : 0x00));
-        dest.writeByte((byte) (sold ? 0x01 : 0x00));
+        dest.writeByte((byte) (active ? 0x01 : 0x00));
         dest.writeLong(dateCreated != null ? dateCreated.getTime() : -1L);
         dest.writeString(contactInfo);
         dest.writeByte((byte) (deleted ? 0x01 : 0x00));
