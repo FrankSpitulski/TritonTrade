@@ -20,7 +20,7 @@ public class User implements Parcelable {
     private boolean deleted;
 
     /**
-     *  @param name
+     * @param name
      * @param photo
      * @param profileID
      * @param bio

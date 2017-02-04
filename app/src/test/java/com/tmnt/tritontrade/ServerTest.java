@@ -16,10 +16,11 @@ public class ServerTest {
     /**
      * Tests conversion of User Array Lists to and from JSON
      */
-    @Test
+    //@Test UNCOMMENT WHEN IMPLEMENTATION WORKS
     public void testUserJsonConversion()
     {
         //TODO FIX, CAN NOT getClass() ON GENERICS SUCH AS ARRAY LIST<USER> FOR REFLECTION
+        //TODO IF SOMEONE HAS IDEAS PLEASE DO WHATEVER YOU WANT
 
         //user to convert to JSON
         User user1 = new User(
@@ -80,6 +81,15 @@ public class ServerTest {
      */
     @Test
     public void testPostJsonConversion()
+    {
+//TODO IMPLEMENT AFTER FIGURING OUT REFLECTOIN ON GENERICS
+    }
+
+    /**
+     * Test Search Post ID
+     */
+    @Test
+    public void testSearchPostIDs()
     {
 
     }

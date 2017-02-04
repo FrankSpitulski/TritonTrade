@@ -163,7 +163,7 @@ public class Server {
             // create user object
             User newUser = new User(name, photo, profileID, bio, mobileNumber, email,
                     BCrypt.hashpw(password, salt), salt, new ArrayList<Integer>(),
-                    false, new ArrayList<Integer>(), emailLink, false);
+                    false, new ArrayList<Integer>(), emailLink);
 
             Log.d("DEBUG", "user object generated");
 
@@ -394,6 +394,7 @@ public class Server {
         try{
             posts = jsonToPost(httpGetRequest(request));
         }catch (IOException e){
+            //something went wrong
             Log.d("DEBUG", e.toString());
             return posts;
         }
