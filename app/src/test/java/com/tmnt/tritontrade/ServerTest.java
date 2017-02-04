@@ -26,7 +26,7 @@ public class ServerTest {
         User user1 = new User(
                 "NAME", "PHOTOURL", 12345, "MY LIFE ARE INTERESTING", "(555) 555-5555",
             "BOB@ucsd.edu", "hunter2", "SALTY", new ArrayList<Integer>(),
-        true, new ArrayList<Integer>(),"EMAIl VERIFY LINK ARE HERE");
+        true, new ArrayList<Integer>(),"EMAIl VERIFY LINK ARE HERE", false);
 
         //add to one element list
         ArrayList<User> list = new ArrayList<User>();

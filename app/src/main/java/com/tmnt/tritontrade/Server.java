@@ -1,7 +1,5 @@
 package com.tmnt.tritontrade;
 import android.content.Context;
-import android.os.Debug;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -13,7 +11,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Deque;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -163,7 +160,7 @@ public class Server {
             // create user object
             User newUser = new User(name, photo, profileID, bio, mobileNumber, email,
                     BCrypt.hashpw(password, salt), salt, new ArrayList<Integer>(),
-                    false, new ArrayList<Integer>(), emailLink);
+                    false, new ArrayList<Integer>(), emailLink, false);
 
             Log.d("DEBUG", "user object generated");
 
