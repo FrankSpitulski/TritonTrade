@@ -15,6 +15,7 @@ public class Post implements Parcelable {
     private int profileID;
     private int postID;
     private boolean selling;
+    private boolean sold;
     private Date dateCreated;
     private String contactInfo;
     private boolean deleted;
@@ -24,7 +25,7 @@ public class Post implements Parcelable {
      */
     public Post(String productName, ArrayList<String> photos, String description,
                 float price, ArrayList<String> tags, int profileID, int postID,
-                boolean selling, Date dateCreated, String contactInfo, boolean deleted)
+                boolean selling, boolean sold,Date dateCreated, String contactInfo, boolean deleted)
     {
         this.productName = productName;
         this.photos = photos;
@@ -35,6 +36,7 @@ public class Post implements Parcelable {
         this.profileID = profileID;
         this.postID = postID;
         this.selling = selling;
+        this.sold = sold;
         this.dateCreated = dateCreated;
         this.contactInfo = contactInfo;
         this.deleted = deleted;
@@ -229,6 +231,24 @@ public class Post implements Parcelable {
     }
 
     /**
+     * Getter for sold
+     * @return true if item of post is sold, false otherwise
+     */
+    public boolean getSold(){
+        return sold;
+    }
+
+    /**
+     * Setter for sold
+     * @param sold
+     * @return If invalid input, nothing is updated and returns false
+     */
+    public boolean setSold(boolean sold){
+        this.sold = sold;
+        return Server.modifyExistingPost(this);
+    }
+
+    /**
      * Getter for dateCreated
      * @return the date created
      */
@@ -310,6 +330,7 @@ public class Post implements Parcelable {
                 + "[" + getProfileID() + "], "
                 + "[" + getPostID() + "], "
                 + "[" + getSelling() + "], "
+                + "[" + getSold() + "], "
                 + "[" + getDateCreated() + "], "
                 + "[" + getContactInfo() + "], "
                 + "[" + getDeleted() + "]]";
@@ -335,6 +356,7 @@ public class Post implements Parcelable {
         profileID = in.readInt();
         postID = in.readInt();
         selling = in.readByte() != 0x00;
+        sold = in.readByte() != 0x00;
         long tmpDateCreated = in.readLong();
         dateCreated = tmpDateCreated != -1 ? new Date(tmpDateCreated) : null;
         contactInfo = in.readString();
@@ -366,6 +388,7 @@ public class Post implements Parcelable {
         dest.writeInt(profileID);
         dest.writeInt(postID);
         dest.writeByte((byte) (selling ? 0x01 : 0x00));
+        dest.writeByte((byte) (sold ? 0x01 : 0x00));
         dest.writeLong(dateCreated != null ? dateCreated.getTime() : -1L);
         dest.writeString(contactInfo);
         dest.writeByte((byte) (deleted ? 0x01 : 0x00));
