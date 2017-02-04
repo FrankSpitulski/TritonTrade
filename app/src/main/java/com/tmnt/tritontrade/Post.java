@@ -4,6 +4,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.*;
 
 public class Post implements Parcelable {
     private String productName;
@@ -24,7 +25,7 @@ public class Post implements Parcelable {
      */
     public Post(String productName, ArrayList<String> photos, String description,
                 float price, ArrayList<String> tags, int profileID, int postID,
-                boolean selling, boolean active,Date dateCreated, String contactInfo, boolean deleted)
+                boolean selling, boolean active ,Date dateCreated, String contactInfo, boolean deleted)
     {
         this.productName = productName;
         this.photos = photos;
