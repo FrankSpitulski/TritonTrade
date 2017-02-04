@@ -20,7 +20,6 @@ public class User implements Parcelable {
     private boolean deleted;
 
     /**
-     *
      * @param name
      * @param photo
      * @param profileID
@@ -36,7 +35,7 @@ public class User implements Parcelable {
      */
     public User(String name, String photo, int profileID, String bio, String mobileNumber,
                 String email, String password, String salt, ArrayList<Integer> postHistory,
-                boolean verified, ArrayList<Integer> cartIDs,String emailVerificationLink,
+                boolean verified, ArrayList<Integer> cartIDs, String emailVerificationLink,
                 boolean deleted)
     {
         this.name = name;
@@ -51,7 +50,7 @@ public class User implements Parcelable {
         this.verified = verified;
         this.cartIDs = cartIDs;
         this.emailVerificationLink = emailVerificationLink;
-        this.deleted=deleted;
+        this.deleted = deleted;
     }
 
     /**

@@ -1,7 +1,5 @@
 package com.tmnt.tritontrade;
 import android.content.Context;
-import android.os.Debug;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -13,7 +11,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Deque;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -394,6 +391,7 @@ public class Server {
         try{
             posts = jsonToPost(httpGetRequest(request));
         }catch (IOException e){
+            //something went wrong
             Log.d("DEBUG", e.toString());
             return posts;
         }
