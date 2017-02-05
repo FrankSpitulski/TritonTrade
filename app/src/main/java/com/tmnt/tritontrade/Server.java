@@ -87,7 +87,7 @@ public class Server {
 
             ArrayList<Post> newPostList = new ArrayList<Post>();
             newPostList.add(new Post(productName, photos, description, price, tags, profileID,
-                    postID, selling, new Date(), contactInfo, false));
+                    postID, selling, true, new Date(), contactInfo, false));
 
             URL url = new URL(serverName + "/db/api.php/posts");
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
