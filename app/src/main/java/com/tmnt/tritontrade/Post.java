@@ -63,7 +63,7 @@ public class Post implements Parcelable {
             return false;
         }
         this.productName = productName;
-        return Server.modifyExistingPost(this);
+        return true;
     }
 
     /**
@@ -87,7 +87,7 @@ public class Post implements Parcelable {
             return false;
         }
         this.photos = photos;
-        return Server.modifyExistingPost(this);
+        return true;
     }
 
     /**
@@ -111,7 +111,7 @@ public class Post implements Parcelable {
             return false;
         }
         this.description = description;
-        return Server.modifyExistingPost(this);
+        return true;
     }
 
     /**
@@ -135,7 +135,7 @@ public class Post implements Parcelable {
             return false;
         }
         this.price = price;
-        return Server.modifyExistingPost(this);
+        return true;
     }
 
     /**
@@ -159,7 +159,7 @@ public class Post implements Parcelable {
             return false;
         }
         this.tags = tags;
-        return Server.modifyExistingPost(this);
+        return true;
     }
 
     /**
@@ -183,7 +183,7 @@ public class Post implements Parcelable {
             return false;
         }
         this.profileID = profileID;
-        return Server.modifyExistingPost(this);
+        return true;
     }
 
     /**
@@ -207,7 +207,7 @@ public class Post implements Parcelable {
             return false;
         }
         this.postID = postID;
-        return Server.modifyExistingPost(this);
+        return true;
     }
 
     /**
@@ -227,7 +227,7 @@ public class Post implements Parcelable {
     public boolean setSelling(boolean selling)
     {
         this.selling = selling;
-        return Server.modifyExistingPost(this);
+        return true;
     }
 
     /**
@@ -245,7 +245,7 @@ public class Post implements Parcelable {
      */
     public boolean setActive(boolean active){
         this.active = active;
-        return Server.modifyExistingPost(this);
+        return true;
     }
 
     /**
@@ -269,7 +269,7 @@ public class Post implements Parcelable {
             return false;
         }
         this.dateCreated = dateCreated;
-        return Server.modifyExistingPost(this);
+        return true;
     }
 
     /**
@@ -293,7 +293,7 @@ public class Post implements Parcelable {
             return false;
         }
         this.contactInfo = contactInfo;
-        return Server.modifyExistingPost(this);
+        return true;
     }
 
     /**
@@ -311,7 +311,7 @@ public class Post implements Parcelable {
      */
     public boolean setDeleted(boolean deleted){
         this.deleted = deleted;
-        return Server.modifyExistingPost(this);
+        return true;
     }
 
     /**
