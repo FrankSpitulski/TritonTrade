@@ -3,11 +3,17 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.*;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
@@ -494,7 +500,16 @@ public class Server {
      */
     private static ArrayList<User> jsonToUser(String json){
         //TODO IMPLEMENT
-        return null;
+
+        //Create the GSON builder to construct the Array List of users
+        GsonBuilder builder= new GsonBuilder();
+        Gson gson= builder.serializeNulls().create();
+
+        //Parse the JSON string
+        Type arrayListUserType= new TypeToken<ArrayList<User>>(){}.getType();
+        ArrayList<User> toReturn= gson.fromJson(json, arrayListUserType);
+
+        return toReturn;
     }
 
     /**
@@ -505,7 +520,16 @@ public class Server {
      */
     private static ArrayList<Post> jsonToPost(String json){
        //TODO IMPLEMENT
-        return null;
+
+        //Create the GSON builder to construct the Array List of users
+        GsonBuilder builder= new GsonBuilder();
+        Gson gson= builder.serializeNulls().create();
+
+        //Parse the JSON string
+        Type arrayListPostType= new TypeToken<ArrayList<Post>>(){}.getType();
+        ArrayList<Post> toReturn= gson.fromJson(json, arrayListPostType);
+
+        return toReturn;
     }
 
     /**
@@ -516,7 +540,15 @@ public class Server {
      */
     private static String userToJson(ArrayList<User> users){
        //TODO IMPLEMENT
-        return null;
+
+        //Create the GSON builder to construct the JSON format of the ArrayList of users
+        GsonBuilder builder= new GsonBuilder();
+        Gson gson= builder.serializeNulls().create();
+
+        //Create the JSON format for the ArrayList of users
+        String toReturn= gson.toJson(users);
+
+        return toReturn;
     }
 
     /**
@@ -527,7 +559,15 @@ public class Server {
      */
     private static String postToJson(ArrayList<Post> posts){
         //TODO IMPLEMENT
-        return null;
+
+        //Create the GSON builder to construct the JSON format of the ArrayList of users
+        GsonBuilder builder= new GsonBuilder();
+        Gson gson= builder.serializeNulls().create();
+
+        //Create the JSON format for the ArrayList of users
+        String toReturn= gson.toJson(posts);
+
+        return toReturn;
     }
 
     /**
