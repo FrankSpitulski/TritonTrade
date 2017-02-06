@@ -104,7 +104,9 @@ public class Server {
     /**
      * Adds a user to the database, must have @ucsd.edu email
      *
-     * @return true if add successful
+     * @return true if add successful, false if the user does not register with a ucsd email,
+     * registers with a duplicate email, or otherwise the server failed to add the user
+     *
      */
     public static boolean addNewUser(String name, String photo, String bio,
                                      String mobileNumber, String email, String password)
@@ -126,11 +128,11 @@ public class Server {
             ArrayList<User> users = jsonToUser(response);
 
             if (users.size() != 0) {
-                //Log.d("DEBUG", "duplicate email");
+                Log.d("DEBUG", "duplicate email");
                 return false;
             }
 
-            //Log.d("DEBUG", "user not duplicate");
+            Log.d("DEBUG", "user not duplicate");
 
             // get userID
             int profileID = Integer.getInteger(httpGetRequest("/db/userCount.php")) + 1;
