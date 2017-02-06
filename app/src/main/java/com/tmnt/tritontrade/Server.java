@@ -26,13 +26,7 @@ public class Server {
 
     //domain name of server
     final private static String serverName = "https://spitulski.no-ip.biz";
-
-    //old SQL data, delete later if unneeded
-    final private static String uid = "Michelangelo";
-    final private static String pwd = "Leonardo";
-    final private static String database = "TritonTrade";
-
-
+    
     public static void test(Context c)
     {
         try {
