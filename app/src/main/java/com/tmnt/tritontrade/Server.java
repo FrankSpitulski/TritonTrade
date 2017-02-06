@@ -26,7 +26,7 @@ public class Server {
 
     //domain name of server
     final private static String serverName = "https://spitulski.no-ip.biz";
-    
+
     public static void test(Context c)
     {
         try {
@@ -102,7 +102,7 @@ public class Server {
     }
 
     /**
-     * Adds a user to the database
+     * Adds a user to the database, must have @ucsd.edu email
      *
      * @return true if add successful
      */
@@ -126,11 +126,11 @@ public class Server {
             ArrayList<User> users = jsonToUser(response);
 
             if (users.size() != 0) {
-                Log.d("DEBUG", "duplicate email");
+                //Log.d("DEBUG", "duplicate email");
                 return false;
             }
 
-            Log.d("DEBUG", "user not duplicate");
+            //Log.d("DEBUG", "user not duplicate");
 
             // get userID
             int profileID = Integer.getInteger(httpGetRequest("/db/userCount.php")) + 1;

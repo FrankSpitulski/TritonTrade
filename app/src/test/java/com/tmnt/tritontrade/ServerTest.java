@@ -4,6 +4,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
 import java.lang.reflect.*;
+import org.junit.runner.RunWith;
+
+import android.support.test.runner.AndroidJUnit4;
+
+
 
 import com.tmnt.tritontrade.Server;
 
