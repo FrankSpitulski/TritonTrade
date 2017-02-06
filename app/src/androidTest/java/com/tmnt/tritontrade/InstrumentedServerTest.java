@@ -19,11 +19,11 @@ import static org.junit.Assert.assertFalse;
 public class InstrumentedServerTest
 {
     //List of FUN strings with various possibly problematic strings to test
-    ArrayList<String> funStrings = new ArrayList<String>();
+    static ArrayList<String> funStrings = new ArrayList<String>();
 
     //run once before all tests, DO NOT EDIT THE AFFECTED VARIABLES IN TESTS
     @BeforeClass
-    public void setUpClass()
+    public static void setUpClass()
     {
         //bunch of escaped characters
         funStrings.add("\"\"\n\n\n\b\b");
@@ -41,7 +41,7 @@ public class InstrumentedServerTest
     }
 
     /**
-     * Set up before each tests
+     * Set up before each test
      */
     @Before
     public void setUp()

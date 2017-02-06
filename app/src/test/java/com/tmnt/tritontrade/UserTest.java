@@ -19,16 +19,20 @@ public class UserTest {
     User validUser;
 
     //lists of valid and invalid phone numbers
-    ArrayList<String> badPhoneNumbers;
-    ArrayList<String> goodPhoneNumbers;
+    static ArrayList<String> badPhoneNumbers;
+    static ArrayList<String> goodPhoneNumbers;
 
     /**
      * Creates background variables once for use in tests, DO NOT MODIFY THESE VARIABLES
      * IN YOUR TESTS
      */
     @BeforeClass
-    public void setUpClass()
+    public static void setUpClass()
     {
+        //instantiate Lists of phone numbers
+        badPhoneNumbers = new ArrayList<String>();
+        goodPhoneNumbers = new ArrayList<String>();
+
         badPhoneNumbers.add("129364182365891265885");
         badPhoneNumbers.add("THIS IS NOT A NUMBER");
         //random kanji
