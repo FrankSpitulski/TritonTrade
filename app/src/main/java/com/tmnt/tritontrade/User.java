@@ -74,7 +74,7 @@ public class User implements Parcelable {
             return false;
 
         this.name = name;
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -96,7 +96,7 @@ public class User implements Parcelable {
         if(photo==null)
             return false;
         this.photo = photo;
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -115,10 +115,10 @@ public class User implements Parcelable {
      */
     public boolean setProfileID(int profileID)
     {
-        if(profileID==0)
+        if(profileID == 0)
             return false;
         this.profileID = profileID;
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -140,7 +140,7 @@ public class User implements Parcelable {
         if(bio==null)
             return false;
         this.bio = bio;
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -162,7 +162,7 @@ public class User implements Parcelable {
         if(mobileNumber==null)
             return false;
         this.mobileNumber = mobileNumber;
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -184,7 +184,7 @@ public class User implements Parcelable {
         if (email == null)
             return false;
         this.email = email;
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -206,7 +206,7 @@ public class User implements Parcelable {
         if(cartIDs==null)
             return false;
         this.cartIDs = cartIDs;
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -228,7 +228,7 @@ public class User implements Parcelable {
         if (password == null)
             return false;
         this.password = password;
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -250,7 +250,7 @@ public class User implements Parcelable {
         if (salt == null)
             return false;
         this.salt = salt;
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -270,7 +270,7 @@ public class User implements Parcelable {
     public boolean setVerified(boolean verified)
     {
         this.verified = verified;
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -291,7 +291,7 @@ public class User implements Parcelable {
             return false;
         }
         this.emailVerificationLink=emailVerificationLink;
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -309,7 +309,7 @@ public class User implements Parcelable {
      */
     public boolean setDeleted(boolean deleted){
         this.deleted = deleted;
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -322,7 +322,7 @@ public class User implements Parcelable {
         if (id == 0)
             return false;
         postHistory.add(id);
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
@@ -334,7 +334,7 @@ public class User implements Parcelable {
             return false;
 
         cartIDs.add(id);
-        return Server.modifyExistingUser(this);
+        return true;
     }
 
     /**
