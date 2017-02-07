@@ -4,6 +4,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
 import java.lang.reflect.*;
+import java.util.Date;
 
 import com.tmnt.tritontrade.Server;
 
@@ -16,7 +17,7 @@ public class ServerTest {
     /**
      * Tests conversion of User Array Lists to and from JSON
      */
-    //@Test UNCOMMENT WHEN IMPLEMENTATION WORKS
+    @Test //UNCOMMENT WHEN IMPLEMENTATION WORKS
     public void testUserJsonConversion()
     {
         //TODO FIX, CAN NOT getClass() ON GENERICS SUCH AS ARRAY LIST<USER> FOR REFLECTION
@@ -42,9 +43,9 @@ public class ServerTest {
 
         //declarations
         ArrayList<User> list2 = null;
-        String json = null;
+        String json = "https://spitulski.no-ip.biz/db/api.php/users?transform=1";
 
-        Class[] userJsonClass = {list2.getClass()};
+        Class[] userJsonClass = {list.getClass()};
         Class[] jsonUserClass = {json.getClass()};
         //get methods from class
         try {
@@ -72,8 +73,12 @@ public class ServerTest {
             e.printStackTrace();
         }
 
-        //compare to strings that are the same
-        assertTrue(list2.get(0).toString().equals(list.get(0).toString()));
+        //Asserts to see whether the parsing was successful
+        assertTrue(list2.size() == 1);
+        assertTrue(list2.get(0).getBio().equals(user1.getBio()));
+        assertTrue(list2.get(0).getCartIDsString().equals(user1.getCartIDsString()));
+        assertTrue(list2.get(0).getEmail().equals(user1.getEmail()));
+        assertTrue(list2.get(0).getEmailVerificationLink().equals(user1.getEmailVerificationLink()));
     }
 
     /**
@@ -82,7 +87,59 @@ public class ServerTest {
     @Test
     public void testPostJsonConversion()
     {
-//TODO IMPLEMENT AFTER FIGURING OUT REFLECTOIN ON GENERICS
+
+        //Create the Post object
+        Post post1= new Post("Bagel", new ArrayList<String>(), "bagel", 0.99f,
+                new ArrayList<String>(), 1, 2, false, false, new Date(), "info", false);
+
+        //Add post object to list
+        ArrayList<Post> posts= new ArrayList<Post>();
+        posts.add(post1);
+
+        //new server instance to call invoke methods
+        Server server = new Server();
+
+        //Method to invoke
+        Method postToJson = null;
+        Method jsonToPost = null;
+
+        //declarations
+        ArrayList<Post> posts2 = null;
+        String json = "https://spitulski.no-ip.biz/db/api.php/users?transform=1";
+
+        Class[] postJsonClass = {posts.getClass()};
+        Class[] jsonPostClass = {json.getClass()};
+
+        //get methods from class
+        try {
+            postToJson = Server.class.getDeclaredMethod("postToJson",postJsonClass);
+            jsonToPost = Server.class.getDeclaredMethod("jsonToPost",jsonPostClass);
+        } catch (NoSuchMethodException e) {
+            //fail();
+            e.printStackTrace();
+        }
+
+        //set private methods are accessible
+        postToJson.setAccessible(true);
+        jsonToPost.setAccessible(true);
+
+        //try to convert to json and back
+        try {
+            //convert to json and back
+            json = (String)postToJson.invoke(server,posts);
+            posts2 = (ArrayList<Post>) jsonToPost.invoke(server,json);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        //Asserts to see whether the object was parsed correctly
+        assertTrue(posts2.size()==1);
+        assertTrue(posts2.get(0).getDescription().equals(posts.get(0).getDescription()));
+        assertTrue(posts2.get(0).getContactInfo().equals(posts.get(0).getContactInfo()));
+        assertTrue(posts2.get(0).getProductName().equals(posts.get(0).getProductName()));
+        assertTrue(posts2.get(0).getPrice()== posts.get(0).getPrice());
     }
 
     /**
