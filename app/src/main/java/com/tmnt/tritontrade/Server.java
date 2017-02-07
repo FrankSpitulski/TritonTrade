@@ -36,10 +36,14 @@ public class Server {
     public static void test(Context c)
     {
         try {
-            Log.d("DEBUG", httpGetRequest("/db/api.php/users"  + "?transform=1")); // test pull info
+            /*Log.d("DEBUG", httpGetRequest("/db/api.php/users"  + "?transform=1")); // test pull info
             String response = uploadImage(c.getResources().openRawResource(R.raw.doge), "jpg"); // test file upload
             Log.d("DEBUG", response);
-            Log.d("DEBUG", httpGetRequest("/db/userCount.php"));
+            Log.d("DEBUG", httpGetRequest("/db/userCount.php"));*/
+            Log.d("DEBUG", jsonToUser(httpGetRequest("/db/api.php/users?transform=1")).get(0).toString());
+            Log.d("DEBUG", addNewUser("Frank", "", "bio",
+                    "321", "fspituls@eng.ucsd.edu", "test") + "");
+            Log.d("DEBUG", login("fspituls@eng.ucsd.edu", "test").toString());
         }catch(IOException e){
             Log.d("DEBUG", e.toString());
         }
@@ -119,7 +123,7 @@ public class Server {
     {
         try {
             // Makes sure that the email given is a ucsd email
-            if (!Pattern.matches("ucsd.edu$", email)) {
+            if (!Pattern.matches(".*ucsd.edu$", email)) {
                 Log.d("DEBUG", "email rejected");
                 return false;
             }
@@ -161,7 +165,7 @@ public class Server {
 
             // create user object
             User newUser = new User(name, photo, profileID, bio, mobileNumber, email,
-                    BCrypt.hashpw(password, salt), salt, new ArrayList<Integer>(),
+                    BCrypt.hashpw(password + salt, salt), salt, new ArrayList<Integer>(),
                     false, new ArrayList<Integer>(), emailLink, false);
 
             Log.d("DEBUG", "user object generated");
@@ -220,7 +224,7 @@ public class Server {
             }
 
             // password test
-            if (BCrypt.hashpw(password, user.getSalt()).equals(user.getPassword())) {
+            if (BCrypt.hashpw(password + user.getSalt(), user.getSalt()).equals(user.getPassword())) {
                 Log.d("DEBUG", "user login successful");
                 return user;
             }
@@ -499,8 +503,7 @@ public class Server {
      * @return an Array List of users in the JSON. Order is arbritrary
      */
     private static ArrayList<User> jsonToUser(String json){
-        //TODO IMPLEMENT
-
+        Log.d("DEBUG", json);
         //Create the GSON builder to construct the Array List of users
         GsonBuilder builder= new GsonBuilder();
         Gson gson= builder.serializeNulls().create();
@@ -519,8 +522,6 @@ public class Server {
      * @return The ArrayList of Posts represented in json
      */
     private static ArrayList<Post> jsonToPost(String json){
-       //TODO IMPLEMENT
-
         //Create the GSON builder to construct the Array List of users
         GsonBuilder builder= new GsonBuilder();
         Gson gson= builder.serializeNulls().create();
@@ -539,8 +540,6 @@ public class Server {
      * @return The json of the list
      */
     private static String userToJson(ArrayList<User> users){
-       //TODO IMPLEMENT
-
         //Create the GSON builder to construct the JSON format of the ArrayList of users
         GsonBuilder builder= new GsonBuilder();
         Gson gson= builder.serializeNulls().create();
@@ -558,8 +557,6 @@ public class Server {
      * @return The json of the list
      */
     private static String postToJson(ArrayList<Post> posts){
-        //TODO IMPLEMENT
-
         //Create the GSON builder to construct the JSON format of the ArrayList of users
         GsonBuilder builder= new GsonBuilder();
         Gson gson= builder.serializeNulls().create();
