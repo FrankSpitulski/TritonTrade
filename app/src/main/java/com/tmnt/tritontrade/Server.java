@@ -17,6 +17,7 @@ import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -495,6 +496,42 @@ public class Server {
         //return success
         return true;
     }
+
+    /**
+     * Filters out the deleted users from server
+     *
+     * @param list The list of the users
+     * @return the users that are not deleted
+     */
+    private static ArrayList<User> filterDeletedUsers(ArrayList<User> list)
+    {
+        Iterator<User> it = list.iterator();
+        while(it.hasNext()){
+            User user = it.next();
+            if (user.getDeleted()){
+                it.remove();
+            }
+        }
+        return list;
+    }
+
+    /**
+     * Filters out the deleted posts from server
+     *
+     * @param list The ArrayList<Post> representing the posts of the users
+     * @return the posts that are not deleted
+     */
+    private static ArrayList<Post> filterDeletedPosts(ArrayList<Post> list)
+        {
+            Iterator<Post> it = list.iterator();
+            while(it.hasNext()){
+                Post post = it.next();
+                if (post.getDeleted()){
+                    it.remove();
+                }
+            }
+            return list;
+        }
 
     /**
      * Converts a json string to an Array List of users
