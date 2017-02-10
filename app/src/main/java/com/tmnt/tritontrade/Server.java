@@ -63,7 +63,8 @@ public class Server {
         response = httpGetRequest("/db/sendEmailValidation.php?validation=" +
                 verificationString + "&email=" + email);
 
-        if(response.equals("")){
+        if(response.equals("")
+           || response.equals("Mailer Error: You must provide at least one recipient email address.")){
             return null;
         }
         return verificationString;
