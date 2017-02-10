@@ -12,10 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 public class Mainfeed extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
+
+    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +37,10 @@ public class Mainfeed extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ListView list = (ListView) this.findViewById(R.id.listFeed);
+        list = (ListView) this.findViewById(R.id.listFeed);
         //list.setAdapter(new CustomAdapter(this, posts));
-        //list.setOnScrollListener(new onScrollListener);
+        //list.setOnScrollListener(this);
+
     }
 
     @Override
