@@ -55,17 +55,13 @@ public class Server {
      * @param email email to send to
      * @return null on fail, verification string on success
      */
-    private static String sendEmailVerification(String email){
+    private static String sendEmailVerification(String email) throws IOException{
         String verificationString = new BigInteger(130, new Random()).toString(32);
         String response = "";
-        try {
-            response = httpGetRequest("/db/sendEmailValidation.php?validation=" +
-                    verificationString + "&email=" + email);
-        }catch (IOException e){
-            Log.d("DEBUG", response);
-            Log.d("DEBUG", e.toString());
-            return null;
-        }
+
+        response = httpGetRequest("/db/sendEmailValidation.php?validation=" +
+                verificationString + "&email=" + email);
+
         if(response.equals("")){
             return null;
         }
@@ -121,80 +117,74 @@ public class Server {
      */
     public static boolean addNewUser(String name, String photo, String bio,
                                      String mobileNumber, String email, String password)
+    throws IOException
     {
-        try {
-            // Makes sure that the email given is a ucsd email
-            if (!Pattern.matches(".*ucsd.edu$", email)) {
-                Log.d("DEBUG", "email rejected");
-                return false;
-            }
 
-            //debug message
-            Log.d("DEBUG", "email accepted");
-
-
-            // check to see if email is already registered
-            String response = httpGetRequest("/db/api.php/users?filter[]=email,eq,"
-                    + email + "&transform=1");
-            ArrayList<User> users = jsonToUser(response);
-
-            if (users.size() != 0) {
-                Log.d("DEBUG", "duplicate email");
-                return false;
-            }
-
-            Log.d("DEBUG", "user not duplicate");
-
-            // get userID
-            int profileID = Integer.getInteger(httpGetRequest("/db/userCount.php")) + 1;
-
-            // get unused ID
-            while (searchUserIDs(profileID) != null) {
-                profileID++;
-            }
-
-            Log.d("DEBUG", "new ID found " + profileID);
-
-            String emailLink = sendEmailVerification(email);
-
-            if(emailLink == null){
-                return false; // bad email verification
-            }
-
-            // get salt for password
-            String salt = BCrypt.gensalt(10);
-
-            // create user object
-            User newUser = new User(name, photo, profileID, bio, mobileNumber, email,
-                    BCrypt.hashpw(password + salt, salt), salt, new ArrayList<Integer>(),
-                    false, new ArrayList<Integer>(), emailLink, false);
-
-            Log.d("DEBUG", "user object generated");
-
-            ArrayList<User> newUserList = new ArrayList<User>();
-            newUserList.add(newUser);
-
-            URL url = new URL(serverName + "/db/api.php/users");
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
-            OutputStreamWriter out = new OutputStreamWriter(
-                    connection.getOutputStream());
-            out.write(userToJson(newUserList));
-            out.close();
-            response = readStream(connection.getInputStream());
-
-            if(response == null || response.equals("")){
-                Log.d("DEBUG", "user failed to add");
-                return false;
-            }
-            Log.d("DEBUG", "user added");
-            return true;
-
-        }catch(IOException e){
-            Log.d("DEBUG", e.toString());
+        // Makes sure that the email given is a ucsd email
+        if (!Pattern.matches(".*ucsd.edu$", email)) {
+            Log.d("DEBUG", "email rejected");
+            return false;
         }
-        return false;
+
+        //debug message
+        Log.d("DEBUG", "email accepted");
+
+        // check to see if email is already registered
+        String response = httpGetRequest("/db/api.php/users?filter[]=email,eq,"
+                + email + "&transform=1");
+        ArrayList<User> users = jsonToUser(response);
+
+        if (users.size() != 0) {
+            Log.d("DEBUG", "duplicate email");
+            return false;
+        }
+
+        Log.d("DEBUG", "user not duplicate");
+
+        // get userID
+        int profileID = Integer.getInteger(httpGetRequest("/db/userCount.php")) + 1;
+
+        // get unused ID
+        while (searchUserIDs(profileID) != null) {
+            profileID++;
+        }
+
+        Log.d("DEBUG", "new ID found " + profileID);
+
+        String emailLink = sendEmailVerification(email);
+
+        if(emailLink == null){
+            return false; // bad email verification
+        }
+
+        // get salt for password
+        String salt = BCrypt.gensalt(10);
+
+        // create user object
+        User newUser = new User(name, photo, profileID, bio, mobileNumber, email,
+                BCrypt.hashpw(password + salt, salt), salt, new ArrayList<Integer>(),
+                false, new ArrayList<Integer>(), emailLink, false);
+
+        Log.d("DEBUG", "user object generated");
+
+        ArrayList<User> newUserList = new ArrayList<User>();
+        newUserList.add(newUser);
+
+        URL url = new URL(serverName + "/db/api.php/users");
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("POST");
+        OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+        out.write(userToJson(newUserList));
+        out.close();
+        response = readStream(connection.getInputStream());
+
+        if(response == null || response.equals("")){
+            Log.d("DEBUG", "user failed to add");
+            return false;
+        }
+        Log.d("DEBUG", "user added");
+        return true;
     }
 
     /**
@@ -204,38 +194,35 @@ public class Server {
      * @param password password login
      * @return user if login successful, null if unsuccessful
      */
-    public static User login(String email, String password)
+    public static User login(String email, String password) throws IOException
     {
-        try {
-            String response = httpGetRequest("/db/api.php/users?filter[]=email,eq,"
-                    + email + "&transform=1");
-            ArrayList<User> users = jsonToUser(response);
 
-            if(users.size() != 1){
-                Log.d("DEBUG", "bad email search");
-                return null;
-            }
+        String response = httpGetRequest("/db/api.php/users?filter[]=email,eq,"
+                + email + "&transform=1");
+        ArrayList<User> users = jsonToUser(response);
 
-            // get data of valid user
-            User user = users.get(0);
-
-            if (!user.getVerified()) {
-                Log.d("DEBUG", "user not verified");
-                return null; // unverified cannot login
-            }
-
-            // password test
-            if (BCrypt.hashpw(password + user.getSalt(), user.getSalt()).equals(user.getPassword())) {
-                Log.d("DEBUG", "user login successful");
-                return user;
-            }
-
-            // password did not match
-            Log.d("DEBUG", "password mismatch");
-
-        }catch(IOException e){
-            Log.d("DEBUG", e.toString());
+        if(users.size() != 1){
+            Log.d("DEBUG", "bad email search");
+            return null;
         }
+
+        // get data of valid user
+        User user = users.get(0);
+
+        if (!user.getVerified()) {
+            Log.d("DEBUG", "user not verified");
+            return null; // unverified cannot login
+        }
+
+        // password test
+        if (BCrypt.hashpw(password + user.getSalt(), user.getSalt()).equals(user.getPassword())) {
+            Log.d("DEBUG", "user login successful");
+            return user;
+        }
+
+        // password did not match
+        Log.d("DEBUG", "password mismatch");
+
         return null;
     }
 
@@ -245,7 +232,7 @@ public class Server {
      * @param tags The list of tags to search with
      * @return The list of posts with those tags
      */
-    public static ArrayList<Post> searchPostTags(ArrayList<String> tags)
+    public static ArrayList<Post> searchPostTags(ArrayList<String> tags) throws IOException
     {
         if (tags.size() == 0)
         {
@@ -268,12 +255,10 @@ public class Server {
         request = request + "&satisfy=any&transform=1";
 
         //attempt to convert to array list from json
-        try {
-            posts = jsonToPost(httpGetRequest(request));
-        }catch(IOException e){
-            Log.d("DEBUG", e.toString());
-            return posts;
-        }
+
+        posts = jsonToPost(httpGetRequest(request));
+
+        posts = filterDeletedPosts(posts);
 
         //return list of users
         return posts;
@@ -285,7 +270,7 @@ public class Server {
      * @param tag The tag to search with
      * @return The list of posts with those tags
      */
-    public static ArrayList<Post> searchPostTags(String tag)
+    public static ArrayList<Post> searchPostTags(String tag) throws IOException
     {
         //Calls search on a list with a single entry inside
         ArrayList<String> single = new ArrayList<String>(1);
@@ -304,7 +289,7 @@ public class Server {
      * @param ids The list of ids to grab
      * @return The list of User objects with the given ids
      */
-    public static ArrayList<User> searchUserIDs(ArrayList<Integer> ids)
+    public static ArrayList<User> searchUserIDs(ArrayList<Integer> ids) throws IOException
     {
         //if somehow asked with an empty list, return empty list
         if (ids.size() == 0)
@@ -328,13 +313,9 @@ public class Server {
         request = request + "&satisfy=any&transform=1";
 
         //try to convert to json
-        try {
-            users = jsonToUser(httpGetRequest(request));
-        }catch(IOException e){
-            Log.d("DEBUG", e.toString());
-            return users;
-        }
+        users = jsonToUser(httpGetRequest(request));
 
+        users = filterDeletedUsers(users);
 
         //return list of users
         return users;
@@ -346,7 +327,7 @@ public class Server {
      * @param id The id to search for
      * @return The user with the given id, null if no match
      */
-    public static User searchUserIDs(int id)
+    public static User searchUserIDs(int id) throws IOException
     {
         //Call searchUserIds on list with one element
         ArrayList<Integer> single = new ArrayList<Integer>(1);
@@ -371,7 +352,7 @@ public class Server {
      * @param ids the ID numbers to search for
      * @return The Posts with the given ids
      */
-    public static ArrayList<Post> searchPostIDs(ArrayList<Integer> ids)
+    public static ArrayList<Post> searchPostIDs(ArrayList<Integer> ids) throws IOException
     {
         //if ArrayList is empty, return an empty list of posts
         if (ids.size() == 0)
@@ -395,13 +376,10 @@ public class Server {
         ArrayList<Post> posts = new ArrayList<Post>();
 
         //try to convert json string to ArrayList of Posts
-        try{
-            posts = jsonToPost(httpGetRequest(request));
-        }catch (IOException e){
-            //something went wrong
-            Log.d("DEBUG", e.toString());
-            return posts;
-        }
+
+        posts = jsonToPost(httpGetRequest(request));
+
+        posts = filterDeletedPosts(posts);
 
         //return list of posts
         return posts;
@@ -413,7 +391,7 @@ public class Server {
      * @param id The id to search for
      * @return The post with the given id, null if no match
      */
-    public static Post searchPostIDs(int id)
+    public static Post searchPostIDs(int id) throws IOException
     {
         //Call searchPostId on list with one element
         ArrayList<Integer> single = new ArrayList<Integer>(1);
@@ -470,28 +448,21 @@ public class Server {
      * @param user The post to update
      * @return true on success false on failure
      */
-    public static boolean modifyExistingUser(User user)
+    public static boolean modifyExistingUser(User user) throws IOException
     {
         //Json handles arrays of users, not individual users
         ArrayList<User> users = new ArrayList<User>();
         users.add(user);
 
-        //attempt to connect
-        try {
-            //open http connection and send command
-            URL url = new URL(serverName + "/db/api.php/users/" + user.getProfileID());
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setRequestMethod("PUT");
-            OutputStreamWriter out = new OutputStreamWriter(
-                    connection.getOutputStream());
-            out.write(userToJson(users));
-            out.close();
-        }catch(IOException e){
-            //print error
-            Log.d("DEBUG", e.toString());
-            return false;// when doesn't exist
-        }
+
+        //open http connection and send command
+        URL url = new URL(serverName + "/db/api.php/users/" + user.getProfileID());
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("PUT");
+        OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+        out.write(userToJson(users));
+        out.close();
 
         //return success
         return true;
