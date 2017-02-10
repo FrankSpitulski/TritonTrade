@@ -30,16 +30,47 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
     private ArrayList<Post> posts;
     private ArrayList<Post> filterList;
     private LayoutInflater inflater;
+    private int count; //Current amount of items displayed
+    private int stepNumber; //Amount of items loaded on next display
+    private final int startCount=20; //Start amount of items being displayed
 
     public CustomAdapter(Context context, ArrayList<Post> posts) {
         this.posts=posts;
         this.filterList=posts;
         this.context = context;
+        this.count = startCount;
+        this.stepNumber=10;
     }
 
     @Override
     public int getCount() {
-        return posts.size(); //returns total of items in the list
+        return count; //returns total of items in the list
+    }
+
+    public void setCount(int count){
+        this.count=count;
+    }
+
+    /**
+     * Sets the ListView back to its initial count number
+     */
+    public void reset(){
+        count = startCount;
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Show more views, or the bottom
+     * @return true if the entire data set is being displayed, false otherwise
+     */
+    public boolean showMore(){
+        if(count == posts.size()) {
+            return true;
+        }else{
+            count = Math.min(count + stepNumber, posts.size()); //don't go past the end
+            notifyDataSetChanged(); //the count size has changed, so notify the super of the change
+            return count == posts.size();
+        }
     }
 
     @Override
@@ -53,14 +84,9 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
     }
 
 
-    @Override
-    public Filter getFilter() {
-        if(filter == null){
-            filter = new CustomFilter();
-        }
-        return filter;
-    }
-
+    /**
+     * Holder for post object
+     */
     public class ViewHolder{
         TextView name;
         ImageView image;
@@ -105,6 +131,17 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         return catView;
     }
 
+    /**
+     * Filter List of items
+     * @return
+     */
+    @Override
+    public Filter getFilter() {
+        if(filter == null){
+            filter = new CustomFilter();
+        }
+        return filter;
+    }
     /**
      * Class used to search in list
      */
