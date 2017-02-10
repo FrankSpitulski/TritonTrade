@@ -400,7 +400,7 @@ public class User implements Parcelable {
      */
     static ArrayList<Integer> getCartIDsFromString(String history)
     {
-        if (history == "")
+        if (history.equals(""))
         {
             return new ArrayList<Integer>();
         }

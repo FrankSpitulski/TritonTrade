@@ -8,14 +8,19 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.lang.reflect.Type;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.io.*;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
-import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
@@ -103,7 +108,7 @@ public class Server {
         out.close();
         String response = readStream(connection.getInputStream());
 
-        if(response.equals("null") || response.equals("Not found (input)")){
+        if (response.equals("null") || response.equals("Not found (input)")) {
             return false;
         }
 
@@ -401,26 +406,26 @@ public class Server {
      * @param post The post to update
      * @return true on success false on failure
      */
-    public static boolean modifyExistingPost(Post post) throws IOException{
+    public static boolean modifyExistingPost(Post post) throws IOException {
         //Json methods handle lists of users
         ArrayList<Post> posts = new ArrayList<Post>();
         posts.add(post);
 
 
-            //open http connection and send to server
-            URL url = new URL(serverName + "/db/api.php/posts/" + post.getPostID());
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setRequestMethod("PUT");
-            OutputStreamWriter out = new OutputStreamWriter(
-                    connection.getOutputStream());
-            out.write(postToJson(posts));
-            out.close();
+        //open http connection and send to server
+        URL url = new URL(serverName + "/db/api.php/posts/" + post.getPostID());
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("PUT");
+        OutputStreamWriter out = new OutputStreamWriter(
+                connection.getOutputStream());
+        out.write(postToJson(posts));
+        out.close();
 
         String response = readStream(connection.getInputStream());
 
-        if(response == null || response.equals("null") || response.equals("[0]")
-                || response.contains("Not found")){
+        if (response == null || response.equals("null") || response.equals("[0]")
+                || response.contains("Not found")) {
             return false;
         }
 
@@ -451,8 +456,8 @@ public class Server {
 
         String response = readStream(connection.getInputStream());
 
-        if(response == null || response.equals("null") || response.equals("[0]")
-                || response.contains("Not found")){
+        if (response == null || response.equals("null") || response.equals("[0]")
+                || response.contains("Not found")) {
             return false;
         }
         //return success
@@ -497,7 +502,7 @@ public class Server {
      * Converts a json string to an Array List of users
      *
      * @param json The string representing the JSON of the array of users
-     * @return an Array List of users in the JSON. Order is arbritrary
+     * @return an Array List of users in the JSON. Order is arbitrary
      */
     private static ArrayList<User> jsonToUser(String json) {
         Log.d("DEBUG", json);
@@ -571,28 +576,18 @@ public class Server {
      *
      * @param in stream input
      * @return String that was in the stream
-     * @author https://stackoverflow.com/a/16507509
+     * @author https://stackoverflow.com/a/16507509, Frank
      */
-    private static String readStream(InputStream in) {
-        BufferedReader reader = null;
+    private static String readStream(InputStream in) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         StringBuilder builder = new StringBuilder();
-        try {
-            reader = new BufferedReader(new InputStreamReader(in));
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        String line = "";
+
+        while ((line = reader.readLine()) != null) {
+            builder.append(line);
         }
+
+        reader.close();
         return builder.toString();
     }
 
@@ -605,20 +600,11 @@ public class Server {
     private static String httpGetRequest(String request) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitNetwork().build();
         StrictMode.setThreadPolicy(policy);
-        URL url;
-        HttpsURLConnection client = null;
-        String output = null;
-        try {
-            url = new URL(serverName + request);
-            client = (HttpsURLConnection) url.openConnection();
-            output = readStream(client.getInputStream());
-        } catch (Exception e) {
-            Log.d("DEBUG", e.toString());
-        } finally {
-            if (client != null) {
-                client.disconnect();
-            }
-        }
+        URL url = new URL(serverName + request);
+        HttpsURLConnection client = (HttpsURLConnection) url.openConnection();
+        String output = readStream(client.getInputStream());
+
+        client.disconnect();
         return output;
     }
 
