@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertFalse;
@@ -54,9 +55,11 @@ public class InstrumentedServerTest
     @Test
     public void testNonUCSDEmailNewUser()
     {
-        //Try adding new user with non uscd email, should return false
-        assertFalse(Server.addNewUser("I  AM STEVEEEE","PHOTO LINK HERE","I ARE VERY INTERESTING",
-                "(510) 999-999","NOTUCSDEMAIL@gmail.com","hunter2"));
+        try {
+            //Try adding new user with non uscd email, should return false
+            assertFalse(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "NOTUCSDEMAIL@gmail.com", "hunter2"));
+        }catch(IOException e){}
     }
 
     /**

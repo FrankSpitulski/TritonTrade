@@ -26,8 +26,10 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.1'
     testCompile 'junit:junit:4.12'
-    compile 'com.google.code.gson:gson:2.5'
+
     // https://mvnrepository.com/artifact/org.mindrot/jbcrypt
     compile 'org.mindrot:jbcrypt:0.4-atlassian-1'
     compile 'com.android.support.test:runner:0.5'
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    compile 'com.google.code.gson:gson:2.5'
 }
