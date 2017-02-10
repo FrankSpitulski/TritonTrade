@@ -1,4 +1,5 @@
 package com.tmnt.tritontrade;
+
 import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
@@ -35,8 +36,7 @@ public class Server {
     //domain name of server
     final private static String serverName = "https://spitulski.no-ip.biz";
 
-    public static void test(Context c)
-    {
+    public static void test(Context c) {
         try {
             /*Log.d("DEBUG", httpGetRequest("/db/api.php/users"  + "?transform=1")); // test pull info
             String response = uploadImage(c.getResources().openRawResource(R.raw.doge), "jpg"); // test file upload
@@ -46,25 +46,26 @@ public class Server {
             Log.d("DEBUG", addNewUser("Frank", "", "bio",
                     "321", "fspituls@eng.ucsd.edu", "test") + "");
             Log.d("DEBUG", login("fspituls@eng.ucsd.edu", "test").toString());
-        }catch(IOException e){
+        } catch (IOException e) {
             Log.d("DEBUG", e.toString());
         }
     }
 
     /**
      * calls the verification email code on the server
+     *
      * @param email email to send to
      * @return null on fail, verification string on success
      */
-    private static String sendEmailVerification(String email) throws IOException{
+    private static String sendEmailVerification(String email) throws IOException {
         String verificationString = new BigInteger(130, new Random()).toString(32);
         String response = "";
 
         response = httpGetRequest("/db/sendEmailValidation.php?validation=" +
                 verificationString + "&email=" + email);
 
-        if(response.equals("")
-           || response.equals("Mailer Error: You must provide at least one recipient email address.")){
+        if (response.equals("")
+                || response.equals("Mailer Error: You must provide at least one recipient email address.")) {
             return null;
         }
         return verificationString;
@@ -78,32 +79,31 @@ public class Server {
     public static boolean addPost(String productName, ArrayList<String> photos, String description,
                                   float price, ArrayList<String> tags, int profileID,
                                   boolean selling, String contactInfo)
-    {
-        try {
-            // get postID
-            int postID = Integer.getInteger(httpGetRequest("/db/postCount.php")) + 1;
+            throws IOException {
 
-            // get unused ID
-            while (searchUserIDs(postID) != null) {
-                postID++;
-            }
+        // get postID
+        int postID = Integer.getInteger(httpGetRequest("/db/postCount.php")) + 1;
 
-            ArrayList<Post> newPostList = new ArrayList<Post>();
-            newPostList.add(new Post(productName, photos, description, price, tags, profileID,
-                    postID, selling, true, new Date(), contactInfo, false));
+        // get unused ID
+        while (searchUserIDs(postID) != null) {
+            postID++;
+        }
 
-            URL url = new URL(serverName + "/db/api.php/posts");
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
-            OutputStreamWriter out = new OutputStreamWriter(
-                    connection.getOutputStream());
-            out.write(postToJson(newPostList));
-            out.close();
-            String response = readStream(connection.getInputStream());
+        ArrayList<Post> newPostList = new ArrayList<Post>();
+        newPostList.add(new Post(productName, photos, description, price, tags, profileID,
+                postID, selling, true, new Date(), contactInfo, false));
 
-        }catch(IOException e){
-            Log.d("DEBUG", e.toString());
+        URL url = new URL(serverName + "/db/api.php/posts");
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("POST");
+        OutputStreamWriter out = new OutputStreamWriter(
+                connection.getOutputStream());
+        out.write(postToJson(newPostList));
+        out.close();
+        String response = readStream(connection.getInputStream());
+
+        if(response.equals("null") || response.equals("Not found (input)")){
             return false;
         }
 
@@ -115,12 +115,10 @@ public class Server {
      *
      * @return true if add successful, false if the user does not register with a ucsd email,
      * registers with a duplicate email, or otherwise the server failed to add the user
-     *
      */
     public static boolean addNewUser(String name, String photo, String bio,
                                      String mobileNumber, String email, String password)
-    throws IOException
-    {
+            throws IOException {
 
         // Makes sure that the email given is a ucsd email
         if (!Pattern.matches(".*ucsd.edu$", email)) {
@@ -144,7 +142,7 @@ public class Server {
         Log.d("DEBUG", "user not duplicate");
 
         // get userID
-        int profileID = Integer.getInteger(httpGetRequest("/db/userCount.php")) + 1;
+        int profileID = Integer.getInteger(httpGetRequest("/db/userCount.php"));
 
         // get unused ID
         while (searchUserIDs(profileID) != null) {
@@ -155,7 +153,7 @@ public class Server {
 
         String emailLink = sendEmailVerification(email);
 
-        if(emailLink == null){
+        if (emailLink == null) {
             return false; // bad email verification
         }
 
@@ -181,10 +179,12 @@ public class Server {
         out.close();
         response = readStream(connection.getInputStream());
 
-        if(response == null || response.equals("")){
+        if (response == null || response.equals("") || response.equals("null")
+                || response.contains("Not found")) {
             Log.d("DEBUG", "user failed to add");
             return false;
         }
+
         Log.d("DEBUG", "user added");
         return true;
     }
@@ -192,18 +192,17 @@ public class Server {
     /**
      * Attempts to log in to the server with a given login and password
      *
-     * @param email email login
+     * @param email    email login
      * @param password password login
      * @return user if login successful, null if unsuccessful
      */
-    public static User login(String email, String password) throws IOException
-    {
+    public static User login(String email, String password) throws IOException {
 
         String response = httpGetRequest("/db/api.php/users?filter[]=email,eq,"
                 + email + "&transform=1");
         ArrayList<User> users = jsonToUser(response);
 
-        if(users.size() != 1){
+        if (users.size() != 1) {
             Log.d("DEBUG", "bad email search");
             return null;
         }
@@ -234,10 +233,8 @@ public class Server {
      * @param tags The list of tags to search with
      * @return The list of posts with those tags
      */
-    public static ArrayList<Post> searchPostTags(ArrayList<String> tags) throws IOException
-    {
-        if (tags.size() == 0)
-        {
+    public static ArrayList<Post> searchPostTags(ArrayList<String> tags) throws IOException {
+        if (tags.size() == 0) {
             return new ArrayList<Post>();
         }
 
@@ -249,8 +246,7 @@ public class Server {
         String request = "/db/api.php/posts?filter[]=profileID,cs,:" + tags.get(0) + ":";
 
         //for every id after the first one
-        for (int x = 1; x < tags.size(); x++)
-        {
+        for (int x = 1; x < tags.size(); x++) {
             request = request + "&filter[]=profileID,cs,:" + tags.get(x) + ":";
         }
         //add so that only has to be one of the ids in the list and convert to objects
@@ -272,8 +268,7 @@ public class Server {
      * @param tag The tag to search with
      * @return The list of posts with those tags
      */
-    public static ArrayList<Post> searchPostTags(String tag) throws IOException
-    {
+    public static ArrayList<Post> searchPostTags(String tag) throws IOException {
         //Calls search on a list with a single entry inside
         ArrayList<String> single = new ArrayList<String>(1);
         single.add(tag);
@@ -291,11 +286,9 @@ public class Server {
      * @param ids The list of ids to grab
      * @return The list of User objects with the given ids
      */
-    public static ArrayList<User> searchUserIDs(ArrayList<Integer> ids) throws IOException
-    {
+    public static ArrayList<User> searchUserIDs(ArrayList<Integer> ids) throws IOException {
         //if somehow asked with an empty list, return empty list
-        if (ids.size() == 0)
-        {
+        if (ids.size() == 0) {
             return new ArrayList<User>();
         }
 
@@ -307,8 +300,7 @@ public class Server {
         String request = "/db/api.php/users?filter[]=profileID,eq," + ids.get(0);
 
         //for every id after the first one
-        for (int x = 1; x < ids.size(); x++)
-        {
+        for (int x = 1; x < ids.size(); x++) {
             request = request + "&filter[]=profileID,eq," + ids.get(x);
         }
         //add so that only has to be one of the ids in the list and convert to json
@@ -329,8 +321,7 @@ public class Server {
      * @param id The id to search for
      * @return The user with the given id, null if no match
      */
-    public static User searchUserIDs(int id) throws IOException
-    {
+    public static User searchUserIDs(int id) throws IOException {
         //Call searchUserIds on list with one element
         ArrayList<Integer> single = new ArrayList<Integer>(1);
         single.add(id);
@@ -339,8 +330,7 @@ public class Server {
         ArrayList<User> users = searchUserIDs(single);
 
         //sanity check
-        if(users.size() == 0)
-        {
+        if (users.size() == 0) {
             return null;
         }
 
@@ -354,11 +344,9 @@ public class Server {
      * @param ids the ID numbers to search for
      * @return The Posts with the given ids
      */
-    public static ArrayList<Post> searchPostIDs(ArrayList<Integer> ids) throws IOException
-    {
+    public static ArrayList<Post> searchPostIDs(ArrayList<Integer> ids) throws IOException {
         //if ArrayList is empty, return an empty list of posts
-        if (ids.size() == 0)
-        {
+        if (ids.size() == 0) {
             return new ArrayList<Post>();
         }
 
@@ -367,8 +355,7 @@ public class Server {
         String request = "/db/api.php/posts?filter[]=postID,eq," + ids.get(0);
 
         //for every id after the first one
-        for (int x = 1; x < ids.size(); x++)
-        {
+        for (int x = 1; x < ids.size(); x++) {
             request = request + "&filter[]=postID,eq," + ids.get(x);
         }
         //add so that only has to be one of the ids in the list and convert to json
@@ -393,16 +380,14 @@ public class Server {
      * @param id The id to search for
      * @return The post with the given id, null if no match
      */
-    public static Post searchPostIDs(int id) throws IOException
-    {
+    public static Post searchPostIDs(int id) throws IOException {
         //Call searchPostId on list with one element
         ArrayList<Integer> single = new ArrayList<Integer>(1);
         single.add(id);
         ArrayList<Post> posts = searchPostIDs(single);
 
         //if no posts found, return null
-        if(posts.size() == 0)
-        {
+        if (posts.size() == 0) {
             return null;
         }
 
@@ -416,14 +401,12 @@ public class Server {
      * @param post The post to update
      * @return true on success false on failure
      */
-    public static boolean modifyExistingPost(Post post)
-    {
+    public static boolean modifyExistingPost(Post post) throws IOException{
         //Json methods handle lists of users
         ArrayList<Post> posts = new ArrayList<Post>();
         posts.add(post);
 
-        //try to connect to server
-        try {
+
             //open http connection and send to server
             URL url = new URL(serverName + "/db/api.php/posts/" + post.getPostID());
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -434,10 +417,11 @@ public class Server {
             out.write(postToJson(posts));
             out.close();
 
-        }catch(IOException e){
-            //print error
-            Log.d("DEBUG", e.toString());
-            return false;// when doesn't exist
+        String response = readStream(connection.getInputStream());
+
+        if(response == null || response.equals("null") || response.equals("[0]")
+                || response.contains("Not found")){
+            return false;
         }
 
         //return success
@@ -450,8 +434,7 @@ public class Server {
      * @param user The post to update
      * @return true on success false on failure
      */
-    public static boolean modifyExistingUser(User user) throws IOException
-    {
+    public static boolean modifyExistingUser(User user) throws IOException {
         //Json handles arrays of users, not individual users
         ArrayList<User> users = new ArrayList<User>();
         users.add(user);
@@ -466,6 +449,12 @@ public class Server {
         out.write(userToJson(users));
         out.close();
 
+        String response = readStream(connection.getInputStream());
+
+        if(response == null || response.equals("null") || response.equals("[0]")
+                || response.contains("Not found")){
+            return false;
+        }
         //return success
         return true;
     }
@@ -476,12 +465,11 @@ public class Server {
      * @param list The list of the users
      * @return the users that are not deleted
      */
-    private static ArrayList<User> filterDeletedUsers(ArrayList<User> list)
-    {
+    private static ArrayList<User> filterDeletedUsers(ArrayList<User> list) {
         Iterator<User> it = list.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             User user = it.next();
-            if (user.getDeleted()){
+            if (user.getDeleted()) {
                 it.remove();
             }
         }
@@ -494,17 +482,16 @@ public class Server {
      * @param list The ArrayList<Post> representing the posts of the users
      * @return the posts that are not deleted
      */
-    private static ArrayList<Post> filterDeletedPosts(ArrayList<Post> list)
-        {
-            Iterator<Post> it = list.iterator();
-            while(it.hasNext()){
-                Post post = it.next();
-                if (post.getDeleted()){
-                    it.remove();
-                }
+    private static ArrayList<Post> filterDeletedPosts(ArrayList<Post> list) {
+        Iterator<Post> it = list.iterator();
+        while (it.hasNext()) {
+            Post post = it.next();
+            if (post.getDeleted()) {
+                it.remove();
             }
-            return list;
         }
+        return list;
+    }
 
     /**
      * Converts a json string to an Array List of users
@@ -512,15 +499,16 @@ public class Server {
      * @param json The string representing the JSON of the array of users
      * @return an Array List of users in the JSON. Order is arbritrary
      */
-    private static ArrayList<User> jsonToUser(String json){
+    private static ArrayList<User> jsonToUser(String json) {
         Log.d("DEBUG", json);
         //Create the GSON builder to construct the Array List of users
-        GsonBuilder builder= new GsonBuilder();
-        Gson gson= builder.serializeNulls().create();
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.serializeNulls().create();
 
         //Parse the JSON string
-        Type arrayListUserType= new TypeToken<ArrayList<User>>(){}.getType();
-        ArrayList<User> toReturn= gson.fromJson(json, arrayListUserType);
+        Type arrayListUserType = new TypeToken<ArrayList<User>>() {
+        }.getType();
+        ArrayList<User> toReturn = gson.fromJson(json, arrayListUserType);
 
         return toReturn;
     }
@@ -531,14 +519,15 @@ public class Server {
      * @param json The string that represents json data
      * @return The ArrayList of Posts represented in json
      */
-    private static ArrayList<Post> jsonToPost(String json){
+    private static ArrayList<Post> jsonToPost(String json) {
         //Create the GSON builder to construct the Array List of users
-        GsonBuilder builder= new GsonBuilder();
-        Gson gson= builder.serializeNulls().create();
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.serializeNulls().create();
 
         //Parse the JSON string
-        Type arrayListPostType= new TypeToken<ArrayList<Post>>(){}.getType();
-        ArrayList<Post> toReturn= gson.fromJson(json, arrayListPostType);
+        Type arrayListPostType = new TypeToken<ArrayList<Post>>() {
+        }.getType();
+        ArrayList<Post> toReturn = gson.fromJson(json, arrayListPostType);
 
         return toReturn;
     }
@@ -549,13 +538,13 @@ public class Server {
      * @param users The array list of users
      * @return The json of the list
      */
-    private static String userToJson(ArrayList<User> users){
+    private static String userToJson(ArrayList<User> users) {
         //Create the GSON builder to construct the JSON format of the ArrayList of users
-        GsonBuilder builder= new GsonBuilder();
-        Gson gson= builder.serializeNulls().create();
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.serializeNulls().create();
 
         //Create the JSON format for the ArrayList of users
-        String toReturn= gson.toJson(users);
+        String toReturn = gson.toJson(users);
 
         return toReturn;
     }
@@ -566,13 +555,13 @@ public class Server {
      * @param posts The array list of posts
      * @return The json of the list
      */
-    private static String postToJson(ArrayList<Post> posts){
+    private static String postToJson(ArrayList<Post> posts) {
         //Create the GSON builder to construct the JSON format of the ArrayList of users
-        GsonBuilder builder= new GsonBuilder();
-        Gson gson= builder.serializeNulls().create();
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.serializeNulls().create();
 
         //Create the JSON format for the ArrayList of users
-        String toReturn= gson.toJson(posts);
+        String toReturn = gson.toJson(posts);
 
         return toReturn;
     }
@@ -580,9 +569,9 @@ public class Server {
     /**
      * Converts an InputStream to a string
      *
-     * @author https://stackoverflow.com/a/16507509
      * @param in stream input
      * @return String that was in the stream
+     * @author https://stackoverflow.com/a/16507509
      */
     private static String readStream(InputStream in) {
         BufferedReader reader = null;
@@ -613,7 +602,7 @@ public class Server {
      * @param request String formatted like /db/api.php...
      * @return response string
      */
-    private static String httpGetRequest(String request) throws IOException{
+    private static String httpGetRequest(String request) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitNetwork().build();
         StrictMode.setThreadPolicy(policy);
         URL url;
@@ -623,10 +612,9 @@ public class Server {
             url = new URL(serverName + request);
             client = (HttpsURLConnection) url.openConnection();
             output = readStream(client.getInputStream());
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.d("DEBUG", e.toString());
-        }
-        finally {
+        } finally {
             if (client != null) {
                 client.disconnect();
             }
@@ -637,12 +625,12 @@ public class Server {
     /**
      * uploads an image to the server
      *
-     * @param fileStream a steam of the image to be sent
+     * @param fileStream    a steam of the image to be sent
      * @param fileExtension the extension of the file without the period (ex. jpg, png)
      * @return String of where the file is now located
      * @throws IOException
      */
-    public static String uploadImage(InputStream fileStream, String fileExtension) throws IOException{
+    public static String uploadImage(InputStream fileStream, String fileExtension) throws IOException {
         String charset = "UTF-8";
         String requestURL = serverName + "/img/images.php";
         MultipartUtility multipart = new MultipartUtility(requestURL, charset);
@@ -653,15 +641,15 @@ public class Server {
 
     /**
      * @author https://stackoverflow.com/a/33149413, Frank
-     * usage:
-     *      String charset = "UTF-8";
-     *      String requestURL = "YOUR_URL";
-     *      MultipartUtility multipart = new MultipartUtility(requestURL, charset);
-     *      multipart.addFormField("param_name_1", "param_value");
-     *      multipart.addFormField("param_name_2", "param_value");
-     *      multipart.addFormField("param_name_3", "param_value");
-     *      multipart.addFilePart("file_param_1", "file_name", new InputStream());
-     *      String response = multipart.finish(); // response from server.
+     *         usage:
+     *         String charset = "UTF-8";
+     *         String requestURL = "YOUR_URL";
+     *         MultipartUtility multipart = new MultipartUtility(requestURL, charset);
+     *         multipart.addFormField("param_name_1", "param_value");
+     *         multipart.addFormField("param_name_2", "param_value");
+     *         multipart.addFormField("param_name_3", "param_value");
+     *         multipart.addFilePart("file_param_1", "file_name", new InputStream());
+     *         String response = multipart.finish(); // response from server.
      */
     private static class MultipartUtility {
 
@@ -677,7 +665,7 @@ public class Server {
          * is set to multipart/form-data
          *
          * @param requestURL url to send request
-         * @param charset what type of character to send, normally utf8
+         * @param charset    what type of character to send, normally utf8
          * @throws IOException
          */
         public MultipartUtility(String requestURL, String charset)
@@ -723,8 +711,8 @@ public class Server {
         /**
          * Adds a upload file section to the request
          *
-         * @param fieldName  name attribute in <input type="file" name="..." />
-         * @param fileName name of File to be uploaded
+         * @param fieldName   name attribute in <input type="file" name="..." />
+         * @param fileName    name of File to be uploaded
          * @param inputStream stream of File to be uploaded
          * @throws IOException
          */
