@@ -21,9 +21,12 @@
         <activity android:name=".Profile" />
         <activity android:name=".Welcome_Categories" />
         <activity android:name=".Create_Post" />
-        <activity android:name=".Main_Feed" />
         <activity android:name=".Cart" />
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings" />
+        <activity
+            android:name=".Mainfeed"
+            android:label="@string/title_activity_mainfeed"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
