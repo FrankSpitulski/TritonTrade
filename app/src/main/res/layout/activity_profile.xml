@@ -18,7 +18,7 @@
         android:scaleType="fitXY"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_height="110dp" />
+        android:layout_height="100dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -48,75 +48,81 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:paddingLeft="10sp">
-
-        <ImageView
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/default_photo"
-            android:id="@+id/imageView3"
-            android:layout_weight="1"
-            android:layout_width="150dp" />
+        android:layout_alignParentStart="true">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
             android:paddingLeft="10sp">
 
-            <TextView
-                android:text="Username"
-                android:layout_width="match_parent"
+            <ImageView
                 android:layout_height="wrap_content"
-                android:id="@+id/textView7"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="normal|bold" />
+                app:srcCompat="@drawable/default_photo"
+                android:id="@+id/imageView3"
+                android:layout_weight="1"
+                android:layout_width="150dp" />
 
-            <TextView
-                android:text="Email"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView6"
-                android:textColor="@android:color/white" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingLeft="10sp">
 
-            <TextView
-                android:text="Phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView5"
-                android:textColor="@android:color/white" />
+                <TextView
+                    android:text="Username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView7"
+                    android:textColor="@android:color/white"
+                    android:textSize="24sp"
+                    android:textStyle="normal|bold" />
 
-            <TextView
-                android:text="Description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView3"
-                android:textColor="@android:color/white" />
+                <TextView
+                    android:text="Email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView6"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:text="Phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView5"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:text="Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView3"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/edit_profile_button"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="82dp"
+        android:background="@drawable/edit_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"/>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="150dp" />
-
-    <Button
-        android:text="Edit Profile"
-        android:layout_height="wrap_content"
-        android:id="@+id/button3"
-        android:layout_width="120sp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
