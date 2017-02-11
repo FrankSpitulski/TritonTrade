@@ -86,7 +86,7 @@ public class Server {
     /**
      * Add a post to the database
      *
-     * @throws IOException //TODO WHY DOES ADD USER THROW IOEXCEPTION
+     * @throws IOException
      * @return Whether or not the operation was successful
      */
     public static boolean addPost(String productName, ArrayList<String> photos, String description,
@@ -129,19 +129,22 @@ public class Server {
     }
 
     /**
-     * Adds a user to the database, must have @ucsd.edu email
+     * Adds a user to the database, THe email must be a ucsd email, and must not already have a
+     * user registered with that email
      *
+     * @throws IOException If Server throws an error, will return IOEXception, such as from
+     *   a non ucsd email, duplicate email, or other failure
      * @return true if add successful, false if the user does not register with a ucsd email,
      * registers with a duplicate email, or otherwise the server failed to add the user
      */
-    public static boolean addNewUser(String name, String photo, String bio,
+    public static User addNewUser(String name, String photo, String bio,
                                      String mobileNumber, String email, String password)
             throws IOException {
 
         // Makes sure that the email given is a ucsd email
         if (!Pattern.matches(".*ucsd.edu$", email)) {
             Log.d("DEBUG", "email rejected");
-            return false;
+            throw new IOException("Email does not end in UCSD or otherwise rejected");
         }
 
         //debug message
@@ -150,29 +153,36 @@ public class Server {
         // check to see if email is already registered
         String response = httpGetRequest("/db/api.php/users?filter[]=email,eq,"
                 + email + "&transform=1");
+
+        //convert returned json to a list of users with the same email
         ArrayList<User> users = jsonToUser(response);
 
+        //if there are a nonzero number of same email users, return error
         if (users.size() != 0) {
             Log.d("DEBUG", "duplicate email");
-            return false;
+            throw new IOException("Duplicate Email");
         }
 
+        //DEBUG
         Log.d("DEBUG", "user not duplicate");
 
         // get userID
         int profileID = Integer.getInteger(httpGetRequest("/db/userCount.php"));
 
-        // get unused ID
+        // get unused ID from server
         while (searchUserIDs(profileID) != null) {
             profileID++;
         }
 
+        //DEBUG
         Log.d("DEBUG", "new ID found " + profileID);
 
+        //get email link from server
         String emailLink = sendEmailVerification(email);
 
+        //if something bad happened, return exception
         if (emailLink == null) {
-            return false; // bad email verification
+            throw new IOException("Duplicate Email"); // bad email verification
         }
 
         // get salt for password
@@ -183,6 +193,7 @@ public class Server {
                 BCrypt.hashpw(password + salt, salt), salt, new ArrayList<Integer>(),
                 false, new ArrayList<Integer>(), emailLink, false);
 
+        //DEBUG
         Log.d("DEBUG", "user object generated");
 
         ArrayList<User> newUserList = new ArrayList<User>();
@@ -200,11 +211,12 @@ public class Server {
         if (response == null || response.equals("") || response.equals("null")
                 || response.contains("Not found")) {
             Log.d("DEBUG", "user failed to add");
-            return false;
+            throw new IOException("Server could not add a user");
         }
 
+        //return user object
         Log.d("DEBUG", "user added");
-        return true;
+        return newUser;
     }
 
     /**
