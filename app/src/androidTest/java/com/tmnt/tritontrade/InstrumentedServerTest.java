@@ -1,6 +1,7 @@
 package com.tmnt.tritontrade;
 
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Instrumented tests for Server methods
@@ -68,7 +70,30 @@ public class InstrumentedServerTest
     @Test
     public void testWeirdEmailNewUser()
     {
-        //TODO IMPLEMENT
+//try to add weird but valid ucsd emails as users
+        try {
+            Log.d("DEBUG","AFTER0");
+            assertTrue(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "!#$%&'*+-/=?^_`{|}~@ucsd.edu", "hunter2"));
+            Log.d("DEBUG","AFTER1");
+            assertTrue(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "p@ucsd.edu", "hunter2"));
+            Log.d("DEBUG","AFTER2");
+            assertTrue(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "disposable.style.email.with+symbol@ucsd.edu", "hunter2"));
+            Log.d("DEBUG","AFTER3");
+
+        }
+        catch (IOException e)
+        {
+            Log.d("DEBUG","EXCEPTIONNN");
+            e.printStackTrace();
+        }
+        //no matter what happens, clean up test users from database
+        finally
+        {
+            Log.d("DEBUG","END TEST");
+        }
     }
 
 }
