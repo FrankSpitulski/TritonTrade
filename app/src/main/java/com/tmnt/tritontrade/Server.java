@@ -94,10 +94,10 @@ public class Server {
             throws IOException {
 
         // get postID
-        int postID = Integer.getInteger(httpGetRequest("/db/postCount.php")) + 1;
+        int postID = Integer.getInteger(httpGetRequest("/db/postCount.php"));
 
         // get unused ID
-        while (searchUserIDs(postID) != null) {
+        while (searchPostIDs(postID) != null) {
             postID++;
         }
 
@@ -119,7 +119,7 @@ public class Server {
         String response = readStream(connection.getInputStream());
 
         //if error happened, return false
-        if (response.equals("null") || response.equals("Not found (input)")) {
+        if (response.equals("null") || response.contains("Not found")) {
             Log.d("DEBUG","COULD NOT UPLOAD USER FOR SOME REASON");
             throw new IOException("Server could not process request");
         }
@@ -129,10 +129,10 @@ public class Server {
     }
 
     /**
-     * Adds a user to the database, The email must be a @ucsd email, and must not already have a
+     * Adds a user to the database, THe email must be a ucsd email, and must not already have a
      * user registered with that email
      *
-     * @throws IOException If server throws an error, will return IOEXception, such as from
+     * @throws IOException If Server throws an error, will return IOEXception, such as from
      *   a non ucsd email, duplicate email, or other failure
      * @return true if add successful, false if the user does not register with a ucsd email,
      * registers with a duplicate email, or otherwise the server failed to add the user
@@ -155,7 +155,7 @@ public class Server {
                 + email + "&transform=1");
 
         //convert returned json to a list of users with the same email
-        ArrayList<User> users = jsonToUser(response);
+        ArrayList<User> users = filterDeletedUsers(jsonToUser(response));
 
         //if there are a nonzero number of same email users, return error
         if (users.size() != 0) {
@@ -180,9 +180,9 @@ public class Server {
         //get email link from server
         String emailLink = sendEmailVerification(email);
 
-        //if something could not send verification email for some reason, throw exception
+        //if something bad happened, return exception
         if (emailLink == null) {
-            throw new IOException("Cannot send email verification"); // bad email verification
+            throw new IOException("Email Failure"); // bad email verification
         }
 
         // get salt for password
