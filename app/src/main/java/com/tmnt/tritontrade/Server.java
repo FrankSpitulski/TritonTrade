@@ -129,10 +129,10 @@ public class Server {
     }
 
     /**
-     * Adds a user to the database, THe email must be a ucsd email, and must not already have a
+     * Adds a user to the database, The email must be a @ucsd email, and must not already have a
      * user registered with that email
      *
-     * @throws IOException If Server throws an error, will return IOEXception, such as from
+     * @throws IOException If server throws an error, will return IOEXception, such as from
      *   a non ucsd email, duplicate email, or other failure
      * @return true if add successful, false if the user does not register with a ucsd email,
      * registers with a duplicate email, or otherwise the server failed to add the user
@@ -180,9 +180,9 @@ public class Server {
         //get email link from server
         String emailLink = sendEmailVerification(email);
 
-        //if something bad happened, return exception
+        //if something could not send verification email for some reason, throw exception
         if (emailLink == null) {
-            throw new IOException("Duplicate Email"); // bad email verification
+            throw new IOException("Cannot send email verification"); // bad email verification
         }
 
         // get salt for password
