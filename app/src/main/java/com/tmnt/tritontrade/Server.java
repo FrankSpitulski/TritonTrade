@@ -79,6 +79,7 @@ public class Server {
     /**
      * Add a post to the database
      *
+     * @throws IOException
      * @return Whether or not the operation was successful
      */
     public static boolean addPost(String productName, ArrayList<String> photos, String description,
@@ -94,10 +95,12 @@ public class Server {
             postID++;
         }
 
+        //Make array list of posts as json converts array lists of posts as input
         ArrayList<Post> newPostList = new ArrayList<Post>();
         newPostList.add(new Post(productName, photos, description, price, tags, profileID,
                 postID, selling, true, new Date(), contactInfo, false));
 
+        //Open connection to server and write json to it
         URL url = new URL(serverName + "/db/api.php/posts");
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setDoOutput(true);
@@ -108,10 +111,12 @@ public class Server {
         out.close();
         String response = readStream(connection.getInputStream());
 
+        //if error happened, return false
         if (response.equals("null") || response.equals("Not found (input)")) {
             return false;
         }
 
+        //return success
         return true;
     }
 
@@ -207,6 +212,7 @@ public class Server {
                 + email + "&transform=1");
         ArrayList<User> users = jsonToUser(response);
 
+        //if did not return only one user with that email, not found or something weird happened
         if (users.size() != 1) {
             Log.d("DEBUG", "bad email search");
             return null;
@@ -215,6 +221,7 @@ public class Server {
         // get data of valid user
         User user = users.get(0);
 
+        //if not verified, reject login
         if (!user.getVerified()) {
             Log.d("DEBUG", "user not verified");
             return null; // unverified cannot login
@@ -229,6 +236,7 @@ public class Server {
         // password did not match
         Log.d("DEBUG", "password mismatch");
 
+        //password test failed, return null
         return null;
     }
 
