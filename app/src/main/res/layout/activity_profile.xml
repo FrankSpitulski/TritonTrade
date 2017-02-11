@@ -18,7 +18,7 @@
         android:scaleType="fitXY"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_height="130dp" />
+        android:layout_height="140dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -72,6 +72,32 @@
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:text="Selling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button4"
+            android:layout_weight="1"
+            android:backgroundTint="#163EB8"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:text="Sold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button3"
+            android:layout_weight="1"
+            android:backgroundTint="#163EB8"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </RelativeLayout>
