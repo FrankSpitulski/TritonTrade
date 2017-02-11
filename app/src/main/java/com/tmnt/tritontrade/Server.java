@@ -41,6 +41,13 @@ public class Server {
     //domain name of server
     final private static String serverName = "https://spitulski.no-ip.biz";
 
+    /**
+     * @return a copy of the server name
+     */
+    public static String getServerName(){
+        return serverName + "";
+    }
+
     public static void test(Context c) {
         try {
             /*Log.d("DEBUG", httpGetRequest("/db/api.php/users"  + "?transform=1")); // test pull info
