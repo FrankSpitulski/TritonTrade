@@ -71,9 +71,8 @@ public class Server {
      */
     private static String sendEmailVerification(String email) throws IOException {
         String verificationString = new BigInteger(130, new Random()).toString(32);
-        String response = "";
 
-        response = httpGetRequest("/db/sendEmailValidation.php?validation=" +
+        String response = httpGetRequest("/db/sendEmailValidation.php?validation=" +
                 verificationString + "&email=" + email);
 
         if (response.equals("")
@@ -86,10 +85,10 @@ public class Server {
     /**
      * Add a post to the database
      *
-     * @throws IOException
-     * @return Whether or not the operation was successful
+     * @throws IOException Server could not process request
+     * @return The post created by the operation, null + exception if error occurred
      */
-    public static boolean addPost(String productName, ArrayList<String> photos, String description,
+    public static Post addPost(String productName, ArrayList<String> photos, String description,
                                   float price, ArrayList<String> tags, int profileID,
                                   boolean selling, String contactInfo)
             throws IOException {
@@ -104,8 +103,9 @@ public class Server {
 
         //Make array list of posts as json converts array lists of posts as input
         ArrayList<Post> newPostList = new ArrayList<Post>();
-        newPostList.add(new Post(productName, photos, description, price, tags, profileID,
-                postID, selling, true, new Date(), contactInfo, false));
+        Post post = new Post(productName, photos, description, price, tags, profileID,
+                postID, selling, true, new Date(), contactInfo, false);
+        newPostList.add(post);
 
         //Open connection to server and write json to it
         URL url = new URL(serverName + "/db/api.php/posts");
@@ -121,11 +121,11 @@ public class Server {
         //if error happened, return false
         if (response.equals("null") || response.equals("Not found (input)")) {
             Log.d("DEBUG","COULD NOT UPLOAD USER FOR SOME REASON");
-            return false;
+            throw new IOException("Server could not process request");
         }
 
         //return success
-        return true;
+        return post;
     }
 
     /**
