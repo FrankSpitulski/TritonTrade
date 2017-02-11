@@ -71,13 +71,12 @@ public class Server {
      */
     private static String sendEmailVerification(String email) throws IOException {
         String verificationString = new BigInteger(130, new Random()).toString(32);
-        String response = "";
-
-        response = httpGetRequest("/db/sendEmailValidation.php?validation=" +
+        String response = httpGetRequest("/db/sendEmailValidation.php?validation=" +
                 verificationString + "&email=" + email);
 
         if (response.equals("")
-                || response.equals("Mailer Error: You must provide at least one recipient email address.")) {
+                || response.equals("Mailer Error: You must provide at least one recipient email address.")
+                || response.equals("null")) {
             return null;
         }
         return verificationString;
