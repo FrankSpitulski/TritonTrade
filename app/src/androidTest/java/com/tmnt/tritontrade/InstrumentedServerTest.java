@@ -70,6 +70,9 @@ public class InstrumentedServerTest
     @Test
     public void testWeirdEmailNewUser()
     {
+
+        //TODO NOTE: DOES NOT DELETE FROM DATABASE, CURRENTLY FIGURING OUT WHY THROWS AN EXCEPTION
+        //TODO WHEN THE METHOD RETURNS TRUE
 //try to add weird but valid ucsd emails as users
         try {
             Log.d("DEBUG","AFTER0");
