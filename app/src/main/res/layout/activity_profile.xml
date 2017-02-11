@@ -24,7 +24,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:paddingLeft="10sp">
+        android:paddingLeft="10sp"
+        android:layout_marginRight="20sp">
 
         <ImageView
             android:layout_height="wrap_content"
@@ -99,5 +100,13 @@
             android:backgroundTint="#163EB8"
             android:textColor="@android:color/white" />
     </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"
+        android:id="@+id/list" />
 
 </RelativeLayout>
