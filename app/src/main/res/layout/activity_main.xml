@@ -12,6 +12,33 @@
     tools:context="com.tmnt.tritontrade.MainActivity">
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true">
+
+        <Button
+            android:text="Forgot Password?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button7"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:onClick="sendToForgotActivity"/>
+
+        <Button
+            android:text="Sign Up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button6"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,33 +85,6 @@
             android:backgroundTint="#163EB8"
             android:textColor="#FFEE00" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true">
-
-        <Button
-            android:text="Forgot Password?"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button7"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:textColor="@android:color/white"
-            android:onClick="sendToForgotActivity"/>
-
-        <Button
-            android:text="Sign Up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button6"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </RelativeLayout>

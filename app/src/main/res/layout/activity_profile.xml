@@ -28,7 +28,7 @@
         android:layout_alignParentStart="true">
 
         <Button
-            android:text="Selling"
+            android:text="For Sale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button4"
@@ -37,7 +37,7 @@
             android:textColor="@android:color/white" />
 
         <Button
-            android:text="Sold"
+            android:text="Sold Items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button3"
