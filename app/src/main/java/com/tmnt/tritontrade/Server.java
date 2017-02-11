@@ -79,7 +79,7 @@ public class Server {
     /**
      * Add a post to the database
      *
-     * @throws IOException
+     * @throws IOException //TODO WHY DOES ADD USER THROW IOEXCEPTION
      * @return Whether or not the operation was successful
      */
     public static boolean addPost(String productName, ArrayList<String> photos, String description,
@@ -113,6 +113,7 @@ public class Server {
 
         //if error happened, return false
         if (response.equals("null") || response.equals("Not found (input)")) {
+            Log.d("DEBUG","COULD NOT UPLOAD USER FOR SOME REASON");
             return false;
         }
 
