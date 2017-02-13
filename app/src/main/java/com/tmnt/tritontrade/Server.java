@@ -124,6 +124,11 @@ public class Server {
             throw new IOException("Server could not process request");
         }
 
+        // add post to user's post history
+        User user = searchUserIDs(post.getProfileID());
+        user.addToPostHistory(post.getPostID());
+        modifyExistingUser(user);
+
         //return success
         return post;
     }
