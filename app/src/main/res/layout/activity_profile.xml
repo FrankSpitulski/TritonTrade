@@ -33,8 +33,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/button4"
             android:layout_weight="1"
-            android:backgroundTint="#163EB8"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:background="#163EB8" />
 
         <Button
             android:text="Sold Items"
@@ -42,8 +42,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/button3"
             android:layout_weight="1"
-            android:backgroundTint="#163EB8"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:background="#163EB8" />
     </LinearLayout>
 
     <ListView
