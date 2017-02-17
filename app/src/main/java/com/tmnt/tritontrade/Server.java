@@ -124,11 +124,16 @@ public class Server {
             throw new IOException("Server could not process request");
         }
 
-        // add post to user's post history
-        User user = searchUserIDs(post.getProfileID());
-        user.addToPostHistory(post.getPostID());
-        modifyExistingUser(user);
-
+        try {
+            // add post to user's post history
+            User user = searchUserIDs(post.getProfileID());
+            user.addToPostHistory(post.getPostID());
+            modifyExistingUser(user);
+        }catch(IOException e){
+            post.setDeleted(true);
+            modifyExistingPost(post);
+            throw new IOException("Could not add user.");
+        }
         //return success
         return post;
     }
@@ -529,6 +534,29 @@ public class Server {
             }
         }
         return list;
+    }
+
+    /**
+     * deletes a post from the database
+     * @param post
+     * @throws IOException
+     */
+    public static void hardDeletePost(Post post) throws IOException{
+        //open http connection and send to server
+        URL url = new URL(serverName + "/db/api.php/posts/" + post.getPostID());
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("DELETE");
+        OutputStreamWriter out = new OutputStreamWriter(
+                connection.getOutputStream());
+        out.close();
+
+        String response = readStream(connection.getInputStream());
+
+        if (response == null || response.equals("null") || response.equals("[0]")
+                || response.contains("Not found")) {
+            throw new IOException("Could not delete post");
+        }
     }
 
     /**
