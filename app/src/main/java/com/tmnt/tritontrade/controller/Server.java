@@ -96,7 +96,7 @@ public class Server {
             throws IOException {
 
         // get postID
-        int postID = Integer.getInteger(httpGetRequest("/db/postCount.php"));
+        int postID = new Integer(httpGetRequest("/db/postCount.php")).intValue();
 
         // get unused ID
         while (searchPostIDs(postID) != null) {
