@@ -30,6 +30,18 @@ import static org.junit.Assert.fail;
 public class InstrumentedServerTest
 {
     /**
+     * Deletes all of the specified users from the database.
+     * DO NOT USE UNLESS YOU KNOW WHAT YOURE DOING. IF YOU HAVE TO ASK YOU PROBABLY DONT
+     */
+    private void cleanUp(ArrayList<User> u)
+    {
+        for (User user: u)
+        {
+            deleteUser(user);
+        }
+
+    }
+    /**
      * Deletes a user from the database. WARNING: THIS IS A DIRTY DELETION. DO NOT USE FOR
      * ANYTHING EXCEPT TESTING. DO NOT USE ON USERS THAT HAVE POSTS ATTACHED TO THEM. PLEASE
      * DO NOT USE THIS METHOD UNLESS YOU KNOW EXACTLY WHAT YOU ARE DOING. IMPROPER USAGE
@@ -37,8 +49,9 @@ public class InstrumentedServerTest
      *
      * @param u The user with the id to delete
      */
-    public void deleteUser(User u)
+    private void deleteUser(User u)
     {
+        Log.d("DEBUG", "DELETING USER ID # " + u.getProfileID());
         //open http connection and send to server
         try {
             URL url = new URL(Server.getServerName() + "/db/api.php/users/" + u.getProfileID());
@@ -52,8 +65,14 @@ public class InstrumentedServerTest
         catch (IOException e)
         {
             Log.d("DEBUG","FAILED TO DELETE USER " + u.getProfileID() + " FROM SERVER");
+            //TRY AGAIN PLEASE
+            try {
+                wait(1000);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+            deleteUser(u);
         }
-
     }
 
     //List of FUN strings with various possibly problematic strings to test
@@ -67,9 +86,6 @@ public class InstrumentedServerTest
         funStrings.add("\"\"\n\n\n\b\b");
         //random symbols
         funStrings.add("%$&^(*!&#(*@NULLnullnull__+");
-        //spanish only characters
-        funStrings.add("-á, -é, -í, -ó, -ú, -ü, -ñ, ¿, ¡");
-
     }
 
     /**
@@ -81,58 +97,108 @@ public class InstrumentedServerTest
 
     }
     /**
+     * Tests adding duplicate emails to the server
+     */
+    @Test
+    public void testDuplicateEmail()
+    {
+        ArrayList<User> testUsers = new ArrayList<>();
+
+        //add valid user to the database
+        try {
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+        }
+        catch (IOException e)
+        {
+            fail();
+        }
+
+        //try same user email again
+        try {
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+        }
+        catch (IOException e)
+        {
+            //SUCCESS, DUPLICATE EMAIL CAUGHT
+        }
+        finally
+        {
+            //nuke the user from the database
+            cleanUp(testUsers);
+        }
+
+        //failed, did not catch
+        fail("Duplicate email not caught");
+
+    }
+    /**
      * Tests Making a new user with a non UCSD email, should return false
      */
     @Test
     public void testNonUCSDEmailNewUser()
     {
+        ArrayList<User> testUsers = new ArrayList<>();
 
         try {
             //Try adding new user with non uscd email, should return false
-            Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "NOTUCSDEMAIL@gmail.com", "hunter2");
-
-            //fail if exception not caught
-            fail();
-            Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "NOTUCSDEMAIL@ucsd.eduu", "hunter2");
-
-            //fail if exception not caught
-            fail();
-            Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "NOTUCSDEMAIL@ucsd.com", "hunter2");
-
-            //fail if exception not caught
-            fail();
-        }catch(IOException e)
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "NOTUCSDEMAIL@gmail.com", "hunter2"));
+            fail("Invalid email not caught");
+        }
+        catch(IOException e)
         {
             //success, exception caught
 
         }
+
+        try {
+            //Try adding new user with non uscd email, should return false
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "NOTUCSDEMAIL@ucsd.eduu", "hunter2"));
+            fail("Invalid email not caught");
+
+        }
+        catch(IOException e)
+        {
+            //success, exception caught
+
+        }
+
+        try {
+            //Try adding new user with non uscd email, should return false
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "NOTUCSDEMAIL@ucsd.com", "hunter2"));
+            fail("Invalid email not caught");
+
+        }
+        catch(IOException e)
+        {
+            //success, exception caught
+
+        }
+
+
+
     }
+
+
 
     /**
      * Tests adding users with valid but uncommon ucsd emails (eg BOB+BOBBITY@ucsd.edu, etc)
      */
     @Test
-    public void testWeirdEmailNewUser()
+    public void testStandardEmail()
     {
         ArrayList<User> testUsers = new ArrayList<User>();
         //try to add weird but valid ucsd emails as users
         try {
             Log.d("DEBUG","AFTER0");
-            //weird symbols
-            /*Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "!#$%&'*+-/=?^_`{|}~@ucsd.edu", "hunter2");*/
 
             //single char email
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
-                    "I ARE VERY INTERESTING", "(510) 999-999", "p@ucsd.edu", "hunter2"));
-
-            //. and +'s in email
-            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
-                    "I ARE VERY INTERESTING", "(510) 999-999",
-                    "disposable.style.email.with+symbol@ucsd.edu", "hunter2"));
+                    "I ARE VERY INTERESTING", "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
 
         }
         catch (IOException e)
