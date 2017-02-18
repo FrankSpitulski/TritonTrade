@@ -114,7 +114,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         ViewHolder postHolder = new ViewHolder();
 
         //TODO set image via url here
-        postHolder.name = (TextView) catView.findViewById(R.id.head);
+        postHolder.name = (TextView) catView.findViewById(R.id.title);
         postHolder.image = (ImageView) catView.findViewById(R.id.row_pic);
         postHolder.name.setText(posts.get(position).getProductName());
         new DownloadImageTask(postHolder.image)
