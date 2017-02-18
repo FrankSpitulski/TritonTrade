@@ -3,6 +3,9 @@ package com.tmnt.tritontrade;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
+import com.tmnt.tritontrade.controller.Server;
+import com.tmnt.tritontrade.controller.User;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

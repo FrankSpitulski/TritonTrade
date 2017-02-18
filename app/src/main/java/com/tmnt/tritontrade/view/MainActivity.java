@@ -1,12 +1,12 @@
-package com.tmnt.tritontrade;
+package com.tmnt.tritontrade.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.Date;
+import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.Server;
 
 public class MainActivity extends AppCompatActivity {
 

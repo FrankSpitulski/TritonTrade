@@ -1,13 +1,15 @@
-package com.tmnt.tritontrade;
+package com.tmnt.tritontrade.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class EditProfile extends AppCompatActivity {
+import com.tmnt.tritontrade.R;
+
+public class Register_Account extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+        setContentView(R.layout.activity_register__account);
     }
 }

@@ -1,4 +1,4 @@
-package com.tmnt.tritontrade;
+package com.tmnt.tritontrade.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.tmnt.tritontrade.R;
 
 
 public class Create_Post extends AppCompatActivity {

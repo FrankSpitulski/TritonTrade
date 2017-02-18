@@ -1,4 +1,4 @@
-package com.tmnt.tritontrade;
+package com.tmnt.tritontrade.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +15,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.Post;
 
 import java.io.InputStream;
 import java.util.ArrayList;

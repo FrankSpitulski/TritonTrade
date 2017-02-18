@@ -10,26 +10,26 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ForgotPassword" />
-        <activity android:name=".Profile" />
-        <activity android:name=".Welcome_Categories" />
-        <activity android:name=".Create_Post" />
-        <activity android:name=".Cart" />
-        <activity android:name=".Settings" />
+        <activity android:name=".view.ForgotPassword" />
+        <activity android:name=".view.Profile" />
+        <activity android:name=".view.Welcome_Categories" />
+        <activity android:name=".view.Create_Post" />
+        <activity android:name=".view.Cart" />
+        <activity android:name=".view.Settings" />
         <activity
-            android:name=".Mainfeed"
+            android:name=".view.Mainfeed"
             android:label="@string/title_activity_mainfeed"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".EditProfile" />
+        <activity android:name=".view.EditProfile" />
         <activity android:name=".categorySidebarPage" />
-        <activity android:name=".Register_Account"></activity>
+        <activity android:name=".view.Register_Account"></activity>
     </application>
 
 </manifest>

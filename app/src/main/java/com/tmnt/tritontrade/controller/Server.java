@@ -1,4 +1,4 @@
-package com.tmnt.tritontrade;
+package com.tmnt.tritontrade.controller;
 
 import android.content.Context;
 import android.os.StrictMode;
@@ -91,8 +91,8 @@ public class Server {
      * @return The post created by the operation, null + exception if error occurred
      */
     public static Post addPost(String productName, ArrayList<String> photos, String description,
-                                  float price, ArrayList<String> tags, int profileID,
-                                  boolean selling, String contactInfo)
+                               float price, ArrayList<String> tags, int profileID,
+                               boolean selling, String contactInfo)
             throws IOException {
 
         // get postID

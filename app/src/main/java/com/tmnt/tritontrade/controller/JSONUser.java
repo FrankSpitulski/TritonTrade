@@ -1,4 +1,4 @@
-package com.tmnt.tritontrade;
+package com.tmnt.tritontrade.controller;
 
 import java.util.ArrayList;
 

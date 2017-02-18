@@ -1,10 +1,11 @@
 package com.tmnt.tritontrade;
 
+import com.tmnt.tritontrade.controller.User;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;

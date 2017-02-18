@@ -1,4 +1,4 @@
-package com.tmnt.tritontrade;
+package com.tmnt.tritontrade.view;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.tmnt.tritontrade.R;
 
 import java.util.ArrayList;
 

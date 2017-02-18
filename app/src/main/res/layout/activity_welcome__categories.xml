@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.tmnt.tritontrade.Welcome_Categories"
+    tools:context="com.tmnt.tritontrade.view.Welcome_Categories"
     android:background="?attr/colorButtonNormal">
 
     <LinearLayout

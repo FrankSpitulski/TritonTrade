@@ -1,4 +1,4 @@
-package com.tmnt.tritontrade;
+package com.tmnt.tritontrade.view;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
+
+import com.tmnt.tritontrade.R;
 
 public class Mainfeed extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{

@@ -1,7 +1,9 @@
-package com.tmnt.tritontrade;
+package com.tmnt.tritontrade.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.tmnt.tritontrade.R;
 
 public class Category_Sidebar_Page extends AppCompatActivity {
 

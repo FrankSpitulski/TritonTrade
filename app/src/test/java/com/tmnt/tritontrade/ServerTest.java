@@ -6,7 +6,9 @@ import static org.junit.Assert.*;
 import java.lang.reflect.*;
 import java.util.Date;
 
-import com.tmnt.tritontrade.Server;
+import com.tmnt.tritontrade.controller.Post;
+import com.tmnt.tritontrade.controller.Server;
+import com.tmnt.tritontrade.controller.User;
 
 
 /**

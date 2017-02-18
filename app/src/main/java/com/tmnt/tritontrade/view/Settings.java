@@ -1,13 +1,15 @@
-package com.tmnt.tritontrade;
+package com.tmnt.tritontrade.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ForgotPassword extends AppCompatActivity {
+import com.tmnt.tritontrade.R;
+
+public class Settings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forgot_password);
+        setContentView(R.layout.activity_settings);
     }
 }
