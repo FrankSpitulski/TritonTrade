@@ -6,6 +6,7 @@ import android.util.Log;
 import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,6 +30,220 @@ import static org.junit.Assert.fail;
 @RunWith(AndroidJUnit4.class)
 public class InstrumentedServerTest
 {
+
+
+    //List of FUN strings with various possibly problematic strings to test
+    static ArrayList<String> funStrings = new ArrayList<String>();
+
+    private ArrayList<User> testUsers;
+
+    //run once before all tests, DO NOT EDIT THE AFFECTED VARIABLES IN TESTS
+    @BeforeClass
+    public static void setUpClass()
+    {
+        //bunch of escaped characters
+        funStrings.add("\"\"\n\n\n\b\b");
+        //random symbols
+        funStrings.add("%$&^(*!&#(*@NULLnullnull__+");
+    }
+
+    /**
+     * Set up before each test
+     */
+    @Before
+    public void setUp()
+    {
+        testUsers = new ArrayList<User>();
+    }
+
+    /**
+     * Clean up after every test
+     */
+    @After
+    public void CleanUpAfterTest()
+    {
+        cleanUp(testUsers);
+    }
+
+    /**
+     * Tests adding duplicate emails to the server
+     */
+    @Test
+    public void testDuplicateEmail()
+    {
+
+        //add valid user to the database
+        try {
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+        }
+        catch (IOException e)
+        {
+            fail();
+        }
+
+        //try same user email again
+        try {
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+        }
+        catch (IOException e)
+        {
+            //SUCCESS, DUPLICATE EMAIL CAUGHT
+        }
+
+        //failed, did not catch
+        fail("Duplicate email not caught");
+    }
+    /**
+     * Tests Making a new user with a non UCSD email, should return false
+     */
+    @Test
+    public void testNonUCSDEmailNewUser()
+    {
+        try {
+            //Try adding new user with non uscd email, should return false
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "NOTUCSDEMAIL@gmail.com", "hunter2"));
+            fail("Invalid email not caught");
+        }
+        catch(IOException e)
+        {
+            //success, exception caught
+        }
+
+        try {
+            //Try adding new user with non uscd email, should return false
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "NOTUCSDEMAIL@ucsd.eduu", "hunter2"));
+            fail("Invalid email not caught");
+
+        }
+        catch(IOException e)
+        {
+            //success, exception caught
+
+        }
+
+        try {
+            //Try adding new user with non uscd email, should return false
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "NOTUCSDEMAIL@ucsd.com", "hunter2"));
+            fail("Invalid email not caught");
+
+        }
+        catch(IOException e)
+        {
+            //success, exception caught
+        }
+
+
+
+    }
+
+    /**
+     * Tests adding users with valid email
+     */
+    @Test
+    public void testStandardEmail()
+    {
+        ArrayList<User> testUsers = new ArrayList<User>();
+        //try to add weird but valid ucsd emails as users
+        try {
+            Log.d("DEBUG","AFTER0");
+
+            //Valid email
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
+                    "I ARE VERY INTERESTING", "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+
+        }
+        catch (IOException e)
+        {
+            fail();
+            Log.d("DEBUG","EXCEPTIONNN",e);
+        }
+        //no matter what happens, clean up test users from database
+        finally
+        {
+            Log.d("DEBUG","REMOVING USERS");
+
+            //delete all the users added to the list
+            for (User u: testUsers)
+            {
+                deleteUser(u);
+            }
+            Log.d("DEBUG","END TEST");
+        }
+    }
+
+    /**
+     * Tests logging in to a valid email
+     */
+    @Test
+    public void testLogInValidUser()
+    {
+        ArrayList<User> testUsers = new ArrayList<User>();
+
+        //Valid email
+        try {
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
+                    "I ARE VERY INTERESTING", "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+        }
+        catch (IOException e)
+        {
+            //test failed on valid email
+            fail();
+        }
+
+        //set in database that the valid user has been verified
+        testUsers.get(0).setVerified(true);
+        try {
+            Server.modifyExistingUser(testUsers.get(0));
+        } catch (IOException e) {
+            //server failed
+            fail();
+        }
+
+
+        //try logging in
+        try {
+            Server.login("k5mao@ucsd.edu", "hunter2");
+        }
+        //failed to log in, fail
+        catch (IOException e)
+        {
+            //exception on valid login, failing
+            fail();
+        }
+    }
+
+    /**
+     * Tests logging in to an unverified email
+     */
+    @Test
+    public void testLogInUnverified()
+    {
+
+    }
+
+    /**
+     * Tests logging in to a user that does not exist
+     */
+    @Test
+    public void testLogInUserDoesNotExist()
+    {
+
+    }
+
+    /**
+     * Tests logging in to a valid email
+     */
+    @Test
+    public void testLogInWrongPassword()
+    {
+
+    }
+
     /**
      * Deletes all of the specified users from the database.
      * DO NOT USE UNLESS YOU KNOW WHAT YOURE DOING. IF YOU HAVE TO ASK YOU PROBABLY DONT
@@ -41,6 +256,7 @@ public class InstrumentedServerTest
         }
 
     }
+
     /**
      * Deletes a user from the database. WARNING: THIS IS A DIRTY DELETION. DO NOT USE FOR
      * ANYTHING EXCEPT TESTING. DO NOT USE ON USERS THAT HAVE POSTS ATTACHED TO THEM. PLEASE
@@ -74,150 +290,4 @@ public class InstrumentedServerTest
             deleteUser(u);
         }
     }
-
-    //List of FUN strings with various possibly problematic strings to test
-    static ArrayList<String> funStrings = new ArrayList<String>();
-
-    //run once before all tests, DO NOT EDIT THE AFFECTED VARIABLES IN TESTS
-    @BeforeClass
-    public static void setUpClass()
-    {
-        //bunch of escaped characters
-        funStrings.add("\"\"\n\n\n\b\b");
-        //random symbols
-        funStrings.add("%$&^(*!&#(*@NULLnullnull__+");
-    }
-
-    /**
-     * Set up before each test
-     */
-    @Before
-    public void setUp()
-    {
-
-    }
-    /**
-     * Tests adding duplicate emails to the server
-     */
-    @Test
-    public void testDuplicateEmail()
-    {
-        ArrayList<User> testUsers = new ArrayList<>();
-
-        //add valid user to the database
-        try {
-            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
-        }
-        catch (IOException e)
-        {
-            fail();
-        }
-
-        //try same user email again
-        try {
-            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
-        }
-        catch (IOException e)
-        {
-            //SUCCESS, DUPLICATE EMAIL CAUGHT
-        }
-        finally
-        {
-            //nuke the user from the database
-            cleanUp(testUsers);
-        }
-
-        //failed, did not catch
-        fail("Duplicate email not caught");
-
-    }
-    /**
-     * Tests Making a new user with a non UCSD email, should return false
-     */
-    @Test
-    public void testNonUCSDEmailNewUser()
-    {
-        ArrayList<User> testUsers = new ArrayList<>();
-
-        try {
-            //Try adding new user with non uscd email, should return false
-            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "NOTUCSDEMAIL@gmail.com", "hunter2"));
-            fail("Invalid email not caught");
-        }
-        catch(IOException e)
-        {
-            //success, exception caught
-
-        }
-
-        try {
-            //Try adding new user with non uscd email, should return false
-            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "NOTUCSDEMAIL@ucsd.eduu", "hunter2"));
-            fail("Invalid email not caught");
-
-        }
-        catch(IOException e)
-        {
-            //success, exception caught
-
-        }
-
-        try {
-            //Try adding new user with non uscd email, should return false
-            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "NOTUCSDEMAIL@ucsd.com", "hunter2"));
-            fail("Invalid email not caught");
-
-        }
-        catch(IOException e)
-        {
-            //success, exception caught
-
-        }
-
-
-
-    }
-
-
-
-    /**
-     * Tests adding users with valid but uncommon ucsd emails (eg BOB+BOBBITY@ucsd.edu, etc)
-     */
-    @Test
-    public void testStandardEmail()
-    {
-        ArrayList<User> testUsers = new ArrayList<User>();
-        //try to add weird but valid ucsd emails as users
-        try {
-            Log.d("DEBUG","AFTER0");
-
-            //single char email
-            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
-                    "I ARE VERY INTERESTING", "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
-
-        }
-        catch (IOException e)
-        {
-            fail();
-            Log.d("DEBUG","EXCEPTIONNN",e);
-        }
-        //no matter what happens, clean up test users from database
-        finally
-        {
-            Log.d("DEBUG","REMOVING USERS");
-
-            //delete all the users added to the list
-            for (User u: testUsers)
-            {
-                deleteUser(u);
-            }
-            Log.d("DEBUG","END TEST");
-        }
-    }
-
 }
