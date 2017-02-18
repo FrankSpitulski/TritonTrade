@@ -45,12 +45,14 @@ public class Create_Post extends AppCompatActivity {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(dataAdapter);
     }
+
     public void addItemsOnDeliverySpinner(){
         delSpinner =(Spinner) findViewById(R.id.spinner);
         List<String> deliveryList = new ArrayList<String>();
         deliveryList.add("Pick Up");
         deliveryList.add("Can Deliver");
     }
+
     public void addListenerOnSpinnerItemSelection() {
         spinner1 = (Spinner) findViewById(R.id.spinner3);
     }

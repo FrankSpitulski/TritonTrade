@@ -3,7 +3,7 @@ package com.tmnt.tritontrade;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class categorySidebarPage extends AppCompatActivity {
+public class Category_Sidebar_Page extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
