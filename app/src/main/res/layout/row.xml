@@ -8,13 +8,13 @@
         android:text="Header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/head"
+        android:id="@+id/Product_title"
         android:textSize="20sp"
         android:textStyle="normal|bold"
         android:textColor="#163EB8" />
 
     <TextView
-        android:text="subheader"
+        android:text="description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/description" />
