@@ -536,12 +536,15 @@ public class Server {
         Log.d("DEBUG", json);
         //Create the GSON builder to construct the Array List of users
         GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.serializeNulls().create();
+
+        builder.registerTypeAdapter(JSONUser.class, new UserDeserializer());
+        Gson gson = builder.create();
 
         //Parse the JSON string
-        Type arrayListUserType = new TypeToken<ArrayList<User>>() {
-        }.getType();
-        ArrayList<User> toReturn = gson.fromJson(json, arrayListUserType);
+        JSONUser jUser= gson.fromJson(json, JSONUser.class);
+
+        ArrayList<User> toReturn= jUser.users;
+        //User user1 = gson.fromJson(json, User.class);
 
         return toReturn;
     }
