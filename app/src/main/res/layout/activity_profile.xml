@@ -14,7 +14,7 @@
     <ImageView
         android:layout_width="match_parent"
         app:srcCompat="@drawable/gradient3"
-        android:id="@+id/imageView2"
+        android:id="@+id/profile_background"
         android:scaleType="fitXY"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -24,14 +24,14 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView2"
+        android:layout_below="@+id/profile_background"
         android:layout_alignParentStart="true">
 
         <Button
             android:text="For Sale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button4"
+            android:id="@+id/forSale_button"
             android:layout_weight="1"
             android:textColor="@android:color/white"
             android:background="#163EB8"
@@ -41,7 +41,7 @@
             android:text="Sold Items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button3"
+            android:id="@+id/soldItems_button"
             android:layout_weight="1"
             android:textColor="@android:color/white"
             android:background="#163EB8" />
@@ -50,7 +50,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/imageView2"
+        android:layout_below="@+id/profile_background"
         android:layout_alignParentStart="true"
         android:layout_marginTop="50dp"
         android:id="@+id/list" />
@@ -72,7 +72,7 @@
             <ImageView
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/default_photo"
-                android:id="@+id/imageView3"
+                android:id="@+id/profile_photo"
                 android:layout_weight="1"
                 android:layout_width="150sp"
                 android:paddingRight="10sp"/>
@@ -102,7 +102,7 @@
                     <Button
                         android:text="edit"
                         android:layout_height="wrap_content"
-                        android:id="@+id/button9"
+                        android:id="@+id/edit_profile_button"
                         android:layout_weight="1"
                         android:backgroundTint="@android:color/transparent"
                         android:layout_width="5sp"
