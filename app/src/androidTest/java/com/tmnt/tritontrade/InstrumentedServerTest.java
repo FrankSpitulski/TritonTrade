@@ -147,7 +147,6 @@ public class InstrumentedServerTest
     @Test
     public void testStandardEmail()
     {
-        ArrayList<User> testUsers = new ArrayList<User>();
         //try to add weird but valid ucsd emails as users
         try {
             Log.d("DEBUG","AFTER0");
@@ -302,14 +301,10 @@ public class InstrumentedServerTest
 
         //try logging in  with incorrect password
         try {
-
             //did not return null, fail
-            if (Server.login("k5mao@ucsd.edu", "hunter3") != null)
-            {
+            if (Server.login("k5mao@ucsd.edu", "hunter3") != null) {
                 fail();
             }
-
-
         }
         //failed to log in
         catch (IOException e)
