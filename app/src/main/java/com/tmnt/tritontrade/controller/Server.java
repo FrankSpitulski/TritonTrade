@@ -146,8 +146,7 @@ public class Server {
      *
      * @throws IOException If Server throws an error, will return IOEXception, such as from
      *   a non ucsd email, duplicate email, or other failure
-     * @return true if add successful, false if the user does not register with a ucsd email,
-     * registers with a duplicate email, or otherwise the server failed to add the user
+     * @return The user created by the method in the server
      */
     public static User addNewUser(String name, String photo, String bio,
                                      String mobileNumber, String email, String password)
@@ -178,8 +177,9 @@ public class Server {
         //DEBUG
         Log.d("DEBUG", "user not duplicate");
 
+        Log.d("DEBUG", httpGetRequest("/db/userCount.php"));
         // get userID
-        int profileID = Integer.getInteger(httpGetRequest("/db/userCount.php"));
+        int profileID = new Integer(httpGetRequest("/db/userCount.php")).intValue();
 
         // get unused ID from server
         while (searchUserIDs(profileID) != null) {
@@ -222,7 +222,7 @@ public class Server {
 
         if (response == null || response.equals("") || response.equals("null")
                 || response.contains("Not found")) {
-            Log.d("DEBUG", "user failed to add");
+            Log.d("DEBUG", "Server failed to add user");
             throw new IOException("Server could not add a user");
         }
 
