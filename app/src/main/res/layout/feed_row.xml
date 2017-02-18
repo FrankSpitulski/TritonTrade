@@ -68,7 +68,7 @@
 
     <ImageView
         app:srcCompat="@mipmap/doge"
-        android:id="@+id/imageView5"
+        android:id="@+id/row_pic"
         android:paddingLeft="0dp"
         android:layout_marginLeft="0dp"
         android:layout_width="match_parent"

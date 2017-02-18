@@ -22,11 +22,15 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:paddingTop="400dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/listFeed" />
+            android:id="@+id/listFeed"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:drawSelectorOnTop="false"
+            android:duplicateParentState="true"
+            android:paddingTop="50dp"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 </RelativeLayout>
