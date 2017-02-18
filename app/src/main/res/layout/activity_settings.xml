@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_settings"
     android:layout_width="match_parent"
@@ -8,6 +9,105 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.tmnt.tritontrade.Settings">
+    tools:context="com.tmnt.tritontrade.Settings"
+    android:background="@drawable/gradient3">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="200dp"
+            android:background="#7aaaaaaa">
+
+            <TextView
+                android:text="Moon Moon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView5"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="20sp"
+                android:textColor="@android:color/background_light"
+                android:layout_below="@+id/imageView6"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:text="averygooddoge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView6"
+                android:textColor="?attr/colorButtonNormal"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_below="@+id/textView5"
+                android:layout_alignParentStart="true" />
+
+            <View android:id="@+id/primerdivisor"
+                android:layout_height="2sp"
+                android:layout_width="fill_parent"
+                android:background="#aaa"
+                android:layout_below="@+id/textView6"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="12dp" />
+
+            <ImageView
+                app:srcCompat="@mipmap/doge"
+                android:id="@+id/imageView6"
+                android:layout_gravity="center"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_height="100dp"
+                android:layout_width="100dp" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/primerdivisor"
+                android:layout_alignParentStart="true">
+
+                <Button
+                    android:text="Change Theme"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/button5"
+                    android:background="@android:color/transparent"
+                    android:gravity="right|center_vertical|center_horizontal"
+                    android:textColor="@android:color/background_light" />
+
+                <Button
+                    android:text="Account Settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/button8"
+                    android:background="@android:color/transparent"
+                    android:gravity="right|center_vertical|center_horizontal"
+                    android:textColor="@android:color/background_light" />
+
+                <Button
+                    android:text="Credits"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/button10"
+                    android:background="@android:color/transparent"
+                    android:gravity="right|center_vertical|center_horizontal"
+                    android:textColor="@android:color/background_light" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/button11"
+                    android:text="Log Out"
+                    android:background="@android:color/transparent"
+                    android:gravity="right|center_vertical|center_horizontal"
+                    android:textColor="@android:color/background_light" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 </RelativeLayout>
