@@ -178,8 +178,9 @@ public class Server {
         //DEBUG
         Log.d("DEBUG", "user not duplicate");
 
+        Log.d("DEBUG", httpGetRequest("/db/userCount.php"));
         // get userID
-        int profileID = Integer.getInteger(httpGetRequest("/db/userCount.php"));
+        int profileID = new Integer(httpGetRequest("/db/userCount.php")).intValue();
 
         // get unused ID from server
         while (searchUserIDs(profileID) != null) {
