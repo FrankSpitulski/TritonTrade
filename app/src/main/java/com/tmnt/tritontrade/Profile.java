@@ -24,6 +24,7 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+
         list = (ListView) findViewById(R.id.list);
         arrayList = new ArrayList<String>();
 
@@ -40,6 +41,7 @@ public class Profile extends AppCompatActivity {
         }
 
         list.setAdapter(new yourAdapter(this, headers, data));
+
     }
 
 
@@ -78,8 +80,8 @@ public class Profile extends AppCompatActivity {
             View vi = convertView;
             if (vi == null)
                 vi = inflater.inflate(R.layout.row, null);
-            TextView text = (TextView) vi.findViewById(R.id.text);
-            TextView header = (TextView) vi.findViewById(R.id.head);
+            TextView text = (TextView) vi.findViewById(R.id.description);
+            TextView header = (TextView) vi.findViewById(R.id.title);
             header.setText(head[position]);
             text.setText(data[position]);
             return vi;

@@ -39,7 +39,6 @@ public class Mainfeed extends AppCompatActivity
 
         list = (ListView) this.findViewById(R.id.listFeed);
         //list.setAdapter(new CustomAdapter(this, posts));
-        //list.setOnScrollListener(this);
 
     }
 
@@ -81,17 +80,23 @@ public class Mainfeed extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.clothing_sidebar){
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.food_sidebar) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.services_sidebar) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.storage_sidebar) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.supplies_sidebar) {
+
+        } else if (id == R.id.technology_sidebar) {
+
+        } else if (id == R.id.textbooks_sidebar) {
+
+        } else if (id == R.id.transportation_sidebar) {
+
+        } else if (id == R.id.misc_sidebar){
 
         }
 
