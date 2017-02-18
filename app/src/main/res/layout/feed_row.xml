@@ -71,7 +71,7 @@
     <ImageView
         android:layout_width="match_parent"
         app:srcCompat="@drawable/default_photo"
-        android:id="@+id/imageView7"
+        android:id="@+id/row_pic"
         android:adjustViewBounds="true"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
