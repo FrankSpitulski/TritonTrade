@@ -28,7 +28,8 @@
             android:label="@string/title_activity_mainfeed"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EditProfile" />
-        <activity android:name=".categorySidebarPage"></activity>
+        <activity android:name=".categorySidebarPage" />
+        <activity android:name=".Register_Account"></activity>
     </application>
 
 </manifest>
