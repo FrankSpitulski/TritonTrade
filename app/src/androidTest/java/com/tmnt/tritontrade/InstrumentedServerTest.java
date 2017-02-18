@@ -182,8 +182,6 @@ public class InstrumentedServerTest
     @Test
     public void testLogInValidUser()
     {
-        ArrayList<User> testUsers = new ArrayList<User>();
-
         //Valid email
         try {
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
@@ -207,12 +205,15 @@ public class InstrumentedServerTest
 
         //try logging in
         try {
-            Server.login("k5mao@ucsd.edu", "hunter2");
+            if (Server.login("k5mao@ucsd.edu", "hunter2") == null)
+            {
+                //if failed to log in with valid credentials, fail
+                fail();
+            }
         }
-        //failed to log in, fail
         catch (IOException e)
         {
-            //exception on valid login, failing
+            //Server exploded
             fail();
         }
     }
@@ -223,7 +224,32 @@ public class InstrumentedServerTest
     @Test
     public void testLogInUnverified()
     {
+        //Valid email
+        try {
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
+                    "I ARE VERY INTERESTING", "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+        }
+        catch (IOException e)
+        {
+            //test failed on valid email
+            fail();
+        }
 
+        //try logging in to unverified user
+        try {
+            if (Server.login("k5mao@ucsd.edu", "hunter2") != null)
+            {
+                //if did not fail to log in
+                fail();
+            }
+
+        }
+        //failed to log in, fail
+        catch (IOException e)
+        {
+            //Server exploded
+            fail();
+        }
     }
 
     /**
@@ -232,7 +258,19 @@ public class InstrumentedServerTest
     @Test
     public void testLogInUserDoesNotExist()
     {
-
+        //try logging in to unverified user
+        try {
+            if (Server.login("THISAREVALIDEMAIL3286129836497163596123976.edu", "hunter2") != null)
+            {
+                fail();
+            }
+        }
+        //failed to log in, fail
+        catch (IOException e)
+        {
+            //Server exploded
+            fail();
+        }
     }
 
     /**
@@ -241,7 +279,44 @@ public class InstrumentedServerTest
     @Test
     public void testLogInWrongPassword()
     {
+        //Valid email
+        try {
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
+                    "I ARE VERY INTERESTING", "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+        }
+        catch (IOException e)
+        {
+            //test failed on valid email
+            fail();
+        }
 
+        //set in database that the valid user has been verified
+        testUsers.get(0).setVerified(true);
+        try {
+            Server.modifyExistingUser(testUsers.get(0));
+        } catch (IOException e) {
+            //server failed
+            fail();
+        }
+
+
+        //try logging in  with incorrect password
+        try {
+
+            //did not return null, fail
+            if (Server.login("k5mao@ucsd.edu", "hunter3") != null)
+            {
+                fail();
+            }
+
+
+        }
+        //failed to log in
+        catch (IOException e)
+        {
+            //Server exploded or something
+            fail();
+        }
     }
 
     /**
