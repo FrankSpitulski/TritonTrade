@@ -42,6 +42,8 @@ public class Server {
     final private static String serverName = "https://spitulski.no-ip.biz";
 
     /**
+     * Returns the domain name of the database server
+     *
      * @return a copy of the server name
      */
     public static String getServerName(){
@@ -460,8 +462,11 @@ public class Server {
         out.write(postToJson(posts));
         out.close();
 
+        //output from server
         String response = readStream(connection.getInputStream());
 
+        //WARNING: NOT COMPREHENSIVE
+        //if bad response from server, return false
         if (response == null || response.equals("null") || response.equals("[0]")
                 || response.contains("Not found")) {
             return false;
@@ -492,8 +497,11 @@ public class Server {
         out.write(userToJson(users));
         out.close();
 
+        //response from server
         String response = readStream(connection.getInputStream());
 
+        //TODO: MAKE COMPREHEHSIVE
+        //if response from server is bad, return false
         if (response == null || response.equals("null") || response.equals("[0]")
                 || response.contains("Not found")) {
             return false;
@@ -509,13 +517,18 @@ public class Server {
      * @return the users that are not deleted
      */
     private static ArrayList<User> filterDeletedUsers(ArrayList<User> list) {
+        //iterate through each user in the list
         Iterator<User> it = list.iterator();
         while (it.hasNext()) {
             User user = it.next();
+
+            //if the user has been soft deleted, take it out of the list
             if (user.getDeleted()) {
                 it.remove();
             }
         }
+
+        //return the list with no users that have been deleted
         return list;
     }
 
@@ -526,22 +539,29 @@ public class Server {
      * @return the posts that are not deleted
      */
     private static ArrayList<Post> filterDeletedPosts(ArrayList<Post> list) {
+        //iterate through every post in the list
         Iterator<Post> it = list.iterator();
         while (it.hasNext()) {
             Post post = it.next();
+
+            //if the post is soft deleted, remove it from the list
             if (post.getDeleted()) {
                 it.remove();
             }
         }
+
+        //return the list of undeleted posts
         return list;
     }
 
     /**
-     * deletes a post from the database
-     * @param post
+     * Deletes a post from the database
+     *
+     * @param post the post to delete
      * @throws IOException
      */
     public static void hardDeletePost(Post post) throws IOException{
+
         //open http connection and send to server
         URL url = new URL(serverName + "/db/api.php/posts/" + post.getPostID());
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -551,8 +571,11 @@ public class Server {
                 connection.getOutputStream());
         out.close();
 
+        //response from server
         String response = readStream(connection.getInputStream());
 
+        //TODO MAKE COMPREHENSIVE
+        //if response from server was bad
         if (response == null || response.equals("null") || response.equals("[0]")
                 || response.contains("Not found")) {
             throw new IOException("Could not delete post");
@@ -612,6 +635,7 @@ public class Server {
         //Create the JSON format for the ArrayList of users
         String toReturn = gson.toJson(users);
 
+        //return JSON string
         return toReturn;
     }
 
@@ -629,6 +653,7 @@ public class Server {
         //Create the JSON format for the ArrayList of users
         String toReturn = gson.toJson(posts);
 
+        //return JSON string
         return toReturn;
     }
 
@@ -644,11 +669,15 @@ public class Server {
         StringBuilder builder = new StringBuilder();
         String line = "";
 
+        //get each line and append to string builder
         while ((line = reader.readLine()) != null) {
             builder.append(line);
         }
 
+        //close stream
         reader.close();
+
+        //return string
         return builder.toString();
     }
 
