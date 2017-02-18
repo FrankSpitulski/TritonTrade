@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-    </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+    <group android:checkableBehavior="single"></group>
+    <item android:title="Clothing"
+        android:id="@+id/clothing_sidebar"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true" />
+    <item android:title="Food"
+        android:id="@+id/food_sidebar" />
+    <item android:title="Furniture"
+        android:id="@+id/furniture_sidebar" />
+    <item android:title="Services"
+        android:id="@+id/services_sidebar" />
+    <item android:title="Storage"
+        android:id="@+id/storage_sidebar" />
+    <item android:title="Supplies"
+        android:id="@+id/supplies_sidebar" />
+    <item android:title="Technology"
+        android:id="@+id/technology_sidebar" />
+    <item android:title="Textbooks"
+        android:id="@+id/textbooks_sidebar" />
+    <item android:title="Transportation"
+        android:id="@+id/transportation_sidebar" />
+    <item android:title="Misc"
+        android:id="@+id/misc_sidebar" />
 
 </menu>
