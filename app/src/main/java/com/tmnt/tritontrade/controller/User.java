@@ -2,6 +2,8 @@ package com.tmnt.tritontrade.controller;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.ArrayList;
 
 public class User implements Parcelable {
@@ -229,6 +231,18 @@ public class User implements Parcelable {
             return false;
         this.password = password;
         return true;
+    }
+
+    /**
+     * hashes and sets a password
+     * @param password an unhashed password
+     * @return whether or not the operation was successful
+     */
+    public boolean hashAndSetPassword(String password) {
+        if (password == null)
+            return false;
+        return setPassword(BCrypt.hashpw(password + getSalt(), getSalt()));
+
     }
 
     /**

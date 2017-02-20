@@ -84,13 +84,31 @@ public class Server {
         return verificationString;
     }
 
+    /**
+     * sends an email to the given email if it exists providing a link to set their password
+     * @param email email to send to
+     * @return whether or not the operation was successful
+     * @throws IOException
+     */
     public static boolean sendPasswordResetEmail(String email) throws IOException{
         // check to see if there is an email in the database
-        if(filterDeletedUsers(jsonToUser(httpGetRequest("/db/api.php/users?filter[]=email,eq,"
-                + email + "&transform=1"))).size() == 0){
+        ArrayList<User> users = filterDeletedUsers(jsonToUser(httpGetRequest("/db/api.php/users?filter[]=email,eq,"
+                + email + "&transform=1")));
+        if(users.size() == 0){
             return false;
         }
-        String response = httpGetRequest("/db/sendPasswordResetEmail.php?email=" + email);
+        if(users.get(0).getEmailVerificationLink() != ""){
+            throw new IOException("Unverified user");
+        }
+
+        // set verification string
+        String verificationString = new BigInteger(130, new Random()).toString(32);
+        users.get(0).setEmailVerificationLink(verificationString);
+        modifyExistingUser(users.get(0));
+
+
+        String response = httpGetRequest("/db/sendEmailValidation.php?validation=" +
+                verificationString + "&email=" + email);
         if (response.equals("")
                 || response.equals("Mailer Error: You must provide at least one recipient email address.")) {
             return false;
