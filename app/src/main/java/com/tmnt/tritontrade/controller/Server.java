@@ -84,6 +84,20 @@ public class Server {
         return verificationString;
     }
 
+    public static boolean sendPasswordResetEmail(String email) throws IOException{
+        // check to see if there is an email in the database
+        if(filterDeletedUsers(jsonToUser(httpGetRequest("/db/api.php/users?filter[]=email,eq,"
+                + email + "&transform=1"))).size() == 0){
+            return false;
+        }
+        String response = httpGetRequest("/db/sendPasswordResetEmail.php?email=" + email);
+        if (response.equals("")
+                || response.equals("Mailer Error: You must provide at least one recipient email address.")) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Add a post to the database
      *
