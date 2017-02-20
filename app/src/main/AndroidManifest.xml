@@ -29,7 +29,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.EditProfile" />
         <activity android:name=".categorySidebarPage" />
-        <activity android:name=".view.Register_Account"></activity>
+        <activity android:name=".view.Register_Account" />
+        <activity android:name=".view.Bottom_Tool_Bar"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
