@@ -36,30 +36,14 @@ public class PostResponseAsyncTask extends AsyncTask<String, Void, String> {
         this.delegate = delegate;
         this.context = (Context)delegate;
     }
-/*
+
     public PostResponseAsyncTask(AsyncResponse delegate,
-                                 &nbsp;HashMap<String, String> postData){
-
+                                 HashMap<String, String> postData){
         this.delegate = delegate;
         this.context = (Context)delegate;
         this.postData = postData;
     }
 
-    public PostResponseAsyncTask(AsyncResponse delegate, String loadingMessage){
-        this.delegate = delegate;
-        this.context = (Context)delegate;
-        this.loadingMessage = loadingMessage;
-    }
-
-    public PostResponseAsyncTask(AsyncResponse delegate,&nbsp;
-            HashMap<String, String> postData, String loadingMessage){
-
-        this.delegate = delegate;
-        this.context = (Context)delegate;
-        this.postData = postData;
-        this.loadingMessage = loadingMessage;
-    }*/
-    //End Constructor
 
     @Override
     protected void onPreExecute() {
@@ -74,76 +58,9 @@ public class PostResponseAsyncTask extends AsyncTask<String, Void, String> {
 
         String result = "";
 
-        for(int i = 0; i <= 0; i++){
-
-            //result = invokePost(urls[i], postData);
-        }
-
         return result;
     }//doInBackground
-/*
-    private String invokePost(String requestURL, HashMap<String,
-            String>&nbsp;postDataParams) {
-        URL url;
-        String response = "";
-        try {
-            url = new URL(requestURL);
 
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(15000);
-            conn.setConnectTimeout(15000);
-            conn.setRequestMethod("POST");
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-
-            OutputStream os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(os, "UTF-8"));
-            writer.write(getPostDataString(postDataParams));
-
-            writer.flush();
-            writer.close();
-            os.close();
-            int responseCode = conn.getResponseCode();
-
-            if (responseCode == HttpsURLConnection.HTTP_OK) {
-                String line;
-                BufferedReader br = new BufferedReader(new
-                        InputStreamReader(conn.getInputStream()));
-                while ((line = br.readLine()) != null) {
-                    response+=line;
-                }
-            }
-            else {
-                response="";
-
-                Log.i("PostResponseAsyncTask", responseCode + "");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return response;
-    }//invokePost
-*/
-    private String getPostDataString(HashMap<String, String> params)
-            throws UnsupportedEncodingException {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-
-        for(Map.Entry<String, String> entry : params.entrySet()){
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-        }
-
-        return result.toString();
-    }//getPostDataString
 
     @Override
     protected void onPostExecute(String result) {

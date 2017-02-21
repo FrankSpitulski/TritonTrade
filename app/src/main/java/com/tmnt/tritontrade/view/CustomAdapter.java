@@ -124,7 +124,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         catView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, Create_Post.class);
+                Intent i = new Intent(context, PopUpPost.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.putExtra("category", posts.get(position));
                 ((Activity)context).startActivityForResult(i, 1);
