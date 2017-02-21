@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tmnt.tritontrade">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".view.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".view.ForgotPassword" />
+        <activity android:name=".view.Profile" />
+        <activity android:name=".view.Welcome_Categories" />
+        <activity android:name=".view.Create_Post" />
+        <activity android:name=".view.Cart" />
+        <activity android:name=".view.Settings" />
+        <activity
+            android:name=".view.Mainfeed"
+            android:label="@string/title_activity_mainfeed"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.EditProfile" />
+        <activity android:name=".categorySidebarPage" />
+        <activity android:name=".view.Register_Account"></activity>
+        <activity android:name=".view.PopUpPost"></activity>
+
+    </application>
+
+</manifest>
