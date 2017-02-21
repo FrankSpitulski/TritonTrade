@@ -16,6 +16,11 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.Post;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Mainfeed extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -38,9 +43,17 @@ public class Mainfeed extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        /*ArrayList<Post> posts = new ArrayList<>();
+        ArrayList<String> photos = new ArrayList<>();
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("fine");
+        Date s = new Date();
+        photos.add("https://storage.googleapis.com/gweb-uniblog-publish-prod/static/blog/images/google-200x200.7714256da16f.png");
+        Post post = new Post("Stuff", photos, "Description stuff",
+        0, tags, 1, 1, true, true , s , "Phone number", false);
         list = (ListView) this.findViewById(R.id.listFeed);
-        //list.setAdapter(new CustomAdapter(this, posts));
+        //System.out.println("REACH");
+        list.setAdapter(new CustomAdapter(this, posts));*/
 
     }
 

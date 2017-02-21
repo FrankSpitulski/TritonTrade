@@ -91,7 +91,12 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
      * Holder for post object
      */
     public class ViewHolder{
-        TextView name;
+        TextView title;
+        TextView description;
+        TextView userTag;
+        TextView category;
+        TextView price;
+
         ImageView image;
     }
 
@@ -109,14 +114,23 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         //using adapter to display all categories
         if(convertView == null) {
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //TODO Inflate item layout catView = inflater.inflate(R.layout.listcategory, null);
+            catView = inflater.inflate(R.layout.feed_row, null);
         }
         ViewHolder postHolder = new ViewHolder();
 
         //TODO set image via url here
-        postHolder.name = (TextView) catView.findViewById(R.id.title);
+        postHolder.title = (TextView) catView.findViewById(R.id.title);
+        postHolder.description = (TextView) catView.findViewById(R.id.description);
+        postHolder.userTag = (TextView) catView.findViewById(R.id.username_tag);
+        postHolder.category = (TextView) catView.findViewById(R.id.category);
+        postHolder.price = (TextView) catView.findViewById(R.id.price);
         postHolder.image = (ImageView) catView.findViewById(R.id.row_pic);
-        postHolder.name.setText(posts.get(position).getProductName());
+
+        postHolder.title.setText(posts.get(position).getProductName());
+        postHolder.description.setText(posts.get(position).getDescription());
+        postHolder.userTag.setText(posts.get(position).getTags().get(0)); //TODO all tags?
+       // postHolder.category.setText(posts.get(position).);
+        postHolder.price.setText(String.valueOf(posts.get(position).getPrice()));
         new DownloadImageTask(postHolder.image)
                 .execute(posts.get(position).getPhotos().get(0));
 
