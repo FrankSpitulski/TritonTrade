@@ -57,9 +57,8 @@ public class Server {
             Log.d("DEBUG", response);
             Log.d("DEBUG", httpGetRequest("/db/userCount.php"));*/
             Log.d("DEBUG", jsonToUser(httpGetRequest("/db/api.php/users?transform=1")).get(0).toString());
-            Log.d("DEBUG", addNewUser("Frank", "", "bio",
-                    "321", "fspituls@eng.ucsd.edu", "test") + "");
-            Log.d("DEBUG", login("fspituls@eng.ucsd.edu", "test").toString());
+            //Log.d("DEBUG", addNewUser("Frank", "", "bio", "321", "fspituls@eng.ucsd.edu", "test") + "");
+            //Log.d("DEBUG", login("fspituls@eng.ucsd.edu", "test").toString());
         } catch (IOException e) {
             Log.d("DEBUG", e.toString());
         }
