@@ -1,5 +1,6 @@
 package com.tmnt.tritontrade.view;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,12 +16,26 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.Post;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Mainfeed extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView list;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +53,21 @@ public class Mainfeed extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        /*ArrayList<Post> posts = new ArrayList<>();
+        ArrayList<String> photos = new ArrayList<>();
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("fine");
+        Date s = new Date();
+        photos.add("https://storage.googleapis.com/gweb-uniblog-publish-prod/static/blog/images/google-200x200.7714256da16f.png");
+        Post post = new Post("Stuff", photos, "Description stuff",
+        0, tags, 1, 1, true, true , s , "Phone number", false);
         list = (ListView) this.findViewById(R.id.listFeed);
-        //list.setAdapter(new CustomAdapter(this, posts));
+        //System.out.println("REACH");
+        list.setAdapter(new CustomAdapter(this, posts));*/
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -82,7 +108,7 @@ public class Mainfeed extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.clothing_sidebar){
+        if (id == R.id.clothing_sidebar) {
 
         } else if (id == R.id.food_sidebar) {
 
@@ -98,7 +124,7 @@ public class Mainfeed extends AppCompatActivity
 
         } else if (id == R.id.transportation_sidebar) {
 
-        } else if (id == R.id.misc_sidebar){
+        } else if (id == R.id.misc_sidebar) {
 
         }
 
@@ -108,4 +134,39 @@ public class Mainfeed extends AppCompatActivity
     }
 
 
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Mainfeed Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
+    }
 }
