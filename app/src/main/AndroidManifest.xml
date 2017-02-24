@@ -23,6 +23,8 @@
         <activity android:name=".view.Create_Post" />
         <activity android:name=".view.Cart" />
         <activity android:name=".view.Settings" />
+        <activity android:name=".view.DeveloperTeam" />
+        <activity android:name=".view.Profile_NonUser" />
         <activity
             android:name=".view.Mainfeed"
             android:label="@string/title_activity_mainfeed"
