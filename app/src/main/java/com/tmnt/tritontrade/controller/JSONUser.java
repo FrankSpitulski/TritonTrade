@@ -3,7 +3,7 @@ package com.tmnt.tritontrade.controller;
 import java.util.ArrayList;
 
 /**
- * Created by terrancegriffith on 2/16/17.
+ * Class that is used to store the json user objects when they are being deserialized
  */
 
 public class JSONUser {

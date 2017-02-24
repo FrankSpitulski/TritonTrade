@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
@@ -60,20 +61,22 @@ public class Server {
                     String response = uploadImage(c.getResources().openRawResource(R.raw.doge), "jpg"); // test file upload
                     Log.d("DEBUG", response);
                     Log.d("DEBUG", httpGetRequest("/db/userCount.php"));*/
-                    ArrayList<User> users =jsonToUser(httpGetRequest("/db/api.php/users?transform=1"));
+                    ArrayList<User> users = jsonToUser(httpGetRequest("/db/api.php/users?transform=1"));
                     for(User u : users){
                         Log.d("DEBUG", u.toString());
                     }
 
+                    Log.d("DEBUG", userToJson(users));
                     //Log.d("DEBUG", addNewUser("Frank", "", "bio", "321", "fspituls@eng.ucsd.edu", "test") + "");
-                    User loggedInUser = login("fspituls@eng.ucsd.edu", "test");
-                    Log.d("DEBUG", loggedInUser != null ? loggedInUser.toString() : "NULL");
+//                    User loggedInUser = login("fspituls@eng.ucsd.edu", "test");
+//                    Log.d("DEBUG", loggedInUser != null ? loggedInUser.toString() : "NULL");
                 } catch (IOException e) {
                     Log.d("DEBUG", e.toString());
                 }
                 return null;
             }
         }.execute();
+
     }
 
     /**
@@ -658,16 +661,17 @@ public class Server {
      * @return The ArrayList of Posts represented in json
      */
     private static ArrayList<Post> jsonToPost(String json) {
-        //Create the GSON builder to construct the Array List of users
+        Log.d("DEBUG", json);
+        //Create the GSON builder to construct the Array List of posts
         GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.serializeNulls().create();
 
-        //Parse the JSON string
-        Type arrayListPostType = new TypeToken<ArrayList<Post>>() {
-        }.getType();
-        ArrayList<Post> toReturn = gson.fromJson(json, arrayListPostType);
+        builder.registerTypeAdapter(JSONPost.class, new PostDeserializer());
+        Gson gson = builder.create();
 
-        return toReturn;
+        //Parse the JSON string into a JSONPost object
+        JSONPost jPost = gson.fromJson(json, JSONPost.class);
+
+        return jPost.posts;
     }
 
     /**
@@ -679,10 +683,14 @@ public class Server {
     private static String userToJson(ArrayList<User> users) {
         //Create the GSON builder to construct the JSON format of the ArrayList of users
         GsonBuilder builder = new GsonBuilder();
+
+        // Register the Custom UserSerializer with the JSONUser Class and create the gson
+        Type arrayListUserType = new TypeToken<ArrayList<User>>(){}.getType();
+        builder.registerTypeAdapter(arrayListUserType, new UserSerializer());
         Gson gson = builder.serializeNulls().create();
 
         //Create the JSON format for the ArrayList of users
-        String toReturn = gson.toJson(users);
+        String toReturn = gson.toJson(users, arrayListUserType);
 
         //return JSON string
         return toReturn;

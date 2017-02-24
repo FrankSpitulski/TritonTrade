@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Server.test();
+
     }
 
     //If the user clicks on the "Forgot Password?" button, they will be redirected to

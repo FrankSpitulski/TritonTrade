@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
- * Created by terrancegriffith on 2/16/17.
+ * Convert from the json sequence to an arrayList of User Objects
  */
 
 class UserDeserializer implements JsonDeserializer<JSONUser> {
@@ -20,7 +20,7 @@ class UserDeserializer implements JsonDeserializer<JSONUser> {
     @Override
     public JSONUser deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 
-        //Get the first element of the json string
+        //Get the first element of the json string and the JSONUser to be returned
         JsonObject jobj= (JsonObject) json;
         JSONUser jUser= new JSONUser();
 
@@ -39,26 +39,36 @@ class UserDeserializer implements JsonDeserializer<JSONUser> {
             Integer x;
 
             // Get the cartIDs and postHistory from the obj
-            String pH= obj.get("postHistory").getAsString();
-            String cID= obj.get("cartIDs").getAsString();
+            String[] pH= obj.get("postHistory").getAsString().split("\n");
+            String[] cID= obj.get("cartIDs").getAsString().split("\n");
 
             ArrayList<Integer> cardIDsTA= new ArrayList<Integer>();
             ArrayList<Integer> postHistTA= new ArrayList<Integer>();
 
             int i=0;
-            while (i< cID.length()){
+            while (i< cID.length){
 
-                x= Character.getNumericValue(cID.charAt(i));
-                cardIDsTA.add(x);
+                try{
+                    x= Integer.parseInt(cID[i]);
+                    cardIDsTA.add(x);
+                }
+                catch(NumberFormatException e){
+
+                }
 
                 i= i+1;
             }
 
             i= 0;
-            while (i< pH.length()){
+            while (i< pH.length){
 
-                x= Character.getNumericValue(pH.charAt(i));
-                postHistTA.add(x);
+                try{
+                    x= Integer.parseInt(cID[i]);
+                    cardIDsTA.add(x);
+                }
+                catch(NumberFormatException e){
+
+                }
 
                 i= i+1;
             }
@@ -69,6 +79,7 @@ class UserDeserializer implements JsonDeserializer<JSONUser> {
 
             _verified= obj.get("verified").getAsInt();
             _deleted= obj.get("deleted").getAsInt();
+
             verified= (_verified==0) ? false : true;
             deleted= (_deleted==0) ? false : true;
 
