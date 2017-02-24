@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
- * Converts the 
+ * Converts the
  */
 
 public class PostSerializer implements JsonSerializer<JSONPost> {
