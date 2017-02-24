@@ -1,17 +1,24 @@
 package com.tmnt.tritontrade.controller;
 
 /**
- * Created by frank on 2/21/17.
+ * Created by frank on 2/23/17.
  */
-
 public class CurrentState {
-    private static User currentUser;
+    private static CurrentState ourInstance = new CurrentState();
 
-    public static void setCurrentUser(User u) {
+    public static CurrentState getInstance() {
+        return ourInstance;
+    }
+
+    private CurrentState() {}
+
+    private User currentUser;
+
+    public synchronized void setCurrentUser(User u) {
         currentUser = u;
     }
 
-    public static User getCurrentUser() {
+    public synchronized User getCurrentUser() {
         return currentUser;
     }
 }
