@@ -1,9 +1,11 @@
 package com.tmnt.tritontrade.view;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +24,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.Post;
+import com.tmnt.tritontrade.controller.Server;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -64,6 +67,10 @@ public class Mainfeed extends AppCompatActivity
         list = (ListView) this.findViewById(R.id.listFeed);
         //System.out.println("REACH");
         list.setAdapter(new CustomAdapter(this, posts));*/
+
+        ArrayList<String> tags = new ArrayList<>();
+        MyTask task = new MyTask();
+        task.execute(tags);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -169,4 +176,23 @@ public class Mainfeed extends AppCompatActivity
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
+    private class MyTask extends AsyncTask<ArrayList<String>, Void, ArrayList<Post>>{
+        protected ArrayList<Post> doInBackground(ArrayList<String>... id) {
+            try {
+                ArrayList<Post> posts = Server.searchPostTags(id[0]);
+                return posts;
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(ArrayList<Post> result) {
+            list.setAdapter(new CustomAdapter(getApplicationContext(), result));
+        }
+    }
 }
+
+
