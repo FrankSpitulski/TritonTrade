@@ -177,10 +177,6 @@ public class Post implements Parcelable {
      */
     public boolean setProfileID(int profileID)
     {
-        if (profileID == 0)
-        {
-            return false;
-        }
         this.profileID = profileID;
         return true;
     }
@@ -201,10 +197,6 @@ public class Post implements Parcelable {
      */
     public boolean setPostID(int postID)
     {
-        if (postID == 0)
-        {
-            return false;
-        }
         this.postID = postID;
         return true;
     }
@@ -320,19 +312,9 @@ public class Post implements Parcelable {
      */
     public String toString()
     {
-        return "["
-                + "[" + getProductName() + "], "
-                + "[" + getPhotos() + "], "
-                + "[" + getDescription() + "], "
-                + "[" + getPrice() + "], "
-                + "[" + getTags() + "], "
-                + "[" + getProfileID() + "], "
-                + "[" + getPostID() + "], "
-                + "[" + getSelling() + "], "
-                + "[" + getSold() + "], "
-                + "[" + getDateCreated() + "], "
-                + "[" + getContactInfo() + "], "
-                + "[" + getDeleted() + "]]";
+        ArrayList<Post> posts = new ArrayList<Post>(1);
+        posts.add(this);
+        return Server.stripOuterJson(Server.postToJson(posts));
     }
 
     //*********PARCELABLE METHODS************

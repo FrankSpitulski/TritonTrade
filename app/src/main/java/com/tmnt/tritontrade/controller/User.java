@@ -2,8 +2,6 @@ package com.tmnt.tritontrade.controller;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import java.util.ArrayList;
 
 public class User implements Parcelable {
@@ -241,7 +239,7 @@ public class User implements Parcelable {
     public boolean hashAndSetPassword(String password) {
         if (password == null)
             return false;
-        return setPassword(BCrypt.hashpw(password + getSalt(), getSalt()));
+        return setPassword(Encrypt.hashpw(password , getSalt()));
 
     }
 
@@ -333,10 +331,7 @@ public class User implements Parcelable {
      */
     public boolean addToPostHistory(int id)
     {
-        if (id == 0)
-            return false;
-        postHistory.add(id);
-        return true;
+        return postHistory.add(id);
     }
 
     /**
@@ -344,11 +339,7 @@ public class User implements Parcelable {
      */
     public boolean addToCart(int id)
     {
-        if(id==0)
-            return false;
-
-        cartIDs.add(id);
-        return true;
+        return cartIDs.add(id);
     }
 
     /**
@@ -435,20 +426,9 @@ public class User implements Parcelable {
      */
     public String toString()
     {
-        return "["
-                + "[" + getName() + "], "
-                + "[" + getPhoto() + "], "
-                + "[" + getProfileID() + "], "
-                + "[" + getBio() + "], "
-                + "[" + getMobileNumber() + "], "
-                + "[" + getEmail() + "], "
-                + "[" + getPassword() + "], "
-                + "[" + getSalt() + "], "
-                + "[" + getPostHistoryString() + "], "
-                + "[" + getVerified() + "], "
-                + "[" + getCartIDsString() + "], "
-                + "[" + getEmailVerificationLink() + "], "
-                + "[" + getDeleted()+"]";
+        ArrayList<User> users = new ArrayList<User>(1);
+        users.add(this);
+        return Server.stripOuterJson(Server.userToJson(users));
     }
 
     //******PARCELABLE METHODS********
