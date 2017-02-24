@@ -1,6 +1,7 @@
 package com.tmnt.tritontrade.controller;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -50,18 +51,29 @@ public class Server {
         return serverName + "";
     }
 
-    public static void test(Context c) {
-        try {
-            /*Log.d("DEBUG", httpGetRequest("/db/api.php/users"  + "?transform=1")); // test pull info
-            String response = uploadImage(c.getResources().openRawResource(R.raw.doge), "jpg"); // test file upload
-            Log.d("DEBUG", response);
-            Log.d("DEBUG", httpGetRequest("/db/userCount.php"));*/
-            Log.d("DEBUG", jsonToUser(httpGetRequest("/db/api.php/users?transform=1")).get(0).toString());
-            //Log.d("DEBUG", addNewUser("Frank", "", "bio", "321", "fspituls@eng.ucsd.edu", "test") + "");
-            //Log.d("DEBUG", login("fspituls@eng.ucsd.edu", "test").toString());
-        } catch (IOException e) {
-            Log.d("DEBUG", e.toString());
-        }
+    public static void test() {
+        new AsyncTask<Object, Object, Object>(){
+            @Override
+            protected Object doInBackground(Object[] params) {
+                try {
+                    /*Log.d("DEBUG", httpGetRequest("/db/api.php/users"  + "?transform=1")); // test pull info
+                    String response = uploadImage(c.getResources().openRawResource(R.raw.doge), "jpg"); // test file upload
+                    Log.d("DEBUG", response);
+                    Log.d("DEBUG", httpGetRequest("/db/userCount.php"));*/
+                    ArrayList<User> users =jsonToUser(httpGetRequest("/db/api.php/users?transform=1"));
+                    for(User u : users){
+                        Log.d("DEBUG", u.toString());
+                    }
+
+                    //Log.d("DEBUG", addNewUser("Frank", "", "bio", "321", "fspituls@eng.ucsd.edu", "test") + "");
+                    User loggedInUser = login("fspituls@eng.ucsd.edu", "test");
+                    Log.d("DEBUG", loggedInUser != null ? loggedInUser.toString() : "NULL");
+                } catch (IOException e) {
+                    Log.d("DEBUG", e.toString());
+                }
+                return null;
+            }
+        }.execute();
     }
 
     /**
@@ -96,11 +108,13 @@ public class Server {
         if(users.size() == 0){
             return false;
         }
-        if(users.get(0).getEmailVerificationLink() != ""){
+
+        // must be verified
+        if(!users.get(0).getVerified()){
             throw new IOException("Unverified user");
         }
 
-        // set verification string
+        // set verification string, overwrites old string
         String verificationString = new BigInteger(130, new Random()).toString(32);
         users.get(0).setEmailVerificationLink(verificationString);
         modifyExistingUser(users.get(0));
@@ -238,9 +252,11 @@ public class Server {
 
         //DEBUG
         Log.d("DEBUG", "user object generated");
-
+        Log.d("DEBUG", "Attempting to add user: " + newUser);
         ArrayList<User> newUserList = new ArrayList<User>();
         newUserList.add(newUser);
+
+        Log.d("DEBUG", "JSON: " + userToJson(newUserList));
 
         URL url = new URL(serverName + "/db/api.php/users");
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -251,8 +267,7 @@ public class Server {
         out.close();
         response = readStream(connection.getInputStream());
 
-        if (response == null || response.equals("") || response.equals("null")
-                || response.contains("Not found")) {
+        if(!response.equals("[0]")){
             Log.d("DEBUG", "Server failed to add user");
             throw new IOException("Server could not add a user");
         }
