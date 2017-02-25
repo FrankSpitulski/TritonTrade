@@ -45,10 +45,13 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, ForgotPassword.class);
         startActivity(intent);
-
     }
-
-
+    //If the user clicks on the "Sign Up" button, they will be redirected to
+    //the register account activity
+    public void sendToRegisterAccount(View view){
+        Intent intent = new Intent(this, Register_Account.class);
+        startActivity(intent);
+    }
 
     private class LoginTask extends AsyncTask<Object, Object, Object>{
         @Override

@@ -35,7 +35,8 @@
             android:id="@+id/button6"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:onClick="sendToRegisterAccount"/>
     </LinearLayout>
 
     <LinearLayout

@@ -7,12 +7,12 @@ import android.view.View;
 
 import com.tmnt.tritontrade.R;
 
-public class Register_Account extends AppCompatActivity {
+public class Verify_Account extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register__account);
+        setContentView(R.layout.activity_verify__account);
     }
     //If the user clicks "Log In" they will be redirected to the
     //log in screen
@@ -20,10 +20,4 @@ public class Register_Account extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-    //If the user clicks "Next" they will be redirected to the Verify email page
-    public void sendToRegisterAccountTwo(View view){
-        Intent intent = new Intent(this, Register_Account_Two.class);
-        startActivity(intent);
-    }
-
 }
