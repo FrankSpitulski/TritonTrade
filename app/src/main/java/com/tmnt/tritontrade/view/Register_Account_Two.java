@@ -1,11 +1,13 @@
 package com.tmnt.tritontrade.view;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.CurrentState;
 
 public class Register_Account_Two extends AppCompatActivity {
 
@@ -25,5 +27,17 @@ public class Register_Account_Two extends AppCompatActivity {
     public void sendToLogIn(View view){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    private class RegisterTask extends AsyncTask<Object, Object, Object> {
+        @Override
+        protected Object doInBackground(Object... params) {
+            return CurrentState.getInstance();
+        }
+
+        @Override
+        protected void onPostExecute(Object result){
+
+        }
     }
 }
