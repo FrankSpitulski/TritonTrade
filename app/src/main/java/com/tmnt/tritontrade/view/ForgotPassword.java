@@ -27,7 +27,7 @@ public class ForgotPassword extends AppCompatActivity {
         Button emailForgot =  (Button)findViewById(R.id.emailForgotButton);
         emailForgot.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                email = ((TextView) findViewById(R.id.emailForgotText)).toString();
+                email = ((TextView) findViewById(R.id.emailForgotText)).getText().toString();
                 new ForgotPassword.forgotPasswordTask().execute();
             }
         });
@@ -47,10 +47,11 @@ public class ForgotPassword extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result){
             if(result){
+                Toast.makeText(ForgotPassword.this, "Password reset.", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
             else{
-                Toast.makeText(ForgotPassword.this, "Email failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForgotPassword.this, "Password reset failed.", Toast.LENGTH_SHORT).show();
             }
         }
     }

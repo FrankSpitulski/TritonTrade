@@ -121,8 +121,9 @@ public class Server {
      */
     public static boolean sendPasswordResetEmail(String email) throws IOException{
         // check to see if there is an email in the database
-        ArrayList<User> users = filterDeletedUsers(jsonToUser(httpGetRequest("/db/api.php/users?filter[]=email,eq,"
-                + email + "&transform=1")));
+        String response = httpGetRequest("/db/api.php/users?filter[]=email,eq," + email + "&transform=1");
+
+        ArrayList<User> users = filterDeletedUsers(jsonToUser(response));
         if(users.size() == 0){
             return false;
         }
@@ -138,7 +139,7 @@ public class Server {
         modifyExistingUser(users.get(0));
 
 
-        String response = httpGetRequest("/db/sendPasswordResetEmail.php?validation=" +
+        response = httpGetRequest("/db/sendPasswordResetEmail.php?validation=" +
                 verificationString + "&email=" + email);
         if (response.equals("")
                 || response.equals("Mailer Error: You must provide at least one recipient email address.")) {
