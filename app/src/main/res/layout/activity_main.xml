@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/userNameText"
             android:hint="Username" />
 
         <EditText
@@ -74,14 +74,14 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/editText2"
+            android:id="@+id/passwordText"
             android:hint="Password" />
 
         <Button
             android:text="Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button"
+            android:id="@+id/loginButton"
             android:backgroundTint="#163EB8"
             android:textColor="#FFEE00" />
 
