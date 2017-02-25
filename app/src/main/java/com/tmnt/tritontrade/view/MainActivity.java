@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Login
         loginButton =  (Button)findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+
 
     private class LoginTask extends AsyncTask<Object, Object, Object>{
         @Override

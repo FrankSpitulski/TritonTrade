@@ -121,7 +121,7 @@ public class Mainfeed extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
         }
     }
 
@@ -230,6 +230,8 @@ public class Mainfeed extends AppCompatActivity
             }
         });
     }
+
+
     private class MyTask extends AsyncTask<ArrayList<String>, Void, ArrayList<Post>>{
         protected ArrayList<Post> doInBackground(ArrayList<String>... id) {
             try {
