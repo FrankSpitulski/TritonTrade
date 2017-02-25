@@ -221,9 +221,6 @@ public class Server {
             throw new IOException("Email does not end in UCSD or otherwise rejected");
         }
 
-        //debug message
-        Log.d("DEBUG", "email accepted");
-
         // check to see if email is already registered
         String response = httpGetRequest("/db/api.php/users?filter[]=email,eq,"
                 + email + "&transform=1");
