@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Converts the
+ * Converts the ArrayList of post objects into the correct json format
  */
 
 public class PostSerializer implements JsonSerializer<ArrayList<Post>> {
@@ -40,7 +40,7 @@ public class PostSerializer implements JsonSerializer<ArrayList<Post>> {
 
             for (int i=0; i< curr.getTags().size(); i++){
 
-                tagsTA= tagsTA + "::" + curr.getTags().get(i).toString() + "::\n";
+                tagsTA= tagsTA + ":" + curr.getTags().get(i).toString() + ":\n";
             }
 
 
@@ -49,21 +49,7 @@ public class PostSerializer implements JsonSerializer<ArrayList<Post>> {
             int selTA= (curr.getSelling())? 1:0;
             int delTA= (curr.getDeleted())? 1:0;
 
-            // Get the profileID in string form
-            String priceTA= Float.toString(curr.getPrice());
-            String postIDTA= Integer.toString(curr.getPostID());
-            String profIDTA= Integer.toString(curr.getProfileID());
-
             // Set up the correct date
-//            SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//            Date dateTA = new Date(curr.getDateCreated());
-//            try {
-//                ;
-//            }
-//            catch (ParseException e){
-//                e.printStackTrace();
-//            }
-
             Calendar cal= GregorianCalendar.getInstance();
             cal.setTime(curr.getDateCreated());
 
