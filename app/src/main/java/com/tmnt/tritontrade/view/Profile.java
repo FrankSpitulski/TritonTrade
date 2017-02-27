@@ -1,20 +1,12 @@
 package com.tmnt.tritontrade.view;
-
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.Post;
-
-import java.util.ArrayList;
+import com.tmnt.tritontrade.controller.User;
 
 public class Profile extends AppCompatActivity {
 
@@ -25,9 +17,37 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        User user = new User("User", null, 0, "This is the bio for the user", "(510) 696-6969", "email@lol.edu",
+                "jkdsf", "sdfs", null, false, null, "sdfs", false);
+
+        populateUserInfo(user);
+        populateList();
+
+    }
+
+
+    private void populateUserInfo(User user){
+
+        //Get references to all the relevant fields in the profle
+        TextView username = (TextView) findViewById(R.id.username);
+        TextView email = (TextView) findViewById(R.id.email);
+        TextView phone = (TextView) findViewById(R.id.phone);
+        TextView bio = (TextView) findViewById(R.id.description);
+
+        //populate the fields with the information obtained from the user
+        username.setText(user.getName());
+        email.setText(user.getEmail());
+        phone.setText(user.getMobileNumber());
+        bio.setText(user.getBio());
+    }
+
+
+    private void populateList() {
+
 
         list = (ListView) findViewById(R.id.list);
 
+        //random posts
         Post[] posts = new Post[10];
 
         for(int i = 0; i < posts.length; i++){
@@ -43,6 +63,7 @@ public class Profile extends AppCompatActivity {
 
         }
 
+        //update the list
         list.setAdapter(new ProfileListAdaptor(this, posts));
 
     }
