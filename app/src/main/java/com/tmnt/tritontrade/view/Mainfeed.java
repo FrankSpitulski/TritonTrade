@@ -61,7 +61,7 @@ public class Mainfeed extends AppCompatActivity
         setContentView(R.layout.activity_mainfeed);
 
         //bottom tool bar
-        mBottomBar = BottomBar.attach(this, savedInstanceState);
+/*        mBottomBar = BottomBar.attach(this, savedInstanceState);
         mBottomBar.setItems(R.menu.bottom_nav_items);
 
         mBottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
@@ -76,7 +76,7 @@ public class Mainfeed extends AppCompatActivity
                 showToast(menuItemId, true);
             }
         });
-
+*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -277,7 +277,7 @@ public class Mainfeed extends AppCompatActivity
             }
         }
     }
-
+/*
     //Bottom Tool Bar
 
     private void setOnNavigationItemSelectedListener(int menuId, boolean selected){
@@ -316,7 +316,7 @@ public class Mainfeed extends AppCompatActivity
         // lose the current tab on orientation change.
         mBottomBar.onSaveInstanceState(outState);
     }
-
+*/
 
 
 }
