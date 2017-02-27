@@ -23,20 +23,25 @@
         <activity android:name=".view.Create_Post" />
         <activity android:name=".view.Cart" />
         <activity android:name=".view.Settings" />
+        <activity android:name=".view.DeveloperTeam" />
+        <activity android:name=".view.Profile_NonUser" />
         <activity
             android:name=".view.Mainfeed"
             android:label="@string/title_activity_mainfeed"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.EditProfile" />
-        <activity android:name=".categorySidebarPage" />
-        <activity android:name=".view.Register_Account"></activity>
+        <activity android:name=".view.Register_Account" />
         <activity
             android:name=".view.PopUpPost"
             android:theme="@style/AppTheme.PopUpPost" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <activity android:name=".view.Register_Account_Two" />
+        <activity android:name=".view.Verify_Account" />
+        <activity android:name=".view.Verify_Account_Two" />
     </application>
 
 </manifest>

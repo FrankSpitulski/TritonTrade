@@ -19,11 +19,11 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -68,8 +68,15 @@ public class Server {
 
                     Log.d("DEBUG", postToJson(posts));
                     //Log.d("DEBUG", addNewUser("Frank", "", "bio", "321", "fspituls@eng.ucsd.edu", "test") + "");
-//                    User loggedInUser = login("fspituls@eng.ucsd.edu", "test");
+//                    User loggedInUser = login("fspituls@eng.ucsd.edu", "test2");
 //                    Log.d("DEBUG", loggedInUser != null ? loggedInUser.toString() : "NULL");
+                    //sendPasswordResetEmail("fspituls@eng.ucsd.edu");
+                    //loggedInUser.hashAndSetPassword("test2");
+                    //modifyExistingUser(loggedInUser);
+//                    loggedInUser = loggedInUser != null ? searchUserIDs(loggedInUser.getProfileID()) : null;
+//                    Log.d("DEBUG", loggedInUser != null ? loggedInUser.toString() : "NULL");
+
+
                 } catch (IOException e) {
                     Log.d("DEBUG", e.toString());
                 }
@@ -77,6 +84,15 @@ public class Server {
             }
         }.execute();
 
+    }
+
+    /**
+     * removes the outer json object from the array
+     * @param json
+     * @return stripped json
+     */
+    static String stripOuterJson(String json){
+        return json.substring(9, json.length() - 1);
     }
 
     /**
@@ -106,8 +122,9 @@ public class Server {
      */
     public static boolean sendPasswordResetEmail(String email) throws IOException{
         // check to see if there is an email in the database
-        ArrayList<User> users = filterDeletedUsers(jsonToUser(httpGetRequest("/db/api.php/users?filter[]=email,eq,"
-                + email + "&transform=1")));
+        String response = httpGetRequest("/db/api.php/users?filter[]=email,eq," + email + "&transform=1");
+
+        ArrayList<User> users = filterDeletedUsers(jsonToUser(response));
         if(users.size() == 0){
             return false;
         }
@@ -123,7 +140,7 @@ public class Server {
         modifyExistingUser(users.get(0));
 
 
-        String response = httpGetRequest("/db/sendEmailValidation.php?validation=" +
+        response = httpGetRequest("/db/sendPasswordResetEmail.php?validation=" +
                 verificationString + "&email=" + email);
         if (response.equals("")
                 || response.equals("Mailer Error: You must provide at least one recipient email address.")) {
@@ -164,7 +181,7 @@ public class Server {
         connection.setRequestMethod("POST");
         OutputStreamWriter out = new OutputStreamWriter(
                 connection.getOutputStream());
-        out.write(postToJson(newPostList));
+        out.write(stripOuterJson(postToJson(newPostList)));
         out.close();
         String response = readStream(connection.getInputStream());
 
@@ -206,9 +223,6 @@ public class Server {
             throw new IOException("Email does not end in UCSD or otherwise rejected");
         }
 
-        //debug message
-        Log.d("DEBUG", "email accepted");
-
         // check to see if email is already registered
         String response = httpGetRequest("/db/api.php/users?filter[]=email,eq,"
                 + email + "&transform=1");
@@ -246,11 +260,11 @@ public class Server {
         }
 
         // get salt for password
-        String salt = BCrypt.gensalt(10);
+        String salt = Encrypt.gensalt();
 
         // create user object
         User newUser = new User(name, photo, profileID, bio, mobileNumber, email,
-                BCrypt.hashpw(password + salt, salt), salt, new ArrayList<Integer>(),
+                Encrypt.hashpw(password, salt), salt, new ArrayList<Integer>(),
                 false, new ArrayList<Integer>(), emailLink, false);
 
         //DEBUG
@@ -259,14 +273,14 @@ public class Server {
         ArrayList<User> newUserList = new ArrayList<User>();
         newUserList.add(newUser);
 
-        Log.d("DEBUG", "JSON: " + userToJson(newUserList));
+        Log.d("DEBUG", "JSON: " + stripOuterJson(userToJson(newUserList)));
 
         URL url = new URL(serverName + "/db/api.php/users");
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setDoOutput(true);
         connection.setRequestMethod("POST");
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-        out.write(userToJson(newUserList));
+        out.write(stripOuterJson(userToJson(newUserList)));
         out.close();
         response = readStream(connection.getInputStream());
 
@@ -309,7 +323,7 @@ public class Server {
         }
 
         // password test
-        if (BCrypt.hashpw(password + user.getSalt(), user.getSalt()).equals(user.getPassword())) {
+        if (Encrypt.hashpw(password, user.getSalt()).equals(user.getPassword())) {
             Log.d("DEBUG", "user login successful");
             return user;
         }
@@ -508,7 +522,7 @@ public class Server {
         connection.setRequestMethod("PUT");
         OutputStreamWriter out = new OutputStreamWriter(
                 connection.getOutputStream());
-        out.write(postToJson(posts));
+        out.write(stripOuterJson(postToJson(posts)));
         out.close();
 
         //output from server
@@ -516,8 +530,7 @@ public class Server {
 
         //WARNING: NOT COMPREHENSIVE
         //if bad response from server, return false
-        if (response == null || response.equals("null") || response.equals("[0]")
-                || response.contains("Not found")) {
+        if (!response.equals("[1]")) {
             return false;
         }
 
@@ -543,7 +556,7 @@ public class Server {
         connection.setDoOutput(true);
         connection.setRequestMethod("PUT");
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-        out.write(userToJson(users));
+        out.write(stripOuterJson(userToJson(users)));
         out.close();
 
         //response from server
@@ -551,8 +564,7 @@ public class Server {
 
         //TODO: MAKE COMPREHEHSIVE
         //if response from server is bad, return false
-        if (response == null || response.equals("null") || response.equals("[0]")
-                || response.contains("Not found")) {
+        if (!response.equals("[1]")) {
             return false;
         }
         //return success
@@ -623,10 +635,8 @@ public class Server {
         //response from server
         String response = readStream(connection.getInputStream());
 
-        //TODO MAKE COMPREHENSIVE
         //if response from server was bad
-        if (response == null || response.equals("null") || response.equals("[0]")
-                || response.contains("Not found")) {
+        if (!response.equals("1")) {
             throw new IOException("Could not delete post");
         }
     }
@@ -638,7 +648,6 @@ public class Server {
      * @return an Array List of users in the JSON. Order is arbitrary
      */
     private static ArrayList<User> jsonToUser(String json) {
-        Log.d("DEBUG", json);
         //Create the GSON builder to construct the Array List of users
         GsonBuilder builder = new GsonBuilder();
 
@@ -661,7 +670,6 @@ public class Server {
      * @return The ArrayList of Posts represented in json
      */
     private static ArrayList<Post> jsonToPost(String json) {
-        Log.d("DEBUG", json);
         //Create the GSON builder to construct the Array List of posts
         GsonBuilder builder = new GsonBuilder();
 
@@ -680,7 +688,7 @@ public class Server {
      * @param users The array list of users
      * @return The json of the list
      */
-    private static String userToJson(ArrayList<User> users) {
+    static String userToJson(ArrayList<User> users) {
         //Create the GSON builder to construct the JSON format of the ArrayList of users
         GsonBuilder builder = new GsonBuilder();
 
@@ -702,7 +710,7 @@ public class Server {
      * @param posts The array list of posts
      * @return The json of the list
      */
-    private static String postToJson(ArrayList<Post> posts) {
+    static String postToJson(ArrayList<Post> posts) {
         //Create the GSON builder to construct the JSON format of the ArrayList of users
         GsonBuilder builder = new GsonBuilder();
 

@@ -2,8 +2,6 @@ package com.tmnt.tritontrade.controller;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import java.util.ArrayList;
 
 public class User implements Parcelable {
@@ -241,7 +239,7 @@ public class User implements Parcelable {
     public boolean hashAndSetPassword(String password) {
         if (password == null)
             return false;
-        return setPassword(BCrypt.hashpw(password + getSalt(), getSalt()));
+        return setPassword(Encrypt.hashpw(password , getSalt()));
 
     }
 
@@ -333,22 +331,25 @@ public class User implements Parcelable {
      */
     public boolean addToPostHistory(int id)
     {
-        if (id == 0)
-            return false;
-        postHistory.add(id);
-        return true;
+        return postHistory.add(id);
     }
 
     /**
-     * Adds item to cart by id
+     * removes post from cart by id
+     * @param id post id
+     * @return whether or not the operation was successful
      */
-    public boolean addToCart(int id)
-    {
-        if(id==0)
-            return false;
+    public boolean removeFromCart(int id){ return cartIDs.remove((Integer) new Integer(id)); }
 
-        cartIDs.add(id);
-        return true;
+    /**
+     * adds post to cart by id. swallows duplicates
+     * @param id post id
+     * @return whether or not the operation was successful
+     */
+    public boolean addToCart(int id) {
+        // no duplicates
+        removeFromCart(id);
+        return cartIDs.add(id);
     }
 
     /**
@@ -435,20 +436,9 @@ public class User implements Parcelable {
      */
     public String toString()
     {
-        return "["
-                + "[" + getName() + "], "
-                + "[" + getPhoto() + "], "
-                + "[" + getProfileID() + "], "
-                + "[" + getBio() + "], "
-                + "[" + getMobileNumber() + "], "
-                + "[" + getEmail() + "], "
-                + "[" + getPassword() + "], "
-                + "[" + getSalt() + "], "
-                + "[" + getPostHistoryString() + "], "
-                + "[" + getVerified() + "], "
-                + "[" + getCartIDsString() + "], "
-                + "[" + getEmailVerificationLink() + "], "
-                + "[" + getDeleted()+"]";
+        ArrayList<User> users = new ArrayList<User>(1);
+        users.add(this);
+        return Server.stripOuterJson(Server.userToJson(users));
     }
 
     //******PARCELABLE METHODS********

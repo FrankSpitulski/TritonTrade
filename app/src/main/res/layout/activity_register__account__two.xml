@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_register__account"
+    android:id="@+id/activity_register__account__two"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.tmnt.tritontrade.view.Register_Account"
+    tools:context="com.tmnt.tritontrade.view.Register_Account_Two"
     android:background="@drawable/blurred_geisel">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,15 +19,29 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:inputType="phone"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/lastNameLabel"
+            android:alpha="0.5"
+            android:background="@android:drawable/screen_background_light_transparent"
+            android:text="Last Name"
+            android:layout_marginTop="13dp"
+            android:layout_below="@+id/firstNameLabel"
+            android:layout_alignStart="@+id/firstNameLabel"
+            android:textColor="?android:attr/colorForeground" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/passwordLabel"
+            android:text="Password"
             android:alpha="0.5"
             android:background="@android:drawable/screen_background_light_transparent"
             android:layout_marginTop="13dp"
             android:layout_below="@+id/lastNameLabel"
-            android:layout_alignStart="@+id/lastNameLabel"
-            android:hint="Phone" />
+            android:layout_alignStart="@+id/lastNameLabel" />
 
         <TextView
             android:text="Sign Up"
@@ -55,6 +67,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:inputType="textPersonName"
+            android:text="First Name"
             android:ems="10"
             android:id="@+id/firstNameLabel"
             android:alpha="0.5"
@@ -63,11 +76,10 @@
             android:layout_marginTop="59dp"
             android:layout_alignTop="@+id/explainLabel"
             android:layout_alignStart="@+id/explainLabel"
-            android:textColor="?android:attr/colorForeground"
-            android:hint="Username" />
+            android:textColor="?android:attr/colorForeground" />
 
         <Button
-            android:text="Next"
+            android:text="Finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/passwordLabel"
@@ -77,7 +89,7 @@
             android:layout_alignStart="@+id/passwordLabel"
             android:background="@drawable/customborder2"
             android:textColor="@color/white"
-            android:onClick="sendToRegisterAccountTwo"/>
+            android:onClick="sendToVerifyEmail"/>
 
         <TextView
             android:text="Already have an account?"
@@ -101,18 +113,5 @@
             android:layout_toEndOf="@+id/signUpLabel"
             android:fontFamily="sans-serif-medium"
             android:onClick="sendToLogIn"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:inputType="textEmailAddress"
-            android:ems="10"
-            android:id="@+id/lastNameLabel"
-            android:alpha="0.5"
-            android:background="@android:drawable/screen_background_light_transparent"
-            android:textColor="?android:attr/colorForeground"
-            android:layout_centerVertical="true"
-            android:layout_alignStart="@+id/firstNameLabel"
-            android:hint="Email" />
-    </RelativeLayout>
+        </RelativeLayout>
 </RelativeLayout>

@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
- * Created by edward on 2/9/17.
+ * Created by Edward Ji
  */
 
 public class CustomAdapter extends BaseAdapter implements Filterable {
@@ -41,18 +41,25 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         this.posts=posts;
         this.filterList=posts;
         this.context = context;
+
         this.count = startCount;
         this.stepNumber=10;
-    }
-
-    @Override
-    public int getCount() {
-        return count; //returns total of items in the list
     }
 
     public void setCount(int count){
         this.count=count;
     }
+
+    @Override
+    public int getCount() {
+        if (posts.size() < startCount){
+            return posts.size(); //returns total of items in the list
+        }
+        else{
+            return count;
+        }
+    }
+
 
     /**
      * Sets the ListView back to its initial count number
@@ -94,7 +101,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         TextView title;
         TextView description;
         TextView userTag;
-        TextView category;
         TextView price;
 
         ImageView image;
@@ -117,19 +123,17 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
             catView = inflater.inflate(R.layout.feed_row, null);
         }
         ViewHolder postHolder = new ViewHolder();
-
         //TODO set image via url here
         postHolder.title = (TextView) catView.findViewById(R.id.title);
         postHolder.description = (TextView) catView.findViewById(R.id.description);
         postHolder.userTag = (TextView) catView.findViewById(R.id.username_tag);
-        postHolder.category = (TextView) catView.findViewById(R.id.category);
         postHolder.price = (TextView) catView.findViewById(R.id.price);
         postHolder.image = (ImageView) catView.findViewById(R.id.row_pic);
 
         postHolder.title.setText(posts.get(position).getProductName());
         postHolder.description.setText(posts.get(position).getDescription());
         postHolder.userTag.setText(posts.get(position).getTags().get(0)); //TODO all tags?
-       // postHolder.category.setText(posts.get(position).);
+        //postHolder.category.setText(posts.get(position).get);
         postHolder.price.setText(String.valueOf(posts.get(position).getPrice()));
         new DownloadImageTask(postHolder.image)
                 .execute(posts.get(position).getPhotos().get(0));

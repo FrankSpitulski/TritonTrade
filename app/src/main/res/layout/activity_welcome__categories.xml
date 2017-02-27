@@ -199,9 +199,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button9"
-            android:textColor="@android:color/holo_orange_light"
+            android:textColor="?attr/actionModeSplitBackground"
             android:textSize="30sp"
-            android:background="#d6d7d7"
+            android:background="@color/common_action_bar_splitter"
             android:layout_alignParentBottom="true"
             style="@style/Widget.AppCompat.Button" />
 

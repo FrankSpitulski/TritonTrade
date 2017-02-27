@@ -3,6 +3,7 @@ package com.tmnt.tritontrade;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
+import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
@@ -12,7 +13,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,12 +39,19 @@ public class InstrumentedServerTest
     //List of FUN strings with various possibly problematic strings to test
     static ArrayList<String> funStrings = new ArrayList<String>();
 
+
+    //List of users used in the test, automatically cleaned up from server after each test
     private ArrayList<User> testUsers;
+
+    //List of Posts to be cleaned up on server after each test
+    private ArrayList<Post> testPosts;
 
     //run once before all tests, DO NOT EDIT THE AFFECTED VARIABLES IN TESTS
     @BeforeClass
     public static void setUpClass()
     {
+
+
         //bunch of escaped characters
         funStrings.add("\"\"\n\n\n\b\b");
         //random symbols
@@ -54,6 +65,7 @@ public class InstrumentedServerTest
     public void setUp()
     {
         testUsers = new ArrayList<User>();
+        testPosts = new ArrayList<Post>();
     }
 
     /**
@@ -62,6 +74,18 @@ public class InstrumentedServerTest
     @After
     public void CleanUpAfterTest()
     {
+        //hard delete every post in the list
+        for (Post p: testPosts)
+        {
+            try {
+                Server.hardDeletePost(p);
+            }
+            catch (IOException e)
+            {
+                Log.d("DEBUG","POST FAILED TO DELETE");
+            }
+        }
+
         cleanUp(testUsers);
     }
 
@@ -71,7 +95,6 @@ public class InstrumentedServerTest
     @Test
     public void testDuplicateEmail()
     {
-
         //add valid user to the database
         try {
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
@@ -86,14 +109,15 @@ public class InstrumentedServerTest
         try {
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
                     "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+
+            //failed, did not catch
+            fail("Duplicate email not caught");
         }
         catch (IOException e)
         {
             //SUCCESS, DUPLICATE EMAIL CAUGHT
         }
 
-        //failed, did not catch
-        fail("Duplicate email not caught");
     }
     /**
      * Tests Making a new user with a non UCSD email, should return false
@@ -161,18 +185,7 @@ public class InstrumentedServerTest
             fail();
             Log.d("DEBUG","EXCEPTIONNN",e);
         }
-        //no matter what happens, clean up test users from database
-        finally
-        {
-            Log.d("DEBUG","REMOVING USERS");
 
-            //delete all the users added to the list
-            for (User u: testUsers)
-            {
-                deleteUser(u);
-            }
-            Log.d("DEBUG","END TEST");
-        }
     }
 
     /**
@@ -313,6 +326,75 @@ public class InstrumentedServerTest
             fail();
         }
     }
+    /**
+     * Tests searching for a given user by ID retrieves the same user that was uploaded
+     */
+    @Test
+    public void testSearchUserById()
+    {
+        //add valid user to the database
+        try {
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+        }
+        catch (IOException e)
+        {
+            fail();
+        }
+
+        User u = null;
+        //get user with the id of the user we just added
+        try {
+            u = Server.searchUserIDs(testUsers.get(0).getProfileID());
+        }
+        catch (IOException e)
+        {
+            fail();
+        }
+
+        //assert that the retrieved user and the uploaded user are the same
+        assertTrue(u.toString().equals(testUsers.get(0).toString()));
+    }
+
+    /**
+     * Tests modifying a User object on the server
+     */
+    @Test
+    public void testModifyUser()
+    {
+        //add valid user to the database
+        try {
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+        }
+        catch (IOException e)
+        {
+            fail();
+        }
+
+        User u = testUsers.get(0);
+        u.setName("I AM NOT STEVE");
+
+        //Change user name
+        try {
+           Server.modifyExistingUser(u);
+        }
+        catch (IOException e)
+        {
+            fail();
+        }
+
+        //get new instance of the user form the server
+        try {
+            u = Server.searchUserIDs(u.getProfileID());
+        } catch (IOException e) {
+            fail();
+        }
+
+        assertTrue(u.getName().equals("I AM NOT STEVE"));
+    }
+
+    
 
     /**
      * Deletes all of the specified users from the database.
@@ -320,11 +402,12 @@ public class InstrumentedServerTest
      */
     private void cleanUp(ArrayList<User> u)
     {
+        Log.d("DEBUG", "CLEANING UP " + u.size() + " USERS");
+
         for (User user: u)
         {
             deleteUser(user);
         }
-
     }
 
     /**
@@ -347,17 +430,44 @@ public class InstrumentedServerTest
             OutputStreamWriter out = new OutputStreamWriter(
                     connection.getOutputStream());
             out.close();
+
+            //response from server
+            String response = readStream(connection.getInputStream());
+
+            //if response from server was bad
+            if (!response.equals("1")) {
+                throw new IOException("Could not delete post");
+            }
         }
         catch (IOException e)
         {
             Log.d("DEBUG","FAILED TO DELETE USER " + u.getProfileID() + " FROM SERVER");
-            //TRY AGAIN PLEASE
-            try {
-                wait(1000);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
+
             deleteUser(u);
         }
+    }
+
+    /**
+     * Converts an InputStream to a string
+     *
+     * @param in stream input
+     * @return String that was in the stream
+     * @author https://stackoverflow.com/a/16507509, Frank
+     */
+    private static String readStream(InputStream in) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        StringBuilder builder = new StringBuilder();
+        String line = "";
+
+        //get each line and append to string builder
+        while ((line = reader.readLine()) != null) {
+            builder.append(line);
+        }
+
+        //close stream
+        reader.close();
+
+        //return string
+        return builder.toString();
     }
 }

@@ -35,9 +35,6 @@ class UserDeserializer implements JsonDeserializer<JSONUser> {
             // Get the json object (User)
             JsonObject obj= _users.get(index).getAsJsonObject();
 
-            //Integer object for cartIDs and postHistory
-            Integer x;
-
             // Get the cartIDs and postHistory from the obj
             String[] pH= obj.get("postHistory").getAsString().split("\n");
             String[] cID= obj.get("cartIDs").getAsString().split("\n");
@@ -49,8 +46,7 @@ class UserDeserializer implements JsonDeserializer<JSONUser> {
             while (i< cID.length){
 
                 try{
-                    x= Integer.parseInt(cID[i]);
-                    cardIDsTA.add(x);
+                    cardIDsTA.add(Integer.parseInt(cID[i]));
                 }
                 catch(NumberFormatException e){
 
@@ -63,8 +59,7 @@ class UserDeserializer implements JsonDeserializer<JSONUser> {
             while (i< pH.length){
 
                 try{
-                    x= Integer.parseInt(cID[i]);
-                    cardIDsTA.add(x);
+                    postHistTA.add(Integer.parseInt(pH[i]));
                 }
                 catch(NumberFormatException e){
 

@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
@@ -22,6 +23,10 @@ import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static de.hdodenhof.circleimageview.R.styleable.CircleImageView;
 
 
 /**
@@ -85,13 +90,15 @@ public class PopUpPost extends AppCompatActivity {
     public void loadPost(Post p) {
         ArrayList<ImageView> photos = loadPhotos(p.getPhotos());
         LinearLayout photoContainer = (LinearLayout) findViewById(R.id.gallery);
-       // LinearLayout.LayoutParams photo_params =
-            //    new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams photo_params =
+                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
         for (int i = 0; i < photos.size(); i++) {
-            final ImageView photoView = photos.get(i);
+            final ImageView photoView = new ImageView(getApplicationContext());
             photoContainer.addView(photoView, i);
             photoView.setImageDrawable(photos.get(i).getDrawable());
-          //  photoView.setLayoutParams(photo_params);
+            photoView.setLayoutParams(photo_params);
+            photoView.setAdjustViewBounds(true);
+            photoView.setPadding(0,0,15,0);
             photoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -102,7 +109,7 @@ public class PopUpPost extends AppCompatActivity {
         }
 
         ImageView current_photo = (ImageView) findViewById(R.id.currentphoto);
-        current_photo.setImageDrawable(photos.get(0).getDrawable());
+        current_photo.setImageDrawable(photos.get(1).getDrawable());
 
         TextView name = (TextView) findViewById(R.id.name);
         name.setText(p.getProductName());

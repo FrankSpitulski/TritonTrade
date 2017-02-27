@@ -1,30 +1,26 @@
 package com.tmnt.tritontrade.view;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.tmnt.tritontrade.R;
 
 import java.util.ArrayList;
 
-public class Profile extends AppCompatActivity {
+public class Profile_NonUser extends AppCompatActivity {
 
     private ListView list;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> arrayList;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_profile__non_user);
+
 
 
         list = (ListView) findViewById(R.id.list);
@@ -43,6 +39,5 @@ public class Profile extends AppCompatActivity {
         }
 
         list.setAdapter(new ProfileListAdaptor(this, headers, data));
-
     }
 }
