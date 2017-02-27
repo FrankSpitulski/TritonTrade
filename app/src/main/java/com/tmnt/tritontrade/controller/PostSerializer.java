@@ -40,7 +40,7 @@ public class PostSerializer implements JsonSerializer<ArrayList<Post>> {
 
             for (int i=0; i< curr.getTags().size(); i++){
 
-                tagsTA= tagsTA + curr.getTags().get(i).toString() + ":";
+                tagsTA= tagsTA + "::" + curr.getTags().get(i).toString() + "::\n";
             }
 
 
