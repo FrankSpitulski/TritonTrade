@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 
 import java.math.BigInteger;
@@ -61,12 +62,12 @@ public class Server {
                     String response = uploadImage(c.getResources().openRawResource(R.raw.doge), "jpg"); // test file upload
                     Log.d("DEBUG", response);
                     Log.d("DEBUG", httpGetRequest("/db/userCount.php"));*/
-                    ArrayList<Post> posts = jsonToPost(httpGetRequest("/db/api.php/posts?transform=1"));
+                    /*ArrayList<Post> posts = jsonToPost(httpGetRequest("/db/api.php/posts?transform=1"));
                     for(Post u : posts){
                         Log.d("DEBUG", u.toString());
                     }
 
-                    Log.d("DEBUG", postToJson(posts));
+                    Log.d("DEBUG", postToJson(posts));*/
                     //Log.d("DEBUG", addNewUser("Frank", "", "bio", "321", "fspituls@eng.ucsd.edu", "test") + "");
 //                    User loggedInUser = login("fspituls@eng.ucsd.edu", "test2");
 //                    Log.d("DEBUG", loggedInUser != null ? loggedInUser.toString() : "NULL");
@@ -76,7 +77,23 @@ public class Server {
 //                    loggedInUser = loggedInUser != null ? searchUserIDs(loggedInUser.getProfileID()) : null;
 //                    Log.d("DEBUG", loggedInUser != null ? loggedInUser.toString() : "NULL");
 
+                    Post post = addPost("test product", new ArrayList<String>(), "this is a test", 0.00f, new ArrayList<String>(), 1, true, "321");
 
+                    ArrayList<String> tags = new ArrayList<String>();
+                    tags.add("Name");
+                    tags.add("tag tag");
+                    post.setTags(tags);
+
+                    ArrayList<String> photos = new ArrayList<String>();
+                    photos.add("/default.jpg");
+                    photos.add("23456765432345675432.jpg");
+                    post.setPhotos(photos);
+
+                    modifyExistingPost(post);
+
+                    Log.d("DEBUG", post.toString());
+
+                    Log.d("DEBUG", searchPostTags("Name").get(0).toString());
                 } catch (IOException e) {
                     Log.d("DEBUG", e.toString());
                 }
