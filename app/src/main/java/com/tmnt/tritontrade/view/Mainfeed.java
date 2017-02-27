@@ -1,8 +1,11 @@
 package com.tmnt.tritontrade.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -18,11 +21,14 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnMenuTabClickListener;
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
@@ -46,11 +52,32 @@ public class Mainfeed extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    //bottom tool bar
+    private BottomBar mBottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainfeed);
+
+        //bottom tool bar
+        mBottomBar = BottomBar.attach(this, savedInstanceState);
+        mBottomBar.setItems(R.menu.bottom_nav_items);
+
+        mBottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
+            @Override
+            public void onMenuTabSelected(@IdRes int menuItemId) {
+                setOnNavigationItemSelectedListener(menuItemId,true);
+                showToast(menuItemId, false);
+            }
+
+            @Override
+            public void onMenuTabReSelected(@IdRes int menuItemId) {
+                showToast(menuItemId, true);
+            }
+        });
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -250,6 +277,48 @@ public class Mainfeed extends AppCompatActivity
             }
         }
     }
+
+    //Bottom Tool Bar
+
+    private void setOnNavigationItemSelectedListener(int menuId, boolean selected){
+        if (menuId == R.id.bottom_mainfeed) {
+    //        setContentView(R.layout.activity_mainfeed);
+        } else if (menuId == R.id.bottom_upload) {
+    //        setContentView(R.layout.activity_create__post);
+        } else if (menuId == R.id.bottom_cart) {
+    //        setContentView(R.layout.activity_cart);
+        } else if (menuId == R.id.bottom_profile){
+    //        setContentView(R.layout.activity_profile);
+        }
+    }
+
+    private void showToast(int menuId, boolean isReselected) {
+        if (menuId == R.id.bottom_mainfeed) {
+
+        } else if (menuId == R.id.bottom_upload) {
+
+        } else if (menuId == R.id.bottom_cart) {
+
+        } else if (menuId == R.id.bottom_profile){
+
+        }
+    }
+
+    private void show(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // Necessary to restore the BottomBar's state, otherwise we would
+        // lose the current tab on orientation change.
+        mBottomBar.onSaveInstanceState(outState);
+    }
+
+
+
 }
 
 

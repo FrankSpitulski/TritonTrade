@@ -28,7 +28,9 @@
         <activity
             android:name=".view.Mainfeed"
             android:label="@string/title_activity_mainfeed"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
+
         <activity android:name=".view.EditProfile" />
         <activity android:name=".view.Register_Account" />
         <activity
