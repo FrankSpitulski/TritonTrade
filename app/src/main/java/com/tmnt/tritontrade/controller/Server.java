@@ -93,7 +93,12 @@ public class Server {
 
                     Log.d("DEBUG", post.toString());
 
-                    Log.d("DEBUG", searchPostTags("Name").get(0).toString());
+                    String contents = "";
+                    ArrayList<Post> search = searchPostTags("Name");
+                    for (Post p : search) {
+                        contents += (p.toString() + "\n");
+                    }
+                    Log.d("DEBUG", contents);
                 } catch (IOException e) {
                     Log.d("DEBUG", e.toString());
                 }
@@ -368,11 +373,11 @@ public class Server {
 
         //uses HTTP GET
         //first element of list
-        String request = "/db/api.php/posts?filter[]=profileID,cs,:" + tags.get(0) + ":";
+        String request = "/db/api.php/posts?filter[]=tags,cs,:" + tags.get(0) + ":";
 
         //for every id after the first one
         for (int x = 1; x < tags.size(); x++) {
-            request = request + "&filter[]=profileID,cs,:" + tags.get(x) + ":";
+            request = request + "&filter[]=tags,cs,:" + tags.get(x) + ":";
         }
         //add so that only has to be one of the ids in the list and convert to objects
         request = request + "&satisfy=any&transform=1";
@@ -579,7 +584,6 @@ public class Server {
         //response from server
         String response = readStream(connection.getInputStream());
 
-        //TODO: MAKE COMPREHEHSIVE
         //if response from server is bad, return false
         if (!response.equals("[1]")) {
             return false;
