@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.Post;
 
 /**
  * Created by nikolasn97 on 2/23/17.
@@ -16,26 +17,24 @@ import com.tmnt.tritontrade.R;
 class ProfileListAdaptor extends BaseAdapter {
 
     Context context;
-    String[] head;
-    String[] data;
+    Post[] posts;
     private LayoutInflater inflater = null;
 
-    public ProfileListAdaptor(Context context, String[] header, String[] data) {
+    public ProfileListAdaptor(Context context, Post[] posts) {
         this.context = context;
-        this.data = data;
-        this.head = header;
+        this.posts = posts;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return data.length;
+        return posts.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return data[position];
+        return posts[position];
     }
 
     @Override
@@ -50,8 +49,8 @@ class ProfileListAdaptor extends BaseAdapter {
             vi = inflater.inflate(R.layout.row, null);
         TextView text = (TextView) vi.findViewById(R.id.description);
         TextView header = (TextView) vi.findViewById(R.id.title);
-        header.setText(head[position]);
-        text.setText(data[position]);
+        header.setText(posts[position].getProductName());
+        text.setText(posts[position].getDescription());
         return vi;
     }
 }
