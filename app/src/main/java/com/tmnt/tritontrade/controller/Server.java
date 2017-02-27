@@ -61,12 +61,12 @@ public class Server {
                     String response = uploadImage(c.getResources().openRawResource(R.raw.doge), "jpg"); // test file upload
                     Log.d("DEBUG", response);
                     Log.d("DEBUG", httpGetRequest("/db/userCount.php"));*/
-                    ArrayList<User> users = jsonToUser(httpGetRequest("/db/api.php/users?transform=1"));
-                    for(User u : users){
+                    ArrayList<Post> posts = jsonToPost(httpGetRequest("/db/api.php/posts?transform=1"));
+                    for(Post u : posts){
                         Log.d("DEBUG", u.toString());
                     }
 
-                    Log.d("DEBUG", userToJson(users));
+                    Log.d("DEBUG", postToJson(posts));
                     //Log.d("DEBUG", addNewUser("Frank", "", "bio", "321", "fspituls@eng.ucsd.edu", "test") + "");
 //                    User loggedInUser = login("fspituls@eng.ucsd.edu", "test");
 //                    Log.d("DEBUG", loggedInUser != null ? loggedInUser.toString() : "NULL");
@@ -705,10 +705,14 @@ public class Server {
     private static String postToJson(ArrayList<Post> posts) {
         //Create the GSON builder to construct the JSON format of the ArrayList of users
         GsonBuilder builder = new GsonBuilder();
+
+        // Register the Custom UserSerializer with the JSONUser Class and create the gson
+        Type arrayListPostType = new TypeToken<ArrayList<Post>>(){}.getType();
+        builder.registerTypeAdapter(arrayListPostType, new PostSerializer());
         Gson gson = builder.serializeNulls().create();
 
         //Create the JSON format for the ArrayList of users
-        String toReturn = gson.toJson(posts);
+        String toReturn = gson.toJson(posts, arrayListPostType);
 
         //return JSON string
         return toReturn;

@@ -8,6 +8,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -67,7 +69,14 @@ public class PostDeserializer implements JsonDeserializer<JSONPost> {
             deleted = (_deleted==1);
 
             // Create the Date object for the post object
-            Date dateTA= new Date(obj.get("dateCreated").getAsLong());
+            SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date dateTA = null;
+            try {
+                dateTA = dateFormat.parse(obj.get("dateCreated").getAsString());
+            }
+            catch (ParseException e){
+                e.printStackTrace();
+            }
 
             // Initialize the post object that is to be added to the arrayList<Post> toReturn
             Post newPost = new Post(obj.get("productName").getAsString(), photosTA,
@@ -86,4 +95,5 @@ public class PostDeserializer implements JsonDeserializer<JSONPost> {
 
         return jPost;
     }
+
 }

@@ -7,32 +7,35 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Converts the
  */
 
-public class PostSerializer implements JsonSerializer<JSONPost> {
+public class PostSerializer implements JsonSerializer<ArrayList<Post>> {
     @Override
-    public JsonElement serialize(JSONPost src, Type typeOfSrc, JsonSerializationContext context) {
+    public JsonElement serialize(ArrayList<Post> src, Type typeOfSrc, JsonSerializationContext context) {
 
         // JsonObject and the JsonArray that we will add it to
         JsonObject jObject= new JsonObject();
         JsonArray jArr= new JsonArray();
 
-        // Add the user objects to the jArr
-        ArrayList<Post> _posts= src.posts;
-
-        for (Post curr: _posts){
+        // Add the post objects
+        for (Post curr: src){
 
             // Set up the JSON elements for ArrayList objects
             String photosTA= "";
-            String tagsTA=":";
+            String tagsTA="";
 
             for (int i=0; i< curr.getPhotos().size(); i++){
 
-                photosTA= photosTA + "\n" + curr.getPhotos().get(i).toString();
+                photosTA= photosTA + curr.getPhotos().get(i).toString() + "\n";
             }
 
             for (int i=0; i< curr.getTags().size(); i++){
@@ -51,27 +54,46 @@ public class PostSerializer implements JsonSerializer<JSONPost> {
             String postIDTA= Integer.toString(curr.getPostID());
             String profIDTA= Integer.toString(curr.getProfileID());
 
+            // Set up the correct date
+//            SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//            Date dateTA = new Date(curr.getDateCreated());
+//            try {
+//                ;
+//            }
+//            catch (ParseException e){
+//                e.printStackTrace();
+//            }
+
+            Calendar cal= GregorianCalendar.getInstance();
+            cal.setTime(curr.getDateCreated());
+
+            String dateTA= cal.get(Calendar.YEAR) + "-" +
+                    (cal.get(Calendar.MONTH)+1<=9? "0"+(cal.get(Calendar.MONTH)+1):cal.get(Calendar.MONTH)+1)
+                    + "-" + cal.get(Calendar.DAY_OF_MONTH) + " " +
+                    (cal.get(Calendar.HOUR_OF_DAY)<=9? "0"+(cal.get(Calendar.HOUR_OF_DAY)):cal.get(Calendar.HOUR_OF_DAY))
+                    + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
+
             // Create a jsonobject to add all of the user data to
             JsonObject object= new JsonObject();
-            object.addProperty("name", curr.getProductName());
-            object.addProperty("photo", photosTA);
+            object.addProperty("productName", curr.getProductName());
+            object.addProperty("photos", photosTA);
             object.addProperty("description", curr.getDescription());
-            object.addProperty("price", priceTA);
+            object.addProperty("price", curr.getPrice());
             object.addProperty("tags", tagsTA);
-            object.addProperty("profileID", profIDTA);
-            object.addProperty("postID", postIDTA);
+            object.addProperty("profileID", curr.getProfileID());
+            object.addProperty("postID", curr.getPostID());
             object.addProperty("selling", selTA);
-            object.addProperty("active", actTA);
+            object.addProperty("dateCreated", dateTA);
             object.addProperty("contactInfo", curr.getContactInfo());
-            object.addProperty("Date", curr.getDateCreated().toString());
             object.addProperty("deleted", delTA);
+            object.addProperty("active", actTA);
 
             // Add the JsonObject to the jArr
             jArr.add(object);
         }
 
         // Add the jArr to the Top Level JsonObject and return that JsonObject
-        jObject.add("users", jArr);
+        jObject.add("posts", jArr);
 
         return jObject;
     }
