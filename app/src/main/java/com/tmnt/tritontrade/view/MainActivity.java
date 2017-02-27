@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Server.test();
     }
 
     //If the user clicks on the "Forgot Password?" button, they will be redirected to
