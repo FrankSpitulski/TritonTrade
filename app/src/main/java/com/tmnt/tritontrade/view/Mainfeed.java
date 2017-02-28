@@ -30,6 +30,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
 
@@ -59,6 +60,8 @@ public class Mainfeed extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainfeed);
+
+        list = (ListView) this.findViewById(R.id.listFeed);
 
         //bottom tool bar
 /*        mBottomBar = BottomBar.attach(this, savedInstanceState);
@@ -92,6 +95,13 @@ public class Mainfeed extends AppCompatActivity
         NavigationView navigationView2 = (NavigationView) findViewById(R.id.right_drawer);
 
         //SET UP FILTER
+
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("food");
+
+
+        MyTask task = new MyTask();
+        task.execute(tags);
         SearchView sv = (SearchView) findViewById(R.id.searchView);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -105,37 +115,6 @@ public class Mainfeed extends AppCompatActivity
                 return false;
             }
         });
-
-        //DEMO
-        ArrayList<Post> posts = new ArrayList<>();
-        ArrayList<String> photos = new ArrayList<>();
-        ArrayList<String> photos2 = new ArrayList<>();
-        ArrayList<String> photos3 = new ArrayList<>();
-        ArrayList<String> tags = new ArrayList<>();
-        tags.add("fine");
-        Date s = new Date();
-        photos.add("https://storage.googleapis.com/gweb-uniblog-publish-prod/static/blog/images" +
-                "/google-200x200.7714256da16f.png");
-        photos2.add("https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg");
-        photos3.add("http://farm7.staticflickr.com/6047/7036787275_951cb768fe.jpg");
-        Post post1 = new Post("Stuff", photos, "Description stuff",
-        0, tags, 1, 1, true, true , s , "Phone number", false);
-        posts.add(post1);
-        Post post2 = new Post("Stuff2", photos2, "Description stuff",
-                0, tags, 1, 1, true, true , s , "Phone number", false);
-
-        Post post3 = new Post("Stuff3", photos3, "DEMO",
-                0, tags, 1, 1, true, true , s , "Phone number", false);
-        posts.add(post2);
-        posts.add(post3);
-        setFilter();
-        list = (ListView) this.findViewById(R.id.listFeed);
-        adapter=new CustomAdapter(this, posts);
-        list.setAdapter(adapter);
-
-
-        //MyTask task = new MyTask();
-        //task.execute(tags);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -273,7 +252,8 @@ public class Mainfeed extends AppCompatActivity
 
         protected void onPostExecute(ArrayList<Post> result) {
             if(result!=null) {
-            //    list.setAdapter(new CustomAdapter(getApplicationContext(), result));
+                adapter = new CustomAdapter(Mainfeed.this, result);
+                list.setAdapter(adapter);
             }
         }
     }
