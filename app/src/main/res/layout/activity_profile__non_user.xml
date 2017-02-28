@@ -73,7 +73,7 @@
             <ImageView
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/default_photo"
-                android:id="@+id/imageView3"
+                android:id="@+id/userPic"
                 android:layout_weight="1"
                 android:layout_width="150sp"
                 android:paddingRight="10sp"/>

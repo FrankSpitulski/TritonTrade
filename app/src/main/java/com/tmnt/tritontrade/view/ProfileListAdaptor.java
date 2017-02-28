@@ -45,8 +45,11 @@ class ProfileListAdaptor extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
+
         if (vi == null)
             vi = inflater.inflate(R.layout.row, null);
+
+        //Set the fields of the row element to the info in the posts array at the given position
         TextView text = (TextView) vi.findViewById(R.id.description);
         TextView header = (TextView) vi.findViewById(R.id.title);
         header.setText(posts[position].getProductName());

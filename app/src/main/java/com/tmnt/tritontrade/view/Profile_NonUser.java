@@ -2,10 +2,12 @@ package com.tmnt.tritontrade.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.User;
 
@@ -20,9 +22,12 @@ public class Profile_NonUser extends AppCompatActivity {
         setContentView(R.layout.activity_profile__non_user);
 
 
-        User user = new User("User", null, 0, "This is the bio for the non-user", "(510) 696-6969", "email@lol.edu",
+        User user = new User("User", "http://farm7.staticflickr.com/6047/7036787275_951cb768fe.jpg", 0,
+                "This is the bio for the user", "(510) 696-6969", "email@lol.edu",
                 "jkdsf", "sdfs", null, false, null, "sdfs", false);
 
+        new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.userPic))
+                .execute(user.getPhoto());
 
         populateUserInfo(user);
 
