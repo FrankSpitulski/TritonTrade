@@ -18,7 +18,7 @@
         android:scaleType="fitXY"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_height="140dp" />
+        android:layout_height="160dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -55,12 +55,23 @@
         android:layout_marginTop="50dp"
         android:id="@+id/list" />
 
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/common_action_bar_splitter"
+        app:itemIconTint="@color/common_google_signin_btn_text_dark_focused"
+        app:itemTextColor="@color/common_google_signin_btn_text_dark_focused"
+        app:menu="@menu/bottom_nav_items"
+        android:background="@color/common_plus_signin_btn_text_dark_default" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="140sp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_height="160sp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -91,23 +102,22 @@
 
                     <LinearLayout
                         android:orientation="vertical"
-                        android:layout_width="wrap_content"
+                        android:layout_width="70sp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
 
                         <TextView
                             android:text="Username"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/username"
                             android:textColor="@android:color/white"
-                            android:textSize="24sp"
-                            android:textStyle="normal|bold"
-                            android:layout_weight="1" />
+                            android:textSize="20sp"
+                            android:textStyle="normal|bold" />
 
                         <TextView
                             android:text="Email"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/email"
                             android:textColor="#E0E0E0"
@@ -116,7 +126,7 @@
 
                         <TextView
                             android:text="Phone Number"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/phone"
                             android:textColor="#E0E0E0"
@@ -143,21 +153,14 @@
             android:text="Description/Bio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/description"
+            android:id="@+id/bio"
             android:textAlignment="center"
             android:paddingTop="7sp"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:paddingBottom="20sp"
+            android:maxLength="140"/>
 
     </LinearLayout>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemBackground="@color/common_action_bar_splitter"
-        app:itemIconTint="@color/common_google_signin_btn_text_dark_focused"
-        app:itemTextColor="@color/common_google_signin_btn_text_dark_focused"
-        app:menu="@menu/bottom_nav_items"
-        android:background="@color/common_plus_signin_btn_text_dark_default" />
 </RelativeLayout>

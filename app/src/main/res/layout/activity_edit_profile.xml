@@ -58,31 +58,10 @@
                     android:inputType="textPersonName"
                     android:text="Username"
                     android:ems="10"
-                    android:id="@+id/username_text_field"
+                    android:id="@+id/username"
                     android:layout_weight="1"
-                    android:hint="Username" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_menu_share"
-                    android:id="@+id/imageView12"
-                    android:layout_weight="1" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:ems="10"
-                    android:id="@+id/email_text_field"
-                    android:layout_weight="1"
-                    android:text="email@ucsd.edu" />
+                    android:hint="Username"
+                    android:maxLength="18"/>
             </LinearLayout>
 
             <LinearLayout
@@ -102,9 +81,10 @@
                     android:layout_height="wrap_content"
                     android:inputType="phone"
                     android:ems="10"
-                    android:id="@+id/phone_text_field"
+                    android:id="@+id/phone"
                     android:layout_weight="1"
-                    android:text="80569696969" />
+                    android:text="80569696969"
+                    android:maxLength="20"/>
             </LinearLayout>
 
             <EditText
@@ -112,9 +92,10 @@
                 android:inputType="textMultiLine|textPersonName"
                 android:text="Bio"
                 android:ems="10"
-                android:id="@+id/bio_text_field"
+                android:id="@+id/bio"
                 android:layout_height="175dp"
-                android:gravity="top" />
+                android:gravity="top"
+                android:maxLength="140"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -128,7 +109,8 @@
                     android:id="@+id/save_profile_button"
                     android:layout_weight="1"
                     android:backgroundTint="#163EB8"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:onClick="saveInfo"/>
 
                 <Button
                     android:text="Cancel"
@@ -137,7 +119,8 @@
                     android:id="@+id/cancel_button"
                     android:layout_weight="1"
                     android:backgroundTint="#163EB8"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:onClick="cancelEdit"/>
             </LinearLayout>
 
         </LinearLayout>
