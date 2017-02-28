@@ -31,12 +31,16 @@
 
                     <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:id="@+id/gallery">
 
                     </LinearLayout>
                 </HorizontalScrollView>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -98,7 +102,7 @@
                 android:layout_weight="1.30"
                 android:textColor="@color/colorPrimaryDark"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textAlignment="viewStart" />
 
             <Button
@@ -109,7 +113,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/colorPrimaryDark"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textAlignment="viewEnd" />
         </LinearLayout>
 

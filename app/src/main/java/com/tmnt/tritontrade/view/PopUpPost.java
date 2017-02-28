@@ -1,12 +1,15 @@
 package com.tmnt.tritontrade.view;
 
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -71,18 +74,17 @@ public class PopUpPost extends AppCompatActivity {
                 cart_status = !cart_status;
             }
         });
-
-        ArrayList<String> dummyPhotos = new ArrayList<>();
+        /* ArrayList<String> dummyPhotos = new ArrayList<>();
         dummyPhotos.add("http://xiostorage.com/wp-content/uploads/2015/10/test.png");
         dummyPhotos.add("http://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/dogelog.jpg");
         dummyPhotos.add("https://pbs.twimg.com/profile_images/378800000822867536/3f5a00acf72df93528b6bb7cd0a4fd0c.jpeg");
         dummyPhotos.add("http://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/dogelog.jpg");
-        dummyPhotos.add("https://pbs.twimg.com/profile_images/378800000822867536/3f5a00acf72df93528b6bb7cd0a4fd0c.jpeg");
+        dummyPhotos.add("https://pbs.twimg.com/profile_images/378800000822867536/3f5a00acf72df93528b6bb7cd0a4fd0c.jpeg"); */
 
-        Post dummy = new Post("Doge", dummyPhotos, "Good Doge 4 u.", 12.42f, null, 0, 0, false, false, null, null, false);
+        //Post dummy = new Post("Doge", dummyPhotos, "Good Doge 4 u.", 12.42f, null, 0, 0, false, false, null, null, false);
 
-        //Post p = getIntent().getParcelableExtra("category");
-        loadPost(dummy);
+        Post p = getIntent().getParcelableExtra("category");
+        loadPost(p);
 
 
     }
@@ -90,14 +92,17 @@ public class PopUpPost extends AppCompatActivity {
     public void loadPost(Post p) {
         ArrayList<ImageView> photos = loadPhotos(p.getPhotos());
         LinearLayout photoContainer = (LinearLayout) findViewById(R.id.gallery);
+        photoContainer.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams photo_params =
-                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                new LinearLayout.LayoutParams(175, 175);
+        photo_params.gravity = Gravity.CENTER;
         for (int i = 0; i < photos.size(); i++) {
-            final ImageView photoView = new ImageView(getApplicationContext());
-            photoContainer.addView(photoView, i);
-            photoView.setImageDrawable(photos.get(i).getDrawable());
+            final ImageView photoView = photos.get(i);
+
+            //photoView.setImageDrawable(photos.get(i).getDrawable());
+            //photoView.setAdjustViewBounds(true);
+            //photoView.setCropToPadding(true);
             photoView.setLayoutParams(photo_params);
-            photoView.setAdjustViewBounds(true);
             photoView.setPadding(0,0,15,0);
             photoView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -106,10 +111,17 @@ public class PopUpPost extends AppCompatActivity {
                     current_photo.setImageDrawable(photoView.getDrawable());
                 }
             });
-        }
+            photoContainer.addView(photos.get(i), i);
+            if (i == 0) photoView.performClick();
 
-        ImageView current_photo = (ImageView) findViewById(R.id.currentphoto);
-        current_photo.setImageDrawable(photos.get(1).getDrawable());
+        }
+            ImageView current_photo;
+            current_photo = (ImageView) findViewById(R.id.currentphoto);
+            //current_photo.setImageResource(R.drawable.blurred_geisel);
+            //current_photo.postInvalidate();
+            final Drawable d = photos.get(0).getDrawable();
+            current_photo.setImageDrawable(d);
+
 
         TextView name = (TextView) findViewById(R.id.name);
         name.setText(p.getProductName());
@@ -125,10 +137,10 @@ public class PopUpPost extends AppCompatActivity {
     public ArrayList<ImageView> loadPhotos(ArrayList<String> photos) {
 
         ArrayList<ImageView> iv_array = new ArrayList<>();
-        for (String u : photos) {
-            ImageView d = new ImageView(getApplicationContext());
+        for (int i = 0; i < photos.size(); i++) {
+            ImageView d = new CircleImageView(getApplicationContext());
             new DownloadPhotosAsyncTask(d)
-                    .execute(u);
+                    .execute(photos.get(i));
             iv_array.add(d);
         }
         return iv_array;
