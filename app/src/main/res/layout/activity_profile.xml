@@ -127,11 +127,12 @@
                     <Button
                         android:text="edit"
                         android:layout_height="wrap_content"
-                        android:id="@+id/button9"
+                        android:id="@+id/editProfile"
                         android:layout_weight="1"
                         android:backgroundTint="@android:color/transparent"
                         android:layout_width="5sp"
-                        android:textColor="@android:color/white" />
+                        android:textColor="@android:color/white"
+                        android:onClick="sendToEditProfile"/>
                 </LinearLayout>
 
             </LinearLayout>

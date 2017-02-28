@@ -1,6 +1,8 @@
 package com.tmnt.tritontrade.view;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,6 +30,14 @@ public class Profile extends AppCompatActivity {
 
         populateUserInfo(user);
         populateList();
+
+    }
+
+
+    public void sendToEditProfile(View view) {
+
+        Intent intent = new Intent(this, EditProfile.class);
+        startActivity(intent);
 
     }
 
