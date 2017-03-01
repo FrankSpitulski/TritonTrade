@@ -375,6 +375,10 @@ public class Post implements Parcelable {
         dest.writeByte((byte) (deleted ? 0x01 : 0x00));
     }
 
+    public static String getDefaultImage(){
+        return "/img/imageCDN/default/defaultPost.jpg";
+    }
+
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Post> CREATOR = new Parcelable.Creator<Post>() {
         @Override

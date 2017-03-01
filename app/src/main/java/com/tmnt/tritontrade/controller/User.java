@@ -441,6 +441,10 @@ public class User implements Parcelable {
         return Server.stripOuterJson(Server.userToJson(users));
     }
 
+    public static String getDefaultImage(){
+        return "/img/imageCDN/default/defaultUser.jpg";
+    }
+
     //******PARCELABLE METHODS********
     protected User(Parcel in) {
         name = in.readString();
