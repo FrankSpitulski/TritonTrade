@@ -1,5 +1,7 @@
 package com.tmnt.tritontrade.view;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,18 +112,20 @@ public class PopUpPost extends AppCompatActivity {
                 public void onClick(View v) {
                     ImageView current_photo = (ImageView) findViewById(R.id.currentphoto);
                     current_photo.setImageDrawable(photoView.getDrawable());
+                    Log.d("DEBUG", "clicked");
                 }
             });
             photoContainer.addView(photos.get(i), i);
-            if (i == 0) photoView.performClick();
+            //if (i == 0) photoView.performClick();
 
         }
             ImageView current_photo;
             current_photo = (ImageView) findViewById(R.id.currentphoto);
             //current_photo.setImageResource(R.drawable.blurred_geisel);
             //current_photo.postInvalidate();
-            final Drawable d = photos.get(0).getDrawable();
-            current_photo.setImageDrawable(d);
+
+        Bitmap bitmap = ((BitmapDrawable)current_photo.getDrawable()).getBitmap();
+        current_photo.setImageBitmap(bitmap);
 
 
         TextView name = (TextView) findViewById(R.id.name);
