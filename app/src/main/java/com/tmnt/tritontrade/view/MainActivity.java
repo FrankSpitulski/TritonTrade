@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     //If the user clicks on the "Forgot Password?" button, they will be redirected to
     //the forgot password activity
     public void sendToForgotActivity(View view) {
-        Intent intent = new Intent(this, Mainfeed.class);
+        Intent intent = new Intent(this, ForgotPassword.class);
         startActivity(intent);
     }
     //If the user clicks on the "Sign Up" button, they will be redirected to
