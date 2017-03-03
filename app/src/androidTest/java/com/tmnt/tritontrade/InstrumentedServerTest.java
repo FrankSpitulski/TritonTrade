@@ -1,6 +1,8 @@
 package com.tmnt.tritontrade;
 
+
 import android.support.test.runner.AndroidJUnit4;
+
 import android.util.Log;
 
 import com.tmnt.tritontrade.controller.Post;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -51,11 +54,18 @@ public class InstrumentedServerTest
     public static void setUpClass()
     {
 
-
+        //empty string
+        funStrings.add("");
         //bunch of escaped characters
         funStrings.add("\"\"\n\n\n\b\b");
         //random symbols
         funStrings.add("%$&^(*!&#(*@NULLnullnull__+");
+        //forward and back slashes for days
+        funStrings.add("\\//////\\\\\\\\////////");
+        //nuke database sql command
+        funStrings.add("DROP TABLE users;--");
+        //more random symbols
+        funStrings.add("`~[{]})(*&^%$#@!:;\"\'\'\'\'\"\"\'**--++__--++__)))(");
     }
 
     /**
@@ -86,6 +96,7 @@ public class InstrumentedServerTest
             }
         }
 
+        //nuke all users used in testing
         cleanUp(testUsers);
     }
 
@@ -373,28 +384,77 @@ public class InstrumentedServerTest
         }
 
         User u = testUsers.get(0);
-        u.setName("I AM NOT STEVE");
 
-        //Change user name
+      for (String s: funStrings) {
+          u.setName(s);
+          //Change user name
+          try {
+              Server.modifyExistingUser(u);
+          } catch (IOException e) {
+              fail();
+          }
+
+          //get new instance of the user form the server
+          try {
+              u = Server.searchUserIDs(u.getProfileID());
+          } catch (IOException e) {
+              fail();
+          }
+
+          //assert that the changed name equals the one gotten from the server
+          assertTrue(u.getName().equals(s));
+      }
+    }
+
+    /**
+     * Test posting with a given user, normal non-insane cases
+     */
+    @Test
+    public void testPostNormal() {
+        //add valid user to the database
         try {
-           Server.modifyExistingUser(u);
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+        } catch (IOException e) {
+            fail();
+        }
+
+        //user that will be posting stuffs
+        User u = testUsers.get(0);
+
+        //add post to database
+        try {
+            testPosts.add(Server.addPost("SLIGHTLY USED TURNIP", new ArrayList<String>(),
+                    "TURNIPS ARE GOOD FOR YOUUUU", (float) 9.99, new ArrayList<String>(),
+                    u.getProfileID(), true, "FIND ME IN KONSTANTIYYE"));
+        }
+        //fail post not added
+        catch (IOException e)
+        {
+            fail();
+        }
+
+        Post post1 = testPosts.get(0);
+        Post post2 = null;
+        //get post back from server
+        try {
+            post2 = Server.searchPostIDs(post1.getPostID());
         }
         catch (IOException e)
         {
             fail();
         }
 
-        //get new instance of the user form the server
-        try {
-            u = Server.searchUserIDs(u.getProfileID());
-        } catch (IOException e) {
-            fail();
-        }
-
-        assertTrue(u.getName().equals("I AM NOT STEVE"));
+        Log.d("DEBUG",post1.toString());
+        Log.d("DEBUG",post2.toString());
+        //assert that both posts are the same
+        assertTrue(post1.toString().equals(post2.toString()));
+        //assert that the user we made to post it is the same
+        assertEquals(post2.getProfileID(),u.getProfileID());
     }
 
-    
+
+
 
     /**
      * Deletes all of the specified users from the database.
