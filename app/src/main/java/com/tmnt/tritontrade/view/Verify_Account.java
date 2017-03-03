@@ -1,8 +1,10 @@
 package com.tmnt.tritontrade.view;
 
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.tmnt.tritontrade.R;
@@ -13,6 +15,7 @@ public class Verify_Account extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify__account);
+
     }
     //If the user clicks "Log In" they will be redirected to the
     //log in screen

@@ -92,7 +92,6 @@ public class Profile extends AppCompatActivity {
 
     private void populateList() {
 
-
         list = (ListView) findViewById(R.id.list);
 
         //random posts
