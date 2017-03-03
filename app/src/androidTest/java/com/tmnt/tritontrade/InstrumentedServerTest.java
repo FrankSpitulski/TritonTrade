@@ -56,6 +56,8 @@ public class InstrumentedServerTest
 
         //empty string
         funStrings.add("");
+        //string of only spaces
+        funStrings.add("      ");
         //bunch of escaped characters
         funStrings.add("\"\"\n\n\n\b\b");
         //random symbols
@@ -425,7 +427,7 @@ public class InstrumentedServerTest
         //add post to database
         try {
             testPosts.add(Server.addPost("SLIGHTLY USED TURNIP", new ArrayList<String>(),
-                    "TURNIPS ARE GOOD FOR YOUUUU", (float) 9.99, new ArrayList<String>(),
+                    "TURNIPS ARE GOOD FOR YOUUUU", (float) 42.0, new ArrayList<String>(),
                     u.getProfileID(), true, "FIND ME IN KONSTANTIYYE"));
         }
         //fail post not added
@@ -445,16 +447,15 @@ public class InstrumentedServerTest
             fail();
         }
 
+        //DEBUG IN CASE POST STRINGS ARENT THE SAME
         Log.d("DEBUG",post1.toString());
         Log.d("DEBUG",post2.toString());
+
         //assert that both posts are the same
         assertTrue(post1.toString().equals(post2.toString()));
         //assert that the user we made to post it is the same
         assertEquals(post2.getProfileID(),u.getProfileID());
     }
-
-
-
 
     /**
      * Deletes all of the specified users from the database.
