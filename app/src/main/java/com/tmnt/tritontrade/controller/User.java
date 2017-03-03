@@ -2,6 +2,7 @@ package com.tmnt.tritontrade.controller;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class User implements Parcelable {
@@ -36,22 +37,25 @@ public class User implements Parcelable {
     public User(String name, String photo, int profileID, String bio, String mobileNumber,
                 String email, String password, String salt, ArrayList<Integer> postHistory,
                 boolean verified, ArrayList<Integer> cartIDs, String emailVerificationLink,
-                boolean deleted)
+                boolean deleted) throws IllegalArgumentException
     {
-        this.name = name;
-        this.photo = photo;
-        this.profileID = profileID;
-        this.bio = bio;
-        this.mobileNumber = mobileNumber;
-        this.email = email;
-        this.password = password;
-        this.salt = salt;
         this.postHistory = postHistory;
-        this.verified = verified;
-        this.cartIDs = cartIDs;
-        this.emailVerificationLink = emailVerificationLink;
-        this.deleted = deleted;
+        if (!(this.setName(name) &&
+        this.setPhoto(photo) &&
+        this.setProfileID(profileID) &&
+        this.setBio(bio) &&
+        this.setMobileNumber(mobileNumber) &&
+        this.setEmail(email) &&
+        this.setPassword(password) &&
+        this.setSalt(salt) &&
+        this.setVerified(verified) &&
+        this.setCartIDs(cartIDs) &&
+        this.setEmailVerificationLink(emailVerificationLink) &&
+        this.setDeleted(deleted))){
+            throw new IllegalArgumentException();
+        }
     }
+
 
     /**
      * Getter for name
@@ -159,7 +163,8 @@ public class User implements Parcelable {
      */
     public boolean setMobileNumber(String mobileNumber)
     {
-        if(mobileNumber==null)
+        String regex = "^\\+[0-9][0-9][0-9][0-9] \\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$";
+        if(mobileNumber==null || !mobileNumber.matches(regex))
             return false;
         this.mobileNumber = mobileNumber;
         return true;
@@ -181,7 +186,7 @@ public class User implements Parcelable {
      */
     public boolean setEmail(String email)
     {
-        if (email == null)
+        if (email == null || !email.matches(".*ucsd.edu$"))
             return false;
         this.email = email;
         return true;
