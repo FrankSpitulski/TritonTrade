@@ -16,4 +16,5 @@
         app:menu="@menu/bottom_nav_items"
         android:background="@color/common_plus_signin_btn_text_dark_default" />
 
+
 </RelativeLayout>
