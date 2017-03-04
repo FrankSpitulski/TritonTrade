@@ -2,6 +2,7 @@ package com.tmnt.tritontrade.view;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -22,6 +23,8 @@ import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
+
 import static de.hdodenhof.circleimageview.R.styleable.CircleImageView;
 
 
@@ -31,6 +34,7 @@ import static de.hdodenhof.circleimageview.R.styleable.CircleImageView;
 
 public class PopUpPost extends AppCompatActivity {
     private boolean cart_status = false;
+    Toast t = new Toast(getApplicationContext());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,44 +77,13 @@ public class PopUpPost extends AppCompatActivity {
                 Toast t = new Toast(getApplicationContext());
                 User current_user = CurrentState.getInstance().getCurrentUser();
                 if (cart_status) {
-                    try {
-                        current_user.removeFromCart(p.getPostID());
-                        Server.modifyExistingUser(current_user);
-                        t.cancel();
-                        t.makeText(PopUpPost.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
-                        cart_status = !cart_status;
-                        b.setText("ADD TO CART");
-                    }
-                    catch (IOException e) {
-                        t.cancel();
-                        t.makeText(PopUpPost.this, "Bad connection to server", Toast.LENGTH_SHORT).show();
-                    }
-                    catch (IllegalArgumentException e2){
-                        Log.d("DEBUG", e2.toString());
-                        t.cancel();
-                        t.makeText(PopUpPost.this, "Bad user", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    try {
-                        current_user.addToCart(p.getPostID());
-                        Server.modifyExistingUser(current_user);
-                        t.cancel();
-                        t.makeText(PopUpPost.this, "Item added to cart", Toast.LENGTH_SHORT).show();
-                        cart_status = !cart_status;
-                        b.setText("REMOVE FROM CART");
-                    }
-                    catch (IOException e) {
-                        Log.d("DEBUG", e.toString());
-                        t.cancel();
-                        t.makeText(PopUpPost.this, "Bad connection to server", Toast.LENGTH_SHORT).show();
-                    }
-                    catch (IllegalArgumentException e2){
-                        Log.d("DEBUG", e2.toString());
-                        t.cancel();
-                        t.makeText(PopUpPost.this, "Bad user", Toast.LENGTH_SHORT).show();
-                    }
-
+                    current_user.removeFromCart(p.getPostID());
                 }
+                else {
+                    current_user.addToCart(p.getPostID());
+                }
+                new ModifyUserCart().execute(current_user);
+
             }
 
         });
@@ -177,6 +150,46 @@ public class PopUpPost extends AppCompatActivity {
         return iv_array;
 
     }
+
+    public class ModifyUserCart extends AsyncTask<User, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(User... params) {
+            try {
+                Server.modifyExistingUser(params[0]);
+                return true;
+            }
+            catch (IOException e) {
+                Log.d("DEBUG", e.toString());
+                return false;
+            }
+            catch (IllegalArgumentException e2) {
+                Log.d("DEBUG", e2.toString());
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean bool) {
+            t.cancel();
+            if (bool) {
+                if(cart_status) {
+                    t.makeText(PopUpPost.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
+                    ((Button) findViewById(R.id.cart)).setText("ADD TO CART");
+                }
+                else {
+                    t.cancel();
+                    t.makeText(PopUpPost.this, "Item added to cart", Toast.LENGTH_SHORT).show();
+                    ((Button) findViewById(R.id.cart)).setText("REMOVE FROM CART");
+                }
+                cart_status = !cart_status;
+            }
+            else {
+                t.makeText(PopUpPost.this, "Bad connection to server or bad post ID", Toast.LENGTH_SHORT);
+            }
+        }
+    }
+
+
 
 
 }
