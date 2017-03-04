@@ -1,11 +1,18 @@
 package com.tmnt.tritontrade.view;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -25,10 +33,13 @@ import com.tmnt.tritontrade.controller.Server;
 
 import static com.tmnt.tritontrade.R.id.categorySpinner;
 import static com.tmnt.tritontrade.R.id.imgButton1;
+import static com.tmnt.tritontrade.R.id.imgButton4;
+import static com.tmnt.tritontrade.R.id.imgButton5;
 
 
 public class Create_Post extends AppCompatActivity {
 
+    private static int IMG_RESULT = 1;
     Button createPostButton;
     private Spinner spinner1;
     private Spinner spinner2;
@@ -40,6 +51,10 @@ public class Create_Post extends AppCompatActivity {
     static int profileID;
     static boolean selling;
     static String contactInfo;
+    static String thePath;
+
+    static InputStream is;
+    static String extension;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +72,11 @@ public class Create_Post extends AppCompatActivity {
                 EditText thePrice = (EditText) findViewById(R.id.priceInputLabel);
                 spinner1 = (Spinner) findViewById(R.id.categorySpinner);
                 spinner2 = (Spinner) findViewById(R.id.buyOrSellSpinner);
+                ImageButton firstImg = (ImageButton) findViewById(R.id.imgButton1);
+                ImageButton secondImg = (ImageButton) findViewById(R.id.imgButton2);
+                ImageButton thirdImg = (ImageButton) findViewById(R.id.imgButton3);
+                ImageButton fourthImg = (ImageButton) findViewById(imgButton4);
+                ImageButton fifthImg = (ImageButton) findViewById(imgButton5);
 
 
                 productName = theName.getText().toString();
@@ -65,7 +85,8 @@ public class Create_Post extends AppCompatActivity {
 
 
                 String selectedItemText = spinner1.getSelectedItem().toString();
-                tags.add(0, selectedItemText);
+                tags.add(0, productName);
+                tags.add(1, selectedItemText);
 
                 profileID = CurrentState.getInstance().getCurrentUser().getProfileID();
                 contactInfo = CurrentState.getInstance().getCurrentUser().getMobileNumber();
@@ -77,10 +98,104 @@ public class Create_Post extends AppCompatActivity {
                     selling = true;
                 }
 
+                firstImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                        startActivityForResult(intent,IMG_RESULT);
+
+                    }
+                });
+                secondImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                        startActivityForResult(intent,IMG_RESULT);
+
+                    }
+                });
+                thirdImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                        startActivityForResult(intent,IMG_RESULT);
+
+                    }
+                });
+                fourthImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                        startActivityForResult(intent,IMG_RESULT);
+
+                    }
+                });
+                fifthImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                        startActivityForResult(intent,IMG_RESULT);
+
+                    }
+                });
+
                 new CreatePostTask().execute();
             }
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+
+            if (requestCode == IMG_RESULT && resultCode == RESULT_OK
+                    && null != data) {
+
+
+                Uri URI = data.getData();
+
+                //get the inputstream to the URI file
+                is = getContentResolver().openInputStream(URI);
+
+                //Get the file name
+                String[] FILE = { MediaStore.Images.Media.DATA };
+
+                Cursor cursor = getContentResolver().query(URI,
+                        FILE, null, null, null);
+
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(FILE[0]);
+                String temp = cursor.getString(columnIndex);
+
+                //Get the extension
+                int i = temp.lastIndexOf('.');
+                if (i > 0) {
+                    extension = temp.substring(i+1);
+                }
+                //upload the image to the server
+                thePath = Server.uploadImage(is,extension);
+                photos.add(thePath); //THIS IS THE ARRAYLIST THAT IS POPULATING THE POST
+                cursor.close();
+
+
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Please try again", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
 
     public void addItemsOnCategorySpinner(){
         spinner1 = (Spinner) findViewById(R.id.categorySpinner);
@@ -111,11 +226,13 @@ public class Create_Post extends AppCompatActivity {
     }
 
 
+
     private class CreatePostTask extends AsyncTask<Post, Post, Post> {
         @Override
         protected Post doInBackground(Post... params) {
             try {
-                return Server.addPost(productName,photos,description,price,tags,profileID,selling,contactInfo);
+                return Server.addPost(productName,photos,description,price,
+                        tags,profileID,selling,contactInfo);
             }
             catch(IOException e) {
                 Log.d("DEBUG", e.toString());
@@ -135,4 +252,31 @@ public class Create_Post extends AppCompatActivity {
 
         }
     }
+
+    //ASYNC TASK FOR THE UPLOAD TO SERVER
+    /*private class GetPathTask extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                return Server.uploadImage(is, extension);
+            }
+            catch(IOException e) {
+                Log.d("DEBUG", e.toString());
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result != null) {
+                startActivity(new Intent(getApplicationContext(), Create_Post.class));
+            } else {
+
+                Toast.makeText(Create_Post.this, "Post Upload Failed", Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+    }*/
+
 }
