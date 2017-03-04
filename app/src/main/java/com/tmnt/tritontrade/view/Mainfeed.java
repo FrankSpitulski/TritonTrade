@@ -142,20 +142,10 @@ public class Mainfeed extends AppCompatActivity
             }
         });
 
-/*
+
         //Load more once reach end of scroll
-        list.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-            }
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                adapter.showMore();
-            }
-        });
-*/
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -293,6 +283,17 @@ public class Mainfeed extends AppCompatActivity
             if(result!=null) {
                 adapter = new CustomAdapter(Mainfeed.this, result);
                 list.setAdapter(adapter);
+                list.setOnScrollListener(new AbsListView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                    }
+
+                    @Override
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                        adapter.showMore();
+                    }
+                });
             }
         }
     }
