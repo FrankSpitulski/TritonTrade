@@ -71,12 +71,17 @@ public class PopUpPost extends AppCompatActivity {
         final Post p = getIntent().getParcelableExtra("category");
         loadPost(p);
 
+        final User current_user = CurrentState.getInstance().getCurrentUser();
+        if (current_user.getCartIDs().contains(p.getPostID())) {
+            cart_status = true;
+            ((Button) findViewById(R.id.cart)).setText("REMOVE FROM CART");
+        }
+
         findViewById(R.id.cart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Button b = (Button) v;
                 Toast t = new Toast(getApplicationContext());
-                User current_user = CurrentState.getInstance().getCurrentUser();
                 if (cart_status) {
                     current_user.removeFromCart(p.getPostID());
                 }
@@ -84,12 +89,8 @@ public class PopUpPost extends AppCompatActivity {
                     current_user.addToCart(p.getPostID());
                 }
                 new ModifyUserCart().execute(current_user);
-
             }
-
         });
-
-
     }
 
     public void loadPost(Post p) {
