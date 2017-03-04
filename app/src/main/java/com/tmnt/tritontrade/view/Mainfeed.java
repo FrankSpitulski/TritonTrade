@@ -19,10 +19,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
-
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -33,7 +33,6 @@ import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,6 +62,14 @@ public class Mainfeed extends AppCompatActivity
 
         list = (ListView) this.findViewById(R.id.listFeed);
 
+        //Setting createPost
+        ImageButton createPostButton = (ImageButton)findViewById(R.id.createPostButton);
+        createPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Mainfeed.this, Create_Post.class));
+            }
+        });
         //bottom tool bar
 /*        mBottomBar = BottomBar.attach(this, savedInstanceState);
         mBottomBar.setItems(R.menu.bottom_nav_items);
@@ -96,22 +103,23 @@ public class Mainfeed extends AppCompatActivity
 
         //SET UP FILTER
 
+        //TODO put custom preference here instead of custom dag
         ArrayList<String> tags = new ArrayList<>();
         tags.add("food");
 
 
         MyTask task = new MyTask();
         task.execute(tags);
-        SearchView sv = (SearchView) findViewById(R.id.searchView);
+        final SearchView sv = (SearchView) findViewById(R.id.searchView);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                adapter.getFilter().filter(query);
+                sv.clearFocus();
+                return true;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -221,22 +229,6 @@ public class Mainfeed extends AppCompatActivity
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
-    }
-
-    private void setFilter(){
-        SearchView sv = (SearchView) findViewById(R.id.searchView);
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                return false;
-            }
-        });
     }
 
 

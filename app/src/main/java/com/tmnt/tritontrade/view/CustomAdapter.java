@@ -1,6 +1,7 @@
 package com.tmnt.tritontrade.view;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,12 +16,17 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
+import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
+import com.tmnt.tritontrade.controller.Server;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -136,9 +142,9 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         if(CurrentState.getInstance() != null) {
             postHolder.userTag.setText(CurrentState.getInstance().getCurrentUser().getName());
         }
-        postHolder.category.setText(posts.get(position).getTags().get(0));
+        postHolder.category.setText(posts.get(position).getTags().get(1));
         postHolder.price.setText(String.valueOf(posts.get(position).getPrice()));
-        new DownloadImageTask(postHolder.image)
+        new DownloadPhotosAsyncTask(postHolder.image)
                 .execute(posts.get(position).getPhotos().get(0));
 
         //Click listener for post
@@ -174,19 +180,11 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults results = new FilterResults();
             if(charSequence != null && charSequence.length() != 0){
-                //Convert to uppercase
-                charSequence = charSequence.toString().toUpperCase();
-                ArrayList<Post> filters = new ArrayList<>();
-
-                for(int i = 0; i < filterList.size(); i++){
-                    if(filterList.get(i).getProductName().toUpperCase().contains(charSequence)){
-                        filters.add(filterList.get(i));
-                    }
-
-                }
-                results.count = filters.size();
-                results.values=filters;
+                new SearchTask().execute(charSequence.toString());
+                results.count = filterList.size();
+                results.values=filterList;
             }
+            //NEEDED?
             else{
                 results.count = filterList.size();
                 results.values = filterList;
@@ -196,38 +194,42 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            posts = (ArrayList<Post>) filterResults.values;
-            notifyDataSetChanged();
-        }
-    }
-
-    /**
-     * Async task to load image from url
-     */
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
+            if(filterResults.values!=null) {
+                posts = (ArrayList<Post>) filterResults.values;
+                notifyDataSetChanged();
             }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
         }
     }
 
+    private class SearchTask extends AsyncTask<String, Object, ArrayList<Post>>{
+        private ProgressDialog dialog=new ProgressDialog(context);
+        @Override
+        protected ArrayList<Post> doInBackground(String... params) {
+            try {
+                ArrayList<Post> filteredPosts = Server.searchPostTags(params[0]);
+                return filteredPosts;
+            }
+            catch(IOException e){
+                Log.d("DEBUG", e.toString());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setMessage("Loading");
+            this.dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Post> result){
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            if(result!=null){
+                filterList=result;
+            }
+        }
+    }
 
 }
