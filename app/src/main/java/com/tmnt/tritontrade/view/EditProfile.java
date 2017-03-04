@@ -39,13 +39,17 @@ public class EditProfile extends AppCompatActivity {
         EditText bio = (EditText) findViewById(R.id.bio);
 
         //set the Edit text fields
+
         username.setText(user.getName());
         phone.setText(user.getMobileNumber());
         bio.setText(user.getBio());
 
+
         //set profile photo
+
         new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.profile_image))
                 .execute(user.getPhoto());
+
 
     }
 
@@ -74,7 +78,7 @@ public class EditProfile extends AppCompatActivity {
         }
 
         currUser.setBio(bio.getText().toString());
-
+        
 
         Intent resultIntent = new Intent();
         resultIntent.putExtra("updatedUser", currUser);
