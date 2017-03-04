@@ -26,19 +26,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="10dp"
-            android:layout_marginTop="13dp"
-            android:paddingRight="60dp" />
-
-        <ImageButton
-            android:id="@+id/createPostButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="13dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/write_icon" />
+            android:layout_marginTop="13dp" />
 
         <ListView
             android:id="@+id/listFeed"
