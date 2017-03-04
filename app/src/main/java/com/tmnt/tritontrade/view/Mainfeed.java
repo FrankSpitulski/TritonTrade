@@ -237,6 +237,7 @@ public class Mainfeed extends AppCompatActivity
 
 
     private class MyTask extends AsyncTask<ArrayList<String>, Void, ArrayList<Post>>{
+        private ProgressDialog dialog=new ProgressDialog(Mainfeed.this);
         protected ArrayList<Post> doInBackground(ArrayList<String>... id) {
             try {
                 ArrayList<Post> posts = Server.searchPostTags(id[0]);
@@ -248,7 +249,16 @@ public class Mainfeed extends AppCompatActivity
             return null;
         }
 
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setMessage("Loading");
+            this.dialog.show();
+        }
+
         protected void onPostExecute(ArrayList<Post> result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
             if(result!=null) {
                 adapter = new CustomAdapter(Mainfeed.this, result);
                 list.setAdapter(adapter);
