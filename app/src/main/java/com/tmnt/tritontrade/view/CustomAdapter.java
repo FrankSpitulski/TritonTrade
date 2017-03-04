@@ -52,6 +52,10 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         this.stepNumber=10;
     }
 
+    public void setPosts(ArrayList<Post> posts) {
+        this.posts = posts;
+    }
+
     public void setCount(int count){
         this.count=count;
     }
@@ -172,6 +176,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         }
         return filter;
     }
+
     /**
      * Class used to search in list
      */
@@ -183,11 +188,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
                 new SearchTask().execute(charSequence.toString());
                 results.count = filterList.size();
                 results.values=filterList;
-            }
-            //NEEDED?
-            else{
-                results.count = filterList.size();
-                results.values = filterList;
             }
             return results;
         }
@@ -201,6 +201,9 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         }
     }
 
+    /**
+     * Task that uses searchBar to update adapter
+     */
     private class SearchTask extends AsyncTask<String, Object, ArrayList<Post>>{
         private ProgressDialog dialog=new ProgressDialog(context);
         @Override
@@ -227,7 +230,8 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
                 dialog.dismiss();
             }
             if(result!=null){
-                filterList=result;
+                posts=result;
+                notifyDataSetChanged();
             }
         }
     }

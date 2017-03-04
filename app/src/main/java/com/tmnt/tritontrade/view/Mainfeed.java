@@ -1,5 +1,6 @@
 package com.tmnt.tritontrade.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -33,6 +34,8 @@ import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
+
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
@@ -70,6 +73,7 @@ public class Mainfeed extends AppCompatActivity
                 startActivity(new Intent(Mainfeed.this, Create_Post.class));
             }
         });
+
         //bottom tool bar
 /*        mBottomBar = BottomBar.attach(this, savedInstanceState);
         mBottomBar.setItems(R.menu.bottom_nav_items);
@@ -115,7 +119,7 @@ public class Mainfeed extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query);
-                sv.clearFocus();
+               // sv.clearFocus();
                 return true;
             }
             @Override
