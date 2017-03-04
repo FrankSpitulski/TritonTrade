@@ -2,36 +2,26 @@ package com.tmnt.tritontrade.view;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
-
+import com.tmnt.tritontrade.controller.Server;
+import com.tmnt.tritontrade.controller.User;
+import java.io.IOException;
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import static de.hdodenhof.circleimageview.R.styleable.CircleImageView;
 
 
@@ -63,20 +53,7 @@ public class PopUpPost extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.cart).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Button b = (Button) v;
-                if (cart_status) {
-                    b.setText("ADD TO CART");
-                    Toast.makeText(PopUpPost.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
-                } else {
-                    b.setText("REMOVE FROM CART");
-                    Toast.makeText(PopUpPost.this, "Item added to cart", Toast.LENGTH_SHORT).show();
-                }
-                cart_status = !cart_status;
-            }
-        });
+
         /* ArrayList<String> dummyPhotos = new ArrayList<>();
         dummyPhotos.add("http://xiostorage.com/wp-content/uploads/2015/10/test.png");
         dummyPhotos.add("http://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/dogelog.jpg");
@@ -86,8 +63,46 @@ public class PopUpPost extends AppCompatActivity {
 
         //Post dummy = new Post("Doge", dummyPhotos, "Good Doge 4 u.", 12.42f, null, 0, 0, false, false, null, null, false);
 
-        Post p = getIntent().getParcelableExtra("category");
+        final Post p = getIntent().getParcelableExtra("category");
         loadPost(p);
+
+        findViewById(R.id.cart).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Button b = (Button) v;
+                Toast t = new Toast(getApplicationContext());
+                User current_user = CurrentState.getInstance().getCurrentUser();
+                if (cart_status) {
+                    current_user.removeFromCart(p.getPostID());
+                    try {
+                        Server.modifyExistingUser(current_user);
+                        t.cancel();
+                        t.makeText(PopUpPost.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
+                        cart_status = !cart_status;
+                        b.setText("ADD TO CART");
+                    }
+                    catch (IOException e) {
+                        t.cancel();
+                        t.makeText(PopUpPost.this, "Bad connection to server", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    try {
+                        current_user.addToCart(p.getPostID());
+                        Server.modifyExistingUser(current_user);
+                        t.cancel();
+                        t.makeText(PopUpPost.this, "Item added to cart", Toast.LENGTH_SHORT).show();
+                        cart_status = !cart_status;
+                        b.setText("REMOVE FROM CART");
+                    }
+                    catch (IOException e) {
+                        t.cancel();
+                        t.makeText(PopUpPost.this, "Bad connection to server", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            }
+
+        });
 
 
     }
@@ -119,10 +134,10 @@ public class PopUpPost extends AppCompatActivity {
             //if (i == 0) photoView.performClick();
 
         }
-            ImageView current_photo;
-            current_photo = (ImageView) findViewById(R.id.currentphoto);
-            //current_photo.setImageResource(R.drawable.blurred_geisel);
-            //current_photo.postInvalidate();
+        ImageView current_photo;
+        current_photo = (ImageView) findViewById(R.id.currentphoto);
+        //current_photo.setImageResource(R.drawable.blurred_geisel);
+        //current_photo.postInvalidate();
 
         Bitmap bitmap = ((BitmapDrawable)current_photo.getDrawable()).getBitmap();
         current_photo.setImageBitmap(bitmap);
@@ -143,7 +158,7 @@ public class PopUpPost extends AppCompatActivity {
 
         ArrayList<ImageView> iv_array = new ArrayList<>();
         for (int i = 0; i < photos.size(); i++) {
-            ImageView d = new CircleImageView(getApplicationContext());
+            ImageView d = new de.hdodenhof.circleimageview.CircleImageView(getApplicationContext());
             new DownloadPhotosAsyncTask(d)
                     .execute(photos.get(i));
             iv_array.add(d);
