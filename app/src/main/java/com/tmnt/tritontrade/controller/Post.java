@@ -2,8 +2,22 @@ package com.tmnt.tritontrade.controller;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+
+import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Post implements Parcelable {
     private String productName;
@@ -393,7 +407,168 @@ public class Post implements Parcelable {
     };
 
 
+    /**
+     * Converts the ArrayList of post objects into the correct json format
+     */
+
+    public static class PostSerializer implements JsonSerializer<ArrayList<Post>> {
+        @Override
+        public JsonElement serialize(ArrayList<Post> src, Type typeOfSrc, JsonSerializationContext context) {
+
+            // JsonObject and the JsonArray that we will add it to
+            JsonObject jObject= new JsonObject();
+            JsonArray jArr= new JsonArray();
+
+            // Add the post objects
+            for (Post curr: src){
+
+                // Set up the JSON elements for ArrayList objects
+                String photosTA= "";
+                String tagsTA="";
+
+                for (int i=0; i< curr.getPhotos().size(); i++){
+
+                    photosTA= photosTA + curr.getPhotos().get(i).toString() + "\n";
+                }
+
+                for (int i=0; i< curr.getTags().size(); i++){
+
+                    tagsTA= tagsTA + ":" + curr.getTags().get(i).toString() + ":\n";
+                }
 
 
+                // Set up the boolean values that must be converted to integers
+                int actTA= (curr.getSold())? 1:0;
+                int selTA= (curr.getSelling())? 1:0;
+                int delTA= (curr.getDeleted())? 1:0;
 
+                // Set up the correct date
+                Calendar cal= GregorianCalendar.getInstance();
+                cal.setTime(curr.getDateCreated());
+
+                String dateTA= cal.get(Calendar.YEAR) + "-" +
+                        (cal.get(Calendar.MONTH)+1<=9? "0"+(cal.get(Calendar.MONTH)+1):cal.get(Calendar.MONTH)+1)
+                        + "-" + cal.get(Calendar.DAY_OF_MONTH) + " " +
+                        (cal.get(Calendar.HOUR_OF_DAY)<=9? "0"+(cal.get(Calendar.HOUR_OF_DAY)):cal.get(Calendar.HOUR_OF_DAY))
+                        + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
+
+                // Create a jsonobject to add all of the user data to
+                JsonObject object= new JsonObject();
+                object.addProperty("productName", curr.getProductName());
+                object.addProperty("photos", photosTA);
+                object.addProperty("description", curr.getDescription());
+                object.addProperty("price", curr.getPrice());
+                object.addProperty("tags", tagsTA);
+                object.addProperty("profileID", curr.getProfileID());
+                object.addProperty("postID", curr.getPostID());
+                object.addProperty("selling", selTA);
+                object.addProperty("dateCreated", dateTA);
+                object.addProperty("contactInfo", curr.getContactInfo());
+                object.addProperty("deleted", delTA);
+                object.addProperty("active", actTA);
+
+                // Add the JsonObject to the jArr
+                jArr.add(object);
+            }
+
+            // Add the jArr to the Top Level JsonObject and return that JsonObject
+            jObject.add("posts", jArr);
+
+            return jObject;
+        }
+    }
+
+    /**
+     * Converts the json sequence into an arrayList of Post objects
+     */
+
+    public static class PostDeserializer implements JsonDeserializer<JSONPost> {
+
+        @Override
+        public JSONPost deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+
+            // Get the first element of the json sequence, the arraylist of posts, and
+            // the JSONPost object to be returned
+            JsonObject jObj= (JsonObject) json;
+            JSONPost jPost= new JSONPost();
+            ArrayList<Post> toReturn = new ArrayList<Post>();
+
+            // Get the array of posts from the json object
+            JsonArray _posts= jObj.getAsJsonArray("posts");
+
+            // Iterate through the Json array adding the post objects
+            int index= 0;
+            while (index < _posts.size()){
+
+                // Get the JsonObject post
+                JsonObject obj= _posts.get(index).getAsJsonObject();
+
+                // Create the ArrayList<Strings>(s) that need to be added to the post object
+                ArrayList<String> photosTA= new ArrayList<String>();
+                ArrayList<String> tagsTA= new ArrayList<String>();
+
+                String[] _photos = obj.get("photos").getAsString().split("\n");
+                String[] _tags = obj.get("tags").getAsString().split(":");
+
+                int i= 0;
+                while(i < _photos.length){
+                    photosTA.add(_photos[i]);
+                    i= i+1;
+                }
+                i=0;
+                while (i< _tags.length){
+                    tagsTA.add(_tags[i]);
+                    i= i+1;
+                }
+
+                // Get the selling, active, and deleted boolean fields
+                boolean selling, active, deleted;
+                int _selling, _active, _deleted;
+
+                _selling = obj.get("selling").getAsInt();
+                _active = obj.get("active").getAsInt();
+                _deleted = obj.get("deleted").getAsInt();
+
+                selling = (_selling==1);
+                active = (_active==1);
+                deleted = (_deleted==1);
+
+                // Create the Date object for the post object
+                SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                Date dateTA = null;
+                try {
+                    dateTA = dateFormat.parse(obj.get("dateCreated").getAsString());
+                }
+                catch (ParseException e){
+                    e.printStackTrace();
+                }
+
+                // Initialize the post object that is to be added to the arrayList<Post> toReturn
+                Post newPost = new Post(obj.get("productName").getAsString(), photosTA,
+                        obj.get("description").getAsString(), obj.get("price").getAsFloat(), tagsTA,
+                        obj.get("profileID").getAsInt(), obj.get("postID").getAsInt(),
+                        selling, active, dateTA, obj.get("contactInfo").getAsString(), deleted);
+
+                // Add the post to the arrayList
+                toReturn.add(newPost);
+
+                index= index+1;
+            }
+
+            // Return the jPost with the array of post objects
+            jPost.posts = toReturn;
+
+            return jPost;
+        }
+
+    }
+
+    /**
+     * Class that is used to deserialize the json post objects when they are being deserialized
+     */
+
+    public static class JSONPost {
+
+        public ArrayList<Post> posts;
+    }
 }

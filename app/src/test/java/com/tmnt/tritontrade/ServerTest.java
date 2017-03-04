@@ -1,5 +1,7 @@
 package com.tmnt.tritontrade;
 
+import android.util.Log;
+
 import org.junit.Test;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
@@ -77,6 +79,7 @@ public class ServerTest {
 
         //Asserts to see whether the parsing was successful
 //        assertTrue(list2.size() == 1);
+
 //        assertTrue(list2.get(0).getBio().equals(user1.getBio()));
 //        assertTrue(list2.get(0).getCartIDsString().equals(user1.getCartIDsString()));
 //        assertTrue(list2.get(0).getEmail().equals(user1.getEmail()));
@@ -89,7 +92,6 @@ public class ServerTest {
     @Test
     public void testPostJsonConversion()
     {
-
         //Create the Post object
         Post post1= new Post("Bagel", new ArrayList<String>(), "bagel", 0.99f,
                 new ArrayList<String>(), 1, 2, false, false, new Date(), "info", false);
