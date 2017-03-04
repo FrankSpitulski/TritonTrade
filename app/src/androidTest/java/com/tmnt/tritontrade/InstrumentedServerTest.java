@@ -82,21 +82,21 @@ public class InstrumentedServerTest
         //bad country code
         badPhoneNumbers.add("+12345643 (111) 535-1234");
         //missing parenthesis
-        badPhoneNumbers.add("+1 111 535-1234");
+        badPhoneNumbers.add("+0001 111 535-1234");
         //too many numbers
-        badPhoneNumbers.add("+1 (510) 535-12344");
+        badPhoneNumbers.add("+0001 (510) 535-12344");
         //invalid symbols
-        badPhoneNumbers.add("+1 (510) 515-123a");
-        badPhoneNumbers.add("+1 (510) 515-1234!");
+        badPhoneNumbers.add("+0001 (510) 515-123a");
+        badPhoneNumbers.add("+0001 (510) 515-1234!");
         //no dash in middle
-        badPhoneNumbers.add("+1 (510) 5151234");
-        badPhoneNumbers.add("+1 (510) 515 1234");
+        badPhoneNumbers.add("+0001 (510) 5151234");
+        badPhoneNumbers.add("+0001 (510) 515 1234");
         //no + in front of country code
-        badPhoneNumbers.add("1 (510) 515-1234");
+        badPhoneNumbers.add("0001 (510) 515-1234");
         //no spaces
-        badPhoneNumbers.add("+1(510)515-1234");
+        badPhoneNumbers.add("+0001(510)515-1234");
         //4 digit area code
-        badPhoneNumbers.add("+1 (5231) 513-1423");
+        badPhoneNumbers.add("+0001 (5231) 513-1423");
     }
 
     /**
