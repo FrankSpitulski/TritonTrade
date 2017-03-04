@@ -42,6 +42,11 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.tmnt.tritontrade.R.id.bottom_cart;
+import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
+import static com.tmnt.tritontrade.R.id.bottom_profile;
+import static com.tmnt.tritontrade.R.id.bottom_upload;
+
 /**
  * Created by Edward Ji
  */
@@ -66,16 +71,7 @@ public class Mainfeed extends AppCompatActivity
         setContentView(R.layout.activity_mainfeed);
 
         list = (ListView) this.findViewById(R.id.listFeed);
-
-
-        //Create post button implementation
-        ImageButton createPostButton = (ImageButton)findViewById(R.id.createPostButton);
-        createPostButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Mainfeed.this, Create_Post.class));
-            }
-        });
+        
 
         //bottom tool bar
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
@@ -85,19 +81,18 @@ public class Mainfeed extends AppCompatActivity
                 new BottomNavigationView.OnNavigationItemSelectedListener(){
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.bottom_mainfeed:
-                                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
-                                break;
-                            case R.id.bottom_cart:
-                                startActivity(new Intent(getApplicationContext(), Cart.class));
-                                break;
-                            case R.id.bottom_upload:
-                                startActivity(new Intent(getApplicationContext(), Create_Post.class));
-                                break;
-                            case R.id.bottom_profile:
-                                startActivity(new Intent(getApplicationContext(), Profile.class));
-                                break;
+                        if(item.getItemId() == bottom_mainfeed){
+                            startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+                        }
+                        else if (item.getItemId() == bottom_cart){
+                            startActivity(new Intent(getApplicationContext(), Cart.class));
+
+                        }
+                        else if(item.getItemId() == bottom_upload){
+                            startActivity(new Intent(getApplicationContext(), Create_Post.class));
+                        }
+                        else if(item.getItemId() == bottom_profile){
+                            startActivity(new Intent(getApplicationContext(), Profile.class));
                         }
                         return false;
                     }
