@@ -52,6 +52,8 @@ public class User implements Parcelable {
                 boolean deleted) throws IllegalArgumentException
     {
         this.postHistory = postHistory;
+
+        //Set each element with setters, if any return false, throw new illegal argument exception
         if (!(this.setName(name) &&
         this.setPhoto(photo) &&
         this.setProfileID(profileID) &&
@@ -63,7 +65,9 @@ public class User implements Parcelable {
         this.setVerified(verified) &&
         this.setCartIDs(cartIDs) &&
         this.setEmailVerificationLink(emailVerificationLink) &&
-        this.setDeleted(deleted))){
+        this.setDeleted(deleted)))
+        //bad data, throwing exception
+        {
             throw new IllegalArgumentException();
         }
     }
