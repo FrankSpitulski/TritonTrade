@@ -1,7 +1,9 @@
 package com.tmnt.tritontrade.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -12,17 +14,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.Post;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Date;
+
+import static com.tmnt.tritontrade.R.layout.cart_item;
 
 public class Cart extends AppCompatActivity {
 
-    Button removeFromCart;
+    Button removeButton, confirmRemoveButton;
     private ArrayList<Post> posts = new ArrayList<>();
 
     @Override
@@ -31,11 +36,13 @@ public class Cart extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
 
+
        /* public Post(String productName, ArrayList<String> photos, String description,
         float price, ArrayList<String> tags, int profileID, int postID,
         boolean selling, boolean active , Date dateCreated, String contactInfo, boolean deleted) */
 
 
+        //populate posts hardcoded
         ArrayList<String> photos = new ArrayList<>();
         photos.add("square_boxes");
         ArrayList<String> tags = new ArrayList<>();
@@ -70,6 +77,33 @@ public class Cart extends AppCompatActivity {
 
     }
 
+    ///confirmation button for remove from cart
+    public void displayConfirmationDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Confirm");
+        alert.setMessage("Are you sure you want to remove this item?");
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getBaseContext(), "Cancel clicked", Toast.LENGTH_SHORT).show();
+                //nothing happens
+            }
+        });
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getBaseContext(), "OK clicked", Toast.LENGTH_SHORT).show();
+                //code for deleting a post
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
     //custom ArrayAdapter
     private class postArrayAdapter extends ArrayAdapter<Post> {
 
@@ -92,16 +126,13 @@ public class Cart extends AppCompatActivity {
 
             //get the inflater and inflate the XML layout for each item
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.cart_item, null);
+            View view = inflater.inflate(cart_item, null);
 
             TextView description = (TextView) view.findViewById(R.id.item_description);
             TextView title = (TextView) view.findViewById(R.id.item_title);
             TextView price = (TextView) view.findViewById(R.id.item_price);
             ImageView image = (ImageView) view.findViewById(R.id.image);
 
-//            //set address and description
-//            String completeAddress = post.getStreetNumber() + " " + post.getStreetName() + ", " + property.getSuburb() + ", " + property.getState();
-//            address.setText(completeAddress);
 
             //display trimmed excerpt for description
             int descriptionLength = post.getDescription().length();
@@ -116,7 +147,6 @@ public class Cart extends AppCompatActivity {
             String stringPrice = "$" + String.valueOf(post.getPrice());
             price.setText(stringPrice);
             title.setText(String.valueOf(post.getProductName()));
-            //description.setText(String.valueOf(post.getDescription()));
 
 
             String firstPhoto = post.getPhotos().get(0);
@@ -124,6 +154,23 @@ public class Cart extends AppCompatActivity {
             //get the image associated with this property
             int imageID = context.getResources().getIdentifier(firstPhoto, "drawable", context.getPackageName());
             image.setImageResource(imageID);
+
+
+            //////////////////remove from cart button//////////////////////
+            confirmRemoveButton = (Button) view.findViewById(R.id.remove_button);
+            confirmRemoveButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    displayConfirmationDialog();
+                }
+            });
+
+
+
+
+
+
 
             return view;
         }
