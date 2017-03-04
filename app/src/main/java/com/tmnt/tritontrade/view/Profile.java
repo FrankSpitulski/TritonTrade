@@ -1,5 +1,6 @@
 package com.tmnt.tritontrade.view;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -20,6 +22,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.security.ProviderInstaller;
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
@@ -34,6 +37,7 @@ import static com.tmnt.tritontrade.R.id.bottom_cart;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
+import static com.tmnt.tritontrade.R.id.pictureLabel;
 
 public class Profile extends AppCompatActivity {
 
@@ -46,31 +50,59 @@ public class Profile extends AppCompatActivity {
 
 
     private User currUser;
+
+
+    ArrayList<Post> selling = new ArrayList<>();
+    ArrayList<Post> productSold = new ArrayList<>();
+
+    ProfileListAdaptor adapter;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
 
-    private class GetPostsTask extends AsyncTask<ArrayList<Integer>, Void, ArrayList<Post>> {
-
-        ArrayList<Post> posts;
-
-        @Override
+    private class PopulateListTask extends AsyncTask<ArrayList<Integer>, Void, ArrayList<Post>>{
+        private ProgressDialog dialog=new ProgressDialog(Profile.this);
         protected ArrayList<Post> doInBackground(ArrayList<Integer>... params) {
             try {
-                posts = Server.searchPostIDs(params[0]);
+                ArrayList<Post> posts = Server.searchPostIDs(params[0]);
+                return posts;
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
             }
-            catch(IOException e){
-                Log.d("DEBUG", e.toString());
-            }
-            return posts;
+            return null;
         }
-/*
+
         @Override
-        protected void onPostExecute(Void result){
-            startActivity(new Intent(getApplicationContext(), Mainfeed.class));
-        }*/
+        protected void onPreExecute() {
+            this.dialog.setMessage("Loading");
+            this.dialog.show();
+        }
+
+        protected void onPostExecute(ArrayList<Post> result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+
+
+            if(result != null){
+
+                for(int i = 0; i < result.size(); i++){
+                    if(result.get(i).getSelling()){
+                        selling.add(result.get(i));
+                    } else if(result.get(i).getSold()) {
+                        productSold.add(result.get(i));
+                    }
+                }
+
+                adapter = new ProfileListAdaptor(Profile.this, selling);
+                list.setAdapter(adapter);
+            }
+
+        }
     }
 
 
@@ -86,15 +118,17 @@ public class Profile extends AppCompatActivity {
         }
 
 
+        //Set the selling and for sale buttons
         forSale = (Button) findViewById(R.id.forSaleButton);
         forSale.setTextColor(Color.parseColor("#FFEE00"));
 
         sold = (Button) findViewById(R.id.soldButton);
 
+        //Set the profile photp
         new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.userPic))
                 .execute(currUser.getPhoto());
 
-
+        //populate the fields with the relevant info
         populateUserInfo(currUser);
         populateList();
 
@@ -149,11 +183,21 @@ public class Profile extends AppCompatActivity {
         forSale.setTextColor(Color.parseColor("#FFEE00"));
         sold.setTextColor(Color.WHITE);
 
+        //Update list to only show items for sale
+        adapter = new ProfileListAdaptor(Profile.this, selling);
+        list.setAdapter(adapter);
+        list.deferNotifyDataSetChanged();
+
     }
 
     public void onSoldClick (View view){
         sold.setTextColor(Color.parseColor("#FFEE00"));
         forSale.setTextColor(Color.WHITE);
+
+        //Update list to only show Items that have been sold
+        adapter = new ProfileListAdaptor(Profile.this, productSold);
+        list.setAdapter(adapter);
+        list.deferNotifyDataSetChanged();
     }
 
     @Override
@@ -190,20 +234,9 @@ public class Profile extends AppCompatActivity {
     private void populateList() {
 
         list = (ListView) findViewById(R.id.list);
-
         //random posts
         ArrayList<Integer> postIds = currUser.getPostHistory();
-        ArrayList<Post> posts;
-        /*
-        for (int i = 0; i < posts.size(); i++) {
-
-
-        }
-
-        //update the list
-        //list.setAdapter(new ProfileListAdaptor(this, posts));
-        */
-
+        new PopulateListTask().execute(postIds);
     }
 
     /**

@@ -88,14 +88,17 @@
             </LinearLayout>
 
             <EditText
-                android:layout_width="match_parent"
-                android:inputType="textMultiLine|textPersonName"
-                android:text="Bio"
-                android:ems="10"
                 android:id="@+id/bio"
-                android:layout_height="175dp"
-                android:gravity="top"
-                android:maxLength="140"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Bio"
+                android:scrollHorizontally="false"
+                android:maxLines="3"
+                android:layout_weight="1"
+                android:ellipsize="none"
+                android:maxLength="100"/>
 
             <LinearLayout
                 android:orientation="horizontal"

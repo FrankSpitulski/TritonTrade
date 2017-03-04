@@ -74,7 +74,7 @@ public class Profile_NonUser extends AppCompatActivity {
         }
 
         //update the list
-        list.setAdapter(new ProfileListAdaptor(this, posts));
+        //list.setAdapter(new ProfileListAdaptor(this, posts));
 
     }
 }
