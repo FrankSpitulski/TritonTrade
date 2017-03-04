@@ -44,6 +44,11 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
     private int stepNumber; //Amount of items loaded on next display
     private final int startCount=20; //Start amount of items being displayed
 
+    /**
+     * Constructor
+     * @param context
+     * @param posts
+     */
     public CustomAdapter(Context context, ArrayList<Post> posts) {
         this.posts=posts;
         this.filterList=posts;
@@ -52,14 +57,26 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         this.stepNumber=10;
     }
 
+    /**
+     * Setter for posts
+     * @param posts
+     */
     public void setPosts(ArrayList<Post> posts) {
         this.posts = posts;
     }
 
+    /**
+     * Setter for count
+     * @param count
+     */
     public void setCount(int count){
         this.count=count;
     }
 
+    /**
+     * Gets the total amount of items in the list
+     * @return
+     */
     @Override
     public int getCount() {
         if (posts.size() < startCount){
@@ -93,10 +110,16 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         }
     }
 
+    /**
+     * Returns item at given position in list
+     * @param position
+     * @return
+     */
     @Override
     public Object getItem(int position){
         return posts.get(position);
     }
+
 
     @Override
     public long getItemId(int position) {
@@ -134,6 +157,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         }
         ViewHolder postHolder = new ViewHolder();
 
+        //Set everything in feed row
         postHolder.title = (TextView) catView.findViewById(R.id.title);
         postHolder.description = (TextView) catView.findViewById(R.id.description);
         postHolder.userTag = (TextView) catView.findViewById(R.id.username_tag);
@@ -143,9 +167,11 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
 
         postHolder.title.setText(posts.get(position).getProductName());
         postHolder.description.setText(posts.get(position).getDescription());
+        //TODO find actual user who made post
         if(CurrentState.getInstance() != null) {
             postHolder.userTag.setText(CurrentState.getInstance().getCurrentUser().getName());
         }
+
         postHolder.category.setText(posts.get(position).getTags().get(1));
         postHolder.price.setText(String.valueOf(posts.get(position).getPrice()));
         new DownloadPhotosAsyncTask(postHolder.image)

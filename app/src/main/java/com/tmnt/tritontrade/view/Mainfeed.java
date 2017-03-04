@@ -65,7 +65,8 @@ public class Mainfeed extends AppCompatActivity
 
         list = (ListView) this.findViewById(R.id.listFeed);
 
-        //Setting createPost
+
+        //Create post button implementation
         ImageButton createPostButton = (ImageButton)findViewById(R.id.createPostButton);
         createPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +108,7 @@ public class Mainfeed extends AppCompatActivity
 
         //SET UP FILTER
 
-        //TODO put custom preference here instead of custom dag
+        //TODO put custom preference here instead of custom tag
         ArrayList<String> tags = new ArrayList<>();
         tags.add("food");
 
@@ -115,11 +116,11 @@ public class Mainfeed extends AppCompatActivity
         MyTask task = new MyTask();
         task.execute(tags);
         final SearchView sv = (SearchView) findViewById(R.id.searchView);
+        //Search Bar implementation
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query);
-               // sv.clearFocus();
                 return true;
             }
             @Override
@@ -128,6 +129,18 @@ public class Mainfeed extends AppCompatActivity
             }
         });
 
+        //Load more once reach end of scroll
+        list.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                adapter.showMore();
+            }
+        });
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -235,7 +248,9 @@ public class Mainfeed extends AppCompatActivity
         client.disconnect();
     }
 
-
+    /**
+     * Async task used for initial setup of mainfeed(posts)
+     */
     private class MyTask extends AsyncTask<ArrayList<String>, Void, ArrayList<Post>>{
         private ProgressDialog dialog=new ProgressDialog(Mainfeed.this);
         protected ArrayList<Post> doInBackground(ArrayList<String>... id) {
