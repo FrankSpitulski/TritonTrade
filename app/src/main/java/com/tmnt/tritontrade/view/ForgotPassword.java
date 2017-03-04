@@ -50,12 +50,15 @@ public class ForgotPassword extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Boolean result){
+            Toast toast = new Toast(ForgotPassword.this);
             if(result){
-                Toast.makeText(ForgotPassword.this, "Password reset.", Toast.LENGTH_SHORT).show();
+                toast.cancel();
+                toast.makeText(ForgotPassword.this, "Password reset email sent.", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
             else{
-                Toast.makeText(ForgotPassword.this, "Password reset failed.", Toast.LENGTH_SHORT).show();
+                toast.cancel();
+                toast.makeText(ForgotPassword.this, "Password reset failed.", Toast.LENGTH_SHORT).show();
             }
         }
     }
