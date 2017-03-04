@@ -39,10 +39,26 @@ public class Register_Account extends AppCompatActivity {
                 EditText userPassword = (EditText) findViewById(R.id.passwordLabel);
                 EditText userPhone = (EditText) findViewById(R.id.phoneLabel);
 
-                theName = userName.getText().toString();
-                theEmail = userEmail.getText().toString();
-                thePassword = userPassword.getText().toString();
-                thePhone = userPhone.getText().toString();
+                try {
+                    theName = userName.getText().toString();
+                } catch(IllegalArgumentException e){
+                  Log.d("RETRY", e.toString());
+                }
+                try {
+                    theEmail = userEmail.getText().toString();
+                } catch(IllegalArgumentException e){
+                    Log.d("RETRY",e.toString());
+                }
+                try {
+                    thePassword = userPassword.getText().toString();
+                } catch(IllegalArgumentException e){
+                    Log.d("RETRY", e.toString());
+                }
+                try{
+                    thePhone = userPhone.getText().toString();
+                } catch(IllegalArgumentException e) {
+                    Log.d("RETRY", e.toString());
+                }
                 new RegisterTask().execute();
             }
         });
