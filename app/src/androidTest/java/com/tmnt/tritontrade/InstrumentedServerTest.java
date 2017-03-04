@@ -495,7 +495,7 @@ public class InstrumentedServerTest
         //add valid user to the database
         try {
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "+0001 +0001 (510) 999-99999", "k5mao@ucsd.edu", "hunter2"));
+                    "+0001 (510) 999-9999", "k5mao@ucsd.edu", "hunter2"));
         } catch (IOException e) {
             fail();
         }
