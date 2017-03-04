@@ -82,17 +82,21 @@ public class Mainfeed extends AppCompatActivity
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         if(item.getItemId() == bottom_mainfeed){
-                            startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+                            Intent in=new Intent(getBaseContext(),Mainfeed.class);
+                            startActivity(in);
                         }
                         else if (item.getItemId() == bottom_cart){
-                            startActivity(new Intent(getApplicationContext(), Cart.class));
+                            Intent in=new Intent(getBaseContext(),Cart.class);
+                            startActivity(in);
 
                         }
                         else if(item.getItemId() == bottom_upload){
-                            startActivity(new Intent(getApplicationContext(), Create_Post.class));
+                            Intent in=new Intent(getBaseContext(),Create_Post.class);
+                            startActivity(in);
                         }
                         else if(item.getItemId() == bottom_profile){
-                            startActivity(new Intent(getApplicationContext(), Profile.class));
+                            Intent in=new Intent(getBaseContext(),Profile.class);
+                            startActivity(in);
                         }
                         return false;
                     }
