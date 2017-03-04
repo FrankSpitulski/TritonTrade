@@ -532,7 +532,7 @@ public class InstrumentedServerTest
 
                 //fail, let an invalid user through
                 fail();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 //success, exception caught
             }
         }
