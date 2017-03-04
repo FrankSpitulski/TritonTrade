@@ -95,8 +95,14 @@ public class PopUpPost extends AppCompatActivity {
                         b.setText("REMOVE FROM CART");
                     }
                     catch (IOException e) {
+                        Log.d("DEBUG", e.toString());
                         t.cancel();
                         t.makeText(PopUpPost.this, "Bad connection to server", Toast.LENGTH_SHORT).show();
+                    }
+                    catch (IllegalArgumentException e2){
+                        Log.d("DEBUG", e2.toString());
+                        t.cancel();
+                        t.makeText(PopUpPost.this, "Bad user", Toast.LENGTH_SHORT).show();
                     }
 
                 }
