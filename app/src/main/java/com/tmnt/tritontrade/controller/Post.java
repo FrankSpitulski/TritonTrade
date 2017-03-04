@@ -57,6 +57,7 @@ public class Post implements Parcelable {
      */
     public boolean setProductName(String productName)
     {
+        //makes sure string is not null
         if(productName == null)
         {
             return false;
@@ -81,6 +82,7 @@ public class Post implements Parcelable {
      */
     public boolean setPhotos(ArrayList<String> photos)
     {
+        //makes sure arraylist is not null
         if (photos == null)
         {
             return false;
@@ -105,6 +107,7 @@ public class Post implements Parcelable {
      */
     public boolean setDescription(String description)
     {
+        //makes sure string is not null
         if (description == null)
         {
             return false;
@@ -129,6 +132,7 @@ public class Post implements Parcelable {
      */
     public boolean setPrice(float price)
     {
+        //makes sure price is not negative
         if (price < 0)
         {
             return false;
@@ -153,6 +157,7 @@ public class Post implements Parcelable {
      */
     public boolean setTags(ArrayList<String> tags)
     {
+        //makes sure arraylist is not null
         if (tags == null)
         {
             return false;
@@ -279,6 +284,7 @@ public class Post implements Parcelable {
      */
     public boolean setContactInfo(String contactInfo)
     {
+        //makes sure contactInfo string is not null
         if (contactInfo == null)
         {
             return false;
