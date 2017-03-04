@@ -34,11 +34,12 @@ import static de.hdodenhof.circleimageview.R.styleable.CircleImageView;
 
 public class PopUpPost extends AppCompatActivity {
     private boolean cart_status = false;
-    Toast t = new Toast(getApplicationContext());
+    Toast t;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        t = new Toast(getApplicationContext());
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_popup_post);
 
