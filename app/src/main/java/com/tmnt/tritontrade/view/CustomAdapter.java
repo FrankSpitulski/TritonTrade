@@ -173,7 +173,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         }
 
         postHolder.category.setText(posts.get(position).getTags().get(1));
-        postHolder.price.setText(String.valueOf(posts.get(position).getPrice()));
+        postHolder.price.setText("$"+String.valueOf(posts.get(position).getPrice()));
         new DownloadPhotosAsyncTask(postHolder.image)
                 .execute(posts.get(position).getPhotos().get(0));
 
@@ -222,7 +222,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             if(filterResults.values!=null) {
                 posts = (ArrayList<Post>) filterResults.values;
-                notifyDataSetChanged();
             }
         }
     }
