@@ -2,10 +2,21 @@ package com.tmnt.tritontrade.controller;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class User implements Parcelable {
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     private String name;
     private String photo; // URL to image
     private int profileID;
@@ -19,6 +30,7 @@ public class User implements Parcelable {
     private ArrayList<Integer> cartIDs;
     private String emailVerificationLink;
     private boolean deleted;
+
 
     /**
      * @param name
@@ -57,6 +69,53 @@ public class User implements Parcelable {
     }
 
 
+    //******PARCELABLE METHODS********
+    protected User(Parcel in) {
+        name = in.readString();
+        photo = in.readString();
+        profileID = in.readInt();
+        bio = in.readString();
+        mobileNumber = in.readString();
+        email = in.readString();
+        password = in.readString();
+        salt = in.readString();
+        if (in.readByte() == 0x01) {
+            postHistory = new ArrayList<Integer>();
+            in.readList(postHistory, Integer.class.getClassLoader());
+        } else {
+            postHistory = null;
+        }
+        verified = in.readByte() != 0x00;
+        if (in.readByte() == 0x01) {
+            cartIDs = new ArrayList<Integer>();
+            in.readList(cartIDs, Integer.class.getClassLoader());
+        } else {
+            cartIDs = null;
+        }
+        deleted = in.readByte() != 0x00;
+    }
+
+    /**
+     * Returns the postHistory (List)
+     * @param history the post history(String)
+     * @return a list of postIDs
+     */
+    static ArrayList<Integer> getPostHistoryFromString(String history) {
+        if (history.equals("")) {
+            return new ArrayList<Integer>();
+        }
+        String[] split = history.split("\n");
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for (int i = 0; i < split.length; i++) {
+            list.add(Integer.getInteger(split[i]));
+        }
+        return list;
+    }
+
+    public static String getDefaultImage() {
+        return "/img/imageCDN/default/defaultUser.jpg";
+    }
+
     /**
      * Getter for name
      * @return the name of user
@@ -65,7 +124,6 @@ public class User implements Parcelable {
     {
         return name;
     }
-
 
     /**
      * Setter for name
@@ -394,31 +452,11 @@ public class User implements Parcelable {
     }
 
     /**
-     * Returns the postHistory (List)
-     * @param history the post history(String)
-     * @return a list of postIDs
-     */
-    static ArrayList<Integer> getPostHistoryFromString(String history)
-    {
-        if(history.equals(""))
-        {
-            return new ArrayList<Integer>();
-        }
-        String[] split = history.split("\n");
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for(int i = 0; i < split.length; i++)
-        {
-            list.add(Integer.getInteger(split[i]));
-        }
-        return list;
-    }
-
-    /**
      * Returns a list of cartIDs parsed from input
      * @param history
      * @return a list of CartIDs
      */
-    static ArrayList<Integer> getCartIDsFromString(String history)
+    public ArrayList<Integer> getCartIDsFromString(String history)
     {
         if (history.equals(""))
         {
@@ -433,7 +471,6 @@ public class User implements Parcelable {
         return list;
     }
 
-
     /**
      * Converts User object to unique String
      *
@@ -444,36 +481,6 @@ public class User implements Parcelable {
         ArrayList<User> users = new ArrayList<User>(1);
         users.add(this);
         return Server.stripOuterJson(Server.userToJson(users));
-    }
-
-    public static String getDefaultImage(){
-        return "/img/imageCDN/default/defaultUser.jpg";
-    }
-
-    //******PARCELABLE METHODS********
-    protected User(Parcel in) {
-        name = in.readString();
-        photo = in.readString();
-        profileID = in.readInt();
-        bio = in.readString();
-        mobileNumber = in.readString();
-        email = in.readString();
-        password = in.readString();
-        salt = in.readString();
-        if (in.readByte() == 0x01) {
-            postHistory = new ArrayList<Integer>();
-            in.readList(postHistory, Integer.class.getClassLoader());
-        } else {
-            postHistory = null;
-        }
-        verified = in.readByte() != 0x00;
-        if (in.readByte() == 0x01) {
-            cartIDs = new ArrayList<Integer>();
-            in.readList(cartIDs, Integer.class.getClassLoader());
-        } else {
-            cartIDs = null;
-        }
-        deleted = in.readByte() != 0x00;
     }
 
     @Override
@@ -506,19 +513,6 @@ public class User implements Parcelable {
         }
         dest.writeByte((byte) (deleted ? 0x01 : 0x00));
     }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
 
 }

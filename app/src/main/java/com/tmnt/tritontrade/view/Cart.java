@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
+import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
 import java.util.ArrayList;
@@ -29,9 +31,11 @@ import static com.tmnt.tritontrade.R.layout.cart_item;
 
 public class Cart extends AppCompatActivity {
 
+
     Button displayContactButton, confirmRemoveButton;
-    User user;
+    User user; //self
     private ArrayList<Post> posts = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +49,54 @@ public class Cart extends AppCompatActivity {
         boolean selling, boolean active , Date dateCreated, String contactInfo, boolean deleted) */
 
 
-        //From server populate posts
-       /* public String getCartIDsString()
+        //TO USE?
+       /*
+        USER:
+        public String getCartIDsString()
         static ArrayList<Integer> getCartIDsFromString(String history)
         public boolean removeFromCart(int id){ return cartIDs.remove((Integer) new Integer(id)); }
         public int getPostID()
-          */
+
+        public String getMobileNumber()
+        public String getEmail()
+
+
+        SERVER:
+        public static Post searchPostIDs(int id) throws IOException { (SERVER)
+        public static User searchUserIDs(int id) throws IOException {
+
+        POST:
+        public String getContactInfo() ??? when is used
+        public int getProfileID()
+
+
+        WHEN showing contact info in dialog , get
+        int sellerPostID = post.getProfileID();
+        User seller = User.searchUserIDs( sellerPostID );
+        String sellerEmail = seller.getEmail();
+        String sellerPhone = seller.getMobileNumber();
+        *
+        */
 
 
         //gets posts to load
         user = CurrentState.getInstance().getCurrentUser();
-        //ArrayList<Integer> cartInt = User.getCartIDsFromString( user.getCartIDsString() );
-        //get post from postID
-        //
+        ArrayList<Integer> cartInt = user.getCartIDsFromString(user.getCartIDsString());
+
+        for (int i = 0; i < cartInt.size(); i++) {
+
+            try {
+                Post postToAdd = Server.searchPostIDs(cartInt.get(i));
+                if (postToAdd == null) {
+                    continue;
+                }
+                posts.add(postToAdd);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
 
 
 
@@ -70,19 +109,19 @@ public class Cart extends AppCompatActivity {
 
         //create Post elements
         posts.add(
-                new Post("Product Name", photos, "Description of item", (float) 5.00,
+                new Post("Boxes", photos, "5 boxes for sale", (float) 5.00,
                         tags, 4504, 10, true, true, date, "Contact Info", false));
 
         posts.add(
-                new Post("Product Name", photos, "Description of item", (float) 5.00,
+                new Post("Moving", photos, "Truck services $20/hr, will help with moving", (float) 10.00,
                         tags, 4504, 10, true, true, date, "Contact Info", false));
 
         posts.add(
-                new Post("Product Name", photos, "Description of item", (float) 5.00,
+                new Post("Product Name", photos, "Description of item", (float) 3.50,
                         tags, 4504, 10, true, true, date, "Contact Info", false));
 
         posts.add(
-                new Post("Product Name", photos, "Description of item", (float) 5.00,
+                new Post("Product Name", photos, "Description of item", (float) 999.00,
                         tags, 4504, 10, true, true, date, "Contact Info", false));
 
 
@@ -96,7 +135,8 @@ public class Cart extends AppCompatActivity {
 
     }
 
-    ///confirmation button for remove from cart
+
+    //////////////////confirmation button for remove from cart//////////////////
     public void displayConfirmationDialog() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Confirm");
@@ -117,6 +157,7 @@ public class Cart extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getBaseContext(), "OK clicked", Toast.LENGTH_SHORT).show();
                 //code for deleting a post
+                //how to know which post i am on?
 
             }
         });
@@ -124,8 +165,12 @@ public class Cart extends AppCompatActivity {
         dialog.show();
     }
 
-    ///confirmation button for remove from cart
+
+    /////////////////////confirmation button for remove from cart//////////////////
     public void displayContactDialog() {
+        //how to know im in which post?
+        //use code above in oncreate
+
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Contact Seller");
         alert.setMessage("Email: \nPhone: ");
@@ -143,7 +188,8 @@ public class Cart extends AppCompatActivity {
         dialog.show();
     }
 
-    //custom ArrayAdapter
+
+    //////////////////////////////////////custom ArrayAdapter//////////////////
     private class postArrayAdapter extends ArrayAdapter<Post> {
 
         private Context context;
@@ -211,7 +257,6 @@ public class Cart extends AppCompatActivity {
             displayContactButton = (Button) view.findViewById(R.id.contact_button);
             displayContactButton.setOnClickListener(new View.OnClickListener() {
 
-
                 //get current post's userID.get contact info() pass to displaycontactdialog
                 @Override
                 public void onClick(View v) {
@@ -224,6 +269,8 @@ public class Cart extends AppCompatActivity {
         }
     }
 
+
+    //async task???? idk man im sorry :(
 
 }
 
