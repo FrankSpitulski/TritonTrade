@@ -129,6 +129,7 @@ public class Mainfeed extends AppCompatActivity
             }
         });
 
+/*
         //Load more once reach end of scroll
         list.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -141,6 +142,8 @@ public class Mainfeed extends AppCompatActivity
                 adapter.showMore();
             }
         });
+*/
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
