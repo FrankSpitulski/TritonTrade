@@ -1,6 +1,7 @@
 package com.tmnt.tritontrade.view;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,12 +40,39 @@ public class Profile extends AppCompatActivity {
     private ListView list;
     private int EDIT_PROFILE = 1;
 
+
+    private Button forSale;
+    private Button sold;
+
+
     private User currUser;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
+    private class GetPostsTask extends AsyncTask<ArrayList<Integer>, Void, ArrayList<Post>> {
+
+        ArrayList<Post> posts;
+
+        @Override
+        protected ArrayList<Post> doInBackground(ArrayList<Integer>... params) {
+            try {
+                posts = Server.searchPostIDs(params[0]);
+            }
+            catch(IOException e){
+                Log.d("DEBUG", e.toString());
+            }
+            return posts;
+        }
+/*
+        @Override
+        protected void onPostExecute(Void result){
+            startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+        }*/
+    }
+
 
 
     @Override
@@ -57,8 +86,13 @@ public class Profile extends AppCompatActivity {
         }
 
 
+        forSale = (Button) findViewById(R.id.forSaleButton);
+        forSale.setTextColor(Color.parseColor("#FFEE00"));
+
+        sold = (Button) findViewById(R.id.soldButton);
+
         new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.userPic))
-                .execute(Server.getServerName() + currUser.getPhoto());
+                .execute(currUser.getPhoto());
 
 
         populateUserInfo(currUser);
@@ -108,6 +142,17 @@ public class Profile extends AppCompatActivity {
 
     }
 
+    public void onForSaleClick (View view){
+        forSale.setTextColor(Color.parseColor("#FFEE00"));
+        sold.setTextColor(Color.WHITE);
+
+    }
+
+    public void onSoldClick (View view){
+        sold.setTextColor(Color.parseColor("#FFEE00"));
+        forSale.setTextColor(Color.WHITE);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -145,8 +190,7 @@ public class Profile extends AppCompatActivity {
 
         //random posts
         ArrayList<Integer> postIds = currUser.getPostHistory();
-        //ArrayList<Post> posts = /* get the post arraylist from async task*/;
-
+        ArrayList<Post> posts;
         /*
         for (int i = 0; i < posts.size(); i++) {
 
