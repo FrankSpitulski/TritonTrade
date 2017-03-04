@@ -43,6 +43,10 @@ public class ForgotPassword extends AppCompatActivity {
                 Log.d("DEBUG", e.toString());
                 return false;
             }
+            catch(IllegalArgumentException e2){
+                Log.d("DEBUG", e2.toString());
+                return false;
+            }
         }
         @Override
         protected void onPostExecute(Boolean result){
