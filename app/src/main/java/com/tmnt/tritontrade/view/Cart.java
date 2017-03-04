@@ -17,17 +17,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
+import com.tmnt.tritontrade.controller.User;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import static com.tmnt.tritontrade.R.layout.cart_item;
 
 public class Cart extends AppCompatActivity {
 
-    Button removeButton, confirmRemoveButton;
+    Button displayContactButton, confirmRemoveButton;
+    User user;
     private ArrayList<Post> posts = new ArrayList<>();
 
     @Override
@@ -40,6 +43,22 @@ public class Cart extends AppCompatActivity {
        /* public Post(String productName, ArrayList<String> photos, String description,
         float price, ArrayList<String> tags, int profileID, int postID,
         boolean selling, boolean active , Date dateCreated, String contactInfo, boolean deleted) */
+
+
+        //From server populate posts
+       /* public String getCartIDsString()
+        static ArrayList<Integer> getCartIDsFromString(String history)
+        public boolean removeFromCart(int id){ return cartIDs.remove((Integer) new Integer(id)); }
+        public int getPostID()
+          */
+
+
+        //gets posts to load
+        user = CurrentState.getInstance().getCurrentUser();
+        //ArrayList<Integer> cartInt = User.getCartIDsFromString( user.getCartIDsString() );
+        //get post from postID
+        //
+
 
 
         //populate posts hardcoded
@@ -98,8 +117,28 @@ public class Cart extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getBaseContext(), "OK clicked", Toast.LENGTH_SHORT).show();
                 //code for deleting a post
+
             }
         });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
+    ///confirmation button for remove from cart
+    public void displayContactDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Contact Seller");
+        alert.setMessage("Email: \nPhone: ");
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getBaseContext(), "Cancel clicked", Toast.LENGTH_SHORT).show();
+                //nothing happens
+            }
+        });
+
         AlertDialog dialog = alert.create();
         dialog.show();
     }
@@ -152,6 +191,7 @@ public class Cart extends AppCompatActivity {
             String firstPhoto = post.getPhotos().get(0);
 
             //get the image associated with this property
+            /////////make so it doesnt take from drawable and from web or something
             int imageID = context.getResources().getIdentifier(firstPhoto, "drawable", context.getPackageName());
             image.setImageResource(imageID);
 
@@ -167,16 +207,27 @@ public class Cart extends AppCompatActivity {
             });
 
 
+            //////////////////display contact info button//////////////////////
+            displayContactButton = (Button) view.findViewById(R.id.contact_button);
+            displayContactButton.setOnClickListener(new View.OnClickListener() {
 
 
-
+                //get current post's userID.get contact info() pass to displaycontactdialog
+                @Override
+                public void onClick(View v) {
+                    displayContactDialog();
+                }
+            });
 
 
             return view;
         }
-
-
     }
 
 
 }
+
+
+
+
+
