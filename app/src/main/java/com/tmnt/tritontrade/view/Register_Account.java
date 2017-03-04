@@ -89,6 +89,9 @@ public class Register_Account extends AppCompatActivity {
             } catch (IOException e){
                 Log.d("DEBUG", e.toString());
                 return null;
+            } catch (IllegalArgumentException e){
+                Log.d("DEBUG", e.toString());
+                return null;
             }
         }
 
