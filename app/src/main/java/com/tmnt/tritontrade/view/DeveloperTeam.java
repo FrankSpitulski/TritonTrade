@@ -1,7 +1,11 @@
 package com.tmnt.tritontrade.view;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.tmnt.tritontrade.R;
@@ -50,5 +54,33 @@ public class DeveloperTeam extends AppCompatActivity {
             //bio.setTextAppearance(R.style.fontForDevTeamBio);
             bio.setPadding(20, 0, 0, 0);
         }
+
+        //bottom tool bar
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener(){
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.bottom_mainfeed:
+                                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+                                break;
+                            case R.id.bottom_cart:
+                                startActivity(new Intent(getApplicationContext(), Cart.class));
+                                break;
+                            case R.id.bottom_upload:
+                                startActivity(new Intent(getApplicationContext(), Create_Post.class));
+                                break;
+                            case R.id.bottom_profile:
+                                startActivity(new Intent(getApplicationContext(), Profile.class));
+                                break;
+                        }
+                        return false;
+                    }
+                }
+        );
     }
+
 }

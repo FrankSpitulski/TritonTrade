@@ -95,6 +95,8 @@ public class InstrumentedServerTest
         badPhoneNumbers.add("1 (510) 515-1234");
         //no spaces
         badPhoneNumbers.add("+1(510)515-1234");
+        //4 digit area code
+        badPhoneNumbers.add("+1 (5231) 513-1423");
     }
 
     /**
@@ -515,6 +517,26 @@ public class InstrumentedServerTest
         assertEquals(post2.getProfileID(),u.getProfileID());
     }
 
+    /**
+     * Tests adding users with invalid phone numberse to the server
+     */
+    @Test
+    public void testAddUserInvalidPhoneNumbers()
+    {
+        //for every bad phone number we are testing
+        for (String s: badPhoneNumbers) {
+            //add user with bad phone number to database
+            try {
+                testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                        s, "k5mao@ucsd.edu", "hunter2"));
+
+                //fail, let an invalid user through
+                fail();
+            } catch (IOException e) {
+                //success, exception caught
+            }
+        }
+    }
     /**
      * Deletes all of the specified users from the database.
      * DO NOT USE UNLESS YOU KNOW WHAT YOURE DOING. IF YOU HAVE TO ASK YOU PROBABLY DONT
