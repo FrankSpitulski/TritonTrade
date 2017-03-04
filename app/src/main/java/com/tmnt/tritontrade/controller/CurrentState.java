@@ -21,4 +21,8 @@ public class CurrentState {
     public synchronized User getCurrentUser() {
         return currentUser;
     }
+
+    public synchronized void logOut(){
+        currentUser=null;
+    }
 }

@@ -15,6 +15,18 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class User implements Parcelable {
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     private String name;
     private String photo; // URL to image
     private int profileID;
@@ -28,6 +40,7 @@ public class User implements Parcelable {
     private ArrayList<Integer> cartIDs;
     private String emailVerificationLink;
     private boolean deleted;
+
 
     /**
      * @param name
@@ -46,21 +59,75 @@ public class User implements Parcelable {
     public User(String name, String photo, int profileID, String bio, String mobileNumber,
                 String email, String password, String salt, ArrayList<Integer> postHistory,
                 boolean verified, ArrayList<Integer> cartIDs, String emailVerificationLink,
-                boolean deleted)
+                boolean deleted) throws IllegalArgumentException
     {
-        this.name = name;
-        this.photo = photo;
-        this.profileID = profileID;
-        this.bio = bio;
-        this.mobileNumber = mobileNumber;
-        this.email = email;
-        this.password = password;
-        this.salt = salt;
         this.postHistory = postHistory;
-        this.verified = verified;
-        this.cartIDs = cartIDs;
-        this.emailVerificationLink = emailVerificationLink;
-        this.deleted = deleted;
+
+        //Set each element with setters, if any return false, throw new illegal argument exception
+        if (!(this.setName(name) &&
+        this.setPhoto(photo) &&
+        this.setProfileID(profileID) &&
+        this.setBio(bio) &&
+        this.setMobileNumber(mobileNumber) &&
+        this.setEmail(email) &&
+        this.setPassword(password) &&
+        this.setSalt(salt) &&
+        this.setVerified(verified) &&
+        this.setCartIDs(cartIDs) &&
+        this.setEmailVerificationLink(emailVerificationLink) &&
+        this.setDeleted(deleted)))
+        //bad data, throwing exception
+        {
+            throw new IllegalArgumentException();
+        }
+    }
+
+
+    //******PARCELABLE METHODS********
+    protected User(Parcel in) {
+        name = in.readString();
+        photo = in.readString();
+        profileID = in.readInt();
+        bio = in.readString();
+        mobileNumber = in.readString();
+        email = in.readString();
+        password = in.readString();
+        salt = in.readString();
+        if (in.readByte() == 0x01) {
+            postHistory = new ArrayList<Integer>();
+            in.readList(postHistory, Integer.class.getClassLoader());
+        } else {
+            postHistory = null;
+        }
+        verified = in.readByte() != 0x00;
+        if (in.readByte() == 0x01) {
+            cartIDs = new ArrayList<Integer>();
+            in.readList(cartIDs, Integer.class.getClassLoader());
+        } else {
+            cartIDs = null;
+        }
+        deleted = in.readByte() != 0x00;
+    }
+
+    /**
+     * Returns the postHistory (List)
+     * @param history the post history(String)
+     * @return a list of postIDs
+     */
+    static ArrayList<Integer> getPostHistoryFromString(String history) {
+        if (history.equals("")) {
+            return new ArrayList<Integer>();
+        }
+        String[] split = history.split("\n");
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for (int i = 0; i < split.length; i++) {
+            list.add(Integer.getInteger(split[i]));
+        }
+        return list;
+    }
+
+    public static String getDefaultImage() {
+        return "/img/imageCDN/default/defaultUser.jpg";
     }
 
     /**
@@ -71,7 +138,6 @@ public class User implements Parcelable {
     {
         return name;
     }
-
 
     /**
      * Setter for name
@@ -169,7 +235,8 @@ public class User implements Parcelable {
      */
     public boolean setMobileNumber(String mobileNumber)
     {
-        if(mobileNumber==null)
+        String regex = "^\\+[0-9][0-9][0-9][0-9] \\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$";
+        if(mobileNumber==null || !mobileNumber.matches(regex))
             return false;
         this.mobileNumber = mobileNumber;
         return true;
@@ -191,7 +258,7 @@ public class User implements Parcelable {
      */
     public boolean setEmail(String email)
     {
-        if (email == null)
+        if (email == null || !email.matches(".*ucsd.edu$"))
             return false;
         this.email = email;
         return true;
@@ -399,31 +466,11 @@ public class User implements Parcelable {
     }
 
     /**
-     * Returns the postHistory (List)
-     * @param history the post history(String)
-     * @return a list of postIDs
-     */
-    static ArrayList<Integer> getPostHistoryFromString(String history)
-    {
-        if(history.equals(""))
-        {
-            return new ArrayList<Integer>();
-        }
-        String[] split = history.split("\n");
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for(int i = 0; i < split.length; i++)
-        {
-            list.add(Integer.getInteger(split[i]));
-        }
-        return list;
-    }
-
-    /**
      * Returns a list of cartIDs parsed from input
      * @param history
      * @return a list of CartIDs
      */
-    static ArrayList<Integer> getCartIDsFromString(String history)
+    public ArrayList<Integer> getCartIDsFromString(String history)
     {
         if (history.equals(""))
         {
@@ -438,7 +485,6 @@ public class User implements Parcelable {
         return list;
     }
 
-
     /**
      * Converts User object to unique String
      *
@@ -449,36 +495,6 @@ public class User implements Parcelable {
         ArrayList<User> users = new ArrayList<User>(1);
         users.add(this);
         return Server.stripOuterJson(Server.userToJson(users));
-    }
-
-    public static String getDefaultImage(){
-        return "/img/imageCDN/default/defaultUser.jpg";
-    }
-
-    //******PARCELABLE METHODS********
-    protected User(Parcel in) {
-        name = in.readString();
-        photo = in.readString();
-        profileID = in.readInt();
-        bio = in.readString();
-        mobileNumber = in.readString();
-        email = in.readString();
-        password = in.readString();
-        salt = in.readString();
-        if (in.readByte() == 0x01) {
-            postHistory = new ArrayList<Integer>();
-            in.readList(postHistory, Integer.class.getClassLoader());
-        } else {
-            postHistory = null;
-        }
-        verified = in.readByte() != 0x00;
-        if (in.readByte() == 0x01) {
-            cartIDs = new ArrayList<Integer>();
-            in.readList(cartIDs, Integer.class.getClassLoader());
-        } else {
-            cartIDs = null;
-        }
-        deleted = in.readByte() != 0x00;
     }
 
     @Override
@@ -511,19 +527,6 @@ public class User implements Parcelable {
         }
         dest.writeByte((byte) (deleted ? 0x01 : 0x00));
     }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
 
     /**

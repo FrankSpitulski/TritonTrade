@@ -228,11 +228,12 @@ public class Server {
      *
      * @throws IOException If Server throws an error, will return IOEXception, such as from
      *   a non ucsd email, duplicate email, or other failure
+     * @throws IllegalArgumentException The input data to the User is not valid
      * @return The user created by the method in the server
      */
     public static User addNewUser(String name, String photo, String bio,
                                      String mobileNumber, String email, String password)
-            throws IOException {
+            throws IOException, IllegalArgumentException{
 
         // Makes sure that the email given is a ucsd email
         if (!Pattern.matches(".*ucsd.edu$", email)) {

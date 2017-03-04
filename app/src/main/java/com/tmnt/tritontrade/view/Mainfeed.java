@@ -1,11 +1,14 @@
 package com.tmnt.tritontrade.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -19,10 +22,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
-
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -34,6 +37,7 @@ import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,7 +58,7 @@ public class Mainfeed extends AppCompatActivity
      */
     private GoogleApiClient client;
     //bottom tool bar
-    private BottomBar mBottomBar;
+//    private BottomBar mBottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,23 +67,44 @@ public class Mainfeed extends AppCompatActivity
 
         list = (ListView) this.findViewById(R.id.listFeed);
 
-        //bottom tool bar
-/*        mBottomBar = BottomBar.attach(this, savedInstanceState);
-        mBottomBar.setItems(R.menu.bottom_nav_items);
 
-        mBottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
+        //Create post button implementation
+        ImageButton createPostButton = (ImageButton)findViewById(R.id.createPostButton);
+        createPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onMenuTabSelected(@IdRes int menuItemId) {
-                setOnNavigationItemSelectedListener(menuItemId,true);
-                showToast(menuItemId, false);
-            }
-
-            @Override
-            public void onMenuTabReSelected(@IdRes int menuItemId) {
-                showToast(menuItemId, true);
+            public void onClick(View v) {
+                startActivity(new Intent(Mainfeed.this, Create_Post.class));
             }
         });
-*/
+
+        //bottom tool bar
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener(){
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.bottom_mainfeed:
+                                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+                                break;
+                            case R.id.bottom_cart:
+                                startActivity(new Intent(getApplicationContext(), Cart.class));
+                                break;
+                            case R.id.bottom_upload:
+                                startActivity(new Intent(getApplicationContext(), Create_Post.class));
+                                break;
+                            case R.id.bottom_profile:
+                                startActivity(new Intent(getApplicationContext(), Profile.class));
+                                break;
+                        }
+                        return false;
+                    }
+                }
+        );
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -96,25 +121,31 @@ public class Mainfeed extends AppCompatActivity
 
         //SET UP FILTER
 
+        //TODO put custom preference here instead of custom tag
         ArrayList<String> tags = new ArrayList<>();
         tags.add("food");
 
 
         MyTask task = new MyTask();
         task.execute(tags);
-        SearchView sv = (SearchView) findViewById(R.id.searchView);
+        final SearchView sv = (SearchView) findViewById(R.id.searchView);
+        //Search Bar implementation
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                adapter.getFilter().filter(query);
+                return true;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
                 return false;
             }
         });
+
+
+        //Load more once reach end of scroll
+
+
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -223,24 +254,11 @@ public class Mainfeed extends AppCompatActivity
         client.disconnect();
     }
 
-    private void setFilter(){
-        SearchView sv = (SearchView) findViewById(R.id.searchView);
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-    }
-
-
+    /**
+     * Async task used for initial setup of mainfeed(posts)
+     */
     private class MyTask extends AsyncTask<ArrayList<String>, Void, ArrayList<Post>>{
+        private ProgressDialog dialog=new ProgressDialog(Mainfeed.this);
         protected ArrayList<Post> doInBackground(ArrayList<String>... id) {
             try {
                 ArrayList<Post> posts = Server.searchPostTags(id[0]);
@@ -252,53 +270,34 @@ public class Mainfeed extends AppCompatActivity
             return null;
         }
 
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setMessage("Loading");
+            this.dialog.show();
+        }
+
         protected void onPostExecute(ArrayList<Post> result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
             if(result!=null) {
                 adapter = new CustomAdapter(Mainfeed.this, result);
                 list.setAdapter(adapter);
+                list.setOnScrollListener(new AbsListView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                    }
+
+                    @Override
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                        adapter.showMore();
+                    }
+                });
             }
         }
     }
-/*
-    //Bottom Tool Bar
 
-    private void setOnNavigationItemSelectedListener(int menuId, boolean selected){
-        if (menuId == R.id.bottom_mainfeed) {
-    //        setContentView(R.layout.activity_mainfeed);
-        } else if (menuId == R.id.bottom_upload) {
-    //        setContentView(R.layout.activity_create__post);
-        } else if (menuId == R.id.bottom_cart) {
-    //        setContentView(R.layout.activity_cart);
-        } else if (menuId == R.id.bottom_profile){
-    //        setContentView(R.layout.activity_profile);
-        }
-    }
-
-    private void showToast(int menuId, boolean isReselected) {
-        if (menuId == R.id.bottom_mainfeed) {
-
-        } else if (menuId == R.id.bottom_upload) {
-
-        } else if (menuId == R.id.bottom_cart) {
-
-        } else if (menuId == R.id.bottom_profile){
-
-        }
-    }
-
-    private void show(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        // Necessary to restore the BottomBar's state, otherwise we would
-        // lose the current tab on orientation change.
-        mBottomBar.onSaveInstanceState(outState);
-    }
-*/
 
 
 }

@@ -41,7 +41,10 @@ public class InstrumentedServerTest
 
     //List of FUN strings with various possibly problematic strings to test
     static ArrayList<String> funStrings = new ArrayList<String>();
-
+    //list of invalid phone numbers
+    static ArrayList<String> badPhoneNumbers = new ArrayList<String>();
+    //list of valid phone numbers
+    static ArrayList<String> goodPhoneNumbers = new ArrayList<String>();
 
     //List of users used in the test, automatically cleaned up from server after each test
     private ArrayList<User> testUsers;
@@ -53,9 +56,11 @@ public class InstrumentedServerTest
     @BeforeClass
     public static void setUpClass()
     {
-
+        //WEIRD STRINGS
         //empty string
         funStrings.add("");
+        //string of only spaces
+        funStrings.add("      ");
         //bunch of escaped characters
         funStrings.add("\"\"\n\n\n\b\b");
         //random symbols
@@ -66,6 +71,32 @@ public class InstrumentedServerTest
         funStrings.add("DROP TABLE users;--");
         //more random symbols
         funStrings.add("`~[{]})(*&^%$#@!:;\"\'\'\'\'\"\"\'**--++__--++__)))(");
+
+        //GOOD PHONE NUMBERS
+        //use country node, no idea if actual phone number is valid, area code is
+        goodPhoneNumbers.add("+1 (510) 535-1234");
+
+        //BAD PHONE NUMBERS
+        //no country node
+        badPhoneNumbers.add("(510) 535-1234");
+        //bad country code
+        badPhoneNumbers.add("+12345643 (111) 535-1234");
+        //missing parenthesis
+        badPhoneNumbers.add("+1 111 535-1234");
+        //too many numbers
+        badPhoneNumbers.add("+1 (510) 535-12344");
+        //invalid symbols
+        badPhoneNumbers.add("+1 (510) 515-123a");
+        badPhoneNumbers.add("+1 (510) 515-1234!");
+        //no dash in middle
+        badPhoneNumbers.add("+1 (510) 5151234");
+        badPhoneNumbers.add("+1 (510) 515 1234");
+        //no + in front of country code
+        badPhoneNumbers.add("1 (510) 515-1234");
+        //no spaces
+        badPhoneNumbers.add("+1(510)515-1234");
+        //4 digit area code
+        badPhoneNumbers.add("+1 (5231) 513-1423");
     }
 
     /**
@@ -104,7 +135,7 @@ public class InstrumentedServerTest
      * Tests adding duplicate emails to the server
      */
     @Test
-    public void testDuplicateEmail()
+    public void testAddNewUserDuplicateEmail()
     {
         //add valid user to the database
         try {
@@ -134,7 +165,7 @@ public class InstrumentedServerTest
      * Tests Making a new user with a non UCSD email, should return false
      */
     @Test
-    public void testNonUCSDEmailNewUser()
+    public void testAddNewUserNonUCSDEmailNewUser()
     {
         try {
             //Try adding new user with non uscd email, should return false
@@ -180,7 +211,7 @@ public class InstrumentedServerTest
      * Tests adding users with valid email
      */
     @Test
-    public void testStandardEmail()
+    public void testAddNewUserStandardEmail()
     {
         //try to add weird but valid ucsd emails as users
         try {
@@ -337,6 +368,36 @@ public class InstrumentedServerTest
             fail();
         }
     }
+
+    /**
+     * Tests adding users with correct phone number formats
+     */
+    @Test
+    public void testAddNewUserCorrectPhoneNumberFormat()
+    {
+
+    }
+    /**
+     * Tests adding users with wrong phone number formats
+     */
+    @Test
+    public void testAddNewUserWrongPhoneNumberFormat()
+    {
+
+        //Valid email
+        try {
+            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
+                    "I ARE VERY INTERESTING", "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+
+            //failed to catch incorrect phone number
+            fail();
+        }
+        catch (IOException e)
+        {
+            //success, invalud phone number format caught
+        }
+    }
+
     /**
      * Tests searching for a given user by ID retrieves the same user that was uploaded
      */
@@ -385,25 +446,25 @@ public class InstrumentedServerTest
 
         User u = testUsers.get(0);
 
-      for (String s: funStrings) {
-          u.setName(s);
-          //Change user name
-          try {
-              Server.modifyExistingUser(u);
-          } catch (IOException e) {
-              fail();
-          }
+        for (String s: funStrings) {
+            u.setName(s);
+            //Change user name
+            try {
+                Server.modifyExistingUser(u);
+            } catch (IOException e) {
+                fail();
+            }
 
-          //get new instance of the user form the server
-          try {
-              u = Server.searchUserIDs(u.getProfileID());
-          } catch (IOException e) {
-              fail();
-          }
+            //get new instance of the user form the server
+            try {
+                u = Server.searchUserIDs(u.getProfileID());
+            } catch (IOException e) {
+                fail();
+            }
 
-          //assert that the changed name equals the one gotten from the server
-          assertTrue(u.getName().equals(s));
-      }
+            //assert that the changed name equals the one gotten from the server
+            assertTrue(u.getName().equals(s));
+        }
     }
 
     /**
@@ -425,7 +486,7 @@ public class InstrumentedServerTest
         //add post to database
         try {
             testPosts.add(Server.addPost("SLIGHTLY USED TURNIP", new ArrayList<String>(),
-                    "TURNIPS ARE GOOD FOR YOUUUU", (float) 9.99, new ArrayList<String>(),
+                    "TURNIPS ARE GOOD FOR YOUUUU", (float) 42.0, new ArrayList<String>(),
                     u.getProfileID(), true, "FIND ME IN KONSTANTIYYE"));
         }
         //fail post not added
@@ -445,17 +506,37 @@ public class InstrumentedServerTest
             fail();
         }
 
+        //DEBUG IN CASE POST STRINGS ARENT THE SAME
+        //TODO CHANGE COMPARISON TO USE JSON WHEN REFACTORED
         Log.d("DEBUG",post1.toString());
         Log.d("DEBUG",post2.toString());
+
         //assert that both posts are the same
         assertTrue(post1.toString().equals(post2.toString()));
         //assert that the user we made to post it is the same
         assertEquals(post2.getProfileID(),u.getProfileID());
     }
 
+    /**
+     * Tests adding users with invalid phone numberse to the server
+     */
+    @Test
+    public void testAddUserInvalidPhoneNumbers()
+    {
+        //for every bad phone number we are testing
+        for (String s: badPhoneNumbers) {
+            //add user with bad phone number to database
+            try {
+                testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                        s, "k5mao@ucsd.edu", "hunter2"));
 
-
-
+                //fail, let an invalid user through
+                fail();
+            } catch (Exception e) {
+                //success, exception caught
+            }
+        }
+    }
     /**
      * Deletes all of the specified users from the database.
      * DO NOT USE UNLESS YOU KNOW WHAT YOURE DOING. IF YOU HAVE TO ASK YOU PROBABLY DONT
