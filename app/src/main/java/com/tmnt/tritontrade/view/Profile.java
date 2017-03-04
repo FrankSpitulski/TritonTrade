@@ -2,8 +2,11 @@ package com.tmnt.tritontrade.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -48,6 +51,33 @@ public class Profile extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        //bottom tool bar
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener(){
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.bottom_mainfeed:
+                                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+                                break;
+                            case R.id.bottom_cart:
+                                startActivity(new Intent(getApplicationContext(), Cart.class));
+                                break;
+                            case R.id.bottom_upload:
+                                startActivity(new Intent(getApplicationContext(), Create_Post.class));
+                                break;
+                            case R.id.bottom_profile:
+                                startActivity(new Intent(getApplicationContext(), Profile.class));
+                                break;
+                        }
+                        return false;
+                    }
+                }
+        );
     }
 
 
@@ -149,4 +179,6 @@ public class Profile extends AppCompatActivity {
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
+
 }

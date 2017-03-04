@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -56,7 +58,7 @@ public class Mainfeed extends AppCompatActivity
      */
     private GoogleApiClient client;
     //bottom tool bar
-    private BottomBar mBottomBar;
+//    private BottomBar mBottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,22 +78,33 @@ public class Mainfeed extends AppCompatActivity
         });
 
         //bottom tool bar
-/*        mBottomBar = BottomBar.attach(this, savedInstanceState);
-        mBottomBar.setItems(R.menu.bottom_nav_items);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
 
-        mBottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
-            @Override
-            public void onMenuTabSelected(@IdRes int menuItemId) {
-                setOnNavigationItemSelectedListener(menuItemId,true);
-                showToast(menuItemId, false);
-            }
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener(){
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.bottom_mainfeed:
+                                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+                                break;
+                            case R.id.bottom_cart:
+                                startActivity(new Intent(getApplicationContext(), Cart.class));
+                                break;
+                            case R.id.bottom_upload:
+                                startActivity(new Intent(getApplicationContext(), Create_Post.class));
+                                break;
+                            case R.id.bottom_profile:
+                                startActivity(new Intent(getApplicationContext(), Profile.class));
+                                break;
+                        }
+                        return false;
+                    }
+                }
+        );
 
-            @Override
-            public void onMenuTabReSelected(@IdRes int menuItemId) {
-                showToast(menuItemId, true);
-            }
-        });
-*/
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -280,46 +293,7 @@ public class Mainfeed extends AppCompatActivity
             }
         }
     }
-/*
-    //Bottom Tool Bar
 
-    private void setOnNavigationItemSelectedListener(int menuId, boolean selected){
-        if (menuId == R.id.bottom_mainfeed) {
-    //        setContentView(R.layout.activity_mainfeed);
-        } else if (menuId == R.id.bottom_upload) {
-    //        setContentView(R.layout.activity_create__post);
-        } else if (menuId == R.id.bottom_cart) {
-    //        setContentView(R.layout.activity_cart);
-        } else if (menuId == R.id.bottom_profile){
-    //        setContentView(R.layout.activity_profile);
-        }
-    }
-
-    private void showToast(int menuId, boolean isReselected) {
-        if (menuId == R.id.bottom_mainfeed) {
-
-        } else if (menuId == R.id.bottom_upload) {
-
-        } else if (menuId == R.id.bottom_cart) {
-
-        } else if (menuId == R.id.bottom_profile){
-
-        }
-    }
-
-    private void show(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        // Necessary to restore the BottomBar's state, otherwise we would
-        // lose the current tab on orientation change.
-        mBottomBar.onSaveInstanceState(outState);
-    }
-*/
 
 
 }

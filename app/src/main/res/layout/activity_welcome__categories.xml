@@ -35,7 +35,8 @@
             android:textSize="40sp"
             android:textColorLink="?attr/actionMenuTextColor"
             android:textColor="@color/colorPrimaryDark"
-            android:background="#d6d7d7" />
+            android:background="#d6d7d7"
+            />
 
         <TextView
             android:text="Please choose the categories you would like to follow"
@@ -65,97 +66,115 @@
                     android:id="@+id/view" />
 
 
-                <Button
+                <ToggleButton
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:background="@drawable/roundbuttonw"
                     android:id="@+id/TEXTBOOK"
+                    android:textOff="TEXTBOOK"
+                    android:textOn="TEXTBOOK"
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="12dp"
                     android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/view"
                     android:text="TEXTBOOK" />
 
-                <Button
+                <ToggleButton
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:background="@drawable/roundbuttonw"
                     android:id="@+id/CLOTHES"
+                    android:textOff="CLOTHES"
+                    android:textOn="CLOTHES"
                     android:layout_marginStart="14dp"
                     android:layout_alignBaseline="@+id/TEXTBOOK"
                     android:layout_alignBottom="@+id/TEXTBOOK"
                     android:layout_toEndOf="@+id/view"
                     android:text="CLOTHES" />
 
-                <Button
+                <ToggleButton
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:background="@drawable/roundbuttonw"
                     android:id="@+id/FURNITURE"
+                    android:textOff="FURNITURE"
+                    android:textOn="FURNITURE"
                     android:layout_marginTop="160dp"
                     android:layout_marginEnd="12dp"
                     android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/view"
                     android:text="FURNITURE" />
 
-                <Button
+                <ToggleButton
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:background="@drawable/roundbuttonw"
                     android:id="@+id/FOOD"
+                    android:textOff="FOOD"
+                    android:textOn="FOOD"
                     android:layout_alignBaseline="@+id/FURNITURE"
                     android:layout_alignBottom="@+id/FURNITURE"
                     android:layout_alignStart="@+id/CLOTHES"
                     android:text="FOOD" />
 
-                <Button
+                <ToggleButton
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:background="@drawable/roundbuttonw"
                     android:id="@+id/TECHNOLOGY"
+                    android:textOff="TECHNOLOGY"
+                    android:textOn="TECHNOLOGY"
                     android:layout_marginTop="290dp"
                     android:layout_marginEnd="12dp"
                     android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/view"
                     android:text="TECHNOLOGY" />
 
-                <Button
+                <ToggleButton
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:background="@drawable/roundbuttonw"
                     android:id="@+id/SUPPLIES"
+                    android:textOff="SUPPLIES"
+                    android:textOn="SUPPLIES"
                     android:text="SUPPLIES"
                     android:layout_alignBaseline="@+id/TECHNOLOGY"
                     android:layout_alignBottom="@+id/TECHNOLOGY"
                     android:layout_alignStart="@+id/FOOD" />
 
-                <Button
+                <ToggleButton
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:background="@drawable/roundbuttonw"
                     android:id="@+id/STORAGE"
+                    android:textOff="STORAGE"
+                    android:textOn="STORAGE"
                     android:layout_marginTop="420dp"
                     android:layout_marginEnd="12dp"
                     android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/view"
                     android:text="STORAGE" />
 
-                <Button
+                <ToggleButton
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:background="@drawable/roundbuttonw"
                     android:id="@+id/SERVICES"
+                    android:textOff="SERVICES"
+                    android:textOn="SERVICES"
                     android:layout_marginTop="550dp"
                     android:layout_marginEnd="12dp"
                     android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/view"
                     android:text="SERVICES" />
 
-                <Button
+                <ToggleButton
                     android:layout_width="110dp"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:background="@drawable/roundbuttonw"
                     android:id="@+id/MISCS"
+                    android:textOff="MISCS"
+                    android:textOn="MISCS"
                     android:text="MISCS"
                     android:layout_alignBaseline="@+id/STORAGE"
                     android:layout_alignBottom="@+id/STORAGE"
@@ -169,11 +188,13 @@
                     android:layout_marginTop="680dp"
                     android:layout_marginEnd="12dp" />
 
-                <Button
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                <ToggleButton
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:background="@drawable/roundbuttonw"
                     android:id="@+id/TRANS"
+                    android:textOff="TRANS"
+                    android:textOn="TRANS"
                     android:text="TRANS"
                     android:gravity="center_vertical|center_horizontal|center"
                     android:layout_alignBaseline="@+id/SERVICES"
@@ -198,11 +219,12 @@
             android:text="FOLLOW"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button9"
+            android:id="@+id/FOLLOW"
             android:textColor="?attr/actionModeSplitBackground"
             android:textSize="30sp"
             android:background="@color/common_action_bar_splitter"
             android:layout_alignParentBottom="true"
+            android:onClick="sendToMain"
             style="@style/Widget.AppCompat.Button" />
 
     </RelativeLayout>

@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -150,6 +153,33 @@ public class Create_Post extends AppCompatActivity {
                 });
 
                 new CreatePostTask().execute();
+
+                //bottom tool bar
+                BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                        findViewById(R.id.bottom_navigation);
+
+                bottomNavigationView.setOnNavigationItemSelectedListener(
+                        new BottomNavigationView.OnNavigationItemSelectedListener(){
+                            @Override
+                            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                                switch (item.getItemId()) {
+                                    case R.id.bottom_mainfeed:
+                                        startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+                                        break;
+                                    case R.id.bottom_cart:
+                                        startActivity(new Intent(getApplicationContext(), Cart.class));
+                                        break;
+                                    case R.id.bottom_upload:
+                                        startActivity(new Intent(getApplicationContext(), Create_Post.class));
+                                        break;
+                                    case R.id.bottom_profile:
+                                        startActivity(new Intent(getApplicationContext(), Profile.class));
+                                        break;
+                                }
+                                return false;
+                            }
+                        }
+                );
             }
         });
     }

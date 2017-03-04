@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -132,6 +136,33 @@ public class Cart extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.cart_list);
         listView.setAdapter(adapter);
 
+
+        //bottom tool bar
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener(){
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.bottom_mainfeed:
+                                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+                                break;
+                            case R.id.bottom_cart:
+                                startActivity(new Intent(getApplicationContext(), Cart.class));
+                                break;
+                            case R.id.bottom_upload:
+                                startActivity(new Intent(getApplicationContext(), Create_Post.class));
+                                break;
+                            case R.id.bottom_profile:
+                                startActivity(new Intent(getApplicationContext(), Profile.class));
+                                break;
+                        }
+                        return false;
+                    }
+                }
+        );
 
     }
 
