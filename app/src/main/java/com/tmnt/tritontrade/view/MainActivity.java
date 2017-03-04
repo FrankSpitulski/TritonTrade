@@ -1,5 +1,6 @@
 package com.tmnt.tritontrade.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class LoginTask extends AsyncTask<Object, Object, Object>{
+        private ProgressDialog dialog=new ProgressDialog(MainActivity.this);
         @Override
         protected Object doInBackground(Object... params) {
             try {
@@ -80,7 +82,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
+        protected void onPreExecute() {
+            this.dialog.setMessage("Logging in...");
+            this.dialog.show();
+        }
+
+        @Override
         protected void onPostExecute(Object result){
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
             if(CurrentState.getInstance().getCurrentUser() != null){
                 startActivity(new Intent(getApplicationContext(), Mainfeed.class));
             }

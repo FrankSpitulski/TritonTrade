@@ -66,16 +66,7 @@ public class Mainfeed extends AppCompatActivity
         setContentView(R.layout.activity_mainfeed);
 
         list = (ListView) this.findViewById(R.id.listFeed);
-
-
-        //Create post button implementation
-        ImageButton createPostButton = (ImageButton)findViewById(R.id.createPostButton);
-        createPostButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Mainfeed.this, Create_Post.class));
-            }
-        });
+        
 
         //bottom tool bar
         BottomNavigationView bottomNavigationView = (BottomNavigationView)

@@ -245,7 +245,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
 
         @Override
         protected void onPreExecute() {
-            this.dialog.setMessage("Loading");
+            this.dialog.setMessage("Loading...");
             this.dialog.show();
         }
 
