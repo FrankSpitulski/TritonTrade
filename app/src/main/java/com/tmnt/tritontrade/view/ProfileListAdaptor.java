@@ -52,8 +52,8 @@ class ProfileListAdaptor extends BaseAdapter {
         //Set the fields of the row element to the info in the posts array at the given position
         TextView text = (TextView) vi.findViewById(R.id.description);
         TextView header = (TextView) vi.findViewById(R.id.title);
-        header.setText(posts[position].getProductName());
-        text.setText(posts[position].getDescription());
+        //header.setText(posts[position].getProductName());
+        //text.setText(posts[position].getDescription());
         return vi;
     }
 }

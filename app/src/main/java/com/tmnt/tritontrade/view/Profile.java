@@ -2,10 +2,12 @@ package com.tmnt.tritontrade.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,9 +19,14 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
+import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class Profile extends AppCompatActivity {
 
@@ -33,17 +40,21 @@ public class Profile extends AppCompatActivity {
      */
     private GoogleApiClient client;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        currUser = new User("User", "http://farm7.staticflickr.com/6047/7036787275_951cb768fe.jpg", 0,
-                "This is the bio for the user", "(510) 696-6969", "email@lol.edu",
-                "jkdsf", "sdfs", null, false, null, "sdfs", false);
+        currUser = CurrentState.getInstance().getCurrentUser();
+        if(currUser == null) {
+            throw new NullPointerException("The User is Null");
+        }
+
 
         new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.userPic))
-                .execute(currUser.getPhoto());
+                .execute(Server.getServerName() + currUser.getPhoto());
+
 
         populateUserInfo(currUser);
         populateList();
@@ -53,6 +64,7 @@ public class Profile extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
         //bottom tool bar
+        /*
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
 
@@ -78,6 +90,7 @@ public class Profile extends AppCompatActivity {
                     }
                 }
         );
+        */
     }
 
 
@@ -113,10 +126,12 @@ public class Profile extends AppCompatActivity {
         TextView bio = (TextView) findViewById(R.id.bio);
 
         //populate the fields with the information obtained from the user
+
         username.setText(user.getName());
         email.setText(user.getEmail());
         phone.setText(user.getMobileNumber());
         bio.setText(user.getBio());
+
     }
 
 
@@ -125,23 +140,18 @@ public class Profile extends AppCompatActivity {
         list = (ListView) findViewById(R.id.list);
 
         //random posts
-        Post[] posts = new Post[10];
+        ArrayList<Integer> postIds = currUser.getPostHistory();
+        //ArrayList<Post> posts = /* get the post arraylist from async task*/;
 
-        for (int i = 0; i < posts.length; i++) {
-
-
-            Post p = new Post("Product Title " + i, null, "Description of product. This is going to probably be a multiple line " +
-                    "description. What were to happen if I added more lines to this shit? " +
-                    "Description # " + i, 69, null, 0, 0, false, false, null, "hi", false);
-
-
-            posts[i] = p;
+        /*
+        for (int i = 0; i < posts.size(); i++) {
 
 
         }
 
         //update the list
-        list.setAdapter(new ProfileListAdaptor(this, posts));
+        //list.setAdapter(new ProfileListAdaptor(this, posts));
+        */
 
     }
 
