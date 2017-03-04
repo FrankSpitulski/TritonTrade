@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
             catch(IOException e){
                 Log.d("DEBUG", e.toString());
             }
+            catch(IllegalArgumentException e2){
+                Log.d("DEBUG", e2.toString());
+            }
             return CurrentState.getInstance();
         }
 
