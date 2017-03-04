@@ -73,8 +73,8 @@ public class PopUpPost extends AppCompatActivity {
                 Toast t = new Toast(getApplicationContext());
                 User current_user = CurrentState.getInstance().getCurrentUser();
                 if (cart_status) {
-                    current_user.removeFromCart(p.getPostID());
                     try {
+                        current_user.removeFromCart(p.getPostID());
                         Server.modifyExistingUser(current_user);
                         t.cancel();
                         t.makeText(PopUpPost.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
@@ -84,6 +84,11 @@ public class PopUpPost extends AppCompatActivity {
                     catch (IOException e) {
                         t.cancel();
                         t.makeText(PopUpPost.this, "Bad connection to server", Toast.LENGTH_SHORT).show();
+                    }
+                    catch (IllegalArgumentException e2){
+                        Log.d("DEBUG", e2.toString());
+                        t.cancel();
+                        t.makeText(PopUpPost.this, "Bad user", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     try {
