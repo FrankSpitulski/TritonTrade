@@ -42,22 +42,26 @@ public class Register_Account extends AppCompatActivity {
                 try {
                     theName = userName.getText().toString();
                 } catch(IllegalArgumentException e){
-                  Log.d("RETRY", e.toString());
+                    Log.d("DEBUG", e.toString());
+                    Toast.makeText(Register_Account.this, "Bad Username", Toast.LENGTH_SHORT).show();
                 }
                 try {
                     theEmail = userEmail.getText().toString();
                 } catch(IllegalArgumentException e){
-                    Log.d("RETRY",e.toString());
+                    Log.d("DEBUG",e.toString());
+                    Toast.makeText(Register_Account.this, "Bad Email", Toast.LENGTH_SHORT).show();
                 }
                 try {
                     thePassword = userPassword.getText().toString();
                 } catch(IllegalArgumentException e){
-                    Log.d("RETRY", e.toString());
+                    Log.d("DEBUG", e.toString());
+                    Toast.makeText(Register_Account.this, "Bad Password", Toast.LENGTH_SHORT).show();
                 }
                 try{
                     thePhone = userPhone.getText().toString();
                 } catch(IllegalArgumentException e) {
-                    Log.d("RETRY", e.toString());
+                    Log.d("DEBUG", e.toString());
+                    Toast.makeText(Register_Account.this, "Bad Phone", Toast.LENGTH_SHORT).show();
                 }
                 new RegisterTask().execute();
             }

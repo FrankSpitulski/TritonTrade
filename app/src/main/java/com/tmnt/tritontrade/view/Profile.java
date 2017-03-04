@@ -28,6 +28,11 @@ import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.tmnt.tritontrade.R.id.bottom_cart;
+import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
+import static com.tmnt.tritontrade.R.id.bottom_profile;
+import static com.tmnt.tritontrade.R.id.bottom_upload;
+
 public class Profile extends AppCompatActivity {
 
     private ListView list;
@@ -64,7 +69,7 @@ public class Profile extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
         //bottom tool bar
-        /*
+
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
 
@@ -72,25 +77,24 @@ public class Profile extends AppCompatActivity {
                 new BottomNavigationView.OnNavigationItemSelectedListener(){
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.bottom_mainfeed:
-                                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
-                                break;
-                            case R.id.bottom_cart:
-                                startActivity(new Intent(getApplicationContext(), Cart.class));
-                                break;
-                            case R.id.bottom_upload:
-                                startActivity(new Intent(getApplicationContext(), Create_Post.class));
-                                break;
-                            case R.id.bottom_profile:
-                                startActivity(new Intent(getApplicationContext(), Profile.class));
-                                break;
+                        if(item.getItemId() == bottom_mainfeed){
+                            startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+                        }
+                        else if (item.getItemId() == bottom_cart){
+                            startActivity(new Intent(getApplicationContext(), Cart.class));
+
+                        }
+                        else if(item.getItemId() == bottom_upload){
+                            startActivity(new Intent(getApplicationContext(), Create_Post.class));
+                        }
+                        else if(item.getItemId() == bottom_profile){
+                            startActivity(new Intent(getApplicationContext(), Profile.class));
                         }
                         return false;
                     }
                 }
         );
-        */
+
     }
 
 
