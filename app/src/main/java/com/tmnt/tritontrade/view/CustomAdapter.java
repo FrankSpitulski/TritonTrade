@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.tmnt.tritontrade.R;
@@ -250,8 +251,8 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
             }
             if(result!=null){
                 posts=result;
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
         }
     }
 

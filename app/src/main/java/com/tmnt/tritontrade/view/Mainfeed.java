@@ -122,13 +122,15 @@ public class Mainfeed extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query);
-                return true;
+                sv.clearFocus();
+                return false;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
         });
+
 
 
         //Load more once reach end of scroll
