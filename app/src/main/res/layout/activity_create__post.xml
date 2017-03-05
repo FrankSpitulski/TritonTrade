@@ -5,8 +5,9 @@
     android:id="@+id/activity_create__post"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tmnt.tritontrade.view.Create_Post"
-    android:gravity="center">
+    android:gravity="center"
+    tools:context="com.tmnt.tritontrade.view.Create_Post">
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -26,6 +27,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,53 +46,66 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/categoryLabel"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:gravity="start"
+                    android:text="\t Choose Category*"
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/categoryLabel"
-                        android:layout_width="190dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:text="\t Choose Category*"
-                        android:textAlignment="textStart"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/optionLabel"
-                        android:layout_width="160dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Buying or Selling*"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp" />
-                </LinearLayout>
-
-                <LinearLayout
+                <Spinner
+                    android:id="@+id/categorySpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1" />
+
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/optionLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:text="\t Buying or Selling*"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
 
-                    <Spinner
-                        android:id="@+id/categorySpinner"
-                        android:layout_width="190dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1" />
 
-                    <Spinner
-                        android:id="@+id/buyOrSellSpinner"
-                        android:layout_width="160dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1" />
-                </LinearLayout>
+                <Spinner
+                    android:id="@+id/buyOrSellSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1" />
+
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_weight="1" />
+
 
                 <TextView
                     android:id="@+id/itemLabel"
@@ -101,6 +116,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/colorPrimary" />
 
+
                 <EditText
                     android:id="@+id/itemTitleLabel"
                     android:layout_width="match_parent"
@@ -109,8 +125,14 @@
                     android:background="@drawable/customborder2"
                     android:ems="10"
                     android:gravity="top"
-                    android:hint="Title"
+                    android:hint="What are you selling?"
                     android:inputType="textMultiLine" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/descriptionLabel"
@@ -133,6 +155,11 @@
                     android:inputType="textMultiLine"
                     android:selectAllOnFocus="false" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/priceLabel"
                     android:layout_width="match_parent"
@@ -152,6 +179,11 @@
                     android:inputType="numberDecimal"
                     android:text="$ 0.00" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/pictureLabel"
                     android:layout_width="match_parent"
@@ -164,26 +196,29 @@
 
             </LinearLayout>
 
+
             <LinearLayout
                 android:id="@+id/pictureLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+
                 <ImageButton
                     android:id="@+id/imgButton1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginRight="16dp"
                     android:background="@drawable/customborder2"
                     android:tint="@android:color/darker_gray"
                     app:srcCompat="@android:drawable/ic_input_add" />
+
 
                 <ImageButton
                     android:id="@+id/imgButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginRight="16dp"
                     android:background="@drawable/customborder2"
                     android:text="Button"
                     android:tint="@android:color/darker_gray"
@@ -193,7 +228,7 @@
                     android:id="@+id/imgButton3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginRight="16dp"
                     android:background="@drawable/customborder2"
                     android:text="Button"
                     android:tint="@android:color/darker_gray"
@@ -203,7 +238,7 @@
                     android:id="@+id/imgButton4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginRight="16dp"
                     android:background="@drawable/customborder2"
                     android:text="Button"
                     android:tint="@android:color/darker_gray"
@@ -213,7 +248,6 @@
                     android:id="@+id/imgButton5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@drawable/customborder2"
                     android:text="Button"
                     android:tint="@android:color/darker_gray"
@@ -229,8 +263,6 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="27dp"
                     android:background="?android:attr/textCheckMark"
                     android:backgroundTint="@android:color/black" />
 
