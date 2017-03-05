@@ -75,7 +75,7 @@ public class Mainfeed extends AppCompatActivity
                             startActivity(in);
                         }
                         else if (item.getItemId() == bottom_cart){
-                            Intent in=new Intent(getBaseContext(),Cart.class);
+                            Intent in=new Intent(getBaseContext(),Edit_Categories.class);
                             startActivity(in);
 
                         }

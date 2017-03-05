@@ -224,7 +224,6 @@
             android:textSize="30sp"
             android:background="@color/common_action_bar_splitter"
             android:layout_alignParentBottom="true"
-            android:onClick="sendToMain"
             style="@style/Widget.AppCompat.Button" />
 
     </RelativeLayout>

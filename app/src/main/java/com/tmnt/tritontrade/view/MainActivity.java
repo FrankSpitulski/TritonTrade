@@ -1,7 +1,9 @@
 package com.tmnt.tritontrade.view;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -93,7 +95,15 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
             if(CurrentState.getInstance().getCurrentUser() != null){
+                //Sharepreferences
+                String ID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
+                SharedPreferences prefs = getSharedPreferences(ID, Context.MODE_PRIVATE);
+                if(prefs.getAll().isEmpty()){
+                    startActivity(new Intent(getApplicationContext(), Welcome_Categories.class));
+                }
+                else {
                 startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+                }
             }
             else{
                 Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
