@@ -15,17 +15,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.IllegalFormatCodePointException;
-
-import static de.hdodenhof.circleimageview.R.styleable.CircleImageView;
 
 
 /**
@@ -33,8 +32,8 @@ import static de.hdodenhof.circleimageview.R.styleable.CircleImageView;
  */
 
 public class PopUpPost extends AppCompatActivity {
-    private boolean cart_status = false;
     Toast t;
+    private boolean cart_status = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +48,7 @@ public class PopUpPost extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .8), (int) (height * .8));
+        getWindow().setLayout((int) (width * .85), (int) (height * .85));
 
         findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +97,7 @@ public class PopUpPost extends AppCompatActivity {
         LinearLayout photoContainer = (LinearLayout) findViewById(R.id.gallery);
         photoContainer.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams photo_params =
-                new LinearLayout.LayoutParams(175, 175);
+                new LinearLayout.LayoutParams(250, 250);
         photo_params.gravity = Gravity.CENTER;
         for (int i = 0; i < photos.size(); i++) {
             final ImageView photoView = photos.get(i);
@@ -150,7 +149,6 @@ public class PopUpPost extends AppCompatActivity {
             iv_array.add(d);
         }
         return iv_array;
-
     }
 
     public class ModifyUserCart extends AsyncTask<User, Void, Boolean> {

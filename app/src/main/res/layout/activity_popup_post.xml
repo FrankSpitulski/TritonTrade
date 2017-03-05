@@ -2,22 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:orientation="vertical"
         android:weightSum="1">
 
         <ScrollView
-            android:layout_width="match_parent"
             android:id="@+id/scrollcontainer"
-            android:layout_weight="1.15"
-            android:layout_height="430dp">
+            android:layout_width="match_parent"
+            android:layout_height="430dp"
+            android:layout_weight="1.15">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,92 +31,98 @@
                     android:fillViewport="true">
 
                     <LinearLayout
-                        android:orientation="horizontal"
+                        android:id="@+id/gallery"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:id="@+id/gallery">
+                        android:orientation="horizontal">
 
                     </LinearLayout>
                 </HorizontalScrollView>
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp" />
-
                 <ImageView
+                    android:id="@+id/currentphoto"
                     android:layout_width="match_parent"
                     android:layout_height="214dp"
-                    app:srcCompat="@mipmap/doge"
-                    android:id="@+id/currentphoto" />
+                    app:srcCompat="@mipmap/doge" />
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:text="Doge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/name"
-                        android:textSize="30sp"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingStart="15dp" />
+                        android:paddingStart="15dp"
+                        android:text="Doge"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="22sp" />
 
                     <TextView
-                        android:text="TextView"
-                        android:layout_width="wrap_content"
                         android:id="@+id/price"
-                        android:textSize="30sp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAlignment="textEnd"
-                        android:textColor="@color/colorPrimary"
-                        android:paddingEnd="15dp"
                         android:layout_gravity="end"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:paddingEnd="15dp"
+                        android:text="TextView"
+                        android:textAlignment="textEnd"
+                        android:textColor="#1E90FF"
+                        android:textSize="22sp" />
 
                 </LinearLayout>
 
                 <TextView
-                    android:text="Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. "
+                    android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/description"
-                    android:textSize="24sp"
+                    android:layout_marginEnd="15dp"
                     android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp" />
+                    android:text="Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. "
+                    android:textSize="18sp" />
 
             </LinearLayout>
         </ScrollView>
 
-        <LinearLayout
-            android:orientation="horizontal"
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="45dp">
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:orientation="horizontal">
+
 
             <Button
-                android:text="Cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:id="@+id/cancel"
-                android:layout_weight="1.30"
-                android:textColor="@color/colorPrimaryDark"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:textSize="16sp"
-                android:textAlignment="viewStart" />
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:textAlignment="gravity"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp" />
 
             <Button
-                android:text="Add to Cart"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:id="@+id/cart"
-                android:layout_weight="1"
-                android:textColor="@color/colorPrimaryDark"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:textSize="16sp"
-                android:textAlignment="viewEnd" />
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:text="Add to Cart"
+                android:textAlignment="gravity"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp" />
+
         </LinearLayout>
+
 
     </LinearLayout>
 </RelativeLayout>
