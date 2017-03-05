@@ -67,6 +67,7 @@ public class Profile extends AppCompatActivity {
         private ProgressDialog dialog=new ProgressDialog(Profile.this);
         protected ArrayList<Post> doInBackground(ArrayList<Integer>... params) {
             try {
+                params[0] = currUser.getPostHistory();
                 ArrayList<Post> posts = Server.searchPostIDs(params[0]);
                 return posts;
             } catch (Exception e) {
@@ -225,7 +226,7 @@ public class Profile extends AppCompatActivity {
 
         username.setText(user.getName());
         email.setText(user.getEmail());
-        phone.setText(user.getMobileNumber());
+        phone.setText(user.getMobileNumber().substring(6));
         bio.setText(user.getBio());
 
     }
@@ -235,7 +236,7 @@ public class Profile extends AppCompatActivity {
 
         list = (ListView) findViewById(R.id.list);
         //random posts
-        ArrayList<Integer> postIds = currUser.getPostHistory();
+        ArrayList<Integer> postIds = new ArrayList<>();
         new PopulateListTask().execute(postIds);
     }
 
