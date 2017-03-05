@@ -2,26 +2,16 @@ package com.tmnt.tritontrade.view;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,22 +24,21 @@ import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.tmnt.tritontrade.R.id.bottom_cart;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
-import static com.tmnt.tritontrade.R.id.categorySpinner;
-import static com.tmnt.tritontrade.R.id.imgButton1;
 import static com.tmnt.tritontrade.R.id.imgButton4;
 import static com.tmnt.tritontrade.R.id.imgButton5;
 
 
 public class Create_Post extends AppCompatActivity {
 
-    private static int IMG_RESULT = 1;
-    Button createPostButton;
-    private Spinner spinner1;
-    private Spinner spinner2;
     static String productName = "";
     static ArrayList<String> photos;
     static String description;
@@ -59,13 +48,18 @@ public class Create_Post extends AppCompatActivity {
     static boolean selling;
     static String contactInfo;
     static String thePath;
-
     static InputStream is;
     static String extension;
+    private static int IMG_RESULT = 1;
+    Button createPostButton;
+    private Spinner spinner1;
+    private Spinner spinner2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create__post);
+        setTitle("Create a Post");
 
         addItemsOnCategorySpinner();
         addItemsOnBuyOrSellSpinner();

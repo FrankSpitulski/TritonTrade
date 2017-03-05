@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +14,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
@@ -25,8 +22,6 @@ import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -35,6 +30,7 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends BaseAdapter implements Filterable {
 
+    private final int startCount = 20; //Start amount of items being displayed
     private Context context;
     private CustomFilter filter;
     private ArrayList<Post> posts;
@@ -42,7 +38,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
     private LayoutInflater inflater;
     private int count; //Current amount of items displayed
     private int stepNumber; //Amount of items loaded on next display
-    private final int startCount=20; //Start amount of items being displayed
 
     /**
      * Constructor
@@ -66,14 +61,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
     }
 
     /**
-     * Setter for count
-     * @param count
-     */
-    public void setCount(int count){
-        this.count=count;
-    }
-
-    /**
      * Gets the total amount of items in the list
      * @return
      */
@@ -87,6 +74,14 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         }
     }
 
+    /**
+     * Setter for count
+     *
+     * @param count
+     */
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     /**
      * Sets the ListView back to its initial count number
@@ -126,19 +121,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         return position;
     }
 
-
-    /**
-     * Holder for post object
-     */
-    public class ViewHolder{
-        TextView title;
-        TextView description;
-        TextView userTag;
-        TextView price;
-        TextView category;
-        ImageView image;
-    }
-
     /**
      * Sets items to
      * @param position position of current item
@@ -172,7 +154,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
             postHolder.userTag.setText(CurrentState.getInstance().getCurrentUser().getName());
         }
 
-        postHolder.category.setText(posts.get(position).getTags().get(1));
+        postHolder.category.setText(posts.get(position).getTags().get(1).toUpperCase());
         postHolder.price.setText("$"+String.valueOf(posts.get(position).getPrice()));
         new DownloadPhotosAsyncTask(postHolder.image)
                 .execute(posts.get(position).getPhotos().get(0));
@@ -201,6 +183,18 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
             filter = new CustomFilter();
         }
         return filter;
+    }
+
+    /**
+     * Holder for post object
+     */
+    public class ViewHolder {
+        TextView title;
+        TextView description;
+        TextView userTag;
+        TextView price;
+        TextView category;
+        ImageView image;
     }
 
     /**

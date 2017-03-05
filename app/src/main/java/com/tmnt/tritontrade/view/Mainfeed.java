@@ -5,42 +5,30 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
+
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnMenuTabClickListener;
 import com.tmnt.tritontrade.R;
-import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
@@ -54,9 +42,8 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
 public class Mainfeed extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ListView list;
     CustomAdapter adapter;
-
+    private ListView list;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -69,6 +56,8 @@ public class Mainfeed extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainfeed);
+
+        setTitle("My Feed");
 
         list = (ListView) this.findViewById(R.id.listFeed);
         

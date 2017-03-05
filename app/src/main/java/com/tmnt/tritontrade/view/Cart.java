@@ -56,6 +56,7 @@ public class Cart extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        setTitle("My Cart");
 
        /* public Post(String productName, ArrayList<String> photos, String description,
         float price, ArrayList<String> tags, int profileID, int postID,
