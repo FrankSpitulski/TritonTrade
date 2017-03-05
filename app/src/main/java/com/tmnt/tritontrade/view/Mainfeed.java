@@ -65,6 +65,7 @@ public class Mainfeed extends AppCompatActivity
         //bottom tool bar
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
+        BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener(){
@@ -73,19 +74,23 @@ public class Mainfeed extends AppCompatActivity
                         if(item.getItemId() == bottom_mainfeed){
                             Intent in=new Intent(getBaseContext(),Mainfeed.class);
                             startActivity(in);
+                            return true;
                         }
                         else if (item.getItemId() == bottom_cart){
-                            Intent in=new Intent(getBaseContext(),Edit_Categories.class);
+                            Intent in=new Intent(getBaseContext(),Cart.class);
                             startActivity(in);
+                            return true;
 
                         }
                         else if(item.getItemId() == bottom_upload){
                             Intent in=new Intent(getBaseContext(),Create_Post.class);
                             startActivity(in);
+                            return true;
                         }
                         else if(item.getItemId() == bottom_profile){
                             Intent in=new Intent(getBaseContext(),Profile.class);
                             startActivity(in);
+                            return true;
                         }
                         return false;
                     }
