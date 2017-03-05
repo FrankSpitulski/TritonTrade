@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/rectangle"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="20dp"
     android:weightSum="1">
 
     <LinearLayout
@@ -85,13 +85,13 @@
     <ImageView
         android:id="@+id/row_pic"
         android:layout_width="222dp"
-        android:layout_height="150dp"
+        android:layout_height="222dp"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.15"
         android:adjustViewBounds="true"
-        android:maxHeight="120dp"
+        android:maxHeight="135dp"
         android:maxWidth="135dp"
-        android:padding="10dp"
+        android:padding="1dp"
         android:scaleType="fitXY"
         android:visibility="visible"
         app:srcCompat="@drawable/default_photo" />
