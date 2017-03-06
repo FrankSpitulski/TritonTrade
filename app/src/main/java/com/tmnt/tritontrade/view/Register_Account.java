@@ -82,6 +82,7 @@ public class Register_Account extends AppCompatActivity {
     }
 
     private class RegisterTask extends AsyncTask<Object, Object, Object> {
+
         @Override
         protected Object doInBackground(Object... params) {
             try {

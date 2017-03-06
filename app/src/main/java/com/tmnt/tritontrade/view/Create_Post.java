@@ -115,14 +115,27 @@ public class Create_Post extends AppCompatActivity {
                 ImageButton fifthImg = (ImageButton) findViewById(imgButton5);
 
 
-                productName = theName.getText().toString();
-                description = theDescription.getText().toString();
-                price = Float.parseFloat(thePrice.getText().toString());
-
+                try {
+                    productName = theName.getText().toString();
+                }catch(IllegalArgumentException e){
+                    Toast.makeText(Create_Post.this, "Invalid Product Name", Toast.LENGTH_SHORT).show();
+                }
+                try {
+                    description = theDescription.getText().toString();
+                }catch(IllegalArgumentException e){
+                    Toast.makeText(Create_Post.this, "Invalid Description", Toast.LENGTH_SHORT).show();
+                }
+                try {
+                    price = Float.parseFloat(thePrice.getText().toString());
+                }catch(IllegalArgumentException e){
+                    Toast.makeText(Create_Post.this, "Invalid Price", Toast.LENGTH_SHORT).show();
+                }
 
                 String selectedItemText = spinner1.getSelectedItem().toString();
-                tags.add(0, productName);
-                tags.add(1, selectedItemText);
+
+                tags = new ArrayList<String>();
+                tags.add(theName.getText().toString());
+                tags.add(selectedItemText);
 
                 profileID = CurrentState.getInstance().getCurrentUser().getProfileID();
                 contactInfo = CurrentState.getInstance().getCurrentUser().getMobileNumber();
@@ -134,6 +147,7 @@ public class Create_Post extends AppCompatActivity {
                     selling = true;
                 }
 
+                photos = new ArrayList<String>();
                 firstImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -220,8 +234,9 @@ public class Create_Post extends AppCompatActivity {
                     extension = temp.substring(i+1);
                 }
                 //upload the image to the server
-                thePath = Server.uploadImage(is,extension);
-                photos.add(thePath); //THIS IS THE ARRAYLIST THAT IS POPULATING THE POST
+                //thePath = Server.uploadImage(is,extension);
+                new GetPathTask().execute();
+                //photos.add(thePath);
                 cursor.close();
 
 
@@ -284,17 +299,18 @@ public class Create_Post extends AppCompatActivity {
 
                 Toast.makeText(Create_Post.this, "Create Post Failed", Toast.LENGTH_SHORT).show();
             }
-
-
         }
     }
 
     //ASYNC TASK FOR THE UPLOAD TO SERVER
-    /*private class GetPathTask extends AsyncTask<String, String, String> {
+    private class GetPathTask extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... params) {
             try {
-                return Server.uploadImage(is, extension);
+
+                String uploaded = Server.uploadImage(is, extension);
+                photos.add(uploaded);//THIS IS THE ARRAYLIST THAT IS POPULATING THE POST
+                return uploaded;
             }
             catch(IOException e) {
                 Log.d("DEBUG", e.toString());
@@ -310,9 +326,6 @@ public class Create_Post extends AppCompatActivity {
 
                 Toast.makeText(Create_Post.this, "Post Upload Failed", Toast.LENGTH_SHORT).show();
             }
-
-
         }
-    }*/
-
+    }
 }
