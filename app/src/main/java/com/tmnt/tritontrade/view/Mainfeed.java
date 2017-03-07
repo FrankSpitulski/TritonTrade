@@ -1,7 +1,9 @@
 package com.tmnt.tritontrade.view;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
@@ -62,11 +65,50 @@ public class Mainfeed extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainfeed);
-
         setTitle("My Feed");
-
         list = (ListView) this.findViewById(R.id.listFeed);
-        
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //DRAWERS
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.left_drawer);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.bringToFront();
+
+        SharedPreferences tagNames = getSharedPreferences(Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID()),
+                Context.MODE_PRIVATE);
+        ArrayList<String> tags = new ArrayList<>();
+        /***SET DATA***/
+        tags.add("food");
+        setAdapterInfo(tags);
+
+        //PULL REFRESH
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                adapter.notifyDataSetChanged();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
         //bottom tool bar
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
@@ -106,47 +148,6 @@ public class Mainfeed extends AppCompatActivity
                     }
                 }
         );
-
-
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        //DRAWERS
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.left_drawer);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.bringToFront();
-
-        ArrayList<String> tags = new ArrayList<>();
-        tags.add("food");
-        setAdapterInfo(tags);
-
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                adapter.notifyDataSetChanged();
-                swipeContainer.setRefreshing(false);
-            }
-        });
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
