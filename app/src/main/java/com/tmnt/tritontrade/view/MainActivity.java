@@ -143,6 +143,15 @@ public class MainActivity extends AppCompatActivity {
         new CreatePostTask().execute(a);
     }
 
+    @Override
+    public void onBackPressed(){
+        //exit the application
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
 
 
 }

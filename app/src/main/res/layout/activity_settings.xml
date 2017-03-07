@@ -31,6 +31,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button2"
         android:background="#E0E0E0"
+        android:onClick="setTheme"
         android:paddingLeft="10sp"
         android:text="Change theme"
         android:textAlignment="viewStart" />
@@ -53,6 +54,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button13"
         android:background="#E0E0E0"
+        android:onClick="logoutUser"
         android:paddingLeft="10sp"
         android:text="Logout"
         android:textAlignment="viewStart" />

@@ -10,58 +10,68 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"
     tools:context="com.tmnt.tritontrade.view.Profile_NonUser">
-
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="140dp"
         app:srcCompat="@drawable/gradient3"
         android:id="@+id/profile_background"
         android:scaleType="fitXY"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        />
+        android:layout_height="160dp" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_background"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout">
 
         <Button
-            android:text="For Sale"
+            android:id="@+id/forSaleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button4"
             android:layout_weight="1"
-            android:textColor="@android:color/white"
             android:background="#163EB8"
+            android:onClick="onForSaleClick"
+            android:text="For Sale"
+            android:textColor="@android:color/white"
             tools:ignore="ButtonStyle" />
 
         <Button
-            android:text="Sold Items"
+            android:id="@+id/soldButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button3"
             android:layout_weight="1"
-            android:textColor="@android:color/white"
-            android:background="#163EB8" />
+            android:background="#163EB8"
+            android:onClick="onSoldClick"
+            android:text="Sold Items"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
     <ListView
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/profile_background"
+        android:layout_height="250dp"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp"
-        android:id="@+id/list" />
+        android:layout_below="@+id/linearLayout" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/bottom_nav_items" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="140sp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_height="160sp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -71,12 +81,13 @@
             android:layout_marginRight="10sp">
 
             <ImageView
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/default_photo"
                 android:id="@+id/userPic"
+                android:layout_width="175sp"
+                android:layout_height="80sp"
+                android:layout_margin="10sp"
                 android:layout_weight="1"
-                android:layout_width="150sp"
-                android:paddingRight="10sp"/>
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/default_photo" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -90,33 +101,41 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:text="Username"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="70sp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/username"
-                        android:textColor="@android:color/white"
-                        android:textSize="24sp"
-                        android:textStyle="normal|bold"
-                        android:layout_weight="1" />
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:text="Username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/username"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="normal|bold" />
+
+                        <TextView
+                            android:text="Email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/email"
+                            android:textColor="#E0E0E0"
+                            android:textSize="12sp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:text="Phone Number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/phone"
+                            android:textColor="#E0E0E0"
+                            android:textSize="12sp"
+                            android:layout_weight="1" />
+                    </LinearLayout>
 
                 </LinearLayout>
-
-                <TextView
-                    android:text="Email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/email"
-                    android:textColor="#E0E0E0"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:text="Phone Number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/phone"
-                    android:textColor="#E0E0E0"
-                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -126,10 +145,14 @@
             android:text="Description/Bio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/description"
+            android:id="@+id/bio"
             android:textAlignment="center"
             android:paddingTop="7sp"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:paddingBottom="20sp"
+            android:maxLength="140"/>
 
     </LinearLayout>
 

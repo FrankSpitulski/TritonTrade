@@ -20,4 +20,13 @@ public class Settings extends AppCompatActivity {
         Intent intent = new Intent(this, DeveloperTeam.class);
         startActivity(intent);
     }
+
+
+    public void logoutUser(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void setTheme(View view) {
+    }
 }
