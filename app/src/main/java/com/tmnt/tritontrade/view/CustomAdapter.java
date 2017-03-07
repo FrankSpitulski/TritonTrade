@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.util.Pair;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
+import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,18 +37,20 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
     private Context context;
     private CustomFilter filter;
     private ArrayList<Post> posts;
+    private ArrayList<User> users;
     private ArrayList<Post> filterList;
     private LayoutInflater inflater;
     private int count; //Current amount of items displayed
     private int stepNumber; //Amount of items loaded on next display
 
     /**
-     * Constructor
+     *
      * @param context
-     * @param posts
+     * @param pair
      */
-    public CustomAdapter(Context context, ArrayList<Post> posts) {
-        this.posts=posts;
+    public CustomAdapter(Context context, Pair<ArrayList<Post>, ArrayList<User>> pair) {
+        this.posts=pair.first;
+        this.users=pair.second;
         this.filterList=posts;
         this.context = context;
         this.count = startCount;
@@ -150,10 +154,8 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
 
         postHolder.title.setText(posts.get(position).getProductName());
         postHolder.description.setText(posts.get(position).getDescription());
-        //TODO find actual user who made post
-        if(CurrentState.getInstance() != null) {
-            postHolder.userTag.setText(CurrentState.getInstance().getCurrentUser().getName());
-        }
+        postHolder.userTag.setText(users.get(position).getName());
+
 
         postHolder.category.setText(posts.get(position).getTags().get(1).toUpperCase());
         postHolder.price.setText("$"+String.valueOf(posts.get(position).getPrice()));
@@ -167,6 +169,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
                 Intent i = new Intent(context, PopUpPost.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.putExtra("category", posts.get(position));
+                i.putExtra("author", users.get(position));
                 ((Activity)context).startActivityForResult(i, 1);
 
             }
@@ -255,5 +258,8 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
             notifyDataSetChanged();
         }
     }
+
+
+
 
 }

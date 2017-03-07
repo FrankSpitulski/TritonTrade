@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -27,7 +28,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
+import com.tmnt.tritontrade.controller.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
@@ -110,17 +113,14 @@ public class Mainfeed extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.left_drawer);
         navigationView.setNavigationItemSelectedListener(this);
-        NavigationView navigationView2 = (NavigationView) findViewById(R.id.right_drawer);
 
-        //SET UP FILTER
 
         //TODO put custom preference here instead of custom tag
         ArrayList<String> tags = new ArrayList<>();
         tags.add("food");
 
 
-        MyTask task = new MyTask();
-        task.execute(tags);
+        new FeedSetupTask().execute(tags);
         final SearchView sv = (SearchView) findViewById(R.id.searchView);
         //Search Bar implementation
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -252,12 +252,18 @@ public class Mainfeed extends AppCompatActivity
     /**
      * Async task used for initial setup of mainfeed(posts)
      */
-    private class MyTask extends AsyncTask<ArrayList<String>, Void, ArrayList<Post>>{
+    private class FeedSetupTask extends AsyncTask<ArrayList<String>, Void, Pair>{
         private ProgressDialog dialog=new ProgressDialog(Mainfeed.this);
-        protected ArrayList<Post> doInBackground(ArrayList<String>... id) {
+        protected Pair<ArrayList<Post>, ArrayList<User>> doInBackground(ArrayList<String>... id) {
             try {
                 ArrayList<Post> posts = Server.searchPostTags(id[0]);
-                return posts;
+                ArrayList<Integer> userIDs = new ArrayList<>();
+                for(Post p:posts){
+                    userIDs.add(p.getProfileID());
+                }
+                ArrayList<User> users = Server.searchUserIDs(userIDs);
+                Pair<ArrayList<Post>, ArrayList<User>> pair = new Pair<>(posts, users);
+                return pair;
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
@@ -271,7 +277,7 @@ public class Mainfeed extends AppCompatActivity
             this.dialog.show();
         }
 
-        protected void onPostExecute(ArrayList<Post> result) {
+        protected void onPostExecute(Pair result) {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
@@ -292,6 +298,9 @@ public class Mainfeed extends AppCompatActivity
             }
         }
     }
+
+
+
 
 
 
