@@ -802,7 +802,7 @@ public class Server {
         String requestURL = serverName + "/img/images.php";
         MultipartUtility multipart = new MultipartUtility(requestURL, charset);
         multipart.addFilePart("name", "doge." + fileExtension, fileStream);
-        return multipart.finish(); // response from server.
+        return "/" + multipart.finish(); // response from server.
     }
 
 
