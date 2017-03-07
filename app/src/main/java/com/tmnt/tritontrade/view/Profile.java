@@ -180,8 +180,6 @@ public class Profile extends AppCompatActivity {
 
         Intent intent = new Intent(this, EditProfile.class);
 
-        intent.putExtra("user", currUser);
-
         startActivityForResult(intent, EDIT_PROFILE);
 
     }

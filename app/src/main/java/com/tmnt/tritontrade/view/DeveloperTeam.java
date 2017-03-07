@@ -55,6 +55,7 @@ public class DeveloperTeam extends AppCompatActivity {
             bio.setPadding(20, 0, 0, 0);
         }
 
+        /*
         //bottom tool bar
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -81,6 +82,7 @@ public class DeveloperTeam extends AppCompatActivity {
                     }
                 }
         );
+        */
     }
 
 }

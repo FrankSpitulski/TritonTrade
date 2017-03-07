@@ -55,7 +55,7 @@ public class EditProfile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
 
-        currUser = getIntent().getParcelableExtra("user");
+        currUser = CurrentState.getInstance().getCurrentUser();
 
         populateFields(currUser);
         profileImg = (ImageView) findViewById(R.id.profile_image);

@@ -46,4 +46,15 @@
         android:text="View Licenses"
         android:textAlignment="viewStart" />
 
+    <Button
+        android:id="@+id/button14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button13"
+        android:background="#E0E0E0"
+        android:paddingLeft="10sp"
+        android:text="Logout"
+        android:textAlignment="viewStart" />
+
 </RelativeLayout>
