@@ -228,7 +228,12 @@ public class Profile extends AppCompatActivity {
         TextView phone = (TextView) findViewById(R.id.phone);
         TextView bio = (TextView) findViewById(R.id.bio);
 
+
+
         //populate the fields with the information obtained from the user
+
+        new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.userPic))
+                .execute(currUser.getPhoto());
 
         username.setText(user.getName());
         email.setText(user.getEmail());
