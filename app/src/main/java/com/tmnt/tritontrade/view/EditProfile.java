@@ -27,9 +27,11 @@ import android.widget.Toast;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.*;
 
 import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
@@ -89,6 +91,30 @@ public class EditProfile extends AppCompatActivity {
         */
     }
 
+    /**
+     * Private Innner class to update the server with the new user info
+     */
+    private class UpdateUserTask extends AsyncTask<User, Void, Void> {
+        protected Void doInBackground(User... params) {
+            try {
+                Server.modifyExistingUser(params[0]);
+
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        /*
+        @Override
+        protected void onPreExecute() {
+        }
+
+        protected void onPostExecute(Void result) {
+        }
+        */
+    }
 
     /**
      * Change the profile photo that is being displayed
@@ -206,6 +232,9 @@ public class EditProfile extends AppCompatActivity {
             currUser.setName(username.getText().toString());
             currUser.setMobileNumber("+0001 " + phone.getText().toString());
             currUser.setBio(bio.getText().toString());
+
+            new UpdateUserTask().execute(currUser);
+            CurrentState.getInstance().setCurrentUser(currUser);
 
             Intent resultIntent = new Intent();
             resultIntent.putExtra("updatedUser", currUser);
