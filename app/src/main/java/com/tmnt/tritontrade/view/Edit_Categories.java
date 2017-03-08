@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -71,6 +72,8 @@ public class Edit_Categories extends AppCompatActivity{
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "TEXTBOOK Selected", Toast.LENGTH_SHORT).show();
+                    Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
+                            new HashSet<String>()));
 
                 }
                 else
@@ -80,6 +83,8 @@ public class Edit_Categories extends AppCompatActivity{
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "TEXTBOOK Deselected", Toast.LENGTH_SHORT).show();
+                    Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
+                            new HashSet<String>()));
                 }
             }
         });
@@ -299,9 +304,12 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 editor.putStringSet(ID,backupset);
                 editor.apply();
+                Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
+                        new HashSet<String>()));
                 startActivity(new Intent(getApplicationContext(), Mainfeed.class));
             }
         });
+
     }
 
 }
