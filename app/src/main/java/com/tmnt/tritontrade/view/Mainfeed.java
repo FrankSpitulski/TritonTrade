@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
+import static com.tmnt.tritontrade.R.id.bottom_edit_category;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
@@ -119,6 +120,11 @@ public class Mainfeed extends AppCompatActivity
                         if(item.getItemId() == bottom_mainfeed){
                             Intent in=new Intent(getBaseContext(),Mainfeed.class);
                             in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            startActivity(in);
+                            return true;
+                        }
+                        else if (item.getItemId() == bottom_edit_category) {
+                            Intent in = new Intent(getBaseContext(), Edit_Categories.class);
                             startActivity(in);
                             return true;
                         }

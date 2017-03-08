@@ -9,6 +9,13 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/bottom_edit_category"
+        android:enabled="true"
+        android:title="Category"
+        android:icon="@drawable/ic_bottom_edit_category"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/bottom_upload"
         android:enabled="true"
         android:title="Upload"

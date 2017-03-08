@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
+import static com.tmnt.tritontrade.R.id.bottom_edit_category;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
@@ -164,6 +165,12 @@ public class Cart extends AppCompatActivity {
                             startActivity(in);
                             return true;
                         }
+                        else if (item.getItemId() == bottom_edit_category) {
+                            Intent in = new Intent(getBaseContext(), Edit_Categories.class);
+                            startActivity(in);
+                            return true;
+                        }
+
                         else if (item.getItemId() == bottom_cart){
                             Intent in=new Intent(getBaseContext(),Cart.class);
                             in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
