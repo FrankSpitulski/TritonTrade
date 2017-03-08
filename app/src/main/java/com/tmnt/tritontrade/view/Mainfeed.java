@@ -58,12 +58,9 @@ public class Mainfeed extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    //bottom tool bar
-//    private BottomBar mBottomBar;
-
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.err.println("reach");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainfeed);
         setTitle("My Feed");
@@ -262,19 +259,13 @@ public class Mainfeed extends AppCompatActivity
     /**
      * Async task used for initial setup of mainfeed(posts)
      */
-    private class FeedSetupTask extends AsyncTask<ArrayList<String>, Void, Pair> {
+    private class FeedSetupTask extends AsyncTask<ArrayList<String>, Void, ArrayList<Post>> {
         private ProgressDialog dialog = new ProgressDialog(Mainfeed.this);
 
-        protected Pair<ArrayList<Post>, ArrayList<User>> doInBackground(ArrayList<String>... id) {
+        protected ArrayList<Post> doInBackground(ArrayList<String>... id) {
             try {
                 ArrayList<Post> posts = Server.searchPostTags(id[0]);
-                ArrayList<Integer> userIDs = new ArrayList<>();
-                for (Post p : posts) {
-                    userIDs.add(p.getProfileID());
-                }
-                ArrayList<User> users = Server.searchUserIDs(userIDs);
-                Pair<ArrayList<Post>, ArrayList<User>> pair = new Pair<>(posts, users);
-                return pair;
+                return posts;
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
@@ -288,7 +279,7 @@ public class Mainfeed extends AppCompatActivity
             this.dialog.show();
         }
 
-        protected void onPostExecute(Pair result) {
+        protected void onPostExecute(ArrayList<Post> result) {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }

@@ -37,20 +37,18 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
     private Context context;
     private CustomFilter filter;
     private ArrayList<Post> posts;
-    private ArrayList<User> users;
     private ArrayList<Post> filterList;
     private LayoutInflater inflater;
     private int count; //Current amount of items displayed
     private int stepNumber; //Amount of items loaded on next display
 
     /**
-     *
+     * Constructor Stuff
      * @param context
-     * @param pair
+     * @param posts
      */
-    public CustomAdapter(Context context, Pair<ArrayList<Post>, ArrayList<User>> pair) {
-        this.posts=pair.first;
-        this.users=pair.second;
+    public CustomAdapter(Context context,ArrayList<Post> posts) {
+        this.posts=posts;
         this.filterList=posts;
         this.context = context;
         this.count = startCount;
@@ -154,7 +152,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
 
         postHolder.title.setText(posts.get(position).getProductName());
         postHolder.description.setText(posts.get(position).getDescription());
-        postHolder.userTag.setText(users.get(position).getName());
 
 
         postHolder.category.setText(posts.get(position).getTags().get(1).toUpperCase());
@@ -169,7 +166,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
                 Intent i = new Intent(context, PopUpPost.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.putExtra("category", posts.get(position));
-                i.putExtra("author", users.get(position));
                 ((Activity)context).startActivityForResult(i, 1);
 
             }
@@ -209,7 +205,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults results = new FilterResults();
             if(charSequence != null && charSequence.length() != 0){
-                new SearchTask().execute(charSequence.toString());
+                new SearchTask().execute(charSequence.toString().toLowerCase());
                 results.count = filterList.size();
                 results.values=filterList;
             }
