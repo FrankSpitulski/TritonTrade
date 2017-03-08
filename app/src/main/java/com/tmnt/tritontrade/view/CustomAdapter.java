@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends BaseAdapter implements Filterable {
 
-    private final int startCount = 20; //Start amount of items being displayed
+    private final int startCount = 10; //Start amount of items being displayed
     private Context context;
     private CustomFilter filter;
     private ArrayList<Post> posts;
@@ -145,7 +145,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         //Set everything in feed row
         postHolder.title = (TextView) catView.findViewById(R.id.title);
         postHolder.description = (TextView) catView.findViewById(R.id.description);
-        postHolder.userTag = (TextView) catView.findViewById(R.id.username_tag);
         postHolder.category=(TextView) catView.findViewById(R.id.category_text);
         postHolder.price = (TextView) catView.findViewById(R.id.price);
         postHolder.image = (ImageView) catView.findViewById(R.id.row_pic);
@@ -179,7 +178,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
      */
     @Override
     public Filter getFilter() {
-        if(filter == null){
+        if (filter == null) {
             filter = new CustomFilter();
         }
         return filter;

@@ -58,7 +58,7 @@ public class Mainfeed extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-  
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +79,7 @@ public class Mainfeed extends AppCompatActivity
         navigationView.bringToFront();
 
         ArrayList<String> tags = new ArrayList<>();
-       // fillDefaultTags(tags);
+        //fillDefaultTags(tags);
         /***SET DATA***/
         tags.add("food");
         setAdapterInfo(tags);
@@ -170,11 +170,15 @@ public class Mainfeed extends AppCompatActivity
     private void setAdapterInfo(ArrayList<String> tags){
         new FeedSetupTask().execute(tags);
         final SearchView sv = (SearchView) findViewById(R.id.searchView);
+        //sv.clearFocus();
         //Search Bar implementation
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                adapter.getFilter().filter(query);
+               // adapter.getFilter().filter(query);
+                ArrayList<String> tagsQ = new ArrayList<String>();
+                tagsQ.add(query);
+                new FeedSetupTask().execute(tagsQ);
                 sv.clearFocus();
                 return false;
             }
