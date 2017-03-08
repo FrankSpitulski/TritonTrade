@@ -47,6 +47,7 @@
         <activity android:name=".view.Verify_Account" />
         <activity android:name=".view.Verify_Account_Two" />
         <activity android:name=".view.Edit_Categories"></activity>
+        <activity android:name=".view.License_Displays" />
     </application>
 
 </manifest>

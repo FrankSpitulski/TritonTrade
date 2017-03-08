@@ -43,6 +43,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button12"
         android:background="#F0F0ED"
+        android:onClick="sendToLicesnse"
         android:paddingLeft="10sp"
         android:text="View Licenses"
         android:textAlignment="viewStart" />

@@ -22,6 +22,11 @@ public class Settings extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void sendToLicesnse(View view) {
+        Intent intent = new Intent(this, License_Displays.class);
+        startActivity(intent);
+    }
+
 
     public void logoutUser(View view) {
         CurrentState.getInstance().setCurrentUser(null);
