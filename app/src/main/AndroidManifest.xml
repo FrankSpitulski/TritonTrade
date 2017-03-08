@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -31,8 +31,7 @@
             android:name=".view.Mainfeed"
             android:label="@string/title_activity_mainfeed"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
-
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".view.EditProfile" />
         <activity android:name=".view.Register_Account" />
         <activity
@@ -46,8 +45,9 @@
         <activity android:name=".view.Register_Account_Two" />
         <activity android:name=".view.Verify_Account" />
         <activity android:name=".view.Verify_Account_Two" />
-        <activity android:name=".view.Edit_Categories"></activity>
+        <activity android:name=".view.Edit_Categories" />
         <activity android:name=".view.License_Displays" />
+        <activity android:name=".view.ChangePassword"></activity>
     </application>
 
 </manifest>
