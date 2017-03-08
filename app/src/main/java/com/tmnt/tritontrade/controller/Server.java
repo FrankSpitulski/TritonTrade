@@ -246,6 +246,10 @@ public class Server {
             throw new IOException("Email does not end in UCSD or otherwise rejected");
         }
 
+        String regexMobile = "^\\+[0-9][0-9][0-9][0-9] \\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$";
+        if(mobileNumber==null || !mobileNumber.matches(regexMobile))
+            throw new IOException("Phone number does not match acceptable pattern.");
+
         // check to see if email is already registered
         String response = httpGetRequest("/db/api.php/users?filter[]=email,eq,"
                 + email + "&transform=1");
@@ -381,7 +385,7 @@ public class Server {
             request = request + "&filter[]=tags,cs,:" + tags.get(x) + ":";
         }
         //add so that only has to be one of the ids in the list and convert to objects
-        request = request + "&satisfy=any&transform=1";
+        request = request + "&satisfy=any&order=dateCreated&transform=1";
 
         //attempt to convert to array list from json
 
@@ -490,7 +494,7 @@ public class Server {
             request = request + "&filter[]=postID,eq," + ids.get(x);
         }
         //add so that only has to be one of the ids in the list and convert to json
-        request = request + "&satisfy=any&transform=1";
+        request = request + "&satisfy=any&order=dateCreated&transform=1";
 
         //list to be outputted
         ArrayList<Post> posts = new ArrayList<Post>();
