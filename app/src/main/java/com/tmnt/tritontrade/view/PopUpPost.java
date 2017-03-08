@@ -93,7 +93,7 @@ public class PopUpPost extends AppCompatActivity {
     }
 
     public void loadPost(Post p) {
-        ArrayList<ImageView> photos = loadPhotos(p.getPhotos());
+        ArrayList<ImageView> photos = loadGallery(p.getPhotos());
         LinearLayout photoContainer = (LinearLayout) findViewById(R.id.gallery);
         photoContainer.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams photo_params =
@@ -116,17 +116,10 @@ public class PopUpPost extends AppCompatActivity {
                 }
             });
             photoContainer.addView(photos.get(i), i);
-            //if (i == 0) photoView.performClick();
-
         }
-        ImageView current_photo;
-        current_photo = (ImageView) findViewById(R.id.currentphoto);
-        //current_photo.setImageResource(R.drawable.blurred_geisel);
-        //current_photo.postInvalidate();
 
-        Bitmap bitmap = ((BitmapDrawable)current_photo.getDrawable()).getBitmap();
-        current_photo.setImageBitmap(bitmap);
-
+        new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.currentphoto))
+                .execute(p.getPhotos().get(0));
 
         TextView name = (TextView) findViewById(R.id.name);
         name.setText(p.getProductName());
@@ -139,7 +132,7 @@ public class PopUpPost extends AppCompatActivity {
     }
 
 
-    public ArrayList<ImageView> loadPhotos(ArrayList<String> photos) {
+    public ArrayList<ImageView> loadGallery(ArrayList<String> photos) {
 
         ArrayList<ImageView> iv_array = new ArrayList<>();
         for (int i = 0; i < photos.size(); i++) {
