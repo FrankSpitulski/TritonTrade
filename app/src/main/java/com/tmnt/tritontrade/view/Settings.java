@@ -27,6 +27,11 @@ public class Settings extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void sendToChangePW(View view) {
+        Intent intent = new Intent(this, ChangePassword.class);
+        startActivity(intent);
+    }
+
 
     public void logoutUser(View view) {
         CurrentState.getInstance().setCurrentUser(null);

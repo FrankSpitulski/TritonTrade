@@ -28,13 +28,13 @@
         android:id="@+id/button12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/button2"
         android:background="#E0E0E0"
         android:onClick="setTheme"
         android:paddingLeft="10sp"
         android:text="Change theme"
-        android:textAlignment="viewStart" />
+        android:textAlignment="viewStart"
+        android:layout_below="@+id/button2"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/button13"
@@ -53,11 +53,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/button13"
-        android:background="#E0E0E0"
+        android:layout_below="@+id/button8"
+        android:background="#F0F0ED"
         android:onClick="logoutUser"
         android:paddingLeft="10sp"
         android:text="Logout"
+        android:textAlignment="viewStart" />
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button13"
+        android:background="#E0E0E0"
+        android:onClick="sendToChangePW"
+        android:paddingLeft="10sp"
+        android:text="Change Password"
         android:textAlignment="viewStart" />
 
 </RelativeLayout>
