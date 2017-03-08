@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.tmnt.tritontrade.R;
+import com.tmnt.tritontrade.controller.CurrentState;
 
 public class Settings extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class Settings extends AppCompatActivity {
 
 
     public void logoutUser(View view) {
+        CurrentState.getInstance().setCurrentUser(null);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
