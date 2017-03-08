@@ -1,14 +1,18 @@
 <?php
-/**
- * Note that the salt here is randomly generated.
- * Never use a static salt or one that is not randomly generated.
- *
- * For the VAST majority of use-cases, let password_hash generate the salt randomly for you
- */
- 
+/* https://stackoverflow.com/questions/4356289/php-random-string-generator */
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
 $link = mysqli_connect("localhost", "Michelangelo", "Leonardo", "TritonTrade");
 $validation = filter_input(INPUT_GET,"validation",FILTER_SANITIZE_STRING);
-$password = "Doge!";
+$password = generateRandomString();
 $result = mysqli_query($link, "SELECT salt FROM users WHERE emailVerificationLink='" . $validation . "'");
 $salt = "";
 if ($result) {
