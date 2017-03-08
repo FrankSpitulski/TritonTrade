@@ -1,5 +1,6 @@
 package com.tmnt.tritontrade.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,7 @@ public class ForgotPassword extends AppCompatActivity {
     }
 
     private class forgotPasswordTask extends AsyncTask<Object, Object, Boolean> {
+        private ProgressDialog dialog = new ProgressDialog(ForgotPassword.this);
         @Override
         protected Boolean doInBackground(Object... params) {
             try{
@@ -48,8 +50,18 @@ public class ForgotPassword extends AppCompatActivity {
                 return false;
             }
         }
+
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setMessage("Please wait...");
+            this.dialog.show();
+        }
+
         @Override
         protected void onPostExecute(Boolean result){
+            if(dialog.isShowing()) {
+                dialog.dismiss();
+            }
             Toast toast = new Toast(ForgotPassword.this);
             if(result){
                 toast.cancel();

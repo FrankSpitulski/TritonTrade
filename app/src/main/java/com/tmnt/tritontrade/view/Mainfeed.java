@@ -34,8 +34,8 @@ import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Set;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
@@ -63,6 +63,7 @@ public class Mainfeed extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.err.println("reach");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainfeed);
         setTitle("My Feed");
@@ -80,9 +81,8 @@ public class Mainfeed extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
 
-        SharedPreferences tagNames = getSharedPreferences(Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID()),
-                Context.MODE_PRIVATE);
         ArrayList<String> tags = new ArrayList<>();
+       // fillDefaultTags(tags);
         /***SET DATA***/
         tags.add("food");
         setAdapterInfo(tags);
@@ -150,6 +150,21 @@ public class Mainfeed extends AppCompatActivity
         );
     }
 
+    /**
+     * Fills ArrayList with users preferred tags.
+     * @param tags
+     */
+    private void fillDefaultTags(ArrayList<String> tags){
+        String userID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
+        SharedPreferences tagNames = getSharedPreferences(userID, Context.MODE_PRIVATE);
+        Set<String> tagSet = tagNames.getStringSet(userID, null);
+        if(tagSet==null){
+            return;
+        }
+        for(String s: tagSet){
+            tags.add(s);
+        }
+    }
 
     /**
      * Takes in tags and set appropriate content in grid
@@ -245,6 +260,58 @@ public class Mainfeed extends AppCompatActivity
     }
 
     /**
+     * Async task used for initial setup of mainfeed(posts)
+     */
+    private class FeedSetupTask extends AsyncTask<ArrayList<String>, Void, Pair> {
+        private ProgressDialog dialog = new ProgressDialog(Mainfeed.this);
+
+        protected Pair<ArrayList<Post>, ArrayList<User>> doInBackground(ArrayList<String>... id) {
+            try {
+                ArrayList<Post> posts = Server.searchPostTags(id[0]);
+                ArrayList<Integer> userIDs = new ArrayList<>();
+                for (Post p : posts) {
+                    userIDs.add(p.getProfileID());
+                }
+                ArrayList<User> users = Server.searchUserIDs(userIDs);
+                Pair<ArrayList<Post>, ArrayList<User>> pair = new Pair<>(posts, users);
+                return pair;
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setMessage("Loading");
+            this.dialog.show();
+        }
+
+        protected void onPostExecute(Pair result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            if (result != null) {
+                adapter = new CustomAdapter(Mainfeed.this, result);
+                list.setAdapter(adapter);
+                list.setOnScrollListener(new AbsListView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                    }
+
+                    @Override
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                        adapter.showMore();
+                    }
+                });
+            }
+        }
+    }
+
+
+    /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
@@ -280,55 +347,7 @@ public class Mainfeed extends AppCompatActivity
         client.disconnect();
     }
 
-    /**
-     * Async task used for initial setup of mainfeed(posts)
-     */
-    private class FeedSetupTask extends AsyncTask<ArrayList<String>, Void, Pair>{
-        private ProgressDialog dialog=new ProgressDialog(Mainfeed.this);
-        protected Pair<ArrayList<Post>, ArrayList<User>> doInBackground(ArrayList<String>... id) {
-            try {
-                ArrayList<Post> posts = Server.searchPostTags(id[0]);
-                ArrayList<Integer> userIDs = new ArrayList<>();
-                for(Post p:posts){
-                    userIDs.add(p.getProfileID());
-                }
-                ArrayList<User> users = Server.searchUserIDs(userIDs);
-                Pair<ArrayList<Post>, ArrayList<User>> pair = new Pair<>(posts, users);
-                return pair;
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return null;
-        }
 
-        @Override
-        protected void onPreExecute() {
-            this.dialog.setMessage("Loading");
-            this.dialog.show();
-        }
-
-        protected void onPostExecute(Pair result) {
-            if (dialog.isShowing()) {
-                dialog.dismiss();
-            }
-            if(result!=null) {
-                adapter = new CustomAdapter(Mainfeed.this, result);
-                list.setAdapter(adapter);
-                list.setOnScrollListener(new AbsListView.OnScrollListener() {
-                    @Override
-                    public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-                    }
-
-                    @Override
-                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                            adapter.showMore();
-                    }
-                });
-            }
-        }
-    }
 
 
 
