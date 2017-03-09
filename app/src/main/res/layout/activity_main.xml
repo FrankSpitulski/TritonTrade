@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:id="@+id/linearLayout5">
 
         <Button
             android:text="Forgot Password?"
@@ -40,51 +41,67 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/linearLayout4"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="78dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="64dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
         <TextView
-            android:text="Triton Trade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/textView4"
-            android:textSize="45sp"
-            android:fontFamily="sans-serif"
-            android:textColor="#FFEE00"
-            android:textStyle="normal|bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:fontFamily="sans-serif-condensed"
+            android:padding="20dp"
+            android:paddingBottom="100dp"
+            android:paddingEnd="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="50dp"
+            android:shadowColor="@color/colorPrimary"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="1"
+            android:text="TritonTrade"
             android:textAlignment="center"
-            android:shadowColor="#163EB8"
-            android:shadowDx="6"
-            android:shadowDy="6"
-            android:shadowRadius="1" />
+            android:textColor="@color/colorAccent"
+            android:textColorLink="@color/colorPrimary"
+            android:textSize="50sp"
+            android:typeface="serif"
+            android:visibility="visible" />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
             android:id="@+id/userNameText"
-            android:hint="Username" />
-
-        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:ems="10"
+            android:hint="Username"
+            android:inputType="textPersonName" />
+
+        <EditText
             android:id="@+id/passwordText"
-            android:hint="Password" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword" />
 
         <Button
-            android:text="Login"
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/loginButton"
-            android:backgroundTint="#163EB8"
-            android:textColor="#FFEE00" />
+            android:layout_above="@+id/linearLayout5"
+            android:layout_alignEnd="@+id/linearLayout4"
+            android:layout_marginTop="50dp"
+            android:backgroundTint="@color/FiftyTransparentNavy"
+            android:fontFamily="sans-serif-medium"
+            android:padding="18dp"
+            android:text="Login"
+            android:textColor="@color/colorPrimary" />
 
     </LinearLayout>
 
