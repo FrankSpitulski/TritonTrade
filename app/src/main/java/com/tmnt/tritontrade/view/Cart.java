@@ -52,6 +52,7 @@ public class Cart extends AppCompatActivity {
     Post currentPost;            //current post that is clicked on
     User postSeller;        //user that created the post you are currently looking at
 
+    Post temp; //testing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,14 +101,14 @@ public class Cart extends AppCompatActivity {
         postsToView = new ArrayList<>();
 
         for (int i = 0; i < cartInt.size(); i++) {
-
             try {
                 new SearchPostTask().execute();
                 Post postToAdd = posts.get(i);
-                if (postToAdd == null) {
-                    continue;
+                //if (temp != null){
+                if (postToAdd != null) {
+                    postsToView.add(postToAdd);
+                    //postsToView.add(temp);
                 }
-                postsToView.add(postToAdd);
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
@@ -124,6 +125,14 @@ public class Cart extends AppCompatActivity {
         tags.add("category 1");
         Date date = new Date();
 
+
+//        postsToView.add(temp);
+//        postsToView.add(
+//                new Post( temp.getProductName(), temp.getPhotos(), temp.getDescription(), temp.getPrice(),
+//                        temp.getTags(), temp.getProfileID(), temp.getPostID(), temp.getSelling(), true,
+//                        temp.getDateCreated(), temp.getContactInfo(), temp.getDeleted() ) );
+
+
         //create Post elements
         postsToView.add(
                 new Post("doge", photos, "doing a bark bark", (float) 5.00,
@@ -138,7 +147,7 @@ public class Cart extends AppCompatActivity {
                         tags, 4504, 10, true, true, date, "dog contact", false));
 
         postsToView.add(
-                new Post("doggo", photos, "arf arf land seal", (float) 999.00,
+                new Post("doggo", photos, user.getCartIDsString(), (float) 999.00,
                         tags, 4504, 10, true, true, date, "dog contact", false));
 
 
@@ -286,13 +295,24 @@ public class Cart extends AppCompatActivity {
 
 
             //display trimmed excerpt for description
-            int descriptionLength = post.getDescription().length();
-            if (descriptionLength >= 100) {
-                String descriptionTrim = post.getDescription().substring(0, 100) + "...";
-                description.setText(descriptionTrim);
+            int descriptionLength;
+            if (post.getDescription() == null) {
+                descriptionLength = 0;
+                description.setText("");
             } else {
-                description.setText(post.getDescription());
+
+                descriptionLength = post.getDescription().length();
+
+                if (descriptionLength >= 100) {
+                    String descriptionTrim = post.getDescription().substring(0, 100) + "...";
+                    description.setText(descriptionTrim);
+                } else {
+                    description.setText(post.getDescription());
+                }
+
             }
+
+
 
             //set price and rental attributes and default image of post
             String stringPrice = "$" + String.valueOf(post.getPrice());
@@ -347,6 +367,7 @@ public class Cart extends AppCompatActivity {
         protected Object doInBackground(Object... params) {
             try {
                 return Server.searchPostIDs(cartInt);
+                //return Server.searchPostIDs(user.getCartIDs().get(0));
             } catch (IOException e) {
                 Log.d("DEBUG", e.toString());
                 return null;
@@ -357,6 +378,7 @@ public class Cart extends AppCompatActivity {
         protected void onPostExecute(Object result) {
             if (result != null) {
                 posts = (ArrayList<Post>) result;
+                //temp = (Post) result;
             } else {
                 Toast.makeText(Cart.this, "Load Failed", Toast.LENGTH_SHORT).show();
             }

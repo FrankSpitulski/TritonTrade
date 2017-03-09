@@ -6,11 +6,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,10 +26,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tmnt.tritontrade.R.id.bottom_cart;
-import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
-import static com.tmnt.tritontrade.R.id.bottom_profile;
-import static com.tmnt.tritontrade.R.id.bottom_upload;
 import static com.tmnt.tritontrade.R.id.imgButton4;
 import static com.tmnt.tritontrade.R.id.imgButton5;
 
@@ -122,6 +115,9 @@ public class Create_Post extends AppCompatActivity {
                 }
                 try {
                     description = theDescription.getText().toString();
+                    if (description == null) {
+                        description = " ";
+                    } //added because cart keeps fucking up
                 }catch(IllegalArgumentException e){
                     Toast.makeText(Create_Post.this, "Invalid Description", Toast.LENGTH_SHORT).show();
                 }
