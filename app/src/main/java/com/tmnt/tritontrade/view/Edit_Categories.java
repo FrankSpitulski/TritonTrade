@@ -15,6 +15,7 @@ import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Edit_Categories extends AppCompatActivity{
@@ -57,10 +58,41 @@ public class Edit_Categories extends AppCompatActivity{
 
         final SharedPreferences.Editor editor = prefs.edit();
         final Set<String> backupset = prefs.getStringSet(ID,new HashSet<String>());
-        editor.clear();
-        editor.apply();
+
+        //editor.clear();
+        //editor.apply();
+        Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
+                new HashSet<String>()));
 
         final Set<String> set = prefs.getStringSet(ID,new HashSet<String>());
+
+        Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
+                new HashSet<String>()));
+
+        Iterator<String> iterator = set.iterator();
+        while(iterator.hasNext()){
+            String cate = iterator.next();
+            if(cate == "textbook")
+                textbook.setChecked(true);
+            else if(cate == "clothes")
+                clothes.setChecked(true);
+            else if(cate == "furnitures")
+                furnitures.setChecked(true);
+            else if(cate == "foods")
+                foods.setChecked(true);
+            else if(cate == "technology")
+                technology.setChecked(true);
+            else if(cate == "supplies")
+                supplies.setChecked(true);
+            else if(cate == "storage")
+                storage.setChecked(true);
+            else if(cate == "services")
+                services.setChecked(true);
+            else if(cate == "miscs")
+                miscs.setChecked(true);
+            else if(cate == "trans")
+                trans.setChecked(true);
+        }
 
         textbook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,7 +322,7 @@ public class Edit_Categories extends AppCompatActivity{
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(prefs.getAll().isEmpty()){
+                if(set.isEmpty()){
                     Toast.makeText(Edit_Categories.this, "You did not follow any category", Toast.LENGTH_SHORT).show();
                 }
                 else {

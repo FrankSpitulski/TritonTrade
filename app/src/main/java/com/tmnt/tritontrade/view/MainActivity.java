@@ -22,6 +22,8 @@ import com.tmnt.tritontrade.controller.Server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     Button loginButton;
@@ -98,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 //Sharepreferences
                 String ID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
                 SharedPreferences prefs = getSharedPreferences(ID, Context.MODE_PRIVATE);
-                if(prefs.getAll().isEmpty()){
+                Set<String> set = prefs.getStringSet(ID,new HashSet<String>());
+                if(set.isEmpty()){
                     startActivity(new Intent(getApplicationContext(), Welcome_Categories.class));
                 }
                 else {
