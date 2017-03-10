@@ -56,7 +56,7 @@ public class Register_Account extends AppCompatActivity {
                     //get input from the field
                     String numberInput = userPhone.getText().toString();
                     //convert to database format
-                     thePhone = convertMobileNumberToDatabaseFormat(numberInput);
+                    thePhone = convertMobileNumberToDatabaseFormat(numberInput);
 
                     //if input phone number was not in valid format, throw exception
                     if (thePhone == null)
@@ -89,7 +89,7 @@ public class Register_Account extends AppCompatActivity {
      * @param number The user input number
      * @return The database formatted number, null if the input was not one of the accepted formats
      */
-    public String convertMobileNumberToDatabaseFormat(String number)
+    public static String convertMobileNumberToDatabaseFormat(String number)
     {
         //if doesnt match any of the formats, return null
         if(!number.matches("^\\+[0-9][0-9][0-9][0-9] \\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // full
