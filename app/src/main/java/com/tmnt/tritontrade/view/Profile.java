@@ -159,6 +159,7 @@ public class Profile extends AppCompatActivity {
                         }
                         else if (item.getItemId() == bottom_edit_category) {
                             Intent in = new Intent(getBaseContext(), Edit_Categories.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(in);
                             return true;
                         }

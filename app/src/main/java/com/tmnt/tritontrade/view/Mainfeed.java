@@ -57,6 +57,7 @@ public class Mainfeed extends AppCompatActivity
     CustomAdapter adapter;
     private ListView list;
     private SwipeRefreshLayout swipeContainer;
+    ArrayList<String> lastSearchedTags;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -87,6 +88,7 @@ public class Mainfeed extends AppCompatActivity
         //fillDefaultTags(tags);
         /***SET DATA***/
 //        tags.add("food");
+        lastSearchedTags=tags;
         fillDefaultTags(tags);
         setAdapterInfo(tags);
 
@@ -99,7 +101,7 @@ public class Mainfeed extends AppCompatActivity
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                adapter.notifyDataSetChanged();
+                setAdapterInfo(lastSearchedTags);
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -192,6 +194,7 @@ public class Mainfeed extends AppCompatActivity
                // adapter.getFilter().filter(query);
                 ArrayList<String> tagsQ = new ArrayList<String>();
                 tagsQ.add(query);
+                lastSearchedTags=tagsQ;
                 new FeedSetupTask().execute(tagsQ);
                 sv.clearFocus();
                 return false;
@@ -251,7 +254,11 @@ public class Mainfeed extends AppCompatActivity
         ArrayList<String> tags= new ArrayList<>();
         if (id == R.id.clothing_sidebar) {
             tags.add("Clothing");
-        } else if (id == R.id.food_sidebar) {
+        }
+        else if(id==R.id.following_sidebar){
+            fillDefaultTags(tags);
+        }
+        else if (id == R.id.food_sidebar) {
             tags.add("Food");
         } else if (id == R.id.services_sidebar) {
             tags.add("Services");
@@ -268,6 +275,7 @@ public class Mainfeed extends AppCompatActivity
         } else if (id == R.id.misc_sidebar) {
             tags.add("Miscellaneous");
         }
+        lastSearchedTags=tags;
         setAdapterInfo(tags);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

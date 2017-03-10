@@ -82,22 +82,26 @@ public class Profile_NonUser extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         if(item.getItemId() == bottom_mainfeed){
                             Intent in=new Intent(getBaseContext(),Mainfeed.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(in);
                             return true;
                         }
                         else if (item.getItemId() == bottom_cart){
                             Intent in=new Intent(getBaseContext(),Cart.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(in);
                             return true;
 
                         }
                         else if(item.getItemId() == bottom_upload){
                             Intent in=new Intent(getBaseContext(),Create_Post.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(in);
                             return true;
                         }
                         else if(item.getItemId() == bottom_profile){
                             Intent in=new Intent(getBaseContext(),Profile.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(in);
                             return true;
                         }

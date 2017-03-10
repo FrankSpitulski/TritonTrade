@@ -2,6 +2,10 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/following_sidebar"
+        android:icon="@android:drawable/btn_star"
+        android:title="Following" />
     <group android:checkableBehavior="single"></group>
     <item android:title="Clothing"
         android:id="@+id/clothing_sidebar"
