@@ -84,8 +84,16 @@ public class Register_Account extends AppCompatActivity {
     }
 
     /**
-     * Converts the user input of various formats into the database format of
-     * +xxxx (xxx) xxx-xxxx
+     * Converts the user input of various formats into the database format. If no country code
+     * is given, defaults to +1
+     *
+     * Accepted formats:
+     * Databse format: "+xxxx (xxx) xxx-xxxx"
+     * No country code: "(xxx) xxx-xxxx"
+     * Just 10 digits: "xxxxxxxxxx"
+     * 10 Digits with space and dash: "xxx xxx-xxxx"
+     * 10 Digits with dashes: "xxx-xxx-xxxx"
+     *
      * @param number The user input number
      * @return The database formatted number, null if the input was not one of the accepted formats
      */
