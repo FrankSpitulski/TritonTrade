@@ -129,8 +129,8 @@ public class Register_Account extends AppCompatActivity {
             return "+0001 (" + number.substring(0, 3) + ") " + number.substring(4);
         }
 
-        //something weird happened, return null
-        return null;
+        //Return the original number, is already in database format
+        return number;
     }
     //If the user clicks "Log In" they will be redirected to the
     //log in screen
