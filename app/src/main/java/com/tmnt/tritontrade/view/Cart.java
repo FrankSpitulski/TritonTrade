@@ -55,7 +55,6 @@ public class Cart extends AppCompatActivity {
     Post currentPost;            //current post that is clicked on
     User postSeller;        //user that created the post you are currently looking at
 
-    Post temp; //testing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,16 +62,12 @@ public class Cart extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
         setTitle("My Cart");
 
-       /* public Post(String productName, ArrayList<String> photos, String description,
-        float price, ArrayList<String> tags, int profileID, int postID,
-        boolean selling, boolean active , Date dateCreated, String contactInfo, boolean deleted) */
-
        /*
        TO USE LATER:
 
         USER:
         public String getCartIDsString()
-        static ArrayList<Integer> getCartIDsFromString(String history)
+        public ArrayList<Integer> getCartIDs()
         public boolean removeFromCart(int id){ return cartIDs.remove((Integer) new Integer(id)); }
         public int getPostID()
 
@@ -100,66 +95,12 @@ public class Cart extends AppCompatActivity {
 
         //gets posts to load
         user = CurrentState.getInstance().getCurrentUser();
-        cartInt = user.getCartIDsFromString(user.getCartIDsString());
+        cartInt = user.getCartIDs();
         postsToView = new ArrayList<>();
 
-        for (int i = 0; i < cartInt.size(); i++) {
-            try {
-                new SearchPostTask().execute();
-                Post postToAdd = posts.get(i);
-                //if (temp != null){
-                if (postToAdd != null) {
-                    postsToView.add(postToAdd);
-                    //postsToView.add(temp);
-                }
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-        }
-
-
-
-        //populate posts hardcoded
-        ArrayList<String> photos = new ArrayList<>();
-        //photos.add("square_boxes");
-        photos.add("https://s-media-cache-ak0.pinimg.com/564x/8f/09/93/8f0993aefb355a58ad0745ee6ab14e57.jpg");
-        ArrayList<String> tags = new ArrayList<>();
-        tags.add("category 1");
-        Date date = new Date();
-
-
-//        postsToView.add(temp);
-//        postsToView.add(
-//                new Post( temp.getProductName(), temp.getPhotos(), temp.getDescription(), temp.getPrice(),
-//                        temp.getTags(), temp.getProfileID(), temp.getPostID(), temp.getSelling(), true,
-//                        temp.getDateCreated(), temp.getContactInfo(), temp.getDeleted() ) );
-
-
-        //create Post elements
-        postsToView.add(
-                new Post("doge", photos, "doing a bark bark", (float) 5.00,
-                        tags, 4504, 10, true, true, date, "dog contact", false));
-
-        postsToView.add(
-                new Post("pupper", photos, "heckin' curious", (float) 10.00,
-                        tags, 4504, 10, true, true, date, "dog contact", false));
-
-        postsToView.add(
-                new Post("woofer", photos, "much surprise want treats", (float) 3.50,
-                        tags, 4504, 10, true, true, date, "dog contact", false));
-
-        postsToView.add(
-                new Post("doggo", photos, user.getCartIDsString(), (float) 999.00,
-                        tags, 4504, 10, true, true, date, "dog contact", false));
-
-
-        //create our new array adapter
-        ArrayAdapter<Post> adapter = new postArrayAdapter(this, 0, postsToView);
-
-        //Find list view and bind it with the custom adapter
-        ListView listView = (ListView) findViewById(R.id.cart_list);
-        listView.setAdapter(adapter);
+        //get the arraylist of posts in the cart of the user, this method will then populate
+        //the cart once the data is retrieved
+        new SearchPostTask().execute();
 
 
         //bottom tool bar
@@ -236,6 +177,7 @@ public class Cart extends AppCompatActivity {
                 //deletes post and reloads page without this  removed post
                 int removePost = currentPost.getPostID();
                 user.removeFromCart(removePost);
+                new ModifyUserCart().execute();
                 startActivity(new Intent(getApplicationContext(), Cart.class));
 
             }
@@ -266,6 +208,29 @@ public class Cart extends AppCompatActivity {
         AlertDialog dialog = alert.create();
         dialog.show();
     }
+
+    void removeShiftMode(BottomNavigationView view) {
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
+        try {
+            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+            shiftingMode.setAccessible(true);
+            shiftingMode.setBoolean(menuView, false);
+            shiftingMode.setAccessible(false);
+            for (int i = 0; i < menuView.getChildCount(); i++) {
+                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+                item.setShiftingMode(false);
+                // set once again checked value, so view will be updated
+                item.setChecked(item.getItemData().isChecked());
+            }
+        } catch (NoSuchFieldException e) {
+            Log.e("ERROR NO SUCH FIELD", "Unable to get shift mode field");
+        } catch (IllegalAccessException e) {
+            Log.e("ERROR ILLEGAL ALG", "Unable to change value of shift mode");
+        }
+    }
+
+
+    //-------------------------------ASYNC TASKS----------------------------------//
 
     //////////////////////////////////////custom ArrayAdapter/////////////////////////////
     private class postArrayAdapter extends ArrayAdapter<Post> {
@@ -361,16 +326,12 @@ public class Cart extends AppCompatActivity {
         }
     }
 
-
-    //-------------------------------ASYNC TASKS----------------------------------//
-
     ///////////////////////ASYNC task for loading posts to cart///////////////////////
     private class SearchPostTask extends AsyncTask<Object, Object, Object> {
         @Override
         protected Object doInBackground(Object... params) {
             try {
                 return Server.searchPostIDs(cartInt);
-                //return Server.searchPostIDs(user.getCartIDs().get(0));
             } catch (IOException e) {
                 Log.d("DEBUG", e.toString());
                 return null;
@@ -381,13 +342,22 @@ public class Cart extends AppCompatActivity {
         protected void onPostExecute(Object result) {
             if (result != null) {
                 posts = (ArrayList<Post>) result;
-                //temp = (Post) result;
+
+                //set that the posts retrieved from server are to be displayed
+                postsToView = posts;
+
+                //create our new array adapter
+                ArrayAdapter<Post> adapter = new postArrayAdapter(Cart.this, 0, postsToView);
+
+                //Find list view and bind it with the custom adapter
+                ListView listView = (ListView) findViewById(R.id.cart_list);
+                listView.setAdapter(adapter);
             } else {
                 Toast.makeText(Cart.this, "Load Failed", Toast.LENGTH_SHORT).show();
+
             }
         }
     }
-
 
     /////////////////////////ASYNC task for finding user of current post///////////////////////
     private class SearchUserTask extends AsyncTask<Object, Object, Object> {
@@ -411,24 +381,26 @@ public class Cart extends AppCompatActivity {
         }
     }
 
-    void removeShiftMode(BottomNavigationView view) {
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
-        try {
-            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
-            shiftingMode.setAccessible(true);
-            shiftingMode.setBoolean(menuView, false);
-            shiftingMode.setAccessible(false);
-            for (int i = 0; i < menuView.getChildCount(); i++) {
-                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-                item.setShiftingMode(false);
-                // set once again checked value, so view will be updated
-                item.setChecked(item.getItemData().isChecked());
+    public class ModifyUserCart extends AsyncTask<Object, Object, Object> {
+        @Override
+        protected Boolean doInBackground(Object... params) {
+            try {
+                Server.modifyExistingUser(user);
+                return true;
+            } catch (IOException e) {
+                Log.d("DEBUG", e.toString());
+                return false;
+            } catch (IllegalArgumentException e2) {
+                Log.d("DEBUG", e2.toString());
+                return false;
             }
-        } catch (NoSuchFieldException e) {
-            Log.e("ERROR NO SUCH FIELD", "Unable to get shift mode field");
-        } catch (IllegalAccessException e) {
-            Log.e("ERROR ILLEGAL ALG", "Unable to change value of shift mode");
         }
+
+
+        @Override
+        protected void onPostExecute(Object result) { //nothing
+        }
+
     }
 
 
