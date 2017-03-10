@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ef341c3a</color>
+    <color name="colorPrimary">#341c3a</color>
     <color name="colorPrimaryDark">#404040</color>
     <color name="colorAccent">#4A96AD</color>
     <color name="FiftyTransparentWhite"> #78FFFFFF</color>
