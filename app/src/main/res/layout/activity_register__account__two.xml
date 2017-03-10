@@ -82,14 +82,14 @@
             android:text="Finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/phoneLabel"
-            android:layout_marginTop="11dp"
             android:id="@+id/nextPageLabel"
-            android:layout_alignEnd="@+id/phoneLabel"
-            android:layout_alignStart="@+id/phoneLabel"
             android:background="@drawable/customborder2"
             android:textColor="@color/white"
-            android:onClick="sendToVerifyEmail"/>
+            android:onClick="sendToVerifyEmail"
+            android:layout_below="@+id/phoneLabel"
+            android:layout_alignStart="@+id/phoneLabel"
+            android:layout_marginTop="54dp"
+            android:layout_alignEnd="@+id/phoneLabel" />
 
         <TextView
             android:text="Already have an account?"
@@ -109,9 +109,10 @@
             android:id="@+id/loginLabel"
             android:background="@android:color/transparent"
             android:textColor="@color/common_google_signin_btn_text_dark_pressed"
-            android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@+id/signUpLabel"
             android:fontFamily="sans-serif-medium"
-            android:onClick="sendToLogIn"/>
+            android:onClick="sendToLogIn"
+            android:layout_marginTop="90dp"
+            android:layout_below="@+id/nextPageLabel"
+            android:layout_toEndOf="@+id/signUpLabel" />
         </RelativeLayout>
 </RelativeLayout>

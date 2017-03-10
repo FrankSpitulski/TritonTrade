@@ -19,146 +19,166 @@
         android:layout_alignParentStart="true">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:background="#7aaaaaaa">
+            android:layout_alignParentTop="true"
+            android:background="#7aaaaaaa"
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <Button
-                android:text="Clothing"
-                android:layout_width="match_parent"
                 android:id="@+id/clothingButton"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
                 android:background="@android:color/transparent"
                 android:gravity="bottom|left|center_vertical|center_horizontal"
-                android:textColor="@android:color/white"
-                android:layout_height="30dp" />
-            <View android:id="@+id/primerdivisor1"
+                android:text="Clothing"
+                android:textColor="@android:color/white" />
+
+            <View
+                android:id="@+id/primerdivisor1"
                 android:layout_width="fill_parent"
-                android:background="#aaa"
-                android:layout_below="@+id/textView6"
+                android:layout_height="2sp"
                 android:layout_alignParentStart="true"
-                android:layout_height="2sp" />
+                android:layout_below="@+id/textView6"
+                android:background="#aaa" />
+
             <Button
-                android:text="Food"
-                android:layout_width="match_parent"
                 android:id="@+id/foodButton"
-                android:background="@android:color/transparent"
-                android:gravity="bottom|left|center_vertical|center_horizontal"
-                android:textColor="@android:color/white"
-                android:layout_height="30dp" />
-            <View android:id="@+id/primerdivisor2"
-                android:layout_height="2sp"
-                android:layout_width="fill_parent"
-                android:background="#aaa"
-                android:layout_below="@+id/textView6"
-                android:layout_alignParentStart="true"
-                 />
-            <Button
-                android:text="Furniture"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:gravity="bottom|left|center_vertical|center_horizontal"
+                android:text="Food"
+                android:textColor="@android:color/white" />
+
+            <View
+                android:id="@+id/primerdivisor2"
+                android:layout_width="fill_parent"
+                android:layout_height="2sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView6"
+                android:background="#aaa" />
+
+            <Button
                 android:id="@+id/furnitureButton"
-                android:background="@android:color/transparent"
-                android:gravity="bottom|left|center_vertical|center_horizontal"
-                android:textColor="@android:color/white" />
-            <View android:id="@+id/primerdivisor3"
-                android:layout_height="2sp"
-                android:layout_width="fill_parent"
-                android:background="#aaa"
-                android:layout_below="@+id/textView6"
-                android:layout_alignParentStart="true"
-                />
-            <Button
-                android:text="Services"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:gravity="bottom|left|center_vertical|center_horizontal"
+                android:text="Furniture"
+                android:textColor="@android:color/white" />
+
+            <View
+                android:id="@+id/primerdivisor3"
+                android:layout_width="fill_parent"
+                android:layout_height="2sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView6"
+                android:background="#aaa" />
+
+            <Button
                 android:id="@+id/servicesButton"
-                android:background="@android:color/transparent"
-                android:gravity="bottom|left|center_vertical|center_horizontal"
-                android:textColor="@android:color/white" />
-            <View android:id="@+id/primerdivisor4"
-                android:layout_height="2sp"
-                android:layout_width="fill_parent"
-                android:background="#aaa"
-                android:layout_below="@+id/textView6"
-                android:layout_alignParentStart="true"
-                 />
-            <Button
-                android:text="Storage"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:gravity="bottom|left|center_vertical|center_horizontal"
+                android:text="Services"
+                android:textColor="@android:color/white" />
+
+            <View
+                android:id="@+id/primerdivisor4"
+                android:layout_width="fill_parent"
+                android:layout_height="2sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView6"
+                android:background="#aaa" />
+
+            <Button
                 android:id="@+id/storageButton"
-                android:background="@android:color/transparent"
-                android:gravity="bottom|left|center_vertical|center_horizontal"
-                android:textColor="@android:color/white" />
-            <View android:id="@+id/primerdivisor5"
-                android:layout_height="2sp"
-                android:layout_width="fill_parent"
-                android:background="#aaa"
-                android:layout_below="@+id/textView6"
-                android:layout_alignParentStart="true"
-                 />
-            <Button
-                android:text="Supplies"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:gravity="bottom|left|center_vertical|center_horizontal"
+                android:text="Storage"
+                android:textColor="@android:color/white" />
+
+            <View
+                android:id="@+id/primerdivisor5"
+                android:layout_width="fill_parent"
+                android:layout_height="2sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView6"
+                android:background="#aaa" />
+
+            <Button
                 android:id="@+id/suppliesButton"
-                android:background="@android:color/transparent"
-                android:gravity="bottom|left|center_vertical|center_horizontal"
-                android:textColor="@android:color/white" />
-            <View android:id="@+id/primerdivisor6"
-                android:layout_height="2sp"
-                android:layout_width="fill_parent"
-                android:background="#aaa"
-                android:layout_below="@+id/textView6"
-                android:layout_alignParentStart="true"
-                 />
-            <Button
-                android:text="Technology"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:gravity="bottom|left|center_vertical|center_horizontal"
+                android:text="Supplies"
+                android:textColor="@android:color/white" />
+
+            <View
+                android:id="@+id/primerdivisor6"
+                android:layout_width="fill_parent"
+                android:layout_height="2sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView6"
+                android:background="#aaa" />
+
+            <Button
                 android:id="@+id/technologyButton"
-                android:background="@android:color/transparent"
-                android:gravity="bottom|left|center_vertical|center_horizontal"
-                android:textColor="@android:color/white" />
-            <View android:id="@+id/primerdivisor7"
-                android:layout_height="2sp"
-                android:layout_width="fill_parent"
-                android:background="#aaa"
-                android:layout_below="@+id/textView6"
-                android:layout_alignParentStart="true"
-                 />
-            <Button
-                android:text="Textbooks"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:gravity="bottom|left|center_vertical|center_horizontal"
+                android:text="Technology"
+                android:textColor="@android:color/white" />
+
+            <View
+                android:id="@+id/primerdivisor7"
+                android:layout_width="fill_parent"
+                android:layout_height="2sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView6"
+                android:background="#aaa" />
+
+            <Button
                 android:id="@+id/textbooksButton"
-                android:background="@android:color/transparent"
-                android:gravity="bottom|left|center_vertical|center_horizontal"
-                android:textColor="@android:color/white" />
-            <View android:id="@+id/primerdivisor8"
-                android:layout_height="2sp"
-                android:layout_width="fill_parent"
-                android:background="#aaa"
-                android:layout_below="@+id/textView6"
-                android:layout_alignParentStart="true"
-                 />
-            <Button
-                android:text="Misc."
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:id="@+id/miscButton"
                 android:background="@android:color/transparent"
                 android:gravity="bottom|left|center_vertical|center_horizontal"
+                android:text="Textbooks"
                 android:textColor="@android:color/white" />
-            <View android:id="@+id/primerdivisor9"
-                android:layout_height="2sp"
+
+            <View
+                android:id="@+id/primerdivisor8"
                 android:layout_width="fill_parent"
-                android:background="#aaa"
+                android:layout_height="2sp"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/textView6"
-                android:layout_alignParentStart="true"/>
+                android:background="#aaa" />
+
+            <Button
+                android:id="@+id/miscButton"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:gravity="bottom|left|center_vertical|center_horizontal"
+                android:text="Misc."
+                android:textColor="@android:color/white" />
+
+            <View
+                android:id="@+id/primerdivisor9"
+                android:layout_width="fill_parent"
+                android:layout_height="2sp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView6"
+                android:background="#aaa" />
 
         </LinearLayout>
     </RelativeLayout>

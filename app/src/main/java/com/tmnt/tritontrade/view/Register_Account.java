@@ -41,33 +41,97 @@ public class Register_Account extends AppCompatActivity {
 
                 try {
                     theName = userName.getText().toString();
-                } catch(IllegalArgumentException e){
-                    Log.d("DEBUG", e.toString());
-                    Toast.makeText(Register_Account.this, "Bad Username", Toast.LENGTH_SHORT).show();
-                }
-                try {
+                    if(theName.equals("")){
+                        throw new IllegalArgumentException("NAME");
+                    }
                     theEmail = userEmail.getText().toString();
-                } catch(IllegalArgumentException e){
-                    Log.d("DEBUG",e.toString());
-                    Toast.makeText(Register_Account.this, "Bad Email", Toast.LENGTH_SHORT).show();
-                }
-                try {
+                    if(!theEmail.matches(".*ucsd.edu$")){
+                        throw new IllegalArgumentException("EMAIL");
+                    }
+
                     thePassword = userPassword.getText().toString();
-                } catch(IllegalArgumentException e){
-                    Log.d("DEBUG", e.toString());
-                    Toast.makeText(Register_Account.this, "Bad Password", Toast.LENGTH_SHORT).show();
-                }
-                try{
-                    thePhone = userPhone.getText().toString();
+                    if(thePassword.equals("")) {
+                        throw new IllegalArgumentException("PASSWORD");
+                    }
+                    //get input from the field
+                    String numberInput = userPhone.getText().toString();
+                    //convert to database format
+                    thePhone = convertMobileNumberToDatabaseFormat(numberInput);
+
+                    //if input phone number was not in valid format, throw exception
+                    if (thePhone == null)
+                    {
+                        throw new IllegalArgumentException("PHONE");
+                    }
+
+                    //Toast.makeText(Register_Account.this, "Phone is " + thePhone, Toast.LENGTH_SHORT).show();
+                    new RegisterTask().execute();
                 } catch(IllegalArgumentException e) {
                     Log.d("DEBUG", e.toString());
-                    Toast.makeText(Register_Account.this, "Bad Phone", Toast.LENGTH_SHORT).show();
+
+                    if(e.getMessage().equals("NAME")) {
+                        Toast.makeText(Register_Account.this, "Bad Username ", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("EMAIL")) {
+                        Toast.makeText(Register_Account.this, "Bad Email", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("PASSWORD")) {
+                        Toast.makeText(Register_Account.this, "Bad Password", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("PHONE")) {
+                        Toast.makeText(Register_Account.this, "Bad Phone", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                new RegisterTask().execute();
             }
         });
     }
 
+    /**
+     * Converts the user input of various formats into the database format. If no country code
+     * is given, defaults to +1
+     *
+     * Accepted formats:
+     * Database format: "+xxxx (xxx) xxx-xxxx"
+     * No country code: "(xxx) xxx-xxxx"
+     * Just 10 digits: "xxxxxxxxxx"
+     * 10 Digits with space and 2 dashes: "xxx xxx-xxxx"
+     * 10 Digits with dashes: "xxx-xxx-xxxx"
+     *
+     * @param number The user input number
+     * @return The database formatted number, null if the input was not one of the accepted formats
+     */
+    public static String convertMobileNumberToDatabaseFormat(String number)
+    {
+        //if doesnt match any of the formats, return null
+        if(!number.matches("^\\+[0-9][0-9][0-9][0-9] \\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // full
+                && !number.matches("^\\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // without country code
+                && !number.matches("^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$") // just 10 numbers
+                && !number.matches("^[0-9][0-9][0-9] [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // 10 numbers with space and two dashes
+                && !number.matches("^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")) // 10 numbers with dashes
+        {
+            return null;
+        }
+        else if(number.matches("^\\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$"))
+        {
+            //no country code, assume is United States, prepend U.S. country code
+            return "+0001 " + number;
+        }
+        else if(number.matches("^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$"))
+        {
+            // if just 10 numbers, add country code and parenthesis
+            return "+0001 (" + number.substring(0, 3) + ") " + number.substring(3, 6) + "-" + number.substring(6);
+        }
+        else if(number.matches("^[0-9][0-9][0-9] [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$"))
+        {
+            //if no parentheses or country code, add them
+            return "+0001 (" + number.substring(0, 3) + ")" + number.substring(3);
+        }
+        else if(number.matches("^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$"))
+        {
+            //if use dashes to separate area code and number, replace with parentheis and add country code
+            return "+0001 (" + number.substring(0, 3) + ") " + number.substring(4);
+        }
+
+        //Return the original number, is already in database format
+        return number;
+    }
     //If the user clicks "Log In" they will be redirected to the
     //log in screen
     public void sendToLogIn(View view) {
