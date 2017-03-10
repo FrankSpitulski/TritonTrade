@@ -34,16 +34,27 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:text="Php-crud-api"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/php_crud_api_text" />
+
+                <TextView
                     android:text="https://github.com/mevdschee/php-crud-api/blob/master/LICENSE"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/php_crud_api" />
 
                 <TextView
-                    android:text="TextView"
+                    android:text=" "
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/space1" />
+                <TextView
+                    android:text="Phpmailer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/phpmailer_text" />
 
                 <TextView
                     android:text="https://github.com/PHPMailer/PHPMailer/blob/master/LICENSE"
@@ -52,10 +63,16 @@
                     android:id="@+id/phpmailer" />
 
                 <TextView
-                    android:text="TextView"
+                    android:text=" "
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/space2" />
+
+                <TextView
+                    android:text="Gson License"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/gson_license_text" />
 
                 <TextView
                     android:text="https://github.com/google/gson/blob/master/LICENSE"

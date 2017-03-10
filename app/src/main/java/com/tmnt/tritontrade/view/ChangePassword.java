@@ -136,5 +136,9 @@ public class ChangePassword extends AppCompatActivity {
 
 
     }
+
+    public void cancelChange(View view){
+        finish();
+    }
 }
 

@@ -53,32 +53,33 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/Nick"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Nick"
+                android:background="#E0E0E0"
+                android:orientation="vertical"
                 android:paddingBottom="20sp">
 
                 <TextView
-                    android:text="Nick Nikravesh"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/name2"
-                    android:textAppearance="@style/fontForDevTeamName"/>
-
-                <TextView
-                    android:text="Business Analyst"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Nick Nikravesh"
+                    android:textAppearance="@style/fontForDevTeamName" />
+
+                <TextView
                     android:id="@+id/position2"
-                    android:textAppearance="@style/fontForDevTeamPos"/>
-
-                <TextView
-                    android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Business Analyst"
+                    android:textAppearance="@style/fontForDevTeamPos" />
+
+                <TextView
                     android:id="@+id/bio2"
-                    android:textAppearance="@style/fontForDevTeamBio"/>/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
             <LinearLayout
@@ -112,32 +113,33 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/Omar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Omar"
+                android:background="#E0E0E0"
+                android:orientation="vertical"
                 android:paddingBottom="20sp">
 
                 <TextView
-                    android:text="Omar Khawaja"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/name4"
-                    android:textAppearance="@style/fontForDevTeamName"/>
-
-                <TextView
-                    android:text="Software Architect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Omar Khawaja"
+                    android:textAppearance="@style/fontForDevTeamName" />
+
+                <TextView
                     android:id="@+id/position4"
-                    android:textAppearance="@style/fontForDevTeamPos"/>
-
-                <TextView
-                    android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Software Architect"
+                    android:textAppearance="@style/fontForDevTeamPos" />
+
+                <TextView
                     android:id="@+id/bio4"
-                    android:textAppearance="@style/fontForDevTeamBio"/>/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
             <LinearLayout
@@ -149,11 +151,11 @@
                 android:background="#F0F0ED">
 
                 <TextView
-                    android:text="Brian Guthrie"
+                    android:id="@+id/name5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/name5"
-                    android:textAppearance="@style/fontForDevTeamName"/>
+                    android:text="Brian Guthrie"
+                    android:textAppearance="@style/fontForDevTeamName" />
 
                 <TextView
                     android:text="Software Development Lead"
@@ -171,32 +173,33 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/Bernie"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Bernie"
+                android:background="#E0E0E0"
+                android:orientation="vertical"
                 android:paddingBottom="20sp">
 
                 <TextView
-                    android:text="Bernie Wang"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/name6"
-                    android:textAppearance="@style/fontForDevTeamName"/>
-
-                <TextView
-                    android:text="Software Development Lead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Bernie Wang"
+                    android:textAppearance="@style/fontForDevTeamName" />
+
+                <TextView
                     android:id="@+id/position6"
-                    android:textAppearance="@style/fontForDevTeamPos"/>
-
-                <TextView
-                    android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Software Development Lead"
+                    android:textAppearance="@style/fontForDevTeamPos" />
+
+                <TextView
                     android:id="@+id/bio6"
-                    android:textAppearance="@style/fontForDevTeamBio"/>/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
             <LinearLayout
@@ -230,25 +233,26 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/Frank"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Frank"
+                android:background="#E0E0E0"
+                android:orientation="vertical"
                 android:paddingBottom="20sp">
 
                 <TextView
-                    android:text="Frank Spitulski"
+                    android:id="@+id/name8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/name8"
-                    android:textAppearance="@style/fontForDevTeamName"/>
+                    android:text="Frank Spitulski"
+                    android:textAppearance="@style/fontForDevTeamName" />
 
                 <TextView
-                    android:text="Database Specialist"
+                    android:id="@+id/position8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/position8"
-                    android:textAppearance="@style/fontForDevTeamPos"/>
+                    android:text="Database Specialist"
+                    android:textAppearance="@style/fontForDevTeamPos" />
 
                 <TextView
                     android:id="@+id/bio8"
@@ -289,32 +293,33 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/Hillary"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Hillary"
+                android:background="#E0E0E0"
+                android:orientation="vertical"
                 android:paddingBottom="20sp">
 
                 <TextView
-                    android:text="Hillary Thi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/name10"
-                    android:textAppearance="@style/fontForDevTeamName"/>
-
-                <TextView
-                    android:text="User Interface Specialist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Hillary Thi"
+                    android:textAppearance="@style/fontForDevTeamName" />
+
+                <TextView
                     android:id="@+id/position10"
-                    android:textAppearance="@style/fontForDevTeamPos"/>
-
-                <TextView
-                    android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="User Interface Specialist"
+                    android:textAppearance="@style/fontForDevTeamPos" />
+
+                <TextView
                     android:id="@+id/bio10"
-                    android:textAppearance="@style/fontForDevTeamBio"/>/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
         </LinearLayout>
