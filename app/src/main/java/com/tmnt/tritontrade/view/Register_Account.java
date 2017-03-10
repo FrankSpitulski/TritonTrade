@@ -39,10 +39,30 @@ public class Register_Account extends AppCompatActivity {
                 EditText userPassword = (EditText) findViewById(R.id.passwordLabel);
                 EditText userPhone = (EditText) findViewById(R.id.phoneLabel);
 
-                theName = userName.getText().toString();
-                theEmail = userEmail.getText().toString();
-                thePassword = userPassword.getText().toString();
-                thePhone = userPhone.getText().toString();
+                try {
+                    theName = userName.getText().toString();
+                } catch(IllegalArgumentException e){
+                    Log.d("DEBUG", e.toString());
+                    Toast.makeText(Register_Account.this, "Bad Username", Toast.LENGTH_SHORT).show();
+                }
+                try {
+                    theEmail = userEmail.getText().toString();
+                } catch(IllegalArgumentException e){
+                    Log.d("DEBUG",e.toString());
+                    Toast.makeText(Register_Account.this, "Bad Email", Toast.LENGTH_SHORT).show();
+                }
+                try {
+                    thePassword = userPassword.getText().toString();
+                } catch(IllegalArgumentException e){
+                    Log.d("DEBUG", e.toString());
+                    Toast.makeText(Register_Account.this, "Bad Password", Toast.LENGTH_SHORT).show();
+                }
+                try{
+                    thePhone = userPhone.getText().toString();
+                } catch(IllegalArgumentException e) {
+                    Log.d("DEBUG", e.toString());
+                    Toast.makeText(Register_Account.this, "Bad Phone", Toast.LENGTH_SHORT).show();
+                }
                 new RegisterTask().execute();
             }
         });
@@ -62,11 +82,15 @@ public class Register_Account extends AppCompatActivity {
     }
 
     private class RegisterTask extends AsyncTask<Object, Object, Object> {
+
         @Override
         protected Object doInBackground(Object... params) {
             try {
                 return Server.addNewUser(theName, "", "", thePhone, theEmail, thePassword);
             } catch (IOException e){
+                Log.d("DEBUG", e.toString());
+                return null;
+            } catch (IllegalArgumentException e){
                 Log.d("DEBUG", e.toString());
                 return null;
             }

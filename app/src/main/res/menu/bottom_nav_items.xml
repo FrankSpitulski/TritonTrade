@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/bottom_mainfeed"
+        android:enabled="true"
         android:title="Mainfeed"
         android:icon="@drawable/ic_bottom_home"
-        />
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/bottom_edit_category"
+        android:enabled="true"
+        android:title="Category"
+        android:icon="@drawable/ic_bottom_edit_category"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/bottom_upload"
+        android:enabled="true"
         android:title="Upload"
         android:icon="@drawable/ic_bottom_upload"
-        />
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/bottom_cart"
         android:title="Cart"
+        android:enabled="true"
         android:icon="@drawable/ic_bottom_cart"
-        />
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/bottom_profile"
         android:title="Profile"
+        android:enabled="true"
         android:icon="@drawable/ic_bottom_profile"
-        />
+        app:showAsAction="ifRoom"/>
 
 </menu>

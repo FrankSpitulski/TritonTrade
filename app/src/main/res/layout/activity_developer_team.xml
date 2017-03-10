@@ -14,7 +14,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/bottom_navigation"
         android:layout_alignParentStart="true">
 
         <LinearLayout
@@ -45,11 +45,11 @@
                     android:textAppearance="@style/fontForDevTeamPos"/>
 
                 <TextView
-                    android:text="TextView"
+                    android:id="@+id/bio1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/bio1"
-                    android:textAppearance="@style/fontForDevTeamBio"/>
+                    android:text="Now the story of the disgruntled agile team who lost everything, and the one project manager who had to keep them all together. It’s Arrested Development."
+                    android:textAppearance="@style/fontForDevTeamBio" />
             </LinearLayout>
 
             <LinearLayout
@@ -251,11 +251,11 @@
                     android:textAppearance="@style/fontForDevTeamPos"/>
 
                 <TextView
-                    android:text="TextView"
+                    android:id="@+id/bio8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/bio8"
-                    android:textAppearance="@style/fontForDevTeamBio"/>/>
+                    android:text="A very tired database manager and programmer and guy who people keep asking do debug things"
+                    android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
             <LinearLayout
@@ -320,6 +320,7 @@
         </LinearLayout>
     </ScrollView>
 
+    <!-->
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -329,5 +330,5 @@
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
         app:menu="@menu/bottom_nav_items" />
-
+    <!-->
 </RelativeLayout>

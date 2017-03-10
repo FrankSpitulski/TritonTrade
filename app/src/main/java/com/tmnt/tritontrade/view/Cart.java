@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -23,38 +24,49 @@ import android.widget.Toast;
 
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
+import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.tmnt.tritontrade.R.id.bottom_cart;
+import static com.tmnt.tritontrade.R.id.bottom_edit_category;
+import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
+import static com.tmnt.tritontrade.R.id.bottom_profile;
+import static com.tmnt.tritontrade.R.id.bottom_upload;
 import static com.tmnt.tritontrade.R.layout.cart_item;
 
 public class Cart extends AppCompatActivity {
 
 
     Button displayContactButton, confirmRemoveButton;
-    User user; //self
-    private ArrayList<Post> posts = new ArrayList<>();
+    User user;                   //self or current user
+    ArrayList<Integer> cartInt;  //list of cart posts' ids, goes through async task, placed into 'posts '
+    ArrayList<Post> posts;       //server retrieves current user's cart
+    ArrayList<Post> postsToView; //'posts' goes through check, then displayed on Cart screen
+    Post currentPost;            //current post that is clicked on
+    User postSeller;        //user that created the post you are currently looking at
 
+    Post temp; //testing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-
-
+        setTitle("My Cart");
 
        /* public Post(String productName, ArrayList<String> photos, String description,
         float price, ArrayList<String> tags, int profileID, int postID,
         boolean selling, boolean active , Date dateCreated, String contactInfo, boolean deleted) */
 
-
-        //TO USE?
        /*
+       TO USE LATER:
+
         USER:
         public String getCartIDsString()
         static ArrayList<Integer> getCartIDsFromString(String history)
@@ -85,16 +97,18 @@ public class Cart extends AppCompatActivity {
 
         //gets posts to load
         user = CurrentState.getInstance().getCurrentUser();
-        ArrayList<Integer> cartInt = user.getCartIDsFromString(user.getCartIDsString());
+        cartInt = user.getCartIDsFromString(user.getCartIDsString());
+        postsToView = new ArrayList<>();
 
         for (int i = 0; i < cartInt.size(); i++) {
-
             try {
-                Post postToAdd = Server.searchPostIDs(cartInt.get(i));
-                if (postToAdd == null) {
-                    continue;
+                new SearchPostTask().execute();
+                Post postToAdd = posts.get(i);
+                //if (temp != null){
+                if (postToAdd != null) {
+                    postsToView.add(postToAdd);
+                    //postsToView.add(temp);
                 }
-                posts.add(postToAdd);
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
@@ -103,34 +117,42 @@ public class Cart extends AppCompatActivity {
 
 
 
-
         //populate posts hardcoded
         ArrayList<String> photos = new ArrayList<>();
-        photos.add("square_boxes");
+        //photos.add("square_boxes");
+        photos.add("https://s-media-cache-ak0.pinimg.com/564x/8f/09/93/8f0993aefb355a58ad0745ee6ab14e57.jpg");
         ArrayList<String> tags = new ArrayList<>();
         tags.add("category 1");
         Date date = new Date();
 
+
+//        postsToView.add(temp);
+//        postsToView.add(
+//                new Post( temp.getProductName(), temp.getPhotos(), temp.getDescription(), temp.getPrice(),
+//                        temp.getTags(), temp.getProfileID(), temp.getPostID(), temp.getSelling(), true,
+//                        temp.getDateCreated(), temp.getContactInfo(), temp.getDeleted() ) );
+
+
         //create Post elements
-        posts.add(
-                new Post("Boxes", photos, "5 boxes for sale", (float) 5.00,
-                        tags, 4504, 10, true, true, date, "Contact Info", false));
+        postsToView.add(
+                new Post("doge", photos, "doing a bark bark", (float) 5.00,
+                        tags, 4504, 10, true, true, date, "dog contact", false));
 
-        posts.add(
-                new Post("Moving", photos, "Truck services $20/hr, will help with moving", (float) 10.00,
-                        tags, 4504, 10, true, true, date, "Contact Info", false));
+        postsToView.add(
+                new Post("pupper", photos, "heckin' curious", (float) 10.00,
+                        tags, 4504, 10, true, true, date, "dog contact", false));
 
-        posts.add(
-                new Post("Product Name", photos, "Description of item", (float) 3.50,
-                        tags, 4504, 10, true, true, date, "Contact Info", false));
+        postsToView.add(
+                new Post("woofer", photos, "much surprise want treats", (float) 3.50,
+                        tags, 4504, 10, true, true, date, "dog contact", false));
 
-        posts.add(
-                new Post("Product Name", photos, "Description of item", (float) 999.00,
-                        tags, 4504, 10, true, true, date, "Contact Info", false));
+        postsToView.add(
+                new Post("doggo", photos, user.getCartIDsString(), (float) 999.00,
+                        tags, 4504, 10, true, true, date, "dog contact", false));
 
 
         //create our new array adapter
-        ArrayAdapter<Post> adapter = new postArrayAdapter(this, 0, posts);
+        ArrayAdapter<Post> adapter = new postArrayAdapter(this, 0, postsToView);
 
         //Find list view and bind it with the custom adapter
         ListView listView = (ListView) findViewById(R.id.cart_list);
@@ -140,32 +162,52 @@ public class Cart extends AppCompatActivity {
         //bottom tool bar
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
+        BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener(){
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.bottom_mainfeed:
-                                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
-                                break;
-                            case R.id.bottom_cart:
-                                startActivity(new Intent(getApplicationContext(), Cart.class));
-                                break;
-                            case R.id.bottom_upload:
-                                startActivity(new Intent(getApplicationContext(), Create_Post.class));
-                                break;
-                            case R.id.bottom_profile:
-                                startActivity(new Intent(getApplicationContext(), Profile.class));
-                                break;
+                        if(item.getItemId() == bottom_mainfeed){
+                            Intent in=new Intent(getBaseContext(),Mainfeed.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            startActivity(in);
+                            return true;
+                        }
+                        else if (item.getItemId() == bottom_edit_category) {
+                            Intent in = new Intent(getBaseContext(), Edit_Categories.class);
+                            startActivity(in);
+                            return true;
+                        }
+
+                        else if (item.getItemId() == bottom_cart){
+                            Intent in=new Intent(getBaseContext(),Cart.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            startActivity(in);
+                            return true;
+
+                        }
+                        else if(item.getItemId() == bottom_upload){
+                            Intent in=new Intent(getBaseContext(),Create_Post.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            startActivity(in);
+                            return true;
+                        }
+                        else if(item.getItemId() == bottom_profile){
+                            Intent in=new Intent(getBaseContext(),Profile.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            startActivity(in);
+                            return true;
                         }
                         return false;
                     }
                 }
         );
 
-    }
 
+
+
+    }
 
     //////////////////confirmation button for remove from cart//////////////////
     public void displayConfirmationDialog() {
@@ -186,9 +228,12 @@ public class Cart extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getBaseContext(), "OK clicked", Toast.LENGTH_SHORT).show();
-                //code for deleting a post
-                //how to know which post i am on?
+                Toast.makeText(getBaseContext(), "Item removed", Toast.LENGTH_SHORT).show();
+
+                //deletes post and reloads page without this  removed post
+                int removePost = currentPost.getPostID();
+                user.removeFromCart(removePost);
+                startActivity(new Intent(getApplicationContext(), Cart.class));
 
             }
         });
@@ -197,14 +242,14 @@ public class Cart extends AppCompatActivity {
     }
 
 
+    //-------------------------------BUTTONS----------------------------------//
+
     /////////////////////confirmation button for remove from cart//////////////////
-    public void displayContactDialog() {
-        //how to know im in which post?
-        //use code above in oncreate
+    public void displayContactDialog(String sellerEmail, String sellerPhone) {
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Contact Seller");
-        alert.setMessage("Email: \nPhone: ");
+        alert.setMessage("Email:  " + sellerEmail + "\nPhone:  " + sellerPhone);
         alert.setCancelable(false);
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 
@@ -219,8 +264,7 @@ public class Cart extends AppCompatActivity {
         dialog.show();
     }
 
-
-    //////////////////////////////////////custom ArrayAdapter//////////////////
+    //////////////////////////////////////custom ArrayAdapter/////////////////////////////
     private class postArrayAdapter extends ArrayAdapter<Post> {
 
         private Context context;
@@ -251,30 +295,38 @@ public class Cart extends AppCompatActivity {
 
 
             //display trimmed excerpt for description
-            int descriptionLength = post.getDescription().length();
-            if (descriptionLength >= 100) {
-                String descriptionTrim = post.getDescription().substring(0, 100) + "...";
-                description.setText(descriptionTrim);
+            int descriptionLength;
+            if (post.getDescription() == null) {
+                descriptionLength = 0;
+                description.setText("");
             } else {
-                description.setText(post.getDescription());
+
+                descriptionLength = post.getDescription().length();
+
+                if (descriptionLength >= 100) {
+                    String descriptionTrim = post.getDescription().substring(0, 100) + "...";
+                    description.setText(descriptionTrim);
+                } else {
+                    description.setText(post.getDescription());
+                }
+
             }
 
-            //set price and rental attributes
+
+
+            //set price and rental attributes and default image of post
             String stringPrice = "$" + String.valueOf(post.getPrice());
             price.setText(stringPrice);
             title.setText(String.valueOf(post.getProductName()));
+            String firstPhoto = post.getPhotos().get(0); //first photo of the ones you uploaded, "default"
+            new DownloadPhotosAsyncTask(image).execute(firstPhoto);
 
-
-            String firstPhoto = post.getPhotos().get(0);
-
-            //get the image associated with this property
-            /////////make so it doesnt take from drawable and from web or something
-            int imageID = context.getResources().getIdentifier(firstPhoto, "drawable", context.getPackageName());
-            image.setImageResource(imageID);
 
 
             //////////////////remove from cart button//////////////////////
             confirmRemoveButton = (Button) view.findViewById(R.id.remove_button);
+            currentPost = postsToView.get(position);
+            //confirmRemoveButton.setTag(position);
             confirmRemoveButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -284,14 +336,20 @@ public class Cart extends AppCompatActivity {
             });
 
 
+
             //////////////////display contact info button//////////////////////
             displayContactButton = (Button) view.findViewById(R.id.contact_button);
+            currentPost = postsToView.get(position);
+            //displayRemoveButton.setTag(position);
             displayContactButton.setOnClickListener(new View.OnClickListener() {
 
-                //get current post's userID.get contact info() pass to displaycontactdialog
                 @Override
                 public void onClick(View v) {
-                    displayContactDialog();
+//                    *****wont work because user is null, uncomment later*****
+//                    new SearchUserTask().execute();
+//                    String sellerEmail = postSeller.getEmail();
+//                    String sellerPhone = postSeller.getMobileNumber();
+//                    displayContactDialog(sellerEmail, sellerPhone);
                 }
             });
 
@@ -301,7 +359,85 @@ public class Cart extends AppCompatActivity {
     }
 
 
-    //async task???? idk man im sorry :(
+    //-------------------------------ASYNC TASKS----------------------------------//
+
+    ///////////////////////ASYNC task for loading posts to cart///////////////////////
+    private class SearchPostTask extends AsyncTask<Object, Object, Object> {
+        @Override
+        protected Object doInBackground(Object... params) {
+            try {
+                return Server.searchPostIDs(cartInt);
+                //return Server.searchPostIDs(user.getCartIDs().get(0));
+            } catch (IOException e) {
+                Log.d("DEBUG", e.toString());
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Object result) {
+            if (result != null) {
+                posts = (ArrayList<Post>) result;
+                //temp = (Post) result;
+            } else {
+                Toast.makeText(Cart.this, "Load Failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+    /////////////////////////ASYNC task for finding user of current post///////////////////////
+    private class SearchUserTask extends AsyncTask<Object, Object, Object> {
+        @Override
+        protected Object doInBackground(Object... params) {
+            try {
+                return Server.searchUserIDs(currentPost.getProfileID());
+            } catch (IOException e) {
+                Log.d("DEBUG", e.toString());
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Object result) {
+            if (result != null) {
+                postSeller = (User) result;
+            } else {
+                Toast.makeText(Cart.this, "User not Found", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+//
+//    //ASYNC Task for removing a post from cart
+//    private class RemovePostTask extends AsyncTask<Object, Object, Object> {
+//        @Override
+//        protected Object doInBackground(Object... params) {
+//            try {
+//                return Server.searchPostIDs(cartInt);
+//            } catch (IOException e){
+//                Log.d("DEBUG", e.toString());
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Object result) {
+//            if(result!=null){
+//                posts = (ArrayList<Post>) result;
+//                startActivity(new Intent(getApplicationContext(), Cart.class));
+//            }else{
+//                Toast.makeText(Cart.this, "Load Failed", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
+
+
+
+
+
+
 
 }
 

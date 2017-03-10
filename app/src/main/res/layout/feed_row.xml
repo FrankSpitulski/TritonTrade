@@ -2,88 +2,88 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:background="@drawable/rectangle"
+    android:orientation="vertical"
+    android:padding="20dp"
     android:weightSum="1">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
-            android:text="Product Title"
-            android:layout_width="wrap_content"
+            android:id="@+id/category_text"
+            android:layout_width="165dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/title"
-            android:textSize="20sp"
-            android:textColor="#163EB8"
-            android:textStyle="normal|bold"
-            android:layout_weight="1" />
+            android:layout_weight="0.33"
+            android:text="Category"
+            android:textColor="#A9A9A9"
+            android:textStyle="bold" />
 
-        <TextView
-            android:text="\@username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/username_tag"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:textStyle="normal|italic"/>
+
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10sp"
-        android:gravity="fill_horizontal">
+        android:gravity="fill_horizontal"
+        android:orientation="horizontal"
+        android:paddingBottom="10sp">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:text="Category"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/category_text" />
-
-            <TextView
-                android:text="Description"
-                android:layout_width="match_parent"
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:text="Product Title"
+                android:textColor="#163EB8"
+                android:textSize="20sp"
+                android:textStyle="normal|bold" />
+
+            <TextView
                 android:id="@+id/description"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:text="Price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:text="Description"
+                android:textColor="#696969"
+                android:textSize="18sp"
+                android:textStyle="italic" />
+
+            <TextView
                 android:id="@+id/price"
-                android:textColor="@android:color/holo_green_light" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Price"
+                android:textColor="#008B00"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
     <ImageView
-        app:srcCompat="@drawable/default_photo"
         android:id="@+id/row_pic"
+        android:layout_width="222dp"
+        android:layout_height="222dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.15"
         android:adjustViewBounds="true"
+        android:maxHeight="135dp"
+        android:maxWidth="135dp"
+        android:padding="1dp"
         android:scaleType="fitXY"
         android:visibility="visible"
-        android:maxHeight="120dp"
-        android:maxWidth="135dp"
-        android:padding="10dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="150dp"
-        android:layout_width="222dp"
-        android:layout_weight="0.15" />
+        app:srcCompat="@drawable/default_photo" />
 
 </LinearLayout>

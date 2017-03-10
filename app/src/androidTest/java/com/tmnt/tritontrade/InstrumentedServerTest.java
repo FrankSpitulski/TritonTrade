@@ -74,7 +74,7 @@ public class InstrumentedServerTest
 
         //GOOD PHONE NUMBERS
         //use country node, no idea if actual phone number is valid, area code is
-        goodPhoneNumbers.add("+1 (510) 535-1234");
+        goodPhoneNumbers.add("+0001 (510) 535-1234");
 
         //BAD PHONE NUMBERS
         //no country node
@@ -82,21 +82,21 @@ public class InstrumentedServerTest
         //bad country code
         badPhoneNumbers.add("+12345643 (111) 535-1234");
         //missing parenthesis
-        badPhoneNumbers.add("+1 111 535-1234");
+        badPhoneNumbers.add("+0001 111 535-1234");
         //too many numbers
-        badPhoneNumbers.add("+1 (510) 535-12344");
+        badPhoneNumbers.add("+0001 (510) 535-12344");
         //invalid symbols
-        badPhoneNumbers.add("+1 (510) 515-123a");
-        badPhoneNumbers.add("+1 (510) 515-1234!");
+        badPhoneNumbers.add("+0001 (510) 515-123a");
+        badPhoneNumbers.add("+0001 (510) 515-1234!");
         //no dash in middle
-        badPhoneNumbers.add("+1 (510) 5151234");
-        badPhoneNumbers.add("+1 (510) 515 1234");
+        badPhoneNumbers.add("+0001 (510) 5151234");
+        badPhoneNumbers.add("+0001 (510) 515 1234");
         //no + in front of country code
-        badPhoneNumbers.add("1 (510) 515-1234");
+        badPhoneNumbers.add("0001 (510) 515-1234");
         //no spaces
-        badPhoneNumbers.add("+1(510)515-1234");
+        badPhoneNumbers.add("+0001(510)515-1234");
         //4 digit area code
-        badPhoneNumbers.add("+1 (5231) 513-1423");
+        badPhoneNumbers.add("+0001 (5231) 513-1423");
     }
 
     /**
@@ -140,7 +140,7 @@ public class InstrumentedServerTest
         //add valid user to the database
         try {
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+                    "+0001 (510) 999-9999", "k5mao@ucsd.edu", "hunter2"));
         }
         catch (IOException e)
         {
@@ -150,7 +150,7 @@ public class InstrumentedServerTest
         //try same user email again
         try {
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+                    "+0001 (510) 999-9999", "k5mao@ucsd.edu", "hunter2"));
 
             //failed, did not catch
             fail("Duplicate email not caught");
@@ -170,7 +170,7 @@ public class InstrumentedServerTest
         try {
             //Try adding new user with non uscd email, should return false
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "NOTUCSDEMAIL@gmail.com", "hunter2"));
+                    "+0001 (510) 999-9999", "NOTUCSDEMAIL@gmail.com", "hunter2"));
             fail("Invalid email not caught");
         }
         catch(IOException e)
@@ -181,7 +181,7 @@ public class InstrumentedServerTest
         try {
             //Try adding new user with non uscd email, should return false
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "NOTUCSDEMAIL@ucsd.eduu", "hunter2"));
+                    "+0001 (510) 999-9999", "NOTUCSDEMAIL@ucsd.eduu", "hunter2"));
             fail("Invalid email not caught");
 
         }
@@ -194,7 +194,7 @@ public class InstrumentedServerTest
         try {
             //Try adding new user with non uscd email, should return false
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "NOTUCSDEMAIL@ucsd.com", "hunter2"));
+                    "+0001 (510) 999-9999", "NOTUCSDEMAIL@ucsd.com", "hunter2"));
             fail("Invalid email not caught");
 
         }
@@ -219,7 +219,7 @@ public class InstrumentedServerTest
 
             //Valid email
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
-                    "I ARE VERY INTERESTING", "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+                    "I ARE VERY INTERESTING", "+0001 (510) 999-9999", "k5mao@ucsd.edu", "hunter2"));
 
         }
         catch (IOException e)
@@ -239,7 +239,7 @@ public class InstrumentedServerTest
         //Valid email
         try {
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
-                    "I ARE VERY INTERESTING", "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+                    "I ARE VERY INTERESTING", "+0001 (510) 999-9999", "k5mao@ucsd.edu", "hunter2"));
         }
         catch (IOException e)
         {
@@ -281,7 +281,7 @@ public class InstrumentedServerTest
         //Valid email
         try {
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
-                    "I ARE VERY INTERESTING", "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+                    "I ARE VERY INTERESTING", "+0001 (510) 999-9999", "k5mao@ucsd.edu", "hunter2"));
         }
         catch (IOException e)
         {
@@ -336,7 +336,7 @@ public class InstrumentedServerTest
         //Valid email
         try {
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
-                    "I ARE VERY INTERESTING", "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+                    "I ARE VERY INTERESTING", "+0001 (510) 999-9999", "k5mao@ucsd.edu", "hunter2"));
         }
         catch (IOException e)
         {
@@ -375,7 +375,22 @@ public class InstrumentedServerTest
     @Test
     public void testAddNewUserCorrectPhoneNumberFormat()
     {
-
+        //for every good phone number we are testing
+        for (String s: goodPhoneNumbers) {
+            //add user with bad phone number to database
+            try {
+                testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                        s, "k5mao@ucsd.edu", "hunter2"));
+            } catch (IllegalArgumentException e) {
+                //fail, valid user was invalid
+                fail();
+            }
+            //test failed to complete
+            catch (IOException e)
+            {
+                fail();
+            }
+        }
     }
     /**
      * Tests adding users with wrong phone number formats
@@ -383,18 +398,23 @@ public class InstrumentedServerTest
     @Test
     public void testAddNewUserWrongPhoneNumberFormat()
     {
+        //for every bad phone number we are testing
+        for (String s: badPhoneNumbers) {
+            //add user with bad phone number to database
+            try {
+                testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
+                        s, "k5mao@ucsd.edu", "hunter2"));
 
-        //Valid email
-        try {
-            testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE",
-                    "I ARE VERY INTERESTING", "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
-
-            //failed to catch incorrect phone number
-            fail();
-        }
-        catch (IOException e)
-        {
-            //success, invalud phone number format caught
+                //fail, let an invalid user through
+                fail();
+            } catch (IllegalArgumentException e) {
+                //success, exception caught
+            }
+            //test failed to complete
+            catch (IOException e)
+            {
+                fail();
+            }
         }
     }
 
@@ -407,7 +427,7 @@ public class InstrumentedServerTest
         //add valid user to the database
         try {
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+                    "+0001 (510) 999-9999", "k5mao@ucsd.edu", "hunter2"));
         }
         catch (IOException e)
         {
@@ -437,7 +457,7 @@ public class InstrumentedServerTest
         //add valid user to the database
         try {
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+                    "+0001 (510) 999-9999", "k5mao@ucsd.edu", "hunter2"));
         }
         catch (IOException e)
         {
@@ -475,7 +495,7 @@ public class InstrumentedServerTest
         //add valid user to the database
         try {
             testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                    "(510) 999-999", "k5mao@ucsd.edu", "hunter2"));
+                    "+0001 (510) 999-9999", "k5mao@ucsd.edu", "hunter2"));
         } catch (IOException e) {
             fail();
         }
@@ -517,26 +537,7 @@ public class InstrumentedServerTest
         assertEquals(post2.getProfileID(),u.getProfileID());
     }
 
-    /**
-     * Tests adding users with invalid phone numberse to the server
-     */
-    @Test
-    public void testAddUserInvalidPhoneNumbers()
-    {
-        //for every bad phone number we are testing
-        for (String s: badPhoneNumbers) {
-            //add user with bad phone number to database
-            try {
-                testUsers.add(Server.addNewUser("I  AM STEVEEEE", "PHOTO LINK HERE", "I ARE VERY INTERESTING",
-                        s, "k5mao@ucsd.edu", "hunter2"));
 
-                //fail, let an invalid user through
-                fail();
-            } catch (Exception e) {
-                //success, exception caught
-            }
-        }
-    }
     /**
      * Deletes all of the specified users from the database.
      * DO NOT USE UNLESS YOU KNOW WHAT YOURE DOING. IF YOU HAVE TO ASK YOU PROBABLY DONT

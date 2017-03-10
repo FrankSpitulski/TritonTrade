@@ -5,224 +5,274 @@
     android:id="@+id/activity_create__post"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.tmnt.tritontrade.view.Create_Post"
-    android:gravity="center">
+    android:gravity="center"
+    tools:context="com.tmnt.tritontrade.view.Create_Post">
 
-    <LinearLayout
-        android:orientation="vertical"
+
+    <!--<android.support.design.widget.BottomNavigationView-->
+        <!--android:id="@+id/bottom_navigation"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--app:itemBackground="@color/colorPrimary"-->
+        <!--app:itemIconTint="@color/white"-->
+        <!--app:itemTextColor="@color/white"-->
+        <!--app:menu="@menu/bottom_nav_items" />-->
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <TextView
-                    android:text="\t Choose Category*"
-                    android:layout_height="match_parent"
-                    android:id="@+id/categoryLabel"
-                    android:layout_weight="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimary"
-                    android:textAlignment="textStart"
-                    android:gravity="start"
-                    android:layout_width="190dp" />
-
-                <TextView
-                    android:text="Buying or Selling*"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/optionLabel"
-                    android:layout_weight="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_width="160dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <Spinner
-                    android:layout_height="40dp"
-                    android:id="@+id/categorySpinner"
-                    android:layout_weight="1"
-                    android:layout_width="190dp" />
-
-                <Spinner
-                    android:layout_width="160dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/buyOrSellSpinner"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <TextView
-                android:text="\t Item Title*"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/itemLabel"
-                android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorPrimary" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:inputType="textMultiLine"
-                android:ems="10"
-                android:id="@+id/itemTitleLabel"
-                android:layout_weight="1"
-                android:gravity="top"
-                android:background="@drawable/customborder2"
-                android:hint="Title"
-                android:layout_height="65dp" />
-
-            <TextView
-                android:text="\t Item Description "
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/descriptionLabel"
-                android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorPrimary" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:inputType="textMultiLine"
-                android:ems="10"
-                android:id="@+id/inputDescriptionLabel"
-                android:layout_weight="1"
-                android:background="@drawable/customborder2"
-                android:gravity="top"
-                android:selectAllOnFocus="false"
-                android:hint="Item details? Condition? Delivery preferences?" />
-
-            <TextView
-                android:text="\t Price*"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/priceLabel"
-                android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorPrimary" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="10"
-                android:id="@+id/priceInputLabel"
-                android:layout_weight="1"
-                android:text="$ 0.00"
-                android:background="@drawable/customborder2" />
-
-            <TextView
-                android:text="\t Add Picture"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/pictureLabel"
-                android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorPrimary" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/pictureLayout">
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/imgButton1"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_input_add"
-                android:background="@drawable/customborder2"
-                android:tint="@android:color/darker_gray"/>
+                android:orientation="vertical">
 
-            <ImageButton
-                android:text="Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imgButton2"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_input_add"
-                android:background="@drawable/customborder2"
-                android:tint="@android:color/darker_gray"/>
+                <TextView
+                    android:id="@+id/categoryLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="\t Choose Category*"
+                    android:textAlignment="textStart"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
 
-            <ImageButton
-                android:text="Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imgButton3"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_input_add"
-                android:background="@drawable/customborder2"
-                android:tint="@android:color/darker_gray"/>
+                <Spinner
+                    android:id="@+id/categorySpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1" />
 
-            <ImageButton
-                android:text="Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imgButton4"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_input_add"
-                android:background="@drawable/customborder2"
-                android:tint="@android:color/darker_gray"/>
 
-            <ImageButton
-                android:text="Button"
-                android:layout_width="wrap_content"
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/optionLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="\t Buying or Selling*"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
+
+
+                <Spinner
+                    android:id="@+id/buyOrSellSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1" />
+
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_weight="1" />
+
+
+                <TextView
+                    android:id="@+id/itemLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="\t Item Title*"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorPrimary" />
+
+
+                <EditText
+                    android:id="@+id/itemTitleLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/customborder2"
+                    android:ems="10"
+                    android:gravity="top"
+                    android:hint="What are you selling?"
+                    android:inputType="textMultiLine" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/descriptionLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="\t Item Description "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorPrimary" />
+
+                <EditText
+                    android:id="@+id/inputDescriptionLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/customborder2"
+                    android:ems="10"
+                    android:gravity="top"
+                    android:hint="Item details? Condition? Delivery preferences?"
+                    android:inputType="textMultiLine"
+                    android:selectAllOnFocus="false" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/priceLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="\t Price*"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorPrimary" />
+
+                <EditText
+                    android:id="@+id/priceInputLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/customborder2"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    android:text="$ 0.00" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/pictureLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="\t Add Picture"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorPrimary" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/pictureLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/imgButton5"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_input_add"
-                android:background="@drawable/customborder2"
-                android:tint="@android:color/darker_gray"/>
+                android:orientation="horizontal">
+
+
+                <ImageButton
+                    android:id="@+id/imgButton1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/customborder2"
+                    android:tint="@android:color/darker_gray"
+                    app:srcCompat="@android:drawable/ic_input_add" />
+
+
+                <ImageButton
+                    android:id="@+id/imgButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/customborder2"
+                    android:text="Button"
+                    android:tint="@android:color/darker_gray"
+                    app:srcCompat="@android:drawable/ic_input_add" />
+
+                <ImageButton
+                    android:id="@+id/imgButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/customborder2"
+                    android:text="Button"
+                    android:tint="@android:color/darker_gray"
+                    app:srcCompat="@android:drawable/ic_input_add" />
+
+                <ImageButton
+                    android:id="@+id/imgButton4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/customborder2"
+                    android:text="Button"
+                    android:tint="@android:color/darker_gray"
+                    app:srcCompat="@android:drawable/ic_input_add" />
+
+                <ImageButton
+                    android:id="@+id/imgButton5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/customborder2"
+                    android:text="Button"
+                    android:tint="@android:color/darker_gray"
+                    app:srcCompat="@android:drawable/ic_input_add" />
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/NOTHING1"
+                    android:text=""
+                    android:layout_marginTop="400dp"
+                    android:layout_marginEnd="12dp" />
+            </LinearLayout>
+
+
+
         </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:id="@+id/createButton"
-                android:background="?android:attr/textCheckMark"
-                android:backgroundTint="@android:color/black"
-                android:layout_marginEnd="27dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
-    </LinearLayout>
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+    </ScrollView>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        app:menu="@menu/bottom_nav_items" />
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/createButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:background="?android:attr/textCheckMark"
+            android:backgroundTint="@android:color/black" />
+
+
+    </RelativeLayout>
 </RelativeLayout>
+

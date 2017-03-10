@@ -4,9 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.util.Pair;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,18 +14,17 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
+import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -35,6 +33,7 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends BaseAdapter implements Filterable {
 
+    private final int startCount = 10; //Start amount of items being displayed
     private Context context;
     private CustomFilter filter;
     private ArrayList<Post> posts;
@@ -42,14 +41,13 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
     private LayoutInflater inflater;
     private int count; //Current amount of items displayed
     private int stepNumber; //Amount of items loaded on next display
-    private final int startCount=20; //Start amount of items being displayed
 
     /**
-     * Constructor
+     * Constructor Stuff
      * @param context
      * @param posts
      */
-    public CustomAdapter(Context context, ArrayList<Post> posts) {
+    public CustomAdapter(Context context,ArrayList<Post> posts) {
         this.posts=posts;
         this.filterList=posts;
         this.context = context;
@@ -66,14 +64,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
     }
 
     /**
-     * Setter for count
-     * @param count
-     */
-    public void setCount(int count){
-        this.count=count;
-    }
-
-    /**
      * Gets the total amount of items in the list
      * @return
      */
@@ -87,6 +77,14 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         }
     }
 
+    /**
+     * Setter for count
+     *
+     * @param count
+     */
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     /**
      * Sets the ListView back to its initial count number
@@ -126,19 +124,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         return position;
     }
 
-
-    /**
-     * Holder for post object
-     */
-    public class ViewHolder{
-        TextView title;
-        TextView description;
-        TextView userTag;
-        TextView price;
-        TextView category;
-        ImageView image;
-    }
-
     /**
      * Sets items to
      * @param position position of current item
@@ -160,20 +145,16 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         //Set everything in feed row
         postHolder.title = (TextView) catView.findViewById(R.id.title);
         postHolder.description = (TextView) catView.findViewById(R.id.description);
-        postHolder.userTag = (TextView) catView.findViewById(R.id.username_tag);
         postHolder.category=(TextView) catView.findViewById(R.id.category_text);
         postHolder.price = (TextView) catView.findViewById(R.id.price);
         postHolder.image = (ImageView) catView.findViewById(R.id.row_pic);
 
         postHolder.title.setText(posts.get(position).getProductName());
         postHolder.description.setText(posts.get(position).getDescription());
-        //TODO find actual user who made post
-        if(CurrentState.getInstance() != null) {
-            postHolder.userTag.setText(CurrentState.getInstance().getCurrentUser().getName());
-        }
 
-        postHolder.category.setText(posts.get(position).getTags().get(1));
-        postHolder.price.setText(String.valueOf(posts.get(position).getPrice()));
+
+        postHolder.category.setText(posts.get(position).getTags().get(1).toUpperCase());
+        postHolder.price.setText("$"+String.valueOf(posts.get(position).getPrice()));
         new DownloadPhotosAsyncTask(postHolder.image)
                 .execute(posts.get(position).getPhotos().get(0));
 
@@ -197,10 +178,22 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
      */
     @Override
     public Filter getFilter() {
-        if(filter == null){
+        if (filter == null) {
             filter = new CustomFilter();
         }
         return filter;
+    }
+
+    /**
+     * Holder for post object
+     */
+    public class ViewHolder {
+        TextView title;
+        TextView description;
+        TextView userTag;
+        TextView price;
+        TextView category;
+        ImageView image;
     }
 
     /**
@@ -211,7 +204,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults results = new FilterResults();
             if(charSequence != null && charSequence.length() != 0){
-                new SearchTask().execute(charSequence.toString());
+                new SearchTask().execute(charSequence.toString().toLowerCase());
                 results.count = filterList.size();
                 results.values=filterList;
             }
@@ -222,7 +215,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             if(filterResults.values!=null) {
                 posts = (ArrayList<Post>) filterResults.values;
-                notifyDataSetChanged();
             }
         }
     }
@@ -246,7 +238,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
 
         @Override
         protected void onPreExecute() {
-            this.dialog.setMessage("Loading");
+            this.dialog.setMessage("Loading...");
             this.dialog.show();
         }
 
@@ -257,9 +249,12 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
             }
             if(result!=null){
                 posts=result;
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
         }
     }
+
+
+
 
 }

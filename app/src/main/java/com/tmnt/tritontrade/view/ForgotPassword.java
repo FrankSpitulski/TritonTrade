@@ -1,5 +1,6 @@
 package com.tmnt.tritontrade.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,7 @@ public class ForgotPassword extends AppCompatActivity {
     }
 
     private class forgotPasswordTask extends AsyncTask<Object, Object, Boolean> {
+        private ProgressDialog dialog = new ProgressDialog(ForgotPassword.this);
         @Override
         protected Boolean doInBackground(Object... params) {
             try{
@@ -43,15 +45,32 @@ public class ForgotPassword extends AppCompatActivity {
                 Log.d("DEBUG", e.toString());
                 return false;
             }
+            catch(IllegalArgumentException e2){
+                Log.d("DEBUG", e2.toString());
+                return false;
+            }
         }
+
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setMessage("Please wait...");
+            this.dialog.show();
+        }
+
         @Override
         protected void onPostExecute(Boolean result){
+            if(dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            Toast toast = new Toast(ForgotPassword.this);
             if(result){
-                Toast.makeText(ForgotPassword.this, "Password reset.", Toast.LENGTH_SHORT).show();
+                toast.cancel();
+                toast.makeText(ForgotPassword.this, "Password reset email sent.", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
             else{
-                Toast.makeText(ForgotPassword.this, "Password reset failed.", Toast.LENGTH_SHORT).show();
+                toast.cancel();
+                toast.makeText(ForgotPassword.this, "Password reset failed.", Toast.LENGTH_SHORT).show();
             }
         }
     }

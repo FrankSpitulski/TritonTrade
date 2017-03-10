@@ -64,72 +64,77 @@
             android:layout_centerHorizontal="true" />
 
         <Button
-            android:text="Next"
+            android:id="@+id/nextPageLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/nextPageLabel"
-            android:background="@drawable/customborder2"
-            android:textColor="@color/white"
-            android:onClick="sendToVerifyAccount"
             android:layout_above="@+id/loginLabel"
+            android:layout_alignEnd="@+id/phoneLabel"
             android:layout_alignStart="@+id/phoneLabel"
             android:layout_marginBottom="30dp"
-            android:layout_alignEnd="@+id/phoneLabel" />
+            android:background="@drawable/customborder2"
+            android:onClick="sendToVerifyAccount"
+            android:text="Next"
+            android:textColor="@color/white" />
 
         <EditText
+            android:id="@+id/phoneLabel"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:inputType="phone"
-            android:ems="10"
-            android:id="@+id/phoneLabel"
-            android:alpha="1.0"
-            android:background="@android:drawable/screen_background_light_transparent"
-            android:hint="Phone"
             android:layout_above="@+id/nextPageLabel"
             android:layout_alignStart="@+id/passwordLabel"
             android:layout_marginBottom="14dp"
-            android:textColor="?android:attr/colorForeground"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:inputType="textEmailAddress"
-            android:ems="10"
-            android:id="@+id/passwordLabel"
             android:alpha="1.0"
             android:background="@android:drawable/screen_background_light_transparent"
-            android:textColor="?android:attr/colorForeground"
-            android:hint="Password"
+            android:ems="10"
+            android:hint="Phone"
+            android:inputType="phone"
+            android:paddingLeft="13dp"
+            android:textColor="?android:attr/colorForeground" />
+
+        <EditText
+            android:id="@+id/passwordLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
             android:layout_above="@+id/phoneLabel"
             android:layout_alignStart="@+id/emailLabel"
-            android:layout_marginBottom="13dp"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/emailLabel"
-            android:alpha="1.0"
-            android:background="@android:drawable/screen_background_light_transparent"
-            android:layout_height="40dp"
-            android:textColor="?android:attr/colorForeground"
-            android:hint="Email"
             android:layout_marginBottom="13dp"
-            android:layout_above="@+id/passwordLabel"
-            android:layout_alignStart="@+id/nameLabel" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Name"
-            android:ems="10"
-            android:id="@+id/nameLabel"
             android:alpha="1.0"
             android:background="@android:drawable/screen_background_light_transparent"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingLeft="13dp"
+            android:textColor="?android:attr/colorForeground" />
+
+        <EditText
+            android:id="@+id/emailLabel"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:textColor="?android:attr/colorForeground"
+            android:layout_above="@+id/passwordLabel"
+            android:layout_alignStart="@+id/nameLabel"
+            android:layout_marginBottom="13dp"
+            android:alpha="1.0"
+            android:background="@android:drawable/screen_background_light_transparent"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textPersonName"
+            android:paddingLeft="13dp"
+            android:textColor="?android:attr/colorForeground" />
+
+        <EditText
+            android:id="@+id/nameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
             android:layout_above="@+id/emailLabel"
             android:layout_alignStart="@+id/explainLabel"
-            android:layout_marginBottom="13dp" />
+            android:layout_marginBottom="13dp"
+            android:alpha="1.0"
+            android:background="@android:drawable/screen_background_light_transparent"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:paddingLeft="13dp"
+            android:textAlignment="viewStart"
+            android:textColor="?android:attr/colorForeground" />
     </RelativeLayout>
 </RelativeLayout>

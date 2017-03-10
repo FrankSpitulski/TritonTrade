@@ -25,35 +25,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_background"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout">
 
         <Button
-            android:text="For Sale"
+            android:id="@+id/forSaleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button4"
             android:layout_weight="1"
-            android:textColor="@android:color/white"
             android:background="#163EB8"
+            android:onClick="onForSaleClick"
+            android:text="For Sale"
+            android:textColor="@android:color/white"
             tools:ignore="ButtonStyle" />
 
         <Button
-            android:text="Sold Items"
+            android:id="@+id/soldButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button3"
             android:layout_weight="1"
-            android:textColor="@android:color/white"
-            android:background="#163EB8" />
+            android:background="#163EB8"
+            android:onClick="onSoldClick"
+            android:text="Sold Items"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
     <ListView
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/profile_background"
+        android:layout_height="250dp"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp"
-        android:id="@+id/list" />
+        android:layout_below="@+id/linearLayout" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -80,12 +82,13 @@
             android:layout_marginRight="10sp">
 
             <ImageView
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/default_photo"
                 android:id="@+id/userPic"
+                android:layout_width="175sp"
+                android:layout_height="80sp"
+                android:layout_margin="10sp"
                 android:layout_weight="1"
-                android:layout_width="150sp"
-                android:paddingRight="10sp"/>
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/default_photo" />
 
             <LinearLayout
                 android:orientation="vertical"

@@ -5,13 +5,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-class Encrypt {
+public class Encrypt {
     static String gensalt(){
         return new BigInteger(130, new SecureRandom()).toString(32);
     }
 
 
-    static String hashpw(String password, String salt) {
+    public static String hashpw(String password, String salt) {
 
         MessageDigest md = null;
         try {

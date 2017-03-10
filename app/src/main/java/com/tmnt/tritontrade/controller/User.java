@@ -321,6 +321,14 @@ public class User implements Parcelable {
     }
 
     /**
+     * Gets the ArrayList of Post ID's for the current user
+     * @return ArrayList of integers containing the Post ID's
+     */
+    public ArrayList<Integer> getPostHistory() {
+        return postHistory;
+    }
+
+    /**
      * Setter for salt
      * @return salt
      */
