@@ -55,7 +55,6 @@ public class Cart extends AppCompatActivity {
     Post currentPost;            //current post that is clicked on
     User postSeller;        //user that created the post you are currently looking at
 
-    Post temp; //testing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,16 +62,12 @@ public class Cart extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
         setTitle("My Cart");
 
-       /* public Post(String productName, ArrayList<String> photos, String description,
-        float price, ArrayList<String> tags, int profileID, int postID,
-        boolean selling, boolean active , Date dateCreated, String contactInfo, boolean deleted) */
-
        /*
        TO USE LATER:
 
         USER:
         public String getCartIDsString()
-        static ArrayList<Integer> getCartIDsFromString(String history)
+        public ArrayList<Integer> getCartIDs()
         public boolean removeFromCart(int id){ return cartIDs.remove((Integer) new Integer(id)); }
         public int getPostID()
 
@@ -103,48 +98,9 @@ public class Cart extends AppCompatActivity {
         cartInt = user.getCartIDs();
         postsToView = new ArrayList<>();
 
-        //get the arraylist of posts in the cart of the user
+        //get the arraylist of posts in the cart of the user, this method will then populate
+        //the cart once the data is retrieved
         new SearchPostTask().execute();
-
-
-
-
-        /*
-        //populate posts hardcoded
-        ArrayList<String> photos = new ArrayList<>();
-        //photos.add("square_boxes");
-        photos.add("https://s-media-cache-ak0.pinimg.com/564x/8f/09/93/8f0993aefb355a58ad0745ee6ab14e57.jpg");
-        ArrayList<String> tags = new ArrayList<>();
-        tags.add("category 1");
-        Date date = new Date();
-
-
-//        postsToView.add(temp);
-//        postsToView.add(
-//                new Post( temp.getProductName(), temp.getPhotos(), temp.getDescription(), temp.getPrice(),
-//                        temp.getTags(), temp.getProfileID(), temp.getPostID(), temp.getSelling(), true,
-//                        temp.getDateCreated(), temp.getContactInfo(), temp.getDeleted() ) );
-
-
-        //create Post elements
-        postsToView.add(
-                new Post("doge", photos, "doing a bark bark", (float) 5.00,
-                        tags, 4504, 10, true, true, date, "dog contact", false));
-
-        postsToView.add(
-                new Post("pupper", photos, "heckin' curious", (float) 10.00,
-                        tags, 4504, 10, true, true, date, "dog contact", false));
-
-        postsToView.add(
-                new Post("woofer", photos, "much surprise want treats", (float) 3.50,
-                        tags, 4504, 10, true, true, date, "dog contact", false));
-
-        postsToView.add(
-                new Post("doggo", photos, user.getCartIDsString(), (float) 999.00,
-                        tags, 4504, 10, true, true, date, "dog contact", false));
-*/
-
-
 
 
         //bottom tool bar
