@@ -1,7 +1,6 @@
 package com.tmnt.tritontrade.view;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -86,6 +85,7 @@ public class PopUpPost extends AppCompatActivity {
                 }
                 else {
                     current_user.addToCart(p.getPostID());
+                    startActivity(new Intent(getApplicationContext(), Cart.class));
                 }
                 new ModifyUserCart().execute(current_user);
             }

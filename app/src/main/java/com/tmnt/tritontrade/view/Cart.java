@@ -177,6 +177,7 @@ public class Cart extends AppCompatActivity {
                 //deletes post and reloads page without this  removed post
                 int removePost = currentPost.getPostID();
                 user.removeFromCart(removePost);
+                new ModifyUserCart().execute();
                 startActivity(new Intent(getApplicationContext(), Cart.class));
 
             }
@@ -207,6 +208,29 @@ public class Cart extends AppCompatActivity {
         AlertDialog dialog = alert.create();
         dialog.show();
     }
+
+    void removeShiftMode(BottomNavigationView view) {
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
+        try {
+            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+            shiftingMode.setAccessible(true);
+            shiftingMode.setBoolean(menuView, false);
+            shiftingMode.setAccessible(false);
+            for (int i = 0; i < menuView.getChildCount(); i++) {
+                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+                item.setShiftingMode(false);
+                // set once again checked value, so view will be updated
+                item.setChecked(item.getItemData().isChecked());
+            }
+        } catch (NoSuchFieldException e) {
+            Log.e("ERROR NO SUCH FIELD", "Unable to get shift mode field");
+        } catch (IllegalAccessException e) {
+            Log.e("ERROR ILLEGAL ALG", "Unable to change value of shift mode");
+        }
+    }
+
+
+    //-------------------------------ASYNC TASKS----------------------------------//
 
     //////////////////////////////////////custom ArrayAdapter/////////////////////////////
     private class postArrayAdapter extends ArrayAdapter<Post> {
@@ -302,9 +326,6 @@ public class Cart extends AppCompatActivity {
         }
     }
 
-
-    //-------------------------------ASYNC TASKS----------------------------------//
-
     ///////////////////////ASYNC task for loading posts to cart///////////////////////
     private class SearchPostTask extends AsyncTask<Object, Object, Object> {
         @Override
@@ -338,7 +359,6 @@ public class Cart extends AppCompatActivity {
         }
     }
 
-
     /////////////////////////ASYNC task for finding user of current post///////////////////////
     private class SearchUserTask extends AsyncTask<Object, Object, Object> {
         @Override
@@ -361,24 +381,26 @@ public class Cart extends AppCompatActivity {
         }
     }
 
-    void removeShiftMode(BottomNavigationView view) {
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
-        try {
-            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
-            shiftingMode.setAccessible(true);
-            shiftingMode.setBoolean(menuView, false);
-            shiftingMode.setAccessible(false);
-            for (int i = 0; i < menuView.getChildCount(); i++) {
-                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-                item.setShiftingMode(false);
-                // set once again checked value, so view will be updated
-                item.setChecked(item.getItemData().isChecked());
+    public class ModifyUserCart extends AsyncTask<Object, Object, Object> {
+        @Override
+        protected Boolean doInBackground(Object... params) {
+            try {
+                Server.modifyExistingUser(user);
+                return true;
+            } catch (IOException e) {
+                Log.d("DEBUG", e.toString());
+                return false;
+            } catch (IllegalArgumentException e2) {
+                Log.d("DEBUG", e2.toString());
+                return false;
             }
-        } catch (NoSuchFieldException e) {
-            Log.e("ERROR NO SUCH FIELD", "Unable to get shift mode field");
-        } catch (IllegalAccessException e) {
-            Log.e("ERROR ILLEGAL ALG", "Unable to change value of shift mode");
         }
+
+
+        @Override
+        protected void onPostExecute(Object result) { //nothing
+        }
+
     }
 
 
