@@ -100,26 +100,16 @@ public class Cart extends AppCompatActivity {
 
         //gets posts to load
         user = CurrentState.getInstance().getCurrentUser();
-        cartInt = user.getCartIDsFromString(user.getCartIDsString());
+        cartInt = user.getCartIDs();
         postsToView = new ArrayList<>();
 
-        for (int i = 0; i < cartInt.size(); i++) {
-            try {
-                new SearchPostTask().execute();
-                Post postToAdd = posts.get(i);
-                //if (temp != null){
-                if (postToAdd != null) {
-                    postsToView.add(postToAdd);
-                    //postsToView.add(temp);
-                }
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-        }
+        //get the arraylist of posts in the cart of the user
+        new SearchPostTask().execute();
 
 
 
+
+        /*
         //populate posts hardcoded
         ArrayList<String> photos = new ArrayList<>();
         //photos.add("square_boxes");
@@ -152,14 +142,9 @@ public class Cart extends AppCompatActivity {
         postsToView.add(
                 new Post("doggo", photos, user.getCartIDsString(), (float) 999.00,
                         tags, 4504, 10, true, true, date, "dog contact", false));
+*/
 
 
-        //create our new array adapter
-        ArrayAdapter<Post> adapter = new postArrayAdapter(this, 0, postsToView);
-
-        //Find list view and bind it with the custom adapter
-        ListView listView = (ListView) findViewById(R.id.cart_list);
-        listView.setAdapter(adapter);
 
 
         //bottom tool bar
@@ -370,7 +355,6 @@ public class Cart extends AppCompatActivity {
         protected Object doInBackground(Object... params) {
             try {
                 return Server.searchPostIDs(cartInt);
-                //return Server.searchPostIDs(user.getCartIDs().get(0));
             } catch (IOException e) {
                 Log.d("DEBUG", e.toString());
                 return null;
@@ -381,9 +365,19 @@ public class Cart extends AppCompatActivity {
         protected void onPostExecute(Object result) {
             if (result != null) {
                 posts = (ArrayList<Post>) result;
-                //temp = (Post) result;
+
+                //set that the posts retrieved from server are to be displayed
+                postsToView = posts;
+
+                //create our new array adapter
+                ArrayAdapter<Post> adapter = new postArrayAdapter(Cart.this, 0, postsToView);
+
+                //Find list view and bind it with the custom adapter
+                ListView listView = (ListView) findViewById(R.id.cart_list);
+                listView.setAdapter(adapter);
             } else {
                 Toast.makeText(Cart.this, "Load Failed", Toast.LENGTH_SHORT).show();
+
             }
         }
     }
