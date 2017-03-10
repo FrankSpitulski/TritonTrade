@@ -88,10 +88,10 @@ public class Register_Account extends AppCompatActivity {
      * is given, defaults to +1
      *
      * Accepted formats:
-     * Databse format: "+xxxx (xxx) xxx-xxxx"
+     * Database format: "+xxxx (xxx) xxx-xxxx"
      * No country code: "(xxx) xxx-xxxx"
      * Just 10 digits: "xxxxxxxxxx"
-     * 10 Digits with space and dash: "xxx xxx-xxxx"
+     * 10 Digits with space and 2 dashes: "xxx xxx-xxxx"
      * 10 Digits with dashes: "xxx-xxx-xxxx"
      *
      * @param number The user input number
