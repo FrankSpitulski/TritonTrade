@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -256,9 +257,9 @@ public class Mainfeed extends AppCompatActivity
         if (id == R.id.clothing_sidebar) {
             tags.add("Clothing");
         }
-//        else if(id==R.id.following_sidebar){
-//            fillDefaultTags(tags);
-//        }
+        else if(id==R.id.following_sidebar){
+            fillDefaultTags(tags);
+        }
         else if (id == R.id.food_sidebar) {
             tags.add("Food");
         } else if (id == R.id.services_sidebar) {
@@ -321,7 +322,7 @@ public class Mainfeed extends AppCompatActivity
 
                     @Override
                     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                        adapter.showMore();
+                       // adapter.showMore();
                     }
                 });
             }

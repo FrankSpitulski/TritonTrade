@@ -69,7 +69,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
      */
     @Override
     public int getCount() {
-        if (posts.size() < startCount){
+        if(posts.size() < count){
             return posts.size(); //returns total of items in the list
         }
         else{
@@ -98,7 +98,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
      * Show more views, or the bottom
      * @return true if the entire data set is being displayed, false otherwise
      */
-    public boolean showMore(){
+   /* public boolean showMore(){
         if(count == posts.size()) {
             return true;
         }else{
@@ -106,7 +106,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
             notifyDataSetChanged(); //the count size has changed, so notify the super of the change
             return count == posts.size();
         }
-    }
+    }*/
 
     /**
      * Returns item at given position in list
@@ -151,12 +151,16 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
 
         postHolder.title.setText(posts.get(position).getProductName());
         postHolder.description.setText(posts.get(position).getDescription());
-
-
-        postHolder.category.setText(posts.get(position).getTags().get(1).toUpperCase());
+        postHolder.category.setText(posts.get(position).getTags().get(0).toUpperCase());
         postHolder.price.setText("$"+String.valueOf(posts.get(position).getPrice()));
-        new DownloadPhotosAsyncTask(postHolder.image)
-                .execute(posts.get(position).getPhotos().get(0));
+        if(posts.get(position).getPhotos().get(0)==""){
+            postHolder.image.setVisibility(View.GONE);
+        }
+        else{
+            postHolder.image.setVisibility(View.VISIBLE);
+            new DownloadPhotosAsyncTask(postHolder.image)
+                    .execute(posts.get(position).getPhotos().get(0));
+        }
 
         //Click listener for post
         catView.setOnClickListener(new View.OnClickListener() {
