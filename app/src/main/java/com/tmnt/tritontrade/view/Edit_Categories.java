@@ -146,7 +146,7 @@ public class Edit_Categories extends AppCompatActivity{
                 }
                 else
                 {
-                    furniture.setChecked(false);
+                    //furniture.setChecked(false);
                     savedPrefs.remove("Furniture");
                 }
             }
@@ -160,7 +160,7 @@ public class Edit_Categories extends AppCompatActivity{
                 }
                 else
                 {
-                    foods.setChecked(false);
+                    //foods.setChecked(false);
                     savedPrefs.remove("Food");
                 }
             }
@@ -174,7 +174,7 @@ public class Edit_Categories extends AppCompatActivity{
                 }
                 else
                 {
-                    technology.setChecked(false);
+                    //technology.setChecked(false);
                     savedPrefs.remove("Technology");
                 }
             }
@@ -188,7 +188,7 @@ public class Edit_Categories extends AppCompatActivity{
                 }
                 else
                 {
-                    supplies.setChecked(false);
+                    //supplies.setChecked(false);
                     savedPrefs.remove("Supplies");
                 }
             }
@@ -198,12 +198,12 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(storage.isChecked())
                 {
-                    storage.setChecked(true);
+                    //storage.setChecked(true);
                     savedPrefs.add("Storage");
                 }
                 else
                 {
-                    storage.setChecked(false);
+                    //storage.setChecked(false);
                     savedPrefs.remove("Storage");
                 }
             }
@@ -213,12 +213,12 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(services.isChecked())
                 {
-                    services.setChecked(true);
+                    //services.setChecked(true);
                     savedPrefs.add("Services");
                 }
                 else
                 {
-                    services.setChecked(false);
+                    //services.setChecked(false);
                     savedPrefs.remove("Services");
                 }
             }
@@ -228,13 +228,13 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(miscs.isChecked())
                 {
-                    miscs.setChecked(true);
+                    //miscs.setChecked(true);
                     savedPrefs.add("Miscellaneous");
 
                 }
                 else
                 {
-                    miscs.setChecked(false);
+                    //miscs.setChecked(false);
                     savedPrefs.remove("Miscellaneous");
                 }
             }
@@ -244,12 +244,12 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(trans.isChecked())
                 {
-                    trans.setChecked(true);
+                    //trans.setChecked(true);
                     savedPrefs.add("Transportation");
                 }
                 else
                 {
-                    trans.setChecked(false);
+                    //trans.setChecked(false);
                     savedPrefs.remove("Transportation");
                 }
             }
