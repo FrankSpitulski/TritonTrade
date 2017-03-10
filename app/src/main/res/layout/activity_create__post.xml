@@ -173,19 +173,21 @@
                     android:inputType="numberDecimal"
                     android:text="$ 0.00" />
 
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="r"
+                    android:onClick="addImage"
+                    android:text="Add Image"
+                    android:textAlignment="viewStart" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/pictureLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="\t Add Picture"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorPrimary" />
 
 
             </LinearLayout>
@@ -198,54 +200,45 @@
                 android:orientation="horizontal">
 
 
-                <ImageButton
-                    android:id="@+id/imgButton1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/customborder2"
-                    android:tint="@android:color/darker_gray"
-                    app:srcCompat="@android:drawable/ic_input_add" />
+                <ImageView
+                    android:id="@+id/firstImg"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@android:drawable/ic_menu_add" />
 
+                <ImageView
+                    android:id="@+id/secondImg"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@android:drawable/ic_menu_add" />
 
-                <ImageButton
-                    android:id="@+id/imgButton2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/customborder2"
-                    android:text="Button"
-                    android:tint="@android:color/darker_gray"
-                    app:srcCompat="@android:drawable/ic_input_add" />
+                <ImageView
+                    android:id="@+id/thirdImg"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@android:drawable/ic_menu_add" />
 
-                <ImageButton
-                    android:id="@+id/imgButton3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/customborder2"
-                    android:text="Button"
-                    android:tint="@android:color/darker_gray"
-                    app:srcCompat="@android:drawable/ic_input_add" />
+                <ImageView
+                    android:id="@+id/fourthImg"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@android:drawable/ic_menu_add" />
 
-                <ImageButton
-                    android:id="@+id/imgButton4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/customborder2"
-                    android:text="Button"
-                    android:tint="@android:color/darker_gray"
-                    app:srcCompat="@android:drawable/ic_input_add" />
-
-                <ImageButton
-                    android:id="@+id/imgButton5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/customborder2"
-                    android:text="Button"
-                    android:tint="@android:color/darker_gray"
-                    app:srcCompat="@android:drawable/ic_input_add" />
+                <ImageView
+                    android:id="@+id/fifthImg"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@android:drawable/ic_menu_add" />
 
                 <Button
                     android:layout_width="40dp"
