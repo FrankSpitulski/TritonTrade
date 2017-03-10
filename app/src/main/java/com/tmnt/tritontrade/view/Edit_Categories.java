@@ -22,7 +22,7 @@ public class Edit_Categories extends AppCompatActivity{
 
     private ToggleButton textbook;
     private ToggleButton clothes;
-    private ToggleButton furnitures;
+    private ToggleButton furniture;
     private ToggleButton foods;
     private ToggleButton technology;
     private ToggleButton supplies;
@@ -44,7 +44,7 @@ public class Edit_Categories extends AppCompatActivity{
 
         textbook = (ToggleButton) findViewById(R.id.TEXTBOOK1);
         clothes = (ToggleButton) findViewById(R.id.CLOTHES1);
-        furnitures = (ToggleButton) findViewById(R.id.FURNITURE1);
+        furniture = (ToggleButton) findViewById(R.id.FURNITURE1);
         foods = (ToggleButton) findViewById(R.id.FOOD1);
         technology = (ToggleButton) findViewById(R.id.TECHNOLOGY1);
         supplies = (ToggleButton) findViewById(R.id.SUPPLIES1);
@@ -54,7 +54,7 @@ public class Edit_Categories extends AppCompatActivity{
         trans = (ToggleButton) findViewById(R.id.TRANS1);
 
         follow = (Button) findViewById(R.id.FOLLOW1);
-        cancel = (Button) findViewById(R.id.CANCEL);
+       // cancel = (Button) findViewById(R.id.CANCEL);
 
         final String ID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
         final SharedPreferences prefs = getSharedPreferences(ID, Context.MODE_PRIVATE);
@@ -84,8 +84,8 @@ public class Edit_Categories extends AppCompatActivity{
                 case "Clothing":
                     clothes.setChecked(true);
                     break;
-                case "Furnitures":
-                    furnitures.setChecked(true);
+                case "Furniture":
+                    furniture.setChecked(true);
                     break;
                 case "Food":
                     foods.setChecked(true);
@@ -128,7 +128,6 @@ public class Edit_Categories extends AppCompatActivity{
                     Toast.makeText(Edit_Categories.this, "TEXTBOOK Selected", Toast.LENGTH_SHORT).show();
                     Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
                             new HashSet<String>()));
-
                 }
                 else
                 {
@@ -167,13 +166,13 @@ public class Edit_Categories extends AppCompatActivity{
                 }
             }
         });
-        furnitures.setOnClickListener(new View.OnClickListener() {
+        furniture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(furnitures.isChecked())
+                if(furniture.isChecked())
                 {
-                    furnitures.setChecked(true);
-                    set.add("Furnitures");
+                    furniture.setChecked(true);
+                    set.add("Furniture");
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
@@ -182,8 +181,8 @@ public class Edit_Categories extends AppCompatActivity{
                 }
                 else
                 {
-                    furnitures.setChecked(false);
-                    set.remove("Furnitures");
+                    furniture.setChecked(false);
+                    set.remove("Furniture");
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
@@ -363,6 +362,8 @@ public class Edit_Categories extends AppCompatActivity{
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
+                        new HashSet<String>()));
                 if(set.isEmpty()){
                     Toast.makeText(Edit_Categories.this, "You did not follow any category", Toast.LENGTH_SHORT).show();
                 }
@@ -372,6 +373,7 @@ public class Edit_Categories extends AppCompatActivity{
             }
         });
 
+        /*
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -383,7 +385,7 @@ public class Edit_Categories extends AppCompatActivity{
                 startActivity(new Intent(getApplicationContext(), Mainfeed.class));
             }
         });
-
+*/
     }
 
 
