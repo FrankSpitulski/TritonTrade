@@ -103,6 +103,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     textbook.setChecked(true);
                     set.add("Textbooks");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "TEXTBOOK Selected", Toast.LENGTH_SHORT).show();
@@ -114,6 +115,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     textbook.setChecked(false);
                     set.remove("Textbooks");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "TEXTBOOK Deselected", Toast.LENGTH_SHORT).show();
@@ -129,6 +131,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     clothes.setChecked(true);
                     set.add("Clothing");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "CLOTHING Selected", Toast.LENGTH_SHORT).show();
@@ -138,6 +141,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     clothes.setChecked(false);
                     set.remove("Clothing");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "CLOTHING Deselected", Toast.LENGTH_SHORT).show();
@@ -151,6 +155,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     furnitures.setChecked(true);
                     set.add("Furnitures");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "FURNITURES Selected", Toast.LENGTH_SHORT).show();
@@ -160,6 +165,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     furnitures.setChecked(false);
                     set.remove("Furnitures");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "FURNITURES Deselected", Toast.LENGTH_SHORT).show();
@@ -173,6 +179,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     foods.setChecked(true);
                     set.add("Food");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "FOOD Selected", Toast.LENGTH_SHORT).show();
@@ -182,6 +189,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     foods.setChecked(false);
                     set.remove("Food");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "FOOD Deselected", Toast.LENGTH_SHORT).show();
@@ -195,6 +203,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     technology.setChecked(true);
                     set.add("Technology");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "TECHNOLOGY Selected", Toast.LENGTH_SHORT).show();
@@ -204,6 +213,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     technology.setChecked(false);
                     set.remove("Technology");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "TECHNOLOGY Deselected", Toast.LENGTH_SHORT).show();
@@ -217,6 +227,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     supplies.setChecked(true);
                     set.add("Supplies");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "SUPPLIES Selected", Toast.LENGTH_SHORT).show();
@@ -226,6 +237,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     supplies.setChecked(false);
                     set.remove("Supplies");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "SUPPLIES Deselected", Toast.LENGTH_SHORT).show();
@@ -239,6 +251,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     storage.setChecked(true);
                     set.add("Storage");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "STORAGE Selected", Toast.LENGTH_SHORT).show();
@@ -248,6 +261,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     storage.setChecked(false);
                     set.remove("Storage");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "STORAGE Deselected", Toast.LENGTH_SHORT).show();
@@ -261,6 +275,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     services.setChecked(true);
                     set.add("Services");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "SERVICES Selected", Toast.LENGTH_SHORT).show();
@@ -270,6 +285,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     services.setChecked(false);
                     set.remove("Services");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "SERVICES Deselected", Toast.LENGTH_SHORT).show();
@@ -283,6 +299,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     miscs.setChecked(true);
                     set.add("Miscellaneous");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "MISCS Selected", Toast.LENGTH_SHORT).show();
@@ -292,6 +309,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     miscs.setChecked(false);
                     set.remove("Miscellaneous");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "MISCS Deselected", Toast.LENGTH_SHORT).show();
@@ -305,6 +323,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     trans.setChecked(true);
                     set.add("Transportation");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "TRANS Selected", Toast.LENGTH_SHORT).show();
@@ -314,6 +333,7 @@ public class Edit_Categories extends AppCompatActivity{
                 {
                     trans.setChecked(false);
                     set.remove("Transportation");
+                    editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "TRANS Deselected", Toast.LENGTH_SHORT).show();
@@ -336,6 +356,7 @@ public class Edit_Categories extends AppCompatActivity{
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editor.clear();
                 editor.putStringSet(ID,backupset);
                 editor.apply();
                 Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",

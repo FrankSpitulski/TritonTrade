@@ -411,7 +411,7 @@ public class Cart extends AppCompatActivity {
         }
     }
 
-    static void removeShiftMode(BottomNavigationView view) {
+    void removeShiftMode(BottomNavigationView view) {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
         try {
             Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");

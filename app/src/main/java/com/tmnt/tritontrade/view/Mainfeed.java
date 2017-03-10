@@ -92,6 +92,7 @@ public class Mainfeed extends AppCompatActivity
         fillDefaultTags(tags);
         setAdapterInfo(tags);
 
+
         //PULL REFRESH
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
