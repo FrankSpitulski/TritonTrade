@@ -169,7 +169,6 @@ public class Mainfeed extends AppCompatActivity
     private void fillDefaultTags(ArrayList<String> tags){
         String userID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
         SharedPreferences tagNames = getSharedPreferences(userID, Context.MODE_PRIVATE);
-        //Set<String> tagSet = tagNames.getStringSet(userID, null);
         Set<String> tagSet = tagNames.getStringSet(userID,new HashSet<String>());
         Log.i("DEBUG", "2.set = "+tagNames.getStringSet("set",
                 new HashSet<String>()));
@@ -188,7 +187,6 @@ public class Mainfeed extends AppCompatActivity
     private void setAdapterInfo(ArrayList<String> tags){
         new FeedSetupTask().execute(tags);
         final SearchView sv = (SearchView) findViewById(R.id.searchView);
-        //sv.clearFocus();
         //Search Bar implementation
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -317,6 +315,10 @@ public class Mainfeed extends AppCompatActivity
                 list.setOnScrollListener(new AbsListView.OnScrollListener() {
                     @Override
                     public void onScrollStateChanged(AbsListView view, int scrollState) {
+                        int count = list.getCount();
+                        if(list.getLastVisiblePosition()>=count-1){
+                            adapter.showMore();
+                        }
 
                     }
 
@@ -324,6 +326,8 @@ public class Mainfeed extends AppCompatActivity
                     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                        // adapter.showMore();
                     }
+
+
                 });
             }
         }
