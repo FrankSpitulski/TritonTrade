@@ -14,6 +14,7 @@ import android.widget.ToggleButton;
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -62,6 +63,8 @@ public class Edit_Categories extends AppCompatActivity{
 
         final Set<String> backupset = prefs.getStringSet(ID,new HashSet<String>());
         final Set<String> savedPrefs = prefs.getStringSet(ID,new HashSet<String>());
+        final boolean[] bools = new boolean[10];
+        final String[] fields = {"Textbooks","Clothing","Furniture","Food","Technology","Supplies","Storage","Services","Miscellaneous","Transportation"};
 
 
         System.out.println(savedPrefs);
@@ -72,33 +75,43 @@ public class Edit_Categories extends AppCompatActivity{
             switch(cate) {
                 case "Textbooks":
                     textbook.setChecked(true);
+                    bools[0] = true;
                     break;
                 case "Clothing":
                     clothes.setChecked(true);
+                    bools[1] = true;
                     break;
                 case "Furniture":
                     furniture.setChecked(true);
+                    bools[2] = true;
                     break;
                 case "Food":
                     foods.setChecked(true);
+                    bools[3] = true;
                     break;
                 case "Technology":
                     technology.setChecked(true);
+                    bools[4] = true;
                     break;
                 case "Supplies":
                     supplies.setChecked(true);
+                    bools[5] = true;
                     break;
                 case "Storage":
                     storage.setChecked(true);
+                    bools[6] = true;
                     break;
                 case "Services":
                     services.setChecked(true);
+                    bools[7] = true;
                     break;
                 case "Miscellaneous":
                     miscs.setChecked(true);
+                    bools[8] = true;
                     break;
                 case "Transportation":
                     trans.setChecked(true);
+                    bools[9] = true;
                     break;
                 default:
                     break;
@@ -113,12 +126,13 @@ public class Edit_Categories extends AppCompatActivity{
                 if(textbook.isChecked())
                 {
                     //textbook.setChecked(true);
-                    savedPrefs.add("Textbooks");
+                    bools[0] = true;
                 }
                 else
                 {
                     //textbook.setChecked(false);
-                    savedPrefs.remove("Textbooks");
+                    //savedPrefs.remove("Textbooks");
+                    bools[0] = false;
                 }
             }
         });
@@ -127,13 +141,14 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(clothes.isChecked())
                 {
-                    //clothes.setChecked(true);
-                    savedPrefs.add("Clothing");
+                    bools[1] = true;
+                    //savedPrefs.add("Clothing");
                 }
                 else
                 {
+                    bools[1] = false;
                     //clothes.setChecked(false);
-                    savedPrefs.remove("Clothing");
+                    //savedPrefs.remove("Clothing");
                 }
             }
         });
@@ -142,12 +157,14 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(furniture.isChecked())
                 {
-                    savedPrefs.add("Furniture");
+                    bools[2] = true;
+                    //savedPrefs.add("Furniture");
                 }
                 else
                 {
+                    bools[2] = false;
                     //furniture.setChecked(false);
-                    savedPrefs.remove("Furniture");
+                    //savedPrefs.remove("Furniture");
                 }
             }
         });
@@ -156,12 +173,14 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(foods.isChecked())
                 {
-                    savedPrefs.add("Food");
+                    bools[3] = true;
+                    //savedPrefs.add("Food");
                 }
                 else
                 {
+                    bools[3] = false;
                     //foods.setChecked(false);
-                    savedPrefs.remove("Food");
+                    //savedPrefs.remove("Food");
                 }
             }
         });
@@ -170,12 +189,14 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(technology.isChecked())
                 {
-                    savedPrefs.add("Technology");
+                    bools[4] = true;
+                    //savedPrefs.add("Technology");
                 }
                 else
                 {
+                    bools[4] = false;
                     //technology.setChecked(false);
-                    savedPrefs.remove("Technology");
+                    //savedPrefs.remove("Technology");
                 }
             }
         });
@@ -184,12 +205,14 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(supplies.isChecked())
                 {
-                    savedPrefs.add("Supplies");
+                    bools[5] = true;
+                    //savedPrefs.add("Supplies");
                 }
                 else
                 {
+                    bools[5] = false;
                     //supplies.setChecked(false);
-                    savedPrefs.remove("Supplies");
+                    //savedPrefs.remove("Supplies");
                 }
             }
         });
@@ -198,13 +221,15 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(storage.isChecked())
                 {
+                    bools[6] = true;
                     //storage.setChecked(true);
-                    savedPrefs.add("Storage");
+                    //savedPrefs.add("Storage");
                 }
                 else
                 {
+                    bools[6] = false;
                     //storage.setChecked(false);
-                    savedPrefs.remove("Storage");
+                    //savedPrefs.remove("Storage");
                 }
             }
         });
@@ -213,13 +238,15 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(services.isChecked())
                 {
+                    bools[7] = true;
                     //services.setChecked(true);
-                    savedPrefs.add("Services");
+                    //savedPrefs.add("Services");
                 }
                 else
                 {
+                    bools[7] = false;
                     //services.setChecked(false);
-                    savedPrefs.remove("Services");
+                    //savedPrefs.remove("Services");
                 }
             }
         });
@@ -228,14 +255,16 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(miscs.isChecked())
                 {
+                    bools[8] = true;
                     //miscs.setChecked(true);
-                    savedPrefs.add("Miscellaneous");
+                    //savedPrefs.add("Miscellaneous");
 
                 }
                 else
                 {
+                    bools[8] = false;
                     //miscs.setChecked(false);
-                    savedPrefs.remove("Miscellaneous");
+                    //savedPrefs.remove("Miscellaneous");
                 }
             }
         });
@@ -244,13 +273,15 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(trans.isChecked())
                 {
+                    bools[9] = true;
                     //trans.setChecked(true);
-                    savedPrefs.add("Transportation");
+                    //savedPrefs.add("Transportation");
                 }
                 else
                 {
+                    bools[9] = false;
                     //trans.setChecked(false);
-                    savedPrefs.remove("Transportation");
+                    //savedPrefs.remove("Transportation");
                 }
             }
         });
@@ -259,6 +290,18 @@ public class Edit_Categories extends AppCompatActivity{
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // loop through our boolean array to see which category preferences we will update.
+                for(int i=0; i<10; i++){
+                    if(bools[i])
+                    {
+                        savedPrefs.add(fields[i]);
+                    }
+                    else
+                    {
+                        savedPrefs.remove(fields[i]);
+                    }
+                }
 
                 editor.clear();
                 editor.putStringSet(ID,savedPrefs);
