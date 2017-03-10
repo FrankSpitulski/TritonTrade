@@ -1,18 +1,23 @@
 package com.tmnt.tritontrade.view;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -26,8 +31,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tmnt.tritontrade.R.id.imgButton4;
-import static com.tmnt.tritontrade.R.id.imgButton5;
+//import static com.tmnt.tritontrade.R.id.imgButton4;
+//import static com.tmnt.tritontrade.R.id.imgButton5;
 
 
 public class Create_Post extends AppCompatActivity {
@@ -48,6 +53,21 @@ public class Create_Post extends AppCompatActivity {
     private Spinner spinner1;
     private Spinner spinner2;
 
+
+    ImageView firstImg;
+    ImageView secondImg;
+    ImageView thirdImg;
+    ImageView fourthImg;
+    ImageView fifthImg;
+    ImageView currImage;
+
+    ArrayList<ImageView> imgs = new ArrayList<>();
+
+    private int counter = 0;
+
+    static Uri selectedImage;
+    private String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +76,18 @@ public class Create_Post extends AppCompatActivity {
 
         addItemsOnCategorySpinner();
         addItemsOnBuyOrSellSpinner();
+
+       firstImg = (ImageView) findViewById(R.id.firstImg);
+        secondImg = (ImageView) findViewById(R.id.secondImg);
+        thirdImg = (ImageView) findViewById(R.id.thirdImg);
+        fourthImg = (ImageView) findViewById(R.id.fourthImg);
+        fifthImg = (ImageView) findViewById(R.id.fifthImg);
+
+        imgs.add(firstImg);
+        imgs.add(secondImg);
+        imgs.add(thirdImg);
+        imgs.add(fourthImg);
+        imgs.add(fifthImg);
 
         //bottom tool bar
 //        BottomNavigationView bottomNavigationView = (BottomNavigationView)
@@ -101,11 +133,6 @@ public class Create_Post extends AppCompatActivity {
                 EditText thePrice = (EditText) findViewById(R.id.priceInputLabel);
                 spinner1 = (Spinner) findViewById(R.id.categorySpinner);
                 spinner2 = (Spinner) findViewById(R.id.buyOrSellSpinner);
-                ImageButton firstImg = (ImageButton) findViewById(R.id.imgButton1);
-                ImageButton secondImg = (ImageButton) findViewById(R.id.imgButton2);
-                ImageButton thirdImg = (ImageButton) findViewById(R.id.imgButton3);
-                ImageButton fourthImg = (ImageButton) findViewById(imgButton4);
-                ImageButton fifthImg = (ImageButton) findViewById(imgButton5);
 
 
                 try {
@@ -207,33 +234,35 @@ public class Create_Post extends AppCompatActivity {
             if (requestCode == IMG_RESULT && resultCode == RESULT_OK
                     && null != data) {
 
+                // Get the Image from data
 
-                Uri URI = data.getData();
+                selectedImage = data.getData();
 
-                //get the inputstream to the URI file
-                is = getContentResolver().openInputStream(URI);
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-                //Get the file name
-                String[] FILE = { MediaStore.Images.Media.DATA };
+                is = getContentResolver().openInputStream(selectedImage);
 
-                Cursor cursor = getContentResolver().query(URI,
-                        FILE, null, null, null);
-
+                // Get the cursor
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                // Move to first row
                 cursor.moveToFirst();
 
-                int columnIndex = cursor.getColumnIndex(FILE[0]);
-                String temp = cursor.getString(columnIndex);
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 
-                //Get the extension
-                int i = temp.lastIndexOf('.');
-                if (i > 0) {
-                    extension = temp.substring(i+1);
-                }
-                //upload the image to the server
-                //thePath = Server.uploadImage(is,extension);
-                new GetPathTask().execute();
-                //photos.add(thePath);
+                String imgDecodableString = cursor.getString(columnIndex);
+
                 cursor.close();
+
+                // Set the Image in ImageView after decoding the String
+                currImage.setImageBitmap(BitmapFactory
+                        .decodeFile(imgDecodableString));
+
+                ContentResolver cR = getContentResolver();
+                MimeTypeMap mime = MimeTypeMap.getSingleton();
+                type = mime.getExtensionFromMimeType(cR.getType(selectedImage));
+
+                new Create_Post.UploadPhotoTask().execute();
 
 
             }
@@ -241,6 +270,32 @@ public class Create_Post extends AppCompatActivity {
             Toast.makeText(this, "Please try again", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+
+    /**
+     * Private Innner class to upload the new profile pic to the server
+     */
+    private class UploadPhotoTask extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... params) {
+            try {
+                String s = Server.uploadImage(is, type);
+
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        /*
+        @Override
+        protected void onPreExecute() {
+        }
+
+        protected void onPostExecute(Void result) {
+        }
+        */
     }
 
 
@@ -323,5 +378,16 @@ public class Create_Post extends AppCompatActivity {
                 Toast.makeText(Create_Post.this, "Post Upload Failed", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+
+    public void addImage(View view) {
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        currImage = imgs.get(counter);
+        counter = (counter + 1) % 5;
+
+        startActivityForResult(intent,IMG_RESULT);
     }
 }
