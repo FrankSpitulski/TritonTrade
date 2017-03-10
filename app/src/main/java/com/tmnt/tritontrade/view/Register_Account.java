@@ -41,6 +41,7 @@ public class Register_Account extends AppCompatActivity {
 
                 try {
                     theName = userName.getText().toString();
+
                 } catch(IllegalArgumentException e){
                     Log.d("DEBUG", e.toString());
                     Toast.makeText(Register_Account.this, "Bad Username", Toast.LENGTH_SHORT).show();

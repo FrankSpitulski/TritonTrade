@@ -127,12 +127,14 @@
             android:hint="Email"
             android:inputType="textPersonName"
             android:paddingLeft="13dp"
-            android:textColor="@color/TwentyTransparentWhite" />
+            android:textColor="?android:attr/colorForeground" />
 
         <EditText
             android:id="@+id/nameLabel"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_alignStart="@+id/explainLabel"
+            android:layout_below="@+id/explainLabel"
             android:layout_marginTop="42dp"
             android:alpha="1.0"
             android:background="@android:drawable/screen_background_light_transparent"
@@ -144,9 +146,7 @@
             android:selectAllOnFocus="false"
             android:singleLine="false"
             android:textAlignment="viewStart"
-            android:textColor="@color/TwentyTransparentWhite"
-            android:visibility="visible"
-            android:layout_below="@+id/explainLabel"
-            android:layout_alignStart="@+id/explainLabel" />
+            android:textColor="?android:attr/colorForeground"
+            android:visibility="visible" />
     </RelativeLayout>
 </RelativeLayout>
