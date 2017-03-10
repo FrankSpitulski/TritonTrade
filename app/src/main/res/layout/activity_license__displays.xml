@@ -40,22 +40,10 @@
                     android:id="@+id/php_crud_api" />
 
                 <TextView
-                    android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/space1" />
-
-                <TextView
                     android:text="https://github.com/PHPMailer/PHPMailer/blob/master/LICENSE"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/phpmailer" />
-
-                <TextView
-                    android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/space2" />
 
                 <TextView
                     android:text="https://github.com/google/gson/blob/master/LICENSE"
