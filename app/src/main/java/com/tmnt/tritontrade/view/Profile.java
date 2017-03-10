@@ -41,7 +41,6 @@ import static com.tmnt.tritontrade.R.id.bottom_edit_category;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
-import static com.tmnt.tritontrade.R.id.pictureLabel;
 
 public class Profile extends AppCompatActivity {
 
