@@ -3,6 +3,7 @@ package com.tmnt.tritontrade.view;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -58,8 +59,14 @@ public class Profile_NonUser extends AppCompatActivity {
         setContentView(R.layout.activity_profile__non_user);
 
 
-        currUser = CurrentState.getInstance().getCurrentUser();
+        Intent intent = getIntent();
+        Bundle bd = intent.getExtras();
 
+        try {
+            currUser = (User) bd.get("Profile_NonUser");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         /*
         new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.userPic))
                 .execute(currUser.getPhoto());
@@ -191,13 +198,41 @@ public class Profile_NonUser extends AppCompatActivity {
 
         //populate the fields with the information obtained from the user
 
-        new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.userPic))
-                .execute(currUser.getPhoto());
+        try {
+            new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.userPic))
+                    .execute(currUser.getPhoto());
+        } catch (Exception e) {
+            ImageView userPic = (ImageView) findViewById(R.id.userPic);
+            userPic.setBackgroundResource(R.drawable.default_photo);
+        }
 
-        username.setText(user.getName());
-        email.setText(user.getEmail());
-        phone.setText(user.getMobileNumber().substring(6));
-        bio.setText(user.getBio());
+        try {
+            username.setText(user.getName());
+        } catch (NullPointerException e) {
+            username.setText("N/A");
+        }
+
+        try {
+            email.setText(user.getEmail());
+        } catch (NullPointerException e) {
+            email.setText("N/A");
+        }
+
+        try {
+            phone.setText(user.getMobileNumber().substring(6));
+        } catch (NullPointerException e) {
+            phone.setText("N/A");
+        }
+
+        try {
+            bio.setText(user.getBio());
+        } catch (NullPointerException e) {
+            bio.setText("N/A");
+        }
+
+
+
+
 
     }
 
