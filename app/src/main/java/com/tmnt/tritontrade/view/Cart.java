@@ -262,24 +262,26 @@ public class Cart extends AppCompatActivity {
             ImageView image = (ImageView) view.findViewById(R.id.image);
 
 
-            //display trimmed excerpt for description
+//            //display trimmed excerpt for description
             int descriptionLength;
-            if (post.getDescription() == null) {
-                descriptionLength = 0;
-                description.setText("");
-            } else {
+//            if (post.getDescription() == null) {
+//                descriptionLength = 0;
+//                description.setText("");
+//            } else {
+//
+//                descriptionLength = post.getDescription().length();
+//
+//                if (descriptionLength >= 100) {
+//                    String descriptionTrim = post.getDescription().substring(0, 100) + "...";
+//                    description.setText(descriptionTrim);
+//                } else {
+//                    description.setText(post.getDescription());
+//                }
+//
+//            }
 
-                descriptionLength = post.getDescription().length();
-
-                if (descriptionLength >= 100) {
-                    String descriptionTrim = post.getDescription().substring(0, 100) + "...";
-                    description.setText(descriptionTrim);
-                } else {
-                    description.setText(post.getDescription());
-                }
-
-            }
-
+            //testing
+            description.setText("testing\n" + user.getCartIDsString());
 
 
             //set price and rental attributes and default image of post
