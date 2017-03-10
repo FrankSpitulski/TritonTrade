@@ -256,9 +256,9 @@ public class Mainfeed extends AppCompatActivity
         if (id == R.id.clothing_sidebar) {
             tags.add("Clothing");
         }
-        else if(id==R.id.following_sidebar){
-            fillDefaultTags(tags);
-        }
+//        else if(id==R.id.following_sidebar){
+//            fillDefaultTags(tags);
+//        }
         else if (id == R.id.food_sidebar) {
             tags.add("Food");
         } else if (id == R.id.services_sidebar) {

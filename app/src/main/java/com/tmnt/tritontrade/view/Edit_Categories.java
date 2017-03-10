@@ -34,6 +34,9 @@ public class Edit_Categories extends AppCompatActivity{
     private Button follow;
     private Button cancel;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,34 +77,50 @@ public class Edit_Categories extends AppCompatActivity{
         Iterator<String> iterator = set.iterator();
         while(iterator.hasNext()){
             String cate = iterator.next();
-            if(cate == "Textbooks")
-                textbook.setChecked(true);
-            else if(cate == "Clothing")
-                clothes.setChecked(true);
-            else if(cate == "Furnitures")
-                furnitures.setChecked(true);
-            else if(cate == "Food")
-                foods.setChecked(true);
-            else if(cate == "Technology")
-                technology.setChecked(true);
-            else if(cate == "Supplies")
-                supplies.setChecked(true);
-            else if(cate == "Storage")
-                storage.setChecked(true);
-            else if(cate == "Services")
-                services.setChecked(true);
-            else if(cate == "Miscellaneous")
-                miscs.setChecked(true);
-            else if(cate == "Transportation")
-                trans.setChecked(true);
+            switch(cate) {
+                case "Textbooks":
+                    textbook.setChecked(true);
+                    break;
+                case "Clothing":
+                    clothes.setChecked(true);
+                    break;
+                case "Furnitures":
+                    furnitures.setChecked(true);
+                    break;
+                case "Food":
+                    foods.setChecked(true);
+                    break;
+                case "Technology":
+                    technology.setChecked(true);
+                    break;
+                case "Supplies":
+                    supplies.setChecked(true);
+                    break;
+                case "Storage":
+                    storage.setChecked(true);
+                    break;
+                case "Services":
+                    services.setChecked(true);
+                    break;
+                case "Miscellaneous":
+                    miscs.setChecked(true);
+                    break;
+                case "Transportation":
+                    trans.setChecked(true);
+                    break;
+                default:
+                    break;
+            }
         }
+        Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
+                new HashSet<String>()));
 
         textbook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(textbook.isChecked())
                 {
-                    textbook.setChecked(true);
+                    //textbook.setChecked(true);
                     set.add("Textbooks");
                     editor.clear();
                     editor.putStringSet(ID,set);
@@ -366,6 +385,8 @@ public class Edit_Categories extends AppCompatActivity{
         });
 
     }
+
+
 
 }
 
