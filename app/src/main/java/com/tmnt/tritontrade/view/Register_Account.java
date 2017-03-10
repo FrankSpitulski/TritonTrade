@@ -53,22 +53,17 @@ public class Register_Account extends AppCompatActivity {
                     if(thePassword.equals("")) {
                         throw new IllegalArgumentException("PASSWORD");
                     }
-                    thePhone = userPhone.getText().toString();
-                    if(!thePhone.matches("^\\+[0-9][0-9][0-9][0-9] \\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // full
-                            && !thePhone.matches("^\\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // without country code
-                            && !thePhone.matches("^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$") // just 10 numbers
-                            && !thePhone.matches("^[0-9][0-9][0-9] [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // 10 numbers with space and two dashes
-                            && !thePhone.matches("^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")){ // 10 numbers with dashes
+                    //get input from the field
+                    String numberInput = userPhone.getText().toString();
+                    //convert to database format
+                     thePhone = convertMobileNumberToDatabaseFormat(numberInput);
+
+                    //if input phone number was not in valid format, throw exception
+                    if (thePhone == null)
+                    {
                         throw new IllegalArgumentException("PHONE");
-                    }else if(thePhone.matches("^\\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")){
-                        thePhone = "+0001 " + thePhone;
-                    }else if(thePhone.matches("^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$")){
-                        thePhone = "+0001 (" + thePhone.substring(0, 3) + ") " + thePhone.substring(3, 6) + "-" + thePhone.substring(6);
-                    }else if(thePhone.matches("^[0-9][0-9][0-9] [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")){
-                        thePhone = "+0001 (" + thePhone.substring(0, 3) + ")" + thePhone.substring(3);
-                    }else if(thePhone.matches("^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")){
-                        thePhone = "+0001 (" + thePhone.substring(0, 3) + ") " + thePhone.substring(4);
                     }
+
                     //Toast.makeText(Register_Account.this, "Phone is " + thePhone, Toast.LENGTH_SHORT).show();
                     new RegisterTask().execute();
                 } catch(IllegalArgumentException e) {
@@ -88,6 +83,47 @@ public class Register_Account extends AppCompatActivity {
         });
     }
 
+    /**
+     * Converts the user input of various formats into the database format of
+     * +xxxx (xxx) xxx-xxxx
+     * @param number The user input number
+     * @return The database formatted number, null if the input was not one of the accepted formats
+     */
+    public String convertMobileNumberToDatabaseFormat(String number)
+    {
+        //if doesnt match any of the formats, return null
+        if(!number.matches("^\\+[0-9][0-9][0-9][0-9] \\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // full
+                && !number.matches("^\\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // without country code
+                && !number.matches("^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$") // just 10 numbers
+                && !number.matches("^[0-9][0-9][0-9] [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // 10 numbers with space and two dashes
+                && !number.matches("^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")) // 10 numbers with dashes
+        {
+            return null;
+        }
+        else if(number.matches("^\\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$"))
+        {
+            //no country code, assume is United States, prepend U.S. country code
+            return "+0001 " + number;
+        }
+        else if(number.matches("^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$"))
+        {
+            // if just 10 numbers, add country code and parenthesis
+            return "+0001 (" + number.substring(0, 3) + ") " + number.substring(3, 6) + "-" + number.substring(6);
+        }
+        else if(number.matches("^[0-9][0-9][0-9] [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$"))
+        {
+            //if no parentheses or country code, add them
+            return "+0001 (" + number.substring(0, 3) + ")" + number.substring(3);
+        }
+        else if(number.matches("^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$"))
+        {
+            //if use dashes to separate area code and number, replace with parentheis and add country code
+            return "+0001 (" + number.substring(0, 3) + ") " + number.substring(4);
+        }
+
+        //something weird happened, return null
+        return null;
+    }
     //If the user clicks "Log In" they will be redirected to the
     //log in screen
     public void sendToLogIn(View view) {
