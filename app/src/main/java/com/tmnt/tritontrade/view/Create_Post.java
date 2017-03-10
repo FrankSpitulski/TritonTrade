@@ -38,7 +38,6 @@ import java.util.List;
 public class Create_Post extends AppCompatActivity {
 
     static String productName = "";
-    static ArrayList<String> photos;
     static String description;
     static float price;
     static ArrayList<String> tags;
@@ -62,6 +61,7 @@ public class Create_Post extends AppCompatActivity {
     ImageView currImage;
 
     ArrayList<ImageView> imgs = new ArrayList<>();
+    ArrayList<String> photos = new ArrayList<>();
 
     private int counter = 0;
 
@@ -280,6 +280,7 @@ public class Create_Post extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             try {
                 String s = Server.uploadImage(is, type);
+                photos.add(s);
 
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
