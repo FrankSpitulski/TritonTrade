@@ -67,15 +67,15 @@ public class Register_Account extends AppCompatActivity {
                     }else if(thePhone.matches("^[0-9][0-9][0-9] [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")){
                         thePhone = "+0001 (" + thePhone.substring(0, 3) + ")" + thePhone.substring(3);
                     }else if(thePhone.matches("^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")){
-                        thePhone = "+0001 (" + thePhone.substring(0, 3) + " " + thePhone.substring(4);
+                        thePhone = "+0001 (" + thePhone.substring(0, 3) + ") " + thePhone.substring(4);
                     }
-
+                    Toast.makeText(Register_Account.this, "Phone is " + thePhone, Toast.LENGTH_SHORT).show();
                     new RegisterTask().execute();
                 } catch(IllegalArgumentException e) {
                     Log.d("DEBUG", e.toString());
 
                     if(e.getMessage().equals("NAME")) {
-                        Toast.makeText(Register_Account.this, "Bad Username", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Register_Account.this, "Bad Username ", Toast.LENGTH_SHORT).show();
                     }else if(e.getMessage().equals("EMAIL")) {
                         Toast.makeText(Register_Account.this, "Bad Email", Toast.LENGTH_SHORT).show();
                     }else if(e.getMessage().equals("PASSWORD")) {
