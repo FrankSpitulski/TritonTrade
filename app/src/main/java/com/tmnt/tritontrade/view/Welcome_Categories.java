@@ -108,7 +108,7 @@ public class Welcome_Categories extends AppCompatActivity{
                 if(furnitures.isChecked())
                 {
                     furnitures.setChecked(true);
-                    set.add("furnitures");
+                    set.add("Furnitures");
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Welcome_Categories.this, "FURNITURES Selected", Toast.LENGTH_SHORT).show();
@@ -117,7 +117,7 @@ public class Welcome_Categories extends AppCompatActivity{
                 else
                 {
                     furnitures.setChecked(false);
-                    set.remove("furnitures");
+                    set.remove("Furnitures");
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Welcome_Categories.this, "FURNITURES Deselected", Toast.LENGTH_SHORT).show();

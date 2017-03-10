@@ -76,7 +76,7 @@ public class Edit_Categories extends AppCompatActivity{
                 textbook.setChecked(true);
             else if(cate == "Clothing")
                 clothes.setChecked(true);
-            else if(cate == "furnitures")
+            else if(cate == "Furnitures")
                 furnitures.setChecked(true);
             else if(cate == "Food")
                 foods.setChecked(true);
@@ -148,7 +148,7 @@ public class Edit_Categories extends AppCompatActivity{
                 if(furnitures.isChecked())
                 {
                     furnitures.setChecked(true);
-                    set.add("furnitures");
+                    set.add("Furnitures");
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "FURNITURES Selected", Toast.LENGTH_SHORT).show();
@@ -157,7 +157,7 @@ public class Edit_Categories extends AppCompatActivity{
                 else
                 {
                     furnitures.setChecked(false);
-                    set.remove("furnitures");
+                    set.remove("Furnitures");
                     editor.putStringSet(ID,set);
                     editor.apply();
                     Toast.makeText(Edit_Categories.this, "FURNITURES Deselected", Toast.LENGTH_SHORT).show();
