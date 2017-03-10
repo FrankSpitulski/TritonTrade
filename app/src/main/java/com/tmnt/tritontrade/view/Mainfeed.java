@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.util.Pair;
@@ -34,7 +36,9 @@ import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
@@ -82,7 +86,8 @@ public class Mainfeed extends AppCompatActivity
         ArrayList<String> tags = new ArrayList<>();
         //fillDefaultTags(tags);
         /***SET DATA***/
-        tags.add("food");
+//        tags.add("food");
+        fillDefaultTags(tags);
         setAdapterInfo(tags);
 
         //PULL REFRESH
@@ -111,7 +116,7 @@ public class Mainfeed extends AppCompatActivity
         //bottom tool bar
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
-        BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
+        removeShiftMode(bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener(){
@@ -160,8 +165,11 @@ public class Mainfeed extends AppCompatActivity
     private void fillDefaultTags(ArrayList<String> tags){
         String userID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
         SharedPreferences tagNames = getSharedPreferences(userID, Context.MODE_PRIVATE);
-        Set<String> tagSet = tagNames.getStringSet(userID, null);
-        if(tagSet==null){
+        //Set<String> tagSet = tagNames.getStringSet(userID, null);
+        Set<String> tagSet = tagNames.getStringSet(userID,new HashSet<String>());
+        Log.i("DEBUG", "2.set = "+tagNames.getStringSet("set",
+                new HashSet<String>()));
+        if(tagSet.isEmpty()){
             return;
         }
         for(String s: tagSet){
@@ -346,6 +354,26 @@ public class Mainfeed extends AppCompatActivity
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    static void removeShiftMode(BottomNavigationView view) {
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
+        try {
+            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+            shiftingMode.setAccessible(true);
+            shiftingMode.setBoolean(menuView, false);
+            shiftingMode.setAccessible(false);
+            for (int i = 0; i < menuView.getChildCount(); i++) {
+                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+                item.setShiftingMode(false);
+                // set once again checked value, so view will be updated
+                item.setChecked(item.getItemData().isChecked());
+            }
+        } catch (NoSuchFieldException e) {
+            Log.e("ERROR NO SUCH FIELD", "Unable to get shift mode field");
+        } catch (IllegalAccessException e) {
+            Log.e("ERROR ILLEGAL ALG", "Unable to change value of shift mode");
+        }
     }
 
 

@@ -100,8 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 //Sharepreferences
                 String ID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
                 SharedPreferences prefs = getSharedPreferences(ID, Context.MODE_PRIVATE);
-//                Set<String> set = prefs.getStringSet(ID,new HashSet<String>());
-                if(prefs.getAll().isEmpty()){
+                Set<String> set = prefs.getStringSet(ID,new HashSet<String>());
+                if(set.isEmpty()){
                     startActivity(new Intent(getApplicationContext(), Welcome_Categories.class));
                 }
                 else {
