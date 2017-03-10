@@ -1,13 +1,11 @@
 package com.tmnt.tritontrade.controller;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
@@ -17,14 +15,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -52,7 +47,6 @@ public class Server {
     public static String getServerName(){
         return serverName + "";
     }
-
 
     /**
      * removes the outer json object from the array
@@ -623,11 +617,11 @@ public class Server {
         //Create the GSON builder to construct the Array List of users
         GsonBuilder builder = new GsonBuilder();
 
-        builder.registerTypeAdapter(JSONUser.class, new UserDeserializer());
+        builder.registerTypeAdapter(User.JSONUser.class, new User.UserDeserializer());
         Gson gson = builder.create();
 
         //Parse the JSON string
-        JSONUser jUser= gson.fromJson(json, JSONUser.class);
+        User.JSONUser jUser= gson.fromJson(json, User.JSONUser.class);
 
         ArrayList<User> toReturn= jUser.users;
         //User user1 = gson.fromJson(json, User.class);
@@ -645,11 +639,11 @@ public class Server {
         //Create the GSON builder to construct the Array List of posts
         GsonBuilder builder = new GsonBuilder();
 
-        builder.registerTypeAdapter(JSONPost.class, new PostDeserializer());
+        builder.registerTypeAdapter(Post.JSONPost.class, new Post.PostDeserializer());
         Gson gson = builder.create();
 
         //Parse the JSON string into a JSONPost object
-        JSONPost jPost = gson.fromJson(json, JSONPost.class);
+        Post.JSONPost jPost = gson.fromJson(json, Post.JSONPost.class);
 
         return jPost.posts;
     }
@@ -666,7 +660,7 @@ public class Server {
 
         // Register the Custom UserSerializer with the JSONUser Class and create the gson
         Type arrayListUserType = new TypeToken<ArrayList<User>>(){}.getType();
-        builder.registerTypeAdapter(arrayListUserType, new UserSerializer());
+        builder.registerTypeAdapter(arrayListUserType, new User.UserSerializer());
         Gson gson = builder.serializeNulls().create();
 
         //Create the JSON format for the ArrayList of users
@@ -688,7 +682,7 @@ public class Server {
 
         // Register the Custom UserSerializer with the JSONUser Class and create the gson
         Type arrayListPostType = new TypeToken<ArrayList<Post>>(){}.getType();
-        builder.registerTypeAdapter(arrayListPostType, new PostSerializer());
+        builder.registerTypeAdapter(arrayListPostType, new Post.PostSerializer());
         Gson gson = builder.serializeNulls().create();
 
         //Create the JSON format for the ArrayList of users

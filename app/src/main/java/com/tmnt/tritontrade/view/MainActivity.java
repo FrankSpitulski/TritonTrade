@@ -10,14 +10,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
+import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
     static String userName = "";
     static String password = "";
 
+    // Variables for remembering the users login credentials
+    private CheckBox saveLoginCheckBox;
+    private SharedPreferences loginPreferences;
+    private SharedPreferences.Editor loginPrefsEditor;
+    private boolean saveLogin;
+    private EditText editTextUsername;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +51,33 @@ public class MainActivity extends AppCompatActivity {
         //Login
         loginButton =  (Button)findViewById(R.id.loginButton);
 
+        // Saves the email of the user if the check box is clicked
+        editTextUsername = (EditText)findViewById(R.id.userNameText);
+        saveLoginCheckBox = (CheckBox)findViewById(R.id.saveLoginCheckBox);
+        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
+        saveLogin = loginPreferences.getBoolean("saveLogin", false);
+
+        if (saveLogin == true) {
+            editTextUsername.setText(loginPreferences.getString("username", ""));
+            saveLoginCheckBox.setChecked(true);
+        }
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 userName = ((TextView) findViewById(R.id.userNameText)).getText().toString();
                 password = ((TextView) findViewById(R.id.passwordText)).getText().toString();
+
+                // When the login button is clicked, fill in the username with the stored value
+                if (saveLoginCheckBox.isChecked()) {
+                    loginPrefsEditor.putBoolean("saveLogin", true);
+                    loginPrefsEditor.putString("username", userName);
+                    loginPrefsEditor.commit();
+                } else {
+                    loginPrefsEditor.clear();
+                    loginPrefsEditor.commit();
+                }
+
                 new LoginTask().execute();
             }
         });
