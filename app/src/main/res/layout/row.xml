@@ -11,7 +11,7 @@
         android:id="@+id/title"
         android:textSize="20sp"
         android:textStyle="normal|bold"
-        android:textColor="#163EB8" />
+        android:textColor="@color/colorPrimary" />
 
     <TextView
         android:text="description"
