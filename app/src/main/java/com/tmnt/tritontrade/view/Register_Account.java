@@ -41,30 +41,49 @@ public class Register_Account extends AppCompatActivity {
 
                 try {
                     theName = userName.getText().toString();
-
-                } catch(IllegalArgumentException e){
-                    Log.d("DEBUG", e.toString());
-                    Toast.makeText(Register_Account.this, "Bad Username", Toast.LENGTH_SHORT).show();
-                }
-                try {
+                    if(theName.equals("")){
+                        throw new IllegalArgumentException("NAME");
+                    }
                     theEmail = userEmail.getText().toString();
-                } catch(IllegalArgumentException e){
-                    Log.d("DEBUG",e.toString());
-                    Toast.makeText(Register_Account.this, "Bad Email", Toast.LENGTH_SHORT).show();
-                }
-                try {
+                    if(!theEmail.matches(".*ucsd.edu$")){
+                        throw new IllegalArgumentException("EMAIL");
+                    }
+
                     thePassword = userPassword.getText().toString();
-                } catch(IllegalArgumentException e){
-                    Log.d("DEBUG", e.toString());
-                    Toast.makeText(Register_Account.this, "Bad Password", Toast.LENGTH_SHORT).show();
-                }
-                try{
+                    if(thePassword.equals("")) {
+                        throw new IllegalArgumentException("PASSWORD");
+                    }
                     thePhone = userPhone.getText().toString();
+                    if(!thePhone.matches("^\\+[0-9][0-9][0-9][0-9] \\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // full
+                            && !thePhone.matches("^\\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // without country code
+                            && !thePhone.matches("^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$") // just 10 numbers
+                            && !thePhone.matches("^[0-9][0-9][0-9] [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // 10 numbers with space and two dashes
+                            && !thePhone.matches("^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")){ // 10 numbers with dashes
+                        throw new IllegalArgumentException("PHONE");
+                    }else if(thePhone.matches("^\\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")){
+                        thePhone = "+0001 " + thePhone;
+                    }else if(thePhone.matches("^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$")){
+                        thePhone = "+0001 (" + thePhone.substring(0, 3) + ") " + thePhone.substring(3, 6) + "-" + thePhone.substring(6);
+                    }else if(thePhone.matches("^[0-9][0-9][0-9] [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")){
+                        thePhone = "+0001 (" + thePhone.substring(0, 3) + ")" + thePhone.substring(3);
+                    }else if(thePhone.matches("^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")){
+                        thePhone = "+0001 (" + thePhone.substring(0, 3) + " " + thePhone.substring(4);
+                    }
+
+                    new RegisterTask().execute();
                 } catch(IllegalArgumentException e) {
                     Log.d("DEBUG", e.toString());
-                    Toast.makeText(Register_Account.this, "Bad Phone", Toast.LENGTH_SHORT).show();
+
+                    if(e.getMessage().equals("NAME")) {
+                        Toast.makeText(Register_Account.this, "Bad Username", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("EMAIL")) {
+                        Toast.makeText(Register_Account.this, "Bad Email", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("PASSWORD")) {
+                        Toast.makeText(Register_Account.this, "Bad Password", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("PHONE")) {
+                        Toast.makeText(Register_Account.this, "Bad Phone", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                new RegisterTask().execute();
             }
         });
     }
