@@ -69,7 +69,7 @@ public class Register_Account extends AppCompatActivity {
                     }else if(thePhone.matches("^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")){
                         thePhone = "+0001 (" + thePhone.substring(0, 3) + ") " + thePhone.substring(4);
                     }
-                    Toast.makeText(Register_Account.this, "Phone is " + thePhone, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(Register_Account.this, "Phone is " + thePhone, Toast.LENGTH_SHORT).show();
                     new RegisterTask().execute();
                 } catch(IllegalArgumentException e) {
                     Log.d("DEBUG", e.toString());
