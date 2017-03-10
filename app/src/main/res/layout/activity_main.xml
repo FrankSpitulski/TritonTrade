@@ -68,7 +68,7 @@
             android:shadowRadius="1"
             android:text="TritonTrade"
             android:textAlignment="center"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/EightyTransparentSketchBlue"
             android:textColorLink="@color/colorPrimary"
             android:textSize="50sp"
             android:typeface="serif"
@@ -80,7 +80,9 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Username"
-            android:inputType="textPersonName" />
+            android:textColorHint="@color/colorPrimary"
+            android:inputType="textPersonName"
+            android:textColor="@color/colorPrimary" />
 
         <EditText
             android:id="@+id/passwordText"
@@ -88,7 +90,9 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColorHint="@color/colorPrimary"
+            android:textColor="@color/colorPrimary" />
 
         <Button
             android:id="@+id/loginButton"
@@ -96,12 +100,12 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/linearLayout5"
             android:layout_alignEnd="@+id/linearLayout4"
-            android:layout_marginTop="50dp"
-            android:backgroundTint="@color/FiftyTransparentNavy"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/EightyTransparentSketchBlue"
             android:fontFamily="sans-serif-medium"
             android:padding="18dp"
             android:text="Login"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/common_action_bar_splitter" />
 
     </LinearLayout>
 

@@ -76,7 +76,7 @@
             android:layout_alignEnd="@+id/phoneLabel"
             android:layout_alignStart="@+id/phoneLabel"
             android:layout_marginBottom="30dp"
-            android:background="@color/FiftyTransparentNavy"
+            android:background="@color/FiftyTransparentWhite"
             android:onClick="sendToVerifyAccount"
             android:text="Next"
             android:textColor="@color/white" />
