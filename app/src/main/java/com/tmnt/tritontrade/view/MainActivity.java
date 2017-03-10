@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), Welcome_Categories.class));
                 }
                 else {
-                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+                    startActivity(new Intent(getApplicationContext(), Mainfeed.class));
                 }
             }
             else{

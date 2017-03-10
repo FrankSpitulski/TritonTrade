@@ -57,6 +57,8 @@ public class Edit_Categories extends AppCompatActivity{
         final SharedPreferences prefs = getSharedPreferences(ID, Context.MODE_PRIVATE);
 
         final SharedPreferences.Editor editor = prefs.edit();
+        //editor.clear();
+        //editor.apply();
         final Set<String> backupset = prefs.getStringSet(ID,new HashSet<String>());
 
         //editor.clear();
@@ -129,7 +131,7 @@ public class Edit_Categories extends AppCompatActivity{
                     set.add("Clothing");
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Edit_Categories.this, "CLOTHES Selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Edit_Categories.this, "CLOTHING Selected", Toast.LENGTH_SHORT).show();
 
                 }
                 else
@@ -138,7 +140,7 @@ public class Edit_Categories extends AppCompatActivity{
                     set.remove("Clothing");
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Edit_Categories.this, "CLOTHES Deselected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Edit_Categories.this, "CLOTHING Deselected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -173,7 +175,7 @@ public class Edit_Categories extends AppCompatActivity{
                     set.add("Food");
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Edit_Categories.this, "FOODS Selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Edit_Categories.this, "FOOD Selected", Toast.LENGTH_SHORT).show();
 
                 }
                 else
@@ -182,7 +184,7 @@ public class Edit_Categories extends AppCompatActivity{
                     set.remove("Food");
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Edit_Categories.this, "FOODS Deselected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Edit_Categories.this, "FOOD Deselected", Toast.LENGTH_SHORT).show();
                 }
             }
         });

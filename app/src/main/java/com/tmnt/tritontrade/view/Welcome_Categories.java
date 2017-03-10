@@ -286,6 +286,7 @@ public class Welcome_Categories extends AppCompatActivity{
                     Toast.makeText(Welcome_Categories.this, "You did not follow any category", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    Log.i("DEBUG", "2.set = "+ set);
                     startActivity(new Intent(getApplicationContext(), Mainfeed.class));
                 }
             }
