@@ -624,6 +624,7 @@ public class User implements Parcelable {
                 while (i< cID.length){
 
                     try{
+                        Log.d("DEBUG", cID[i]);
                         cardIDsTA.add(Integer.parseInt(cID[i]));
                     }
                     catch(NumberFormatException e){
