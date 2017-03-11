@@ -158,7 +158,7 @@ public class Profile_NonUser extends AppCompatActivity {
                     }
                 }
 
-                adapter = new ProfileListAdaptor(Profile_NonUser.this, selling);
+                adapter = new ProfileListAdaptor(Profile_NonUser.this, selling, true);
                 list.setAdapter(adapter);
             }
 
@@ -170,7 +170,7 @@ public class Profile_NonUser extends AppCompatActivity {
         sold.setTextColor(Color.WHITE);
 
         //Update list to only show items for sale
-        adapter = new ProfileListAdaptor(Profile_NonUser.this, selling);
+        adapter = new ProfileListAdaptor(Profile_NonUser.this, selling, true);
         list.setAdapter(adapter);
         list.deferNotifyDataSetChanged();
 
@@ -181,7 +181,7 @@ public class Profile_NonUser extends AppCompatActivity {
         forSale.setTextColor(Color.WHITE);
 
         //Update list to only show Items that have been sold
-        adapter = new ProfileListAdaptor(Profile_NonUser.this, productSold);
+        adapter = new ProfileListAdaptor(Profile_NonUser.this, productSold, true);
         list.setAdapter(adapter);
         list.deferNotifyDataSetChanged();
     }

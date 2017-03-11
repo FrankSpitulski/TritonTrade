@@ -40,6 +40,7 @@ class ProfileListAdaptor extends BaseAdapter {
     private int count; //Current amount of items displayed
     private int stepNumber; //Amount of items loaded on next display
     private final int startCount=20; //Start amount of items being displayed
+    private Boolean _selling; // Flag for Selling and Sold
 
     // Saves the position of the post to be deleted
     private int _pos;
@@ -90,12 +91,13 @@ class ProfileListAdaptor extends BaseAdapter {
      * @param context
      * @param posts
      */
-    public ProfileListAdaptor(Context context, ArrayList<Post> posts) {
+    public ProfileListAdaptor(Context context, ArrayList<Post> posts, Boolean selling) {
         this.posts=posts;
         this.filterList=posts;
         this.context = context;
         this.count = startCount;
         this.stepNumber=10;
+        this._selling = selling;
     }
 
     /**
@@ -211,6 +213,15 @@ class ProfileListAdaptor extends BaseAdapter {
 
         // Button for deleting posts
         Button deleteBtn = (Button)catView.findViewById(R.id.delete_btn);
+        Button editBtn = (Button)catView.findViewById(R.id.edit_btn);
+
+        if (!_selling) {
+
+            View b = catView.findViewById(R.id.delete_btn);
+            b.setVisibility(View.GONE);
+            b = catView.findViewById(R.id.edit_btn);
+            b.setVisibility(View.GONE);
+        }
 
 
         /*
@@ -274,6 +285,16 @@ class ProfileListAdaptor extends BaseAdapter {
                         })
                         .setNegativeButton("No", null)
                         .show();
+            }
+        });
+
+
+        // CLICK Listener For Edit Button
+        editBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view){
+
             }
         });
 

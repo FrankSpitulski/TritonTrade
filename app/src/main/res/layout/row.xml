@@ -19,12 +19,27 @@
         android:layout_height="wrap_content"
         android:id="@+id/description" />
 
-    <Button
-        android:id="@+id/delete_btn"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/LinearLayout02"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
-        android:text="DEL" />
+        android:layout_width="fill_parent"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="DEL" />
+
+        <Button
+            android:id="@+id/edit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_gravity=""
+            android:text="EDIT" />
+        </LinearLayout>
 
 
 </LinearLayout>
