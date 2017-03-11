@@ -33,6 +33,7 @@ import java.util.ArrayList;
 public class PopUpPost extends AppCompatActivity {
     Toast t;
     private boolean cart_status = false;
+    public User current_user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,10 @@ public class PopUpPost extends AppCompatActivity {
             }
         });
 
+        current_user = CurrentState.getInstance().getCurrentUser();
+
+        new GetSellerForProfile()
+                .execute(current_user.getProfileID());
 
         /* ArrayList<String> dummyPhotos = new ArrayList<>();
         dummyPhotos.add("http://xiostorage.com/wp-content/uploads/2015/10/test.png");
@@ -69,7 +74,7 @@ public class PopUpPost extends AppCompatActivity {
         final Post p = getIntent().getParcelableExtra("category");
         loadPost(p);
 
-        final User current_user = CurrentState.getInstance().getCurrentUser();
+        current_user = CurrentState.getInstance().getCurrentUser();
         if (current_user.getCartIDs().contains(p.getPostID())) {
             cart_status = true;
             ((Button) findViewById(R.id.cart)).setText("REMOVE FROM CART");
@@ -82,8 +87,7 @@ public class PopUpPost extends AppCompatActivity {
                 Toast t = new Toast(getApplicationContext());
                 if (cart_status) {
                     current_user.removeFromCart(p.getPostID());
-                }
-                else {
+                } else {
                     current_user.addToCart(p.getPostID());
                     startActivity(new Intent(getApplicationContext(), Cart.class));
                 }
@@ -106,7 +110,7 @@ public class PopUpPost extends AppCompatActivity {
             //photoView.setAdjustViewBounds(true);
             //photoView.setCropToPadding(true);
             photoView.setLayoutParams(photo_params);
-            photoView.setPadding(0,0,15,0);
+            photoView.setPadding(0, 0, 15, 0);
             photoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -150,12 +154,10 @@ public class PopUpPost extends AppCompatActivity {
             try {
                 Server.modifyExistingUser(params[0]);
                 return true;
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 Log.d("DEBUG", e.toString());
                 return false;
-            }
-            catch (IllegalArgumentException e2) {
+            } catch (IllegalArgumentException e2) {
                 Log.d("DEBUG", e2.toString());
                 return false;
             }
@@ -165,24 +167,43 @@ public class PopUpPost extends AppCompatActivity {
         protected void onPostExecute(Boolean bool) {
             t.cancel();
             if (bool) {
-                if(cart_status) {
+                if (cart_status) {
                     t.makeText(PopUpPost.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
                     ((Button) findViewById(R.id.cart)).setText("ADD TO CART");
-                }
-                else {
+                } else {
                     t.cancel();
                     t.makeText(PopUpPost.this, "Item added to cart", Toast.LENGTH_SHORT).show();
                     ((Button) findViewById(R.id.cart)).setText("REMOVE FROM CART");
                 }
                 cart_status = !cart_status;
-            }
-            else {
+            } else {
                 t.makeText(PopUpPost.this, "Bad connection to server or bad post ID", Toast.LENGTH_SHORT);
             }
         }
     }
 
+    public class GetSellerForProfile extends AsyncTask<Integer, User, User> {
+        @Override
+        protected User doInBackground(Integer... params) {
+            try {
+                return Server.searchUserIDs(params[0].intValue());
+            } catch (IOException e) {
+                Log.d("DEBUG", e.toString());
+                return null;
+            }
+        }
 
-
-
+        @Override
+        protected void onPostExecute(User user) {
+            final User seller = user;
+            findViewById(R.id.viewseller).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent profileIntent = new Intent(getApplicationContext(), Profile_NonUser.class);
+                    profileIntent.putExtra("Profile_NonUser", seller);
+                    startActivity(profileIntent);
+                }
+            });
+        }
+    }
 }

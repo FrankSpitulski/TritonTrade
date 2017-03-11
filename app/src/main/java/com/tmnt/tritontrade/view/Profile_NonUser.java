@@ -60,10 +60,9 @@ public class Profile_NonUser extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        Bundle bd = intent.getExtras();
 
         try {
-            currUser = (User) bd.get("Profile_NonUser");
+            currUser = intent.getParcelableExtra("Profile_NonUser");
         } catch (Exception e){
             e.printStackTrace();
         }
