@@ -548,8 +548,10 @@ public class InstrumentedServerTest
         //assert that the user we made to post it is the same
         assertEquals(post2.getProfileID(),u.getProfileID());
 
-        String s = Server.postToJson(post1arr);
-        ArrayList<Post > test = Server.jsonToPost(s);
+        long id = testPosts.get(0).getPostID();
+        Log.d("DEBUG","POST ID:" + id);
+        Log.d("DEBUG", "" + u.getPostHistory().get(0));
+        assertTrue(u.getPostHistory().get(0) == id);
     }
 
 
