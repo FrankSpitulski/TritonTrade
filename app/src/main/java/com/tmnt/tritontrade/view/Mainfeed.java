@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -81,6 +82,7 @@ public class Mainfeed extends AppCompatActivity
         setContentView(R.layout.activity_mainfeed);
         setTitle("My Feed");
         list = (ListView) this.findViewById(R.id.listFeed);
+        list.setDividerHeight(15);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

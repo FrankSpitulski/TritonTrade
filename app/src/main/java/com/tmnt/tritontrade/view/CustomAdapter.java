@@ -25,10 +25,12 @@ import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * Created by Edward Ji
@@ -153,6 +155,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
             catView = inflater.inflate(R.layout.feed_row, null);
         }
         ViewHolder postHolder = new ViewHolder();
+        NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.getDefault());
 
         //Set everything in feed row
         postHolder.title = (TextView) catView.findViewById(R.id.title);
@@ -165,7 +168,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         postHolder.description.setText(posts.get(position).getDescription());
         postHolder.category.setText(posts.get(position).getTags().get(3).toUpperCase());
 
-        postHolder.price.setText("$"+String.valueOf(posts.get(position).getPrice()));
+        postHolder.price.setText(currency.format(posts.get(position).getPrice()));
         if(posts.get(position).getPhotos().get(0)==""){
             postHolder.image.setVisibility(View.GONE);
         }
