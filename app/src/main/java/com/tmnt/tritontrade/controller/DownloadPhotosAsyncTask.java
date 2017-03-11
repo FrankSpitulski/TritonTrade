@@ -9,7 +9,8 @@ import android.widget.ImageView;
 import java.io.InputStream;
 
 /**
- * Created by omarkhawaja on 2/20/17.
+ * Async task that downloads an image from the server with the given url, either http://... or just
+ * the relative path
  */
 
 public class DownloadPhotosAsyncTask extends AsyncTask<String, Void, Bitmap> {

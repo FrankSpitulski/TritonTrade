@@ -65,6 +65,7 @@ public class Edit_Categories extends AppCompatActivity{
 
         final Set<String> backupset = prefs.getStringSet(ID,new HashSet<String>());
         final Set<String> savedPrefs = prefs.getStringSet(ID,new HashSet<String>());
+        savedPrefs.remove("Furnitures");
         final boolean[] bools = new boolean[10];
         final String[] fields = {"Textbooks","Clothing","Furniture","Food","Technology","Supplies","Storage","Services","Miscellaneous","Transportation"};
 
