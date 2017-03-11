@@ -518,12 +518,16 @@ public class Post implements Parcelable {
 
                 int i= 0;
                 while(i < _photos.length){
-                    photosTA.add(_photos[i]);
-                    i= i+1;
+                    if(!_photos[i].equals("")) {
+                        photosTA.add(_photos[i]);
+                    }
+                    i = i + 1;
                 }
                 i=0;
                 while (i< _tags.length){
-                    tagsTA.add(_tags[i].substring(1, _tags[i].length()-1));
+                    if (!_tags[i].equals("")) {
+                        tagsTA.add(_tags[i].substring(1, _tags[i].length() - 1));
+                    }
                     i= i+1;
                 }
 

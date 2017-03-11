@@ -676,7 +676,9 @@ public class User implements Parcelable {
 
                     try{
                         Log.d("DEBUG", cID[i]);
-                        cardIDsTA.add(new Integer(cID[i]));
+                        if (!cID[i].equals("")) {
+                            cardIDsTA.add(new Integer(cID[i]));
+                        }
                     }
                     catch(NumberFormatException e){
                         Log.e("ERROR", e.getMessage());
@@ -690,7 +692,9 @@ public class User implements Parcelable {
                 while (i< pH.length){
 
                     try{
-                        postHistTA.add(new Integer(pH[i]));
+                        if (pH[i].equals("")) {
+                            postHistTA.add(new Integer(pH[i]));
+                        }
                     }
                     catch(NumberFormatException e){
                         Log.e("ERROR", e.getMessage());
