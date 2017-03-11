@@ -405,13 +405,17 @@ public class Cart extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 //                    *****wont work because user is null, uncomment later*****
-//                    new SearchUserTask().execute();
-//                    String sellerEmail = postSeller.getEmail();
-//                    String sellerPhone = postSeller.getMobileNumber();
-//                    displayContactDialog(sellerEmail, sellerPhone);
+                    new SearchUserTask().execute();
+                    if (postSeller != null) {
+                        String sellerEmail = postSeller.getEmail();
+                        String sellerPhone = postSeller.getMobileNumber();
+                        displayContactDialog(sellerEmail, sellerPhone);
+                    } else {
+                        //postSeller was null???? some reason
                     String sellerEmail = "dummy@ucsd.edu";
                     String sellerPhone = "+0001 (888) 888-8888";
-                    displayContactDialog(sellerEmail, sellerPhone);
+                        displayContactDialog(sellerEmail, sellerPhone);
+                    }
                 }
             });
 
