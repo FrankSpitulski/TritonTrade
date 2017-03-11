@@ -341,7 +341,8 @@ public class Cart extends AppCompatActivity {
 
             //DISPLAY TITLE
             if (post.getProductName().length() >= 22) {
-                String titleTrim = post.getDescription().substring(0, 21) + "...";
+                //THIS LINE CRASHES THING, VARIALBE WAS NEVER USED
+                //String titleTrim = post.getDescription().substring(0, 21) + "...";
                 title.setText(String.valueOf(post.getProductName()));
             } else {
                 title.setText(String.valueOf(post.getProductName()));
