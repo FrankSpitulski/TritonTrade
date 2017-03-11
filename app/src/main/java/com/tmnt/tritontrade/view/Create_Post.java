@@ -371,18 +371,19 @@ public class Create_Post extends AppCompatActivity {
     /**
      * Private Innner class to update the server with the new user info
      */
-    private class UpdateUserTask extends AsyncTask<User, Void, Void> {
-        protected Void doInBackground(User... params) {
-            try {
-                Server.modifyExistingUser(params[0]);
-
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }/*
+//    private class UpdateUserTask extends AsyncTask<User, Void, Void> {
+//        protected Void doInBackground(User... params) {
+//            try {
+//                Server.modifyExistingUser(params[0]);
+//
+//            } catch (Exception e) {
+//                Log.e("Error", e.getMessage());
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//}
+/*
     private class getCurrentStateTask extends AsyncTask<User,User,User>{
         protected User doInBackground(User...params){
             try{
@@ -426,7 +427,8 @@ public class Create_Post extends AppCompatActivity {
         @Override
         protected void onPostExecute(Post result) {
             if (result != null) {
-                new UpdateUserTask().execute(currUser);
+                //new UpdateUserTask().execute(currUser);
+                currUser.addToPostHistory(result.getPostID());
                 CurrentState.getInstance().setCurrentUser(currUser);
                 finish();
                 Toast.makeText(Create_Post.this, "Post Created", Toast.LENGTH_SHORT).show();

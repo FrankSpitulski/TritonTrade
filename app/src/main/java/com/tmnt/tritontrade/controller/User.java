@@ -692,7 +692,7 @@ public class User implements Parcelable {
                 while (i< pH.length){
 
                     try{
-                        if (pH[i].equals("")) {
+                        if (!pH[i].equals("")) {
                             postHistTA.add(new Integer(pH[i]));
                         }
                     }

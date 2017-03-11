@@ -156,11 +156,8 @@ public class Server {
         try {
             // add post to user's post history
             User user = searchUserIDs(post.getProfileID());
-            Log.d("DEBUG", user.toString());
             user.addToPostHistory(post.getPostID());
-            Log.d("DEBUG", user.toString());
             modifyExistingUser(user);
-            Log.d("DEBUG", searchUserIDs(post.getProfileID()).toString());
         }catch(IOException e){
             post.setDeleted(true);
             modifyExistingPost(post);
@@ -386,7 +383,10 @@ public class Server {
         request = request + "&satisfy=any&transform=1";
 
         //try to convert to json
-        users = jsonToUser(httpGetRequest(request));
+        String var = httpGetRequest(request);
+        Log.d("DEBUG", var);
+        users = jsonToUser(var);
+        Log.d("DEBUG", users.toString());
 
         users = filterDeletedUsers(users);
 
@@ -528,6 +528,8 @@ public class Server {
         connection.setRequestMethod("PUT");
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         out.write(stripOuterJson(userToJson(users)));
+
+        Log.d("DEBUG", stripOuterJson(userToJson(users)));
         out.close();
 
         //response from server
@@ -536,9 +538,10 @@ public class Server {
         //if response from server is bad, return false
         if (!response.equals("[1]")) {
             return false;
+        }else {
+            //return success
+            return true;
         }
-        //return success
-        return true;
     }
 
     /**
