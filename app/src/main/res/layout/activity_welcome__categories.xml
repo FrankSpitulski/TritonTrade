@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-light"
             android:gravity="center_horizontal"
-            android:text="Now's your chance to only see the items you care about seeing!\n\n Don't worry, you can change these at any time!"
+            android:text="Now's your chance to see only the items you care about seeing!\n\n Don't worry, you can change these at any time!"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textSize="24sp"
