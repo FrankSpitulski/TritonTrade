@@ -117,7 +117,7 @@ public class Mainfeed extends AppCompatActivity
             }
         });
         // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_dark,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
@@ -278,12 +278,12 @@ public class Mainfeed extends AppCompatActivity
         ArrayList<String> tags= new ArrayList<>();
         if (id == R.id.clothing_sidebar) {
             tags.add("Clothing");
-        }
-        else if(id==R.id.following_sidebar){
+        } else if(id==R.id.following_sidebar){
             fillDefaultTags(tags);
-        }
-        else if (id == R.id.food_sidebar) {
+        } else if (id == R.id.food_sidebar) {
             tags.add("Food");
+        } else if (id == R.id.furniture_sidebar) {
+            tags.add("Furniture");
         } else if (id == R.id.services_sidebar) {
             tags.add("Services");
         } else if (id == R.id.storage_sidebar) {
