@@ -20,6 +20,7 @@ import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
+import com.tmnt.tritontrade.controller.User;
 import com.tmnt.tritontrade.controller.Server;
 
 import java.io.IOException;
@@ -42,6 +43,7 @@ class ProfileListAdaptor extends BaseAdapter {
 
     // Saves the position of the post to be deleted
     private int _pos;
+    private User currUser;
 
     // Asynchronous Task that handles deleting a post
     private class deletePostTask extends AsyncTask<Post, Void, Boolean>{
@@ -49,8 +51,12 @@ class ProfileListAdaptor extends BaseAdapter {
         private ProgressDialog dialog=new ProgressDialog(context);
         protected Boolean doInBackground(Post... params) {
             try {
-                Boolean success = Server.modifyExistingPost(params[0]);
-                return success;
+
+                // Modify both the user and post
+                Boolean postSuccess = Server.modifyExistingPost(params[0]);
+                Boolean userSuccess = Server.modifyExistingUser(currUser);
+
+                return postSuccess && userSuccess;
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
@@ -206,6 +212,7 @@ class ProfileListAdaptor extends BaseAdapter {
         // Button for deleting posts
         Button deleteBtn = (Button)catView.findViewById(R.id.delete_btn);
 
+
         /*
         if(CurrentState.getInstance() != null) {
             postHolder.userTag.setText(CurrentState.getInstance().getCurrentUser().getName());
@@ -252,6 +259,14 @@ class ProfileListAdaptor extends BaseAdapter {
 
                                 // Then modify the list returned by the server
                                 _pos = position;
+
+                                // Modify the user's postHistory
+                                currUser = CurrentState.getInstance().getCurrentUser();
+                                ArrayList<Integer> currPH = currUser.getPostHistory();
+
+                                int indOfPost= currPH.indexOf(posts.get(position).getPostID());
+                                currPH.remove(indOfPost);
+
                                 new deletePostTask().execute(posts.get(position));
 
 
