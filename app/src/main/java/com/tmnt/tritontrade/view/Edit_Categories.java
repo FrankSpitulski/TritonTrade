@@ -3,6 +3,8 @@ package com.tmnt.tritontrade.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -330,6 +332,14 @@ public class Edit_Categories extends AppCompatActivity{
             }
         });
 */
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent in=new Intent(getBaseContext(),Mainfeed.class);
+        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(in);
     }
 
 

@@ -236,8 +236,11 @@ public class Create_Post extends AppCompatActivity {
                 new CreatePostTask().execute();
                 //new UpdateUserTask().execute(currUser);
                 //new getCurrentStateTask().execute();
+
             }
+
         });
+
 
     }
     @Override
@@ -288,13 +291,21 @@ public class Create_Post extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent in=new Intent(getBaseContext(),Mainfeed.class);
+        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(in);
+    }
+
     /**
      * Category selection spinner for the post item
      */
     public void addItemsOnCategorySpinner(){
         spinner1 = (Spinner) findViewById(R.id.categorySpinner);
         List<String> categoryList = new ArrayList<>();
-        categoryList.add("Clothes");
+        categoryList.add("Clothing");
         categoryList.add("Food");
         categoryList.add("Furniture");
         categoryList.add("Storage");
@@ -448,5 +459,6 @@ public class Create_Post extends AppCompatActivity {
                 Toast.makeText(Create_Post.this, "Create Post Failed", Toast.LENGTH_SHORT).show();
             }
         }
+
     }
 }

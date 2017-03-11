@@ -21,20 +21,20 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:paddingTop="@dimen/activity_vertical_margin">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="1300dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:orientation="vertical">
@@ -49,19 +49,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:fontFamily="sans-serif-condensed"
                     android:gravity="start"
-                    android:text="\t Choose Category*"
+                    android:text="Choose Category:*"
                     android:textAlignment="textStart"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="18sp" />
+                    android:textSize="24sp"
+                    android:textStyle="italic" />
 
                 <Spinner
                     android:id="@+id/categorySpinner"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:popupBackground="@color/white" />
 
 
                 <View
@@ -78,11 +81,14 @@
                     android:id="@+id/optionLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:text="\t Buying or Selling*"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Buying or Selling:*"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="18sp" />
+                    android:textSize="24sp"
+                    android:textStyle="italic" />
 
 
                 <Spinner
@@ -109,10 +115,14 @@
                     android:id="@+id/itemLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:text="\t Item Title*"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Item Title*"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    android:textStyle="italic" />
 
 
                 <EditText
@@ -136,10 +146,13 @@
                     android:id="@+id/descriptionLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:text="\t Item Description "
+                    android:text="Item Description "
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    android:textStyle="italic" />
 
                 <EditText
                     android:id="@+id/inputDescriptionLabel"
@@ -162,10 +175,13 @@
                     android:id="@+id/priceLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:text="\t Price*"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Price*"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp" />
 
                 <EditText
                     android:id="@+id/priceInputLabel"
@@ -181,12 +197,14 @@
                     android:id="@+id/button3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
                     android:background="@android:color/transparent"
-                    android:fontFamily="r"
+                    android:fontFamily="sans-serif-smallcaps"
                     android:onClick="addImage"
-                    android:text="Add Image"
-                    android:textAlignment="viewStart" />
+                    android:text="Add Images       +"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -203,14 +221,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
-                <ImageView
-                    android:id="@+id/firstImg"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@android:drawable/ic_menu_add" />
 
                 <ImageView
                     android:id="@+id/secondImg"
@@ -237,6 +247,14 @@
                     app:srcCompat="@android:drawable/ic_menu_add" />
 
                 <ImageView
+                    android:id="@+id/firstImg"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@android:drawable/ic_menu_add" />
+
+                <ImageView
                     android:id="@+id/fifthImg"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -253,11 +271,17 @@
 
                 <Button
                     android:id="@+id/createButton"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="20dp"
                     android:layout_alignParentEnd="true"
-                    android:background="?android:attr/textCheckMark"
-                    />
+                    android:background="@color/EightyTransparentSketchBlue"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Create Post"
+                    android:textAllCaps="false"
+                    android:textColor="@color/SunYellow"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
 
             </RelativeLayout>
