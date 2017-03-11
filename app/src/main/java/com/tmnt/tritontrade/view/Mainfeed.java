@@ -131,8 +131,6 @@ public class Mainfeed extends AppCompatActivity
         //bottom tool bar
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
- //       removeShiftMode(bottomNavigationView);
-
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
