@@ -113,6 +113,7 @@ public class Cart extends AppCompatActivity {
 
 
         bottomNavigationView.getMenu().getItem(3).setChecked(true);
+        bottomNavigationView.setSelected(false);
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -123,12 +124,14 @@ public class Cart extends AppCompatActivity {
 
                         if(item.getItemId() == bottom_mainfeed){
                             Intent in=new Intent(getBaseContext(),Mainfeed.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(in);
                             return true;
                         }
                         else if (item.getItemId() == bottom_edit_category) {
                             Intent in = new Intent(getBaseContext(), Edit_Categories.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(in);
                             return true;
                         }
@@ -147,7 +150,8 @@ public class Cart extends AppCompatActivity {
                         }
                         else if(item.getItemId() == bottom_profile){
                             Intent in=new Intent(getBaseContext(),Profile.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(in);
                             return true;
                         }

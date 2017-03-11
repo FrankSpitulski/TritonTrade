@@ -172,7 +172,6 @@ public class Mainfeed extends AppCompatActivity
 
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
 
-
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener(){
                     @Override
@@ -187,6 +186,7 @@ public class Mainfeed extends AppCompatActivity
                         }
                         else if (item.getItemId() == bottom_edit_category) {
                             Intent in = new Intent(getBaseContext(), Edit_Categories.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(in);
                             return true;
                         }
@@ -199,13 +199,15 @@ public class Mainfeed extends AppCompatActivity
                         }
                         else if(item.getItemId() == bottom_upload){
                             Intent in=new Intent(getBaseContext(),Create_Post.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(in);
                             return true;
                         }
                         else if(item.getItemId() == bottom_profile){
                             Intent in=new Intent(getBaseContext(),Profile.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(in);
                             return true;
                         }
