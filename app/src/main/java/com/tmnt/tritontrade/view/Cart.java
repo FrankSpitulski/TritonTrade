@@ -56,6 +56,8 @@ public class Cart extends AppCompatActivity {
     ArrayList<Post> postsToView; //'posts' goes through check, then displayed on Cart screen
     Post currentPost;            //current post that is clicked on
     User postSeller;        //user that created the post you are currently looking at
+
+    ArrayAdapter<Post> adapter;
     ArrayList<User> temp;
 
     @Override
@@ -182,6 +184,7 @@ public class Cart extends AppCompatActivity {
                 int removePost = currentPost.getPostID();
                 user.removeFromCart(removePost);
                 new ModifyUserCart().execute();
+                //adapter.notifyDataSetChanged();
                 startActivity(new Intent(getApplicationContext(), Cart.class));
 
             }
@@ -432,11 +435,30 @@ public class Cart extends AppCompatActivity {
             if (result != null) {
                 posts = (ArrayList<Post>) result;
 
+                //posts will hold stuff from server in order (smallest postIDs at front/top)
+                //cartInt continues holding cart order (recent postID at front)
+                //postsToView will be populated with posts from posts in the order of cartInt
+
+                for (int cartids = 0; cartids < cartInt.size(); cartids++) {
+                    int toLookFor = cartInt.get(cartids);
+
+                    for (int resultids = 0; resultids < posts.size(); resultids++) {
+                        int toCheck = posts.get(resultids).getPostID();
+
+                        if (toLookFor == toCheck) {
+                            postsToView.add(posts.get(resultids));
+                            break;
+                        }
+                    }
+
+                } //end of loop to get cart order
+
+
                 //set that the posts retrieved from server are to be displayed
-                postsToView = posts;
+                //postsToView = posts;
 
                 //create our new array adapter
-                ArrayAdapter<Post> adapter = new postArrayAdapter(Cart.this, 0, postsToView);
+                adapter = new postArrayAdapter(Cart.this, 0, postsToView);
 
                 //Find list view and bind it with the custom adapter
                 ListView listView = (ListView) findViewById(R.id.cart_list);
