@@ -2,6 +2,7 @@ package com.tmnt.tritontrade.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,10 +33,8 @@ import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
@@ -43,7 +42,6 @@ import static com.tmnt.tritontrade.R.id.bottom_edit_category;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
-import static com.tmnt.tritontrade.R.id.view;
 import static com.tmnt.tritontrade.R.layout.cart_item;
 
 public class Cart extends AppCompatActivity {
@@ -57,6 +55,7 @@ public class Cart extends AppCompatActivity {
     Post currentPost;            //current post that is clicked on
     User postSeller;        //user that created the post you are currently looking at
 
+    ListView listView;
     ArrayAdapter<Post> adapter;
     ArrayList<User> temp;
 
@@ -100,13 +99,11 @@ public class Cart extends AppCompatActivity {
         //gets posts to load
         user = CurrentState.getInstance().getCurrentUser();
         cartInt = user.getCartIDs();
-        postsToView = new ArrayList<>();
-        ////take away later
-        //postSeller = user;
-
-        //get the arraylist of posts in the cart of the user, this method will then populate
-        //the cart once the data is retrieved
-        new SearchPostTask().execute();
+//        postsToView = new ArrayList<>();
+//
+//        //get the arraylist of posts in the cart of the user, this method will then populate
+//        //the cart once the data is retrieved
+//        new SearchPostTask().execute();
 
 
         //bottom tool bar
@@ -158,6 +155,18 @@ public class Cart extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //get the arraylist of posts in the cart of the user, this method will then populate
+        //the cart once the data is retrieved
+
+        postsToView = new ArrayList<>();
+        new SearchPostTask().execute();
+    }
+
+
 
     //////////////////confirmation button for remove from cart//////////////////
     public void displayConfirmationDialog() {
@@ -185,7 +194,15 @@ public class Cart extends AppCompatActivity {
                 user.removeFromCart(removePost);
                 new ModifyUserCart().execute();
                 //adapter.notifyDataSetChanged();
-                startActivity(new Intent(getApplicationContext(), Cart.class));
+
+                Intent intent = getIntent();
+                overridePendingTransition(0, 0);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(intent);
+
+                //  startActivity(new Intent(getApplicationContext(), Cart.class));
 
             }
         });
@@ -311,12 +328,12 @@ public class Cart extends AppCompatActivity {
             ImageView image = (ImageView) view.findViewById(R.id.image);
 
 
-//            //testing
-//            description.setText("testing this is position "+ position + '\n' +
+            //testing
+//            description.setText("testing this is position "+ position + "and postorder:\n" +
 //                    user.getCartIDsString());
 
 
-//            ////////NOTE: POSTSTOVIEW IS NOT IN THE RIGHT ORDER)/////////
+            ////////NOTE: POSTSTOVIEW IS NOT IN THE RIGHT ORDER)/////////
 //            String temptitle = "";
 //            for (Post p : postsToView) {
 //                String s = ""+p.getPostID();
@@ -420,6 +437,8 @@ public class Cart extends AppCompatActivity {
 
     ///////////////////////ASYNC task for loading posts to cart///////////////////////
     private class SearchPostTask extends AsyncTask<Object, Object, Object> {
+        private ProgressDialog dialog = new ProgressDialog(Cart.this);
+
         @Override
         protected Object doInBackground(Object... params) {
             try {
@@ -431,7 +450,16 @@ public class Cart extends AppCompatActivity {
         }
 
         @Override
+        protected void onPreExecute() {
+            this.dialog.setMessage("Loading..");
+            this.dialog.show();
+        }
+
+        @Override
         protected void onPostExecute(Object result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
             if (result != null) {
                 posts = (ArrayList<Post>) result;
 
@@ -461,7 +489,7 @@ public class Cart extends AppCompatActivity {
                 adapter = new postArrayAdapter(Cart.this, 0, postsToView);
 
                 //Find list view and bind it with the custom adapter
-                ListView listView = (ListView) findViewById(R.id.cart_list);
+                listView = (ListView) findViewById(R.id.cart_list);
                 listView.setAdapter(adapter);
             } else {
                 Toast.makeText(Cart.this, "Load Failed", Toast.LENGTH_SHORT).show();
