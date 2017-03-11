@@ -2,6 +2,7 @@ package com.tmnt.tritontrade.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,7 +35,6 @@ import com.tmnt.tritontrade.controller.User;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
@@ -55,6 +55,9 @@ public class Cart extends AppCompatActivity {
     Post currentPost;            //current post that is clicked on
     User postSeller;        //user that created the post you are currently looking at
 
+    ListView listView;
+    ArrayAdapter<Post> adapter;
+    ArrayList<User> temp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +99,11 @@ public class Cart extends AppCompatActivity {
         //gets posts to load
         user = CurrentState.getInstance().getCurrentUser();
         cartInt = user.getCartIDs();
-        postsToView = new ArrayList<>();
-
-        //get the arraylist of posts in the cart of the user, this method will then populate
-        //the cart once the data is retrieved
-        new SearchPostTask().execute();
+//        postsToView = new ArrayList<>();
+//
+//        //get the arraylist of posts in the cart of the user, this method will then populate
+//        //the cart once the data is retrieved
+//        new SearchPostTask().execute();
 
 
         //bottom tool bar
@@ -152,6 +155,18 @@ public class Cart extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //get the arraylist of posts in the cart of the user, this method will then populate
+        //the cart once the data is retrieved
+
+        postsToView = new ArrayList<>();
+        new SearchPostTask().execute();
+    }
+
+
 
     //////////////////confirmation button for remove from cart//////////////////
     public void displayConfirmationDialog() {
@@ -178,7 +193,16 @@ public class Cart extends AppCompatActivity {
                 int removePost = currentPost.getPostID();
                 user.removeFromCart(removePost);
                 new ModifyUserCart().execute();
-                startActivity(new Intent(getApplicationContext(), Cart.class));
+                //adapter.notifyDataSetChanged();
+
+                Intent intent = getIntent();
+                overridePendingTransition(0, 0);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(intent);
+
+                //  startActivity(new Intent(getApplicationContext(), Cart.class));
 
             }
         });
@@ -215,10 +239,30 @@ public class Cart extends AppCompatActivity {
 
                 new SearchUserTask().execute();
                 User temp = user;
-                //CurrentState.getInstance().setCurrentUser(postSeller);
+//                if (postSeller!=null){
+//                    Toast.makeText(getBaseContext(), ""+postSeller.getProfileID(), Toast.LENGTH_SHORT).show();
+//                }
+                new UpdateUserTask().execute(postSeller);
+                CurrentState.getInstance().setCurrentUser(postSeller);
                 Intent toSellerProf = new Intent(getApplicationContext(), Profile_NonUser.class);
-                toSellerProf.putExtra("Profile_NonUser", postSeller);
-                startActivity(new Intent(getApplicationContext(), Profile_NonUser.class));
+                toSellerProf.putExtra("Seller", postSeller);
+                startActivity(toSellerProf);
+
+                //CurrentState.getInstance().setCurrentUser(user);
+
+
+            /*
+            new UpdateUserTask().execute(currUser);
+            CurrentState.getInstance().setCurrentUser(currUserser);
+
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("updatedUser", currUser);
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+                 */
+
+
+
 
             }
         });
@@ -284,26 +328,21 @@ public class Cart extends AppCompatActivity {
             ImageView image = (ImageView) view.findViewById(R.id.image);
 
 
-//            //display trimmed excerpt for description
-            int descriptionLength;
-//            if (post.getDescription() == null) {
-//                descriptionLength = 0;
-//                description.setText("");
-//            } else {
-//
-//                descriptionLength = post.getDescription().length();
-//
-//                if (descriptionLength >= 100) {
-//                    String descriptionTrim = post.getDescription().substring(0, 100) + "...";
-//                    description.setText(descriptionTrim);
-//                } else {
-//                    description.setText(post.getDescription());
-//                }
-//
-//            }
-
             //testing
-            description.setText("testing\n" + user.getCartIDsString());
+//            description.setText("testing this is position "+ position + "and postorder:\n" +
+//                    user.getCartIDsString());
+
+
+            ////////NOTE: POSTSTOVIEW IS NOT IN THE RIGHT ORDER)/////////
+//            String temptitle = "";
+//            for (Post p : postsToView) {
+//                String s = ""+p.getPostID();
+//                temptitle += s + " ";
+//            }
+//
+//            title.setText(temptitle);
+/////////////////////TESTING//////////////
+
 
 
             //set price and rental attributes and default image of post
@@ -312,6 +351,34 @@ public class Cart extends AppCompatActivity {
             title.setText(String.valueOf(post.getProductName()));
             String firstPhoto = post.getPhotos().get(0); //first photo of the ones you uploaded, "default"
             new DownloadPhotosAsyncTask(image).execute(firstPhoto);
+
+            //DISPLAY TITLE
+            if (post.getProductName().length() >= 22) {
+                String titleTrim = post.getDescription().substring(0, 21) + "...";
+                title.setText(String.valueOf(post.getProductName()));
+            } else {
+                title.setText(String.valueOf(post.getProductName()));
+            }
+
+
+            //DISPLAY DESCRIPTION
+            if (post.getProductName().length() >= 17) {
+                if (post.getDescription().length() >= 45) {
+                    String descriptionTrim = post.getDescription().substring(0, 45) + "...";
+                    description.setText(descriptionTrim);
+                } else {
+                    description.setText(post.getDescription());
+                }
+            } else {
+                if (post.getDescription().length() >= 100) {
+                    String descriptionTrim = post.getDescription().substring(0, 98) + "...";
+                    description.setText(descriptionTrim);
+                } else {
+                    description.setText(post.getDescription());
+                }
+            }
+
+
 
 
 
@@ -338,16 +405,35 @@ public class Cart extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 //                    *****wont work because user is null, uncomment later*****
-//                    new SearchUserTask().execute();
-//                    String sellerEmail = postSeller.getEmail();
-//                    String sellerPhone = postSeller.getMobileNumber();
-//                    displayContactDialog(sellerEmail, sellerPhone);
+                    new SearchUserTask().execute();
+                    if (postSeller != null) {
+                        String sellerEmail = postSeller.getEmail();
+                        String sellerPhone = postSeller.getMobileNumber();
+                        displayContactDialog(sellerEmail, sellerPhone);
+                    } else {
+                        //postSeller was null???? some reason
                     String sellerEmail = "dummy@ucsd.edu";
                     String sellerPhone = "+0001 (888) 888-8888";
-                    displayContactDialog(sellerEmail, sellerPhone);
+                        displayContactDialog(sellerEmail, sellerPhone);
+                    }
                 }
             });
 
+
+//            title.setText("UserID: "+user.getProfileID() + ", and sellerID: " + currentPost.getProfileID()+
+//                    ", and PostID: "+ currentPost.getPostID());
+//            new SearchUserTask().execute();
+//
+//            if (postSeller == null){
+//                title.setText("this is null");
+//            }
+//            else if (postSeller.getProfileID() == currentPost.getProfileID()){
+//                title.setText("success, this posts sellerID is: "+postSeller.getProfileID());
+//
+//            }
+//            else{
+//                title.setText("its just me");
+//            }
 
             return view;
         }
@@ -355,6 +441,8 @@ public class Cart extends AppCompatActivity {
 
     ///////////////////////ASYNC task for loading posts to cart///////////////////////
     private class SearchPostTask extends AsyncTask<Object, Object, Object> {
+        private ProgressDialog dialog = new ProgressDialog(Cart.this);
+
         @Override
         protected Object doInBackground(Object... params) {
             try {
@@ -366,18 +454,46 @@ public class Cart extends AppCompatActivity {
         }
 
         @Override
+        protected void onPreExecute() {
+            this.dialog.setMessage("Loading..");
+            this.dialog.show();
+        }
+
+        @Override
         protected void onPostExecute(Object result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
             if (result != null) {
                 posts = (ArrayList<Post>) result;
 
+                //posts will hold stuff from server in order (smallest postIDs at front/top)
+                //cartInt continues holding cart order (recent postID at front)
+                //postsToView will be populated with posts from posts in the order of cartInt
+
+                for (int cartids = 0; cartids < cartInt.size(); cartids++) {
+                    int toLookFor = cartInt.get(cartids);
+
+                    for (int resultids = 0; resultids < posts.size(); resultids++) {
+                        int toCheck = posts.get(resultids).getPostID();
+
+                        if (toLookFor == toCheck) {
+                            postsToView.add(posts.get(resultids));
+                            break;
+                        }
+                    }
+
+                } //end of loop to get cart order
+
+
                 //set that the posts retrieved from server are to be displayed
-                postsToView = posts;
+                //postsToView = posts;
 
                 //create our new array adapter
-                ArrayAdapter<Post> adapter = new postArrayAdapter(Cart.this, 0, postsToView);
+                adapter = new postArrayAdapter(Cart.this, 0, postsToView);
 
                 //Find list view and bind it with the custom adapter
-                ListView listView = (ListView) findViewById(R.id.cart_list);
+                listView = (ListView) findViewById(R.id.cart_list);
                 listView.setAdapter(adapter);
             } else {
                 Toast.makeText(Cart.this, "Load Failed", Toast.LENGTH_SHORT).show();
@@ -430,24 +546,19 @@ public class Cart extends AppCompatActivity {
     }
 
 
-    public class ModifyCurrentUser extends AsyncTask<Object, Object, Object> {
-        @Override
-        protected Object doInBackground(Object... params) {
+    private class UpdateUserTask extends AsyncTask<User, Void, Void> {
+        protected Void doInBackground(User... params) {
             try {
-                Server.modifyExistingUser(user);
-                return true;
-            } catch (IOException e) {
-                Log.d("DEBUG", e.toString());
-                return false;
-            } catch (IllegalArgumentException e2) {
-                Log.d("DEBUG", e2.toString());
-                return false;
+                Server.modifyExistingUser(params[0]);
+
+
+                //   CurrentState.getInstance().setCurrentUser(params[0]);
+
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
             }
-        }
-
-
-        @Override
-        protected void onPostExecute(Object result) { //nothing
+            return null;
         }
 
     }
@@ -476,8 +587,6 @@ public class Cart extends AppCompatActivity {
 //            }
 //        }
 //    }
-
-
 
 
 
