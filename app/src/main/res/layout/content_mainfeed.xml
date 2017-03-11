@@ -46,7 +46,8 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="275dp" />
+            android:layout_marginLeft="275dp"
+            android:layout_marginTop="15dp" />
 
         <SearchView
             android:id="@+id/searchView"
@@ -58,4 +59,14 @@
             android:layout_marginTop="0dp" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/FilterText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="11dp"
+        android:paddingRight="10dp"
+        android:text="Filters" />
 </RelativeLayout>
