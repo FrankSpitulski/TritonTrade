@@ -431,10 +431,10 @@ public class User implements Parcelable {
      * @param id post id
      * @return whether or not the operation was successful
      */
-    public boolean addToCart(int id) {
+    public void addToCart(int id) {
         // no duplicates
         removeFromCart(id);
-        return cartIDs.add(id);
+        cartIDs.add(0, id);
     }
 
     /**

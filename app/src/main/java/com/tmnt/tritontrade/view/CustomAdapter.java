@@ -52,7 +52,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         this.filterList=posts;
         this.context = context;
         this.count = startCount;
-        this.stepNumber=10;
+        this.stepNumber=5;
     }
 
     /**
@@ -98,7 +98,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
      * Show more views, or the bottom
      * @return true if the entire data set is being displayed, false otherwise
      */
-   /* public boolean showMore(){
+    public boolean showMore(){
         if(count == posts.size()) {
             return true;
         }else{
@@ -106,7 +106,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
             notifyDataSetChanged(); //the count size has changed, so notify the super of the change
             return count == posts.size();
         }
-    }*/
+    }
 
     /**
      * Returns item at given position in list
@@ -194,7 +194,6 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
     public class ViewHolder {
         TextView title;
         TextView description;
-        TextView userTag;
         TextView price;
         TextView category;
         ImageView image;

@@ -150,8 +150,8 @@ public class Cart extends AppCompatActivity {
 
 
 
-
     }
+
 
     //////////////////confirmation button for remove from cart//////////////////
     public void displayConfirmationDialog() {
@@ -205,9 +205,31 @@ public class Cart extends AppCompatActivity {
             }
         });
 
+        alert.setPositiveButton("View Profile", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Toast.makeText(getBaseContext(), "Item removed", Toast.LENGTH_SHORT).show();
+
+                //deletes post and reloads page without this  removed post
+
+                new SearchUserTask().execute();
+                User temp = user;
+                //CurrentState.getInstance().setCurrentUser(postSeller);
+                Intent toSellerProf = new Intent(getApplicationContext(), Profile_NonUser.class);
+                toSellerProf.putExtra("Profile_NonUser", postSeller);
+                startActivity(new Intent(getApplicationContext(), Profile_NonUser.class));
+
+            }
+        });
+
+
+
+
         AlertDialog dialog = alert.create();
         dialog.show();
     }
+
 
     void removeShiftMode(BottomNavigationView view) {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
@@ -262,24 +284,26 @@ public class Cart extends AppCompatActivity {
             ImageView image = (ImageView) view.findViewById(R.id.image);
 
 
-            //display trimmed excerpt for description
+//            //display trimmed excerpt for description
             int descriptionLength;
-            if (post.getDescription() == null) {
-                descriptionLength = 0;
-                description.setText("");
-            } else {
+//            if (post.getDescription() == null) {
+//                descriptionLength = 0;
+//                description.setText("");
+//            } else {
+//
+//                descriptionLength = post.getDescription().length();
+//
+//                if (descriptionLength >= 100) {
+//                    String descriptionTrim = post.getDescription().substring(0, 100) + "...";
+//                    description.setText(descriptionTrim);
+//                } else {
+//                    description.setText(post.getDescription());
+//                }
+//
+//            }
 
-                descriptionLength = post.getDescription().length();
-
-                if (descriptionLength >= 100) {
-                    String descriptionTrim = post.getDescription().substring(0, 100) + "...";
-                    description.setText(descriptionTrim);
-                } else {
-                    description.setText(post.getDescription());
-                }
-
-            }
-
+            //testing
+            description.setText("testing\n" + user.getCartIDsString());
 
 
             //set price and rental attributes and default image of post
@@ -318,6 +342,9 @@ public class Cart extends AppCompatActivity {
 //                    String sellerEmail = postSeller.getEmail();
 //                    String sellerPhone = postSeller.getMobileNumber();
 //                    displayContactDialog(sellerEmail, sellerPhone);
+                    String sellerEmail = "dummy@ucsd.edu";
+                    String sellerPhone = "+0001 (888) 888-8888";
+                    displayContactDialog(sellerEmail, sellerPhone);
                 }
             });
 
@@ -384,6 +411,28 @@ public class Cart extends AppCompatActivity {
     public class ModifyUserCart extends AsyncTask<Object, Object, Object> {
         @Override
         protected Boolean doInBackground(Object... params) {
+            try {
+                Server.modifyExistingUser(user);
+                return true;
+            } catch (IOException e) {
+                Log.d("DEBUG", e.toString());
+                return false;
+            } catch (IllegalArgumentException e2) {
+                Log.d("DEBUG", e2.toString());
+                return false;
+            }
+        }
+
+
+//        @Override
+//        protected void onPostExecute(Object result) { //nothing
+//        }
+    }
+
+
+    public class ModifyCurrentUser extends AsyncTask<Object, Object, Object> {
+        @Override
+        protected Object doInBackground(Object... params) {
             try {
                 Server.modifyExistingUser(user);
                 return true;

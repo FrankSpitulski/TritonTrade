@@ -14,6 +14,7 @@ import android.widget.ToggleButton;
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class Edit_Categories extends AppCompatActivity{
     private ToggleButton trans;
 
     private Button follow;
-    private Button cancel;
+    //private Button cancel;
 
 
 
@@ -58,55 +59,59 @@ public class Edit_Categories extends AppCompatActivity{
 
         final String ID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
         final SharedPreferences prefs = getSharedPreferences(ID, Context.MODE_PRIVATE);
-
         final SharedPreferences.Editor editor = prefs.edit();
-        //editor.clear();
-        //editor.apply();
+
         final Set<String> backupset = prefs.getStringSet(ID,new HashSet<String>());
+        final Set<String> savedPrefs = prefs.getStringSet(ID,new HashSet<String>());
+        final boolean[] bools = new boolean[10];
+        final String[] fields = {"Textbooks","Clothing","Furniture","Food","Technology","Supplies","Storage","Services","Miscellaneous","Transportation"};
 
-        //editor.clear();
-        //editor.apply();
-        Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
-                new HashSet<String>()));
 
-        final Set<String> set = prefs.getStringSet(ID,new HashSet<String>());
+        System.out.println(savedPrefs);
 
-        Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
-                new HashSet<String>()));
-
-        Iterator<String> iterator = set.iterator();
+        Iterator<String> iterator = savedPrefs.iterator();
         while(iterator.hasNext()){
             String cate = iterator.next();
             switch(cate) {
                 case "Textbooks":
                     textbook.setChecked(true);
+                    bools[0] = true;
                     break;
                 case "Clothing":
                     clothes.setChecked(true);
+                    bools[1] = true;
                     break;
                 case "Furniture":
                     furniture.setChecked(true);
+                    bools[2] = true;
                     break;
                 case "Food":
                     foods.setChecked(true);
+                    bools[3] = true;
                     break;
                 case "Technology":
                     technology.setChecked(true);
+                    bools[4] = true;
                     break;
                 case "Supplies":
                     supplies.setChecked(true);
+                    bools[5] = true;
                     break;
                 case "Storage":
                     storage.setChecked(true);
+                    bools[6] = true;
                     break;
                 case "Services":
                     services.setChecked(true);
+                    bools[7] = true;
                     break;
                 case "Miscellaneous":
                     miscs.setChecked(true);
+                    bools[8] = true;
                     break;
                 case "Transportation":
                     trans.setChecked(true);
+                    bools[9] = true;
                     break;
                 default:
                     break;
@@ -121,24 +126,13 @@ public class Edit_Categories extends AppCompatActivity{
                 if(textbook.isChecked())
                 {
                     //textbook.setChecked(true);
-                    set.add("Textbooks");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "TEXTBOOK Selected", Toast.LENGTH_SHORT).show();
-                    Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
-                            new HashSet<String>()));
+                    bools[0] = true;
                 }
                 else
                 {
-                    textbook.setChecked(false);
-                    set.remove("Textbooks");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "TEXTBOOK Deselected", Toast.LENGTH_SHORT).show();
-                    Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
-                            new HashSet<String>()));
+                    //textbook.setChecked(false);
+                    //savedPrefs.remove("Textbooks");
+                    bools[0] = false;
                 }
             }
         });
@@ -147,22 +141,14 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(clothes.isChecked())
                 {
-                    clothes.setChecked(true);
-                    set.add("Clothing");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "CLOTHING Selected", Toast.LENGTH_SHORT).show();
-
+                    bools[1] = true;
+                    //savedPrefs.add("Clothing");
                 }
                 else
                 {
-                    clothes.setChecked(false);
-                    set.remove("Clothing");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "CLOTHING Deselected", Toast.LENGTH_SHORT).show();
+                    bools[1] = false;
+                    //clothes.setChecked(false);
+                    //savedPrefs.remove("Clothing");
                 }
             }
         });
@@ -171,22 +157,14 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(furniture.isChecked())
                 {
-                    furniture.setChecked(true);
-                    set.add("Furniture");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "FURNITURES Selected", Toast.LENGTH_SHORT).show();
-
+                    bools[2] = true;
+                    //savedPrefs.add("Furniture");
                 }
                 else
                 {
-                    furniture.setChecked(false);
-                    set.remove("Furniture");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "FURNITURES Deselected", Toast.LENGTH_SHORT).show();
+                    bools[2] = false;
+                    //furniture.setChecked(false);
+                    //savedPrefs.remove("Furniture");
                 }
             }
         });
@@ -195,22 +173,14 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(foods.isChecked())
                 {
-                    foods.setChecked(true);
-                    set.add("Food");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "FOOD Selected", Toast.LENGTH_SHORT).show();
-
+                    bools[3] = true;
+                    //savedPrefs.add("Food");
                 }
                 else
                 {
-                    foods.setChecked(false);
-                    set.remove("Food");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "FOOD Deselected", Toast.LENGTH_SHORT).show();
+                    bools[3] = false;
+                    //foods.setChecked(false);
+                    //savedPrefs.remove("Food");
                 }
             }
         });
@@ -219,22 +189,14 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(technology.isChecked())
                 {
-                    technology.setChecked(true);
-                    set.add("Technology");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "TECHNOLOGY Selected", Toast.LENGTH_SHORT).show();
-
+                    bools[4] = true;
+                    //savedPrefs.add("Technology");
                 }
                 else
                 {
-                    technology.setChecked(false);
-                    set.remove("Technology");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "TECHNOLOGY Deselected", Toast.LENGTH_SHORT).show();
+                    bools[4] = false;
+                    //technology.setChecked(false);
+                    //savedPrefs.remove("Technology");
                 }
             }
         });
@@ -243,22 +205,14 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(supplies.isChecked())
                 {
-                    supplies.setChecked(true);
-                    set.add("Supplies");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "SUPPLIES Selected", Toast.LENGTH_SHORT).show();
-
+                    bools[5] = true;
+                    //savedPrefs.add("Supplies");
                 }
                 else
                 {
-                    supplies.setChecked(false);
-                    set.remove("Supplies");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "SUPPLIES Deselected", Toast.LENGTH_SHORT).show();
+                    bools[5] = false;
+                    //supplies.setChecked(false);
+                    //savedPrefs.remove("Supplies");
                 }
             }
         });
@@ -267,22 +221,15 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(storage.isChecked())
                 {
-                    storage.setChecked(true);
-                    set.add("Storage");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "STORAGE Selected", Toast.LENGTH_SHORT).show();
-
+                    bools[6] = true;
+                    //storage.setChecked(true);
+                    //savedPrefs.add("Storage");
                 }
                 else
                 {
-                    storage.setChecked(false);
-                    set.remove("Storage");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "STORAGE Deselected", Toast.LENGTH_SHORT).show();
+                    bools[6] = false;
+                    //storage.setChecked(false);
+                    //savedPrefs.remove("Storage");
                 }
             }
         });
@@ -291,22 +238,15 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(services.isChecked())
                 {
-                    services.setChecked(true);
-                    set.add("Services");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "SERVICES Selected", Toast.LENGTH_SHORT).show();
-
+                    bools[7] = true;
+                    //services.setChecked(true);
+                    //savedPrefs.add("Services");
                 }
                 else
                 {
-                    services.setChecked(false);
-                    set.remove("Services");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "SERVICES Deselected", Toast.LENGTH_SHORT).show();
+                    bools[7] = false;
+                    //services.setChecked(false);
+                    //savedPrefs.remove("Services");
                 }
             }
         });
@@ -315,22 +255,16 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(miscs.isChecked())
                 {
-                    miscs.setChecked(true);
-                    set.add("Miscellaneous");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "MISCS Selected", Toast.LENGTH_SHORT).show();
+                    bools[8] = true;
+                    //miscs.setChecked(true);
+                    //savedPrefs.add("Miscellaneous");
 
                 }
                 else
                 {
-                    miscs.setChecked(false);
-                    set.remove("Miscellaneous");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "MISCS Deselected", Toast.LENGTH_SHORT).show();
+                    bools[8] = false;
+                    //miscs.setChecked(false);
+                    //savedPrefs.remove("Miscellaneous");
                 }
             }
         });
@@ -339,39 +273,49 @@ public class Edit_Categories extends AppCompatActivity{
             public void onClick(View v) {
                 if(trans.isChecked())
                 {
-                    trans.setChecked(true);
-                    set.add("Transportation");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "TRANS Selected", Toast.LENGTH_SHORT).show();
-
+                    bools[9] = true;
+                    //trans.setChecked(true);
+                    //savedPrefs.add("Transportation");
                 }
                 else
                 {
-                    trans.setChecked(false);
-                    set.remove("Transportation");
-                    editor.clear();
-                    editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Edit_Categories.this, "TRANS Deselected", Toast.LENGTH_SHORT).show();
+                    bools[9] = false;
+                    //trans.setChecked(false);
+                    //savedPrefs.remove("Transportation");
                 }
             }
         });
 
+
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
-                        new HashSet<String>()));
-                if(set.isEmpty()){
-                    Toast.makeText(Edit_Categories.this, "You did not follow any category", Toast.LENGTH_SHORT).show();
+
+                // loop through our boolean array to see which category preferences we will update.
+                for(int i=0; i<10; i++){
+                    if(bools[i])
+                    {
+                        savedPrefs.add(fields[i]);
+                    }
+                    else
+                    {
+                        savedPrefs.remove(fields[i]);
+                    }
+                }
+
+                editor.clear();
+                editor.putStringSet(ID,savedPrefs);
+                editor.apply();
+
+                if(savedPrefs.isEmpty()){
+                    Toast.makeText(Edit_Categories.this, "You did not follow any categories!", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     startActivity(new Intent(getApplicationContext(), Mainfeed.class));
                 }
             }
         });
+
 
         /*
         cancel.setOnClickListener(new View.OnClickListener() {

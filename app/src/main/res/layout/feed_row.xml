@@ -45,7 +45,7 @@
                 android:layout_gravity="left|center_horizontal"
                 android:layout_weight="1"
                 android:text="Product Title"
-                android:textColor="#163EB8"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20sp"
                 android:textStyle="normal|bold" />
 

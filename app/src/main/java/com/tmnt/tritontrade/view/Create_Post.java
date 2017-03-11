@@ -25,6 +25,7 @@ import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
+import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,6 +52,7 @@ public class Create_Post extends AppCompatActivity {
     Button createPostButton;
     private Spinner spinner1;
     private Spinner spinner2;
+    private User currUser;
 
 
     ImageView firstImg;
@@ -77,7 +79,7 @@ public class Create_Post extends AppCompatActivity {
         addItemsOnCategorySpinner();
         addItemsOnBuyOrSellSpinner();
 
-       firstImg = (ImageView) findViewById(R.id.firstImg);
+        firstImg = (ImageView) findViewById(R.id.firstImg);
         secondImg = (ImageView) findViewById(R.id.secondImg);
         thirdImg = (ImageView) findViewById(R.id.thirdImg);
         fourthImg = (ImageView) findViewById(R.id.fourthImg);
@@ -123,7 +125,7 @@ public class Create_Post extends AppCompatActivity {
 //                    }
 //                }
 //        );
-
+        currUser = CurrentState.getInstance().getCurrentUser();
         createPostButton = (Button) findViewById(R.id.createButton);
 
         createPostButton.setOnClickListener(new View.OnClickListener(){
@@ -143,7 +145,7 @@ public class Create_Post extends AppCompatActivity {
                 try {
                     description = theDescription.getText().toString();
                     if (description == null) {
-                        description = " ";
+                        description = "";
                     } //added because cart keeps fucking up
                 }catch(IllegalArgumentException e){
                     Toast.makeText(Create_Post.this, "Invalid Description", Toast.LENGTH_SHORT).show();
@@ -288,15 +290,6 @@ public class Create_Post extends AppCompatActivity {
             }
             return null;
         }
-
-        /*
-        @Override
-        protected void onPreExecute() {
-        }
-
-        protected void onPostExecute(Void result) {
-        }
-        */
     }
 
 
@@ -346,6 +339,8 @@ public class Create_Post extends AppCompatActivity {
         @Override
         protected void onPostExecute(Post result) {
             if (result != null) {
+                new UpdateUserTask().execute();
+                CurrentState.getInstance().setCurrentUser(currUser);
                 startActivity(new Intent(getApplicationContext(), Mainfeed.class));
             } else {
 
@@ -354,8 +349,7 @@ public class Create_Post extends AppCompatActivity {
         }
     }
 
-    //ASYNC TASK FOR THE UPLOAD TO SERVER
-    private class GetPathTask extends AsyncTask<String, String, String> {
+    /*private class GetPathTask extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... params) {
             try {
@@ -379,7 +373,7 @@ public class Create_Post extends AppCompatActivity {
                 Toast.makeText(Create_Post.this, "Post Upload Failed", Toast.LENGTH_SHORT).show();
             }
         }
-    }
+    }*/
 
 
     public void addImage(View view) {
@@ -390,5 +384,29 @@ public class Create_Post extends AppCompatActivity {
         counter = (counter + 1) % 5;
 
         startActivityForResult(intent,IMG_RESULT);
+    }
+    /**
+     * Private Innner class to update the server with the new user info
+     */
+    private class UpdateUserTask extends AsyncTask<User, Void, Void> {
+        protected Void doInBackground(User... params) {
+            try {
+                Server.modifyExistingUser(params[0]);
+
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        /*
+        @Override
+        protected void onPreExecute() {
+        }
+
+        protected void onPostExecute(Void result) {
+        }
+        */
     }
 }
