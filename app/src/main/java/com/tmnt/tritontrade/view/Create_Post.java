@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,6 +31,7 @@ import com.tmnt.tritontrade.controller.User;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 import java.util.List;
 
 //import static com.tmnt.tritontrade.R.id.imgButton4;
@@ -76,8 +78,11 @@ public class Create_Post extends AppCompatActivity {
         setContentView(R.layout.activity_create__post);
         setTitle("Create a Post");
 
+
         addItemsOnCategorySpinner();
         addItemsOnBuyOrSellSpinner();
+        //auto keyboard pop up stopped
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         firstImg = (ImageView) findViewById(R.id.firstImg);
         secondImg = (ImageView) findViewById(R.id.secondImg);
@@ -136,26 +141,22 @@ public class Create_Post extends AppCompatActivity {
                 spinner1 = (Spinner) findViewById(R.id.categorySpinner);
                 spinner2 = (Spinner) findViewById(R.id.buyOrSellSpinner);
 
-
                 try {
                     productName = theName.getText().toString();
-                }catch(IllegalArgumentException e){
-                    Toast.makeText(Create_Post.this, "Invalid Product Name", Toast.LENGTH_SHORT).show();
-                }
-                try {
+                    if(productName.equals("")){
+                        throw new IllegalArgumentException("NO_TITLE");
+                    }
                     description = theDescription.getText().toString();
-                    if (description == null) {
-                        description = "";
-                    } //added because cart keeps fucking up
-                }catch(IllegalArgumentException e){
-                    Toast.makeText(Create_Post.this, "Invalid Description", Toast.LENGTH_SHORT).show();
-                }
-                try {
-                    price = Float.parseFloat(thePrice.getText().toString());
-                }catch(IllegalArgumentException e){
-                    Toast.makeText(Create_Post.this, "Invalid Price", Toast.LENGTH_SHORT).show();
-                }
 
+                    price = Float.parseFloat(thePrice.getText().toString());
+
+                } catch (IllegalArgumentException e) {
+                    if(e.toString().equals("NO_TITLE")){
+                        Toast.makeText(Create_Post.this, "Need a Title", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(Create_Post.this, "Invalid Price", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 String selectedItemText = spinner1.getSelectedItem().toString();
 
                 tags = new ArrayList<String>();
@@ -227,6 +228,7 @@ public class Create_Post extends AppCompatActivity {
                 new CreatePostTask().execute();
             }
         });
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -274,25 +276,9 @@ public class Create_Post extends AppCompatActivity {
 
     }
 
-
     /**
-     * Private Innner class to upload the new profile pic to the server
+     * Category selection spinner for the post item
      */
-    private class UploadPhotoTask extends AsyncTask<Void, Void, Void> {
-        protected Void doInBackground(Void... params) {
-            try {
-                String s = Server.uploadImage(is, type);
-                photos.add(s);
-
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
-
     public void addItemsOnCategorySpinner(){
         spinner1 = (Spinner) findViewById(R.id.categorySpinner);
         List<String> categoryList = new ArrayList<>();
@@ -310,6 +296,10 @@ public class Create_Post extends AppCompatActivity {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(dataAdapter);
     }
+
+    /**
+     * User selection spinner for buying or selling product
+     */
     public void addItemsOnBuyOrSellSpinner(){
         spinner2 = (Spinner) findViewById(R.id.buyOrSellSpinner);
         List<String> buyOrSellList = new ArrayList<>();
@@ -321,33 +311,6 @@ public class Create_Post extends AppCompatActivity {
         spinner2.setAdapter(dataAdapter);
     }
 
-
-
-    private class CreatePostTask extends AsyncTask<Post, Post, Post> {
-        @Override
-        protected Post doInBackground(Post... params) {
-            try {
-                return Server.addPost(productName,photos,description,price,
-                        tags,profileID,selling,contactInfo);
-            }
-            catch(IOException e) {
-                Log.d("DEBUG", e.toString());
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Post result) {
-            if (result != null) {
-                new UpdateUserTask().execute();
-                CurrentState.getInstance().setCurrentUser(currUser);
-                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
-            } else {
-
-                Toast.makeText(Create_Post.this, "Create Post Failed", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     /*private class GetPathTask extends AsyncTask<String, String, String> {
         @Override
@@ -385,6 +348,27 @@ public class Create_Post extends AppCompatActivity {
 
         startActivityForResult(intent,IMG_RESULT);
     }
+
+
+
+
+    /**
+     * Private Innner class to upload the new profile pic to the server
+     */
+    private class UploadPhotoTask extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... params) {
+            try {
+                String s = Server.uploadImage(is, type);
+                photos.add(s);
+
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
     /**
      * Private Innner class to update the server with the new user info
      */
@@ -399,14 +383,40 @@ public class Create_Post extends AppCompatActivity {
             }
             return null;
         }
-
-        /*
-        @Override
-        protected void onPreExecute() {
-        }
-
-        protected void onPostExecute(Void result) {
-        }
-        */
     }
+    /**
+     * Create Post Inner class
+     */
+    private class CreatePostTask extends AsyncTask<Post, Post, Post> {
+        @Override
+        protected Post doInBackground(Post... params) {
+            try {
+                return Server.addPost(productName,photos,description,price,
+                        tags,profileID,selling,contactInfo);
+            }
+            catch(IOException e) {
+                Log.d("DEBUG", e.toString());
+                return null;
+            } catch (IllegalFormatException e){
+                Log.d("DEBUG", e.toString());
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Post result) {
+            if (result != null) {
+                new UpdateUserTask().execute(currUser);
+                CurrentState.getInstance().setCurrentUser(currUser);
+                finish();
+                Toast.makeText(Create_Post.this, "Post Created", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+            } else {
+
+                Toast.makeText(Create_Post.this, "Create Post Failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
 }

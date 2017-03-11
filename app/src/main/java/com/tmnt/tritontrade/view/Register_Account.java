@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +17,7 @@ import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
+import java.util.IllegalFormatCodePointException;
 
 public class Register_Account extends AppCompatActivity {
 
@@ -23,7 +26,7 @@ public class Register_Account extends AppCompatActivity {
     static String theEmail = "";
     static String thePassword = "";
     static String thePhone = "";
-
+    static String autoFill = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,35 @@ public class Register_Account extends AppCompatActivity {
 
         registerButton = (Button) findViewById(R.id.nextPageLabel);
 
+        /*final EditText userPhone = (EditText) findViewById(R.id.phoneLabel);
+        autoFill = userPhone.getText().toString();
+        userPhone.addTextChangedListener(new TextWatcher() {
+            int len=0;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+                //String str = userPhone.getText().toString();
+                if(autoFill.length()==1 && len < autoFill.length()){
+                    userPhone.append("+");
+                }
+                if(autoFill.length()==6 && len < autoFill.length()){
+                    userPhone.append(" (");
+                }
+                if (autoFill.length() == 10 && len < autoFill.length()) {
+                    userPhone.append(") ");
+                }
+                if (autoFill.length() == 16 && len < autoFill.length()){
+                    userPhone.append("-");
+                }
+                            /*if((autoFill.length()==5 && len <str.length()) || (str.length()==13 && len <str.length())){
+                                //checking length  for backspace.
+                                etNICNO_Sender.append("-");
+                                //Toast.makeText(getBaseContext(), "add minus", Toast.LENGTH_SHORT).show();
+                            }*/
+          /*  }
+
+        });*/
         registerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 EditText userName = (EditText) findViewById(R.id.nameLabel);
@@ -42,16 +74,22 @@ public class Register_Account extends AppCompatActivity {
                 try {
                     theName = userName.getText().toString();
                     if(theName.equals("")){
-                        throw new IllegalArgumentException("NAME");
+                        throw new IllegalArgumentException("NO_NAME");
+                    }
+                    if(theName.toLowerCase().contains("fuck") || theName.toLowerCase().contains("ass") || theName.toLowerCase().contains("bitch")){
+                        throw new IllegalArgumentException("NICE_TRY");
                     }
                     theEmail = userEmail.getText().toString();
                     if(!theEmail.matches(".*ucsd.edu$")){
-                        throw new IllegalArgumentException("EMAIL");
+                        throw new IllegalArgumentException("NON_UCSD_EMAIL");
                     }
 
                     thePassword = userPassword.getText().toString();
                     if(thePassword.equals("")) {
-                        throw new IllegalArgumentException("PASSWORD");
+                        throw new IllegalArgumentException("NO_PASSWORD");
+                    }
+                    if(thePassword.length()<4){
+                        throw new IllegalArgumentException("SHORT_PASSWORD");
                     }
                     //get input from the field
                     String numberInput = userPhone.getText().toString();
@@ -69,14 +107,18 @@ public class Register_Account extends AppCompatActivity {
                 } catch(IllegalArgumentException e) {
                     Log.d("DEBUG", e.toString());
 
-                    if(e.getMessage().equals("NAME")) {
-                        Toast.makeText(Register_Account.this, "Bad Username ", Toast.LENGTH_SHORT).show();
-                    }else if(e.getMessage().equals("EMAIL")) {
-                        Toast.makeText(Register_Account.this, "Bad Email", Toast.LENGTH_SHORT).show();
-                    }else if(e.getMessage().equals("PASSWORD")) {
-                        Toast.makeText(Register_Account.this, "Bad Password", Toast.LENGTH_SHORT).show();
+                    if(e.getMessage().equals("NO_NAME")) {
+                        Toast.makeText(Register_Account.this, "Sorry, you need to enter a name!", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("NICE_TRY")) {
+                        Toast.makeText(Register_Account.this, "Nice try, but do you really want people to call you that?", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("NON_UCSD_EMAIL")) {
+                        Toast.makeText(Register_Account.this, "Sorry, you must use your UCSD email.", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("NO_PASSWORD")) {
+                        Toast.makeText(Register_Account.this, "You need to enter a password", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("SHORT_PASSWORD")) {
+                        Toast.makeText(Register_Account.this, "For safety, your password must be greater than 4 characters.", Toast.LENGTH_SHORT).show();
                     }else if(e.getMessage().equals("PHONE")) {
-                        Toast.makeText(Register_Account.this, "Bad Phone", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Register_Account.this, "Please enter a valid phone number. We promise not to contact you.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -165,7 +207,7 @@ public class Register_Account extends AppCompatActivity {
             if(result!=null){
                 startActivity(new Intent(getApplicationContext(), Verify_Account.class));
             }else{
-                Toast.makeText(Register_Account.this, "Register Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Register_Account.this, "Registration Failed", Toast.LENGTH_SHORT).show();
             }
         }
     }

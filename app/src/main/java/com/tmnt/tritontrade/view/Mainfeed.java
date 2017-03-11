@@ -13,6 +13,8 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,8 +26,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -40,6 +44,7 @@ import com.tmnt.tritontrade.controller.User;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
@@ -59,6 +64,7 @@ public class Mainfeed extends AppCompatActivity
     private ListView list;
     private SwipeRefreshLayout swipeContainer;
     ArrayList<String> lastSearchedTags;
+    Spinner filters;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -68,6 +74,7 @@ public class Mainfeed extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainfeed);
         setTitle("My Feed");
@@ -118,14 +125,18 @@ public class Mainfeed extends AppCompatActivity
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
         //bottom tool bar
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
         removeShiftMode(bottomNavigationView);
+
+        bottomNavigationView.getMenu().getItem(0).setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener(){
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        bottomNavigationView.getMenu().getItem(0);
+
                         if(item.getItemId() == bottom_mainfeed){
                             Intent in=new Intent(getBaseContext(),Mainfeed.class);
                             in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -134,6 +145,7 @@ public class Mainfeed extends AppCompatActivity
                         }
                         else if (item.getItemId() == bottom_edit_category) {
                             Intent in = new Intent(getBaseContext(), Edit_Categories.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(in);
                             return true;
                         }
@@ -146,13 +158,15 @@ public class Mainfeed extends AppCompatActivity
                         }
                         else if(item.getItemId() == bottom_upload){
                             Intent in=new Intent(getBaseContext(),Create_Post.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(in);
                             return true;
                         }
                         else if(item.getItemId() == bottom_profile){
                             Intent in=new Intent(getBaseContext(),Profile.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(in);
                             return true;
                         }
@@ -160,6 +174,8 @@ public class Mainfeed extends AppCompatActivity
                     }
                 }
         );
+        addItemsOnFiltersSpinner();
+        configureFilters();
     }
 
     /**
@@ -177,6 +193,24 @@ public class Mainfeed extends AppCompatActivity
         }
         for(String s: tagSet){
             tags.add(s);
+        }
+    }
+    //TODO Frank
+    private void configureFilters(){
+        if(filters.getSelectedItem().toString().equals("Most Recent")){
+
+        }
+        else if(filters.getSelectedItem().toString().equals("Price: Lowest to Highest")){
+
+        }
+        else if(filters.getSelectedItem().toString().equals("Price: Highest to Lowest")){
+
+        }
+        else if(filters.getSelectedItem().toString().equals("Buying")){
+
+        }
+        else if(filters.getSelectedItem().toString().equals("Selling")){
+
         }
     }
 
@@ -331,6 +365,23 @@ public class Mainfeed extends AppCompatActivity
                 });
             }
         }
+    }
+
+    /**
+     * Category selection spinner for the post item
+     */
+    public void addItemsOnFiltersSpinner(){
+        filters = (Spinner) findViewById(R.id.filters);
+        List<String> filterOptions = new ArrayList<>();
+        filterOptions.add("Most Recent");
+        filterOptions.add("Price: Lowest to Highest");
+        filterOptions.add("Price: Highest to Lowest");
+        filterOptions.add("Buying");
+        filterOptions.add("Selling");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, filterOptions);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filters.setAdapter(dataAdapter);
     }
 
 

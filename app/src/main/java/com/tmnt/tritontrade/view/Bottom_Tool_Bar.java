@@ -1,65 +1,66 @@
 package com.tmnt.tritontrade.view;
 
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
-
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnMenuTabClickListener;
+import android.os.Bundle;
+import android.view.MenuItem;
 import com.tmnt.tritontrade.R;
 
 public class Bottom_Tool_Bar extends AppCompatActivity {
 
-    private BottomBar mBottomBar;
-
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom__tool__bar);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
 
-        mBottomBar.setItems(R.menu.bottom_nav_items);
+//        bottomNavigationView.setOnNavigationItemSelectedListener
+//                (new BottomNavigationView.OnNavigationItemSelectedListener() {
+//                    @Override
+//                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                        Fragment selectedFragment = null;
+//                        Intent in;
+//                        switch (item.getItemId()) {
+//                            case R.id.bottom_mainfeed:
+//                                //in=new Intent(getBaseContext(),Mainfeed.class);
+//                                //in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                                //startActivity(in);
+//                                break;
+//                            case R.id.bottom_edit_category:
+////                                selectedFragment = EditCategoryFragment.newInstance();
+//                                in =new Intent(getBaseContext(),Edit_Categories.class);
+//                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                                startActivity(in);
+//                                return true;
+//                            case R.id.bottom_upload:
+////                                selectedFragment = CreatePostFragment.newInstance();
+//                                in =new Intent(getBaseContext(),Create_Post.class);
+//                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                                startActivity(in);
+//                                return true;
+//                            case R.id.bottom_cart:
+//                                selectedFragment = CartFragment.newInstance();
+//                                break;
+//                            case R.id.bottom_profile:
+//                                selectedFragment = ProfileFragment.newInstance();
+//                                break;
+//                        }
+//                        FragmentTransaction transaction = getSupportFragmentManager().
+//                                beginTransaction();
+//                        transaction.replace(R.id.frame_layout, selectedFragment);
+//                        transaction.commit();
+//                        return true;
+//                    }
+//                });
+//        FragmentTransaction transaction = getSupportFragmentManager().
+//                beginTransaction();
+//        transaction.replace(R.id.frame_layout, MainFeedFragment.newInstance());
+//        transaction.commit();
 
-
-        mBottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
-
-            @Override
-            public void onMenuTabSelected(@IdRes int menuItemId) {
-                showToast(menuItemId, false);
-            }
-
-            @Override
-            public void onMenuTabReSelected(@IdRes int menuItemId) {
-                showToast(menuItemId, true);
-            }
-        });
-    }
-
-    private void showToast(int menuId, boolean isReselected) {
-        if (menuId == R.id.bottom_mainfeed) {
-
-        } else if (menuId == R.id.bottom_upload) {
-
-        } else if (menuId == R.id.bottom_cart) {
-
-        } else if (menuId == R.id.bottom_profile){
-
-        }
-    }
-
-    private void show(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        // Necessary to restore the BottomBar's state, otherwise we would
-        // lose the current tab on orientation change.
-        mBottomBar.onSaveInstanceState(outState);
     }
 }

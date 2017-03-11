@@ -1,19 +1,26 @@
 package com.tmnt.tritontrade.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Button;
 
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
+import com.tmnt.tritontrade.controller.User;
 import com.tmnt.tritontrade.controller.Server;
 
 import java.io.IOException;
@@ -33,6 +40,50 @@ class ProfileListAdaptor extends BaseAdapter {
     private int count; //Current amount of items displayed
     private int stepNumber; //Amount of items loaded on next display
     private final int startCount=20; //Start amount of items being displayed
+
+    // Saves the position of the post to be deleted
+    private int _pos;
+    private User currUser;
+
+    // Asynchronous Task that handles deleting a post
+    private class deletePostTask extends AsyncTask<Post, Void, Boolean>{
+
+        private ProgressDialog dialog=new ProgressDialog(context);
+        protected Boolean doInBackground(Post... params) {
+            try {
+
+                // Modify both the user and post
+                Boolean postSuccess = Server.modifyExistingPost(params[0]);
+                Boolean userSuccess = Server.modifyExistingUser(currUser);
+
+                return postSuccess && userSuccess;
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setMessage("Loading");
+            this.dialog.show();
+        }
+
+        protected void onPostExecute(Boolean result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+
+            // Modify the list if the deletion was successful
+            if ( result ) {
+                posts.remove(_pos);
+                notifyDataSetChanged();
+            }
+
+
+        }
+    }
 
     /**
      * Constructor
@@ -158,6 +209,10 @@ class ProfileListAdaptor extends BaseAdapter {
         postHolder.title.setText(posts.get(position).getProductName());
         postHolder.description.setText(posts.get(position).getDescription());
 
+        // Button for deleting posts
+        Button deleteBtn = (Button)catView.findViewById(R.id.delete_btn);
+
+
         /*
         if(CurrentState.getInstance() != null) {
             postHolder.userTag.setText(CurrentState.getInstance().getCurrentUser().getName());
@@ -182,6 +237,46 @@ class ProfileListAdaptor extends BaseAdapter {
 
             }
         });
+
+        // CLICK Listener For Delete Button
+        deleteBtn.setOnClickListener(new View.OnClickListener(){
+
+            // When the button is clicked delete the post item
+            @Override
+            public void onClick(View view){
+
+                // Display the confirmation window for deleting a post
+                new AlertDialog.Builder(context)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Delete Confirmation")
+                        .setMessage("Are you sure you want to delete this post?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                // Set the post to be deleted's deleted field to true
+                                posts.get(position).setDeleted(true);
+
+                                // Then modify the list returned by the server
+                                _pos = position;
+
+                                // Modify the user's postHistory
+                                currUser = CurrentState.getInstance().getCurrentUser();
+                                ArrayList<Integer> currPH = currUser.getPostHistory();
+
+                                int indOfPost= currPH.indexOf(posts.get(position).getPostID());
+                                currPH.remove(indOfPost);
+
+                                new deletePostTask().execute(posts.get(position));
+
+
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+        });
+
         return catView;
     }
 
