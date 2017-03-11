@@ -150,6 +150,9 @@ public class Create_Post extends AppCompatActivity {
                     description = theDescription.getText().toString();
 
                     price = Float.parseFloat(thePrice.getText().toString());
+                    // round price to 100ths place
+                    price *= 100.0f;
+                    price = Math.round(price) / 100.0f;
 
                 } catch (IllegalArgumentException e) {
                     if(e.toString().equals("NO_TITLE")){
