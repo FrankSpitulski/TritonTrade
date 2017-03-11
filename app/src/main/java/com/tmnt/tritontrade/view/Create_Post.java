@@ -290,15 +290,6 @@ public class Create_Post extends AppCompatActivity {
             }
             return null;
         }
-
-        /*
-        @Override
-        protected void onPreExecute() {
-        }
-
-        protected void onPostExecute(Void result) {
-        }
-        */
     }
 
 
