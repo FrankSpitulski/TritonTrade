@@ -38,7 +38,6 @@ import java.util.List;
 //import static com.tmnt.tritontrade.R.id.imgButton4;
 //import static com.tmnt.tritontrade.R.id.imgButton5;
 
-
 public class Create_Post extends AppCompatActivity {
 
     static String productName = "";
@@ -155,7 +154,7 @@ public class Create_Post extends AppCompatActivity {
                     price *= 100.0f;
                     price = Math.round(price) / 100.0f;
 
-                } catch (IllegalArgumentException e) {
+                } catch (Exception e) {
                     if(e.toString().equals("NO_TITLE")){
                         Toast.makeText(Create_Post.this, "Need a Title", Toast.LENGTH_SHORT).show();
                     }else{
@@ -334,34 +333,10 @@ public class Create_Post extends AppCompatActivity {
         spinner2.setAdapter(dataAdapter);
     }
 
-
-    /*private class GetPathTask extends AsyncTask<String, String, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-
-                String uploaded = Server.uploadImage(is, extension);
-                photos.add(uploaded);//THIS IS THE ARRAYLIST THAT IS POPULATING THE POST
-                return uploaded;
-            }
-            catch(IOException e) {
-                Log.d("DEBUG", e.toString());
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            if (result != null) {
-                startActivity(new Intent(getApplicationContext(), Create_Post.class));
-            } else {
-
-                Toast.makeText(Create_Post.this, "Post Upload Failed", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
-
-
+    /**
+     * Adds the image to the view
+     * @param view
+     */
     public void addImage(View view) {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
