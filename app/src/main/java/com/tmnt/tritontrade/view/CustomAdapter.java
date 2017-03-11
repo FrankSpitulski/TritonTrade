@@ -166,7 +166,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
 
         postHolder.title.setText(posts.get(position).getProductName());
         postHolder.description.setText(posts.get(position).getDescription());
-        postHolder.category.setText(posts.get(position).getTags().get(3).toUpperCase());
+        postHolder.category.setText(posts.get(position).getTags().get(1).toUpperCase());
 
         postHolder.price.setText(currency.format(posts.get(position).getPrice()));
         if(posts.get(position).getPhotos().get(0)==""){
