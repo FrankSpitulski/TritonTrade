@@ -439,7 +439,7 @@ public class Post implements Parcelable {
 
                 for (int i=0; i< curr.getTags().size(); i++){
 
-                    tagsTA= tagsTA + curr.getTags().get(i).toString() + "\n";
+                    tagsTA= tagsTA + ":" +curr.getTags().get(i).toString() + ":" + "\n";
                 }
 
 
@@ -523,7 +523,7 @@ public class Post implements Parcelable {
                 }
                 i=0;
                 while (i< _tags.length){
-                    tagsTA.add(_tags[i]);
+                    tagsTA.add(_tags[i].substring(1, _tags[i].length()-1));
                     i= i+1;
                 }
 
