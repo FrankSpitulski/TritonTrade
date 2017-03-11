@@ -156,8 +156,11 @@ public class Server {
         try {
             // add post to user's post history
             User user = searchUserIDs(post.getProfileID());
+            Log.d("DEBUG", user.toString());
             user.addToPostHistory(post.getPostID());
+            Log.d("DEBUG", user.toString());
             modifyExistingUser(user);
+            Log.d("DEBUG", searchUserIDs(post.getProfileID()).toString());
         }catch(IOException e){
             post.setDeleted(true);
             modifyExistingPost(post);
