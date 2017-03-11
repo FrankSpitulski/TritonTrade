@@ -178,7 +178,7 @@ public class Cart extends AppCompatActivity {
 
 
     //////////////////confirmation button for remove from cart//////////////////
-    public void displayConfirmationDialog() {
+    public void displayConfirmationDialog(final int position) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Confirm");
         alert.setMessage("Are you sure you want to remove this item?");
@@ -199,6 +199,7 @@ public class Cart extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Item removed", Toast.LENGTH_SHORT).show();
 
                 //deletes post and reloads page without this  removed post
+                currentPost = postsToView.get(position);
                 int removePost = currentPost.getPostID();
                 user.removeFromCart(removePost);
                 new ModifyUserCart().execute();
@@ -223,7 +224,7 @@ public class Cart extends AppCompatActivity {
     //-------------------------------BUTTONS----------------------------------//
 
     /////////////////////confirmation button for remove from cart//////////////////
-    public void displayContactDialog(String sellerEmail, String sellerPhone) {
+    public void displayContactDialog(final int position, String sellerEmail, String sellerPhone) {
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Contact Seller");
@@ -242,8 +243,8 @@ public class Cart extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                new SearchUserTask().execute();
+                // currentPost = postsToView.get(position);
+                new SearchUserTask(position).execute();
 
 
                 Intent toSellerProf = new Intent(getApplicationContext(), Profile_NonUser.class);
@@ -299,7 +300,7 @@ public class Cart extends AppCompatActivity {
         }
 
         //called when rendering the list
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
             //get the property we are displaying
             Post post = cartItems.get(position);
@@ -370,13 +371,13 @@ public class Cart extends AppCompatActivity {
 
             //////////////////remove from cart button//////////////////////
             confirmRemoveButton = (Button) view.findViewById(R.id.remove_button);
-            currentPost = postsToView.get(position);
+            //currentPost = postsToView.get(position);
             //confirmRemoveButton.setTag(position);
             confirmRemoveButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    displayConfirmationDialog();
+                    displayConfirmationDialog(position);
                 }
             });
 
@@ -384,14 +385,14 @@ public class Cart extends AppCompatActivity {
 
             //////////////////display contact info button//////////////////////
             displayContactButton = (Button) view.findViewById(R.id.contact_button);
-            currentPost = postsToView.get(position);
+            //currentPost = postsToView.get(position);
             //displayRemoveButton.setTag(position);
             displayContactButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
 //                    *****wont work because user is null, uncomment later*****
-                    new SearchUserTask().execute();
+                    new SearchUserTask(position).execute();
 
                 }
             });
@@ -481,9 +482,16 @@ public class Cart extends AppCompatActivity {
 
     /////////////////////////ASYNC task for finding user of current post///////////////////////
     private class SearchUserTask extends AsyncTask<Object, Object, Object> {
+        private int position;
+
+        SearchUserTask(int position) {
+            this.position = position;
+        }
+
         @Override
         protected Object doInBackground(Object... params) {
             try {
+                currentPost = postsToView.get(position);
                 return Server.searchUserIDs(currentPost.getProfileID());
             } catch (IOException e) {
                 Log.d("DEBUG", e.toString());
@@ -499,12 +507,12 @@ public class Cart extends AppCompatActivity {
                 if (postSeller != null) {
                     String sellerEmail = postSeller.getEmail();
                     String sellerPhone = postSeller.getMobileNumber();
-                    displayContactDialog(sellerEmail, sellerPhone);
+                    displayContactDialog(position, sellerEmail, sellerPhone);
                 } else {
                     //postSeller was null???? some reason
                     String sellerEmail = "INVALID EMAIL";
                     String sellerPhone = "postSeller REFERENCE IS NULL";
-                    displayContactDialog(sellerEmail, sellerPhone);
+                    displayContactDialog(position, sellerEmail, sellerPhone);
                 }
             } else {
                 Toast.makeText(Cart.this, "User not Found", Toast.LENGTH_SHORT).show();
@@ -534,22 +542,22 @@ public class Cart extends AppCompatActivity {
     }
 
 
-    private class UpdateUserTask extends AsyncTask<User, Void, Void> {
-        protected Void doInBackground(User... params) {
-            try {
-                Server.modifyExistingUser(params[0]);
-
-
-                //   CurrentState.getInstance().setCurrentUser(params[0]);
-
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-    }
+//    private class UpdateUserTask extends AsyncTask<User, Void, Void> {
+//        protected Void doInBackground(User... params) {
+//            try {
+//                Server.modifyExistingUser(params[0]);
+//
+//
+//                //   CurrentState.getInstance().setCurrentUser(params[0]);
+//
+//            } catch (Exception e) {
+//                Log.e("Error", e.getMessage());
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//
+//    }
 
 
 //
