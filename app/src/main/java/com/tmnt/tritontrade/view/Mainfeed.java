@@ -26,8 +26,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -42,6 +44,7 @@ import com.tmnt.tritontrade.controller.User;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
@@ -61,6 +64,7 @@ public class Mainfeed extends AppCompatActivity
     private ListView list;
     private SwipeRefreshLayout swipeContainer;
     ArrayList<String> lastSearchedTags;
+    Spinner filters;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -70,6 +74,7 @@ public class Mainfeed extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainfeed);
         setTitle("My Feed");
@@ -119,52 +124,6 @@ public class Mainfeed extends AppCompatActivity
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-
-//        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-//                findViewById(R.id.bottom_navigation);
-//
-//        bottomNavigationView.setOnNavigationItemSelectedListener
-//                (new BottomNavigationView.OnNavigationItemSelectedListener() {
-//                    @Override
-//                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                        Fragment selectedFragment = null;
-//                        Intent in;
-//                        switch (item.getItemId()) {
-//                            case R.id.bottom_mainfeed:
-//                                in =new Intent(getBaseContext(),Mainfeed.class);
-//                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//                                startActivity(in);
-//                                return true;
-//                            case R.id.bottom_edit_category:
-////                                selectedFragment = EditCategoryFragment.newInstance();
-//                                in =new Intent(getBaseContext(),Edit_Categories.class);
-//                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//                                startActivity(in);
-//                                return true;
-//                            case R.id.bottom_upload:
-////                                selectedFragment = CreatePostFragment.newInstance();
-//                                in =new Intent(getBaseContext(),Create_Post.class);
-//                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//                                startActivity(in);
-//                                return true;
-//                            case R.id.bottom_cart:
-//                                selectedFragment = CartFragment.newInstance();
-//                                break;
-//                            case R.id.bottom_profile:
-//                                selectedFragment = ProfileFragment.newInstance();
-//                                break;
-//                        }
-//                        FragmentTransaction transaction = getSupportFragmentManager().
-//                                beginTransaction();
-//                        transaction.replace(R.id.frame_layout, selectedFragment);
-//                        transaction.commit();
-//                        return true;
-//                    }
-//                });
-//        FragmentTransaction transaction = getSupportFragmentManager().
-//                beginTransaction();
-//        transaction.replace(R.id.frame_layout, MainFeedFragment.newInstance());
-//        transaction.commit();
         //bottom tool bar
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -215,6 +174,8 @@ public class Mainfeed extends AppCompatActivity
                     }
                 }
         );
+        addItemsOnFiltersSpinner();
+        configureFilters();
     }
 
     /**
@@ -232,6 +193,24 @@ public class Mainfeed extends AppCompatActivity
         }
         for(String s: tagSet){
             tags.add(s);
+        }
+    }
+    //TODO Frank
+    private void configureFilters(){
+        if(filters.getSelectedItem().toString().equals("Most Recent")){
+
+        }
+        else if(filters.getSelectedItem().toString().equals("Price: Lowest to Highest")){
+
+        }
+        else if(filters.getSelectedItem().toString().equals("Price: Highest to Lowest")){
+
+        }
+        else if(filters.getSelectedItem().toString().equals("Buying")){
+
+        }
+        else if(filters.getSelectedItem().toString().equals("Selling")){
+
         }
     }
 
@@ -386,6 +365,23 @@ public class Mainfeed extends AppCompatActivity
                 });
             }
         }
+    }
+
+    /**
+     * Category selection spinner for the post item
+     */
+    public void addItemsOnFiltersSpinner(){
+        filters = (Spinner) findViewById(R.id.filters);
+        List<String> filterOptions = new ArrayList<>();
+        filterOptions.add("Most Recent");
+        filterOptions.add("Price: Lowest to Highest");
+        filterOptions.add("Price: Highest to Lowest");
+        filterOptions.add("Buying");
+        filterOptions.add("Selling");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, filterOptions);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filters.setAdapter(dataAdapter);
     }
 
 
