@@ -1,6 +1,7 @@
 package com.tmnt.tritontrade.controller;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -595,7 +596,7 @@ public class User implements Parcelable {
 
 
         @Override
-        public JSONUser deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        public JSONUser deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException, NumberFormatException {
 
             //Get the first element of the json string and the JSONUser to be returned
             JsonObject jobj= (JsonObject) json;
@@ -626,7 +627,8 @@ public class User implements Parcelable {
                         cardIDsTA.add(Integer.parseInt(cID[i]));
                     }
                     catch(NumberFormatException e){
-
+                        Log.e("ERROR", e.getMessage());
+                        e.printStackTrace();
                     }
 
                     i= i+1;
@@ -639,7 +641,8 @@ public class User implements Parcelable {
                         postHistTA.add(Integer.parseInt(pH[i]));
                     }
                     catch(NumberFormatException e){
-
+                        Log.e("ERROR", e.getMessage());
+                        e.printStackTrace();
                     }
 
                     i= i+1;
