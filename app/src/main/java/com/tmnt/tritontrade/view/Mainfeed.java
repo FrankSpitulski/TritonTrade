@@ -25,7 +25,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -186,8 +188,7 @@ public class Mainfeed extends AppCompatActivity
         String userID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
         SharedPreferences tagNames = getSharedPreferences(userID, Context.MODE_PRIVATE);
         Set<String> tagSet = tagNames.getStringSet(userID,new HashSet<String>());
-        Log.i("DEBUG", "2.set = "+tagNames.getStringSet("set",
-                new HashSet<String>()));
+        Log.d("DEBUG", "2.set = "+tagNames.getStringSet("set", new HashSet<String>()));
         if(tagSet.isEmpty()){
             return;
         }
@@ -195,22 +196,11 @@ public class Mainfeed extends AppCompatActivity
             tags.add(s);
         }
     }
+
     //TODO Frank
     private void configureFilters(){
-        if(filters.getSelectedItem().toString().equals("Most Recent")){
-
-        }
-        else if(filters.getSelectedItem().toString().equals("Price: Lowest to Highest")){
-
-        }
-        else if(filters.getSelectedItem().toString().equals("Price: Highest to Lowest")){
-
-        }
-        else if(filters.getSelectedItem().toString().equals("Buying")){
-
-        }
-        else if(filters.getSelectedItem().toString().equals("Selling")){
-
+        if(filters != null && filters.getSelectedItem() != null && filters.getSelectedItem().toString() != null && adapter != null) {
+            adapter.setCurrentFilters(filters.getSelectedItem().toString());
         }
     }
 
@@ -246,7 +236,7 @@ public class Mainfeed extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-
+            // you shall not pass
         }
     }
 
@@ -382,6 +372,17 @@ public class Mainfeed extends AppCompatActivity
                 android.R.layout.simple_spinner_item, filterOptions);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filters.setAdapter(dataAdapter);
+        filters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                configureFilters();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                configureFilters();
+            }
+        });
     }
 
 
