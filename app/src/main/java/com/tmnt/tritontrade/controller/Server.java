@@ -188,7 +188,7 @@ public class Server {
 
         String regexMobile = "^\\+[0-9][0-9][0-9][0-9] \\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$";
         if(mobileNumber==null || !mobileNumber.matches(regexMobile))
-            throw new IOException("Phone number does not match acceptable pattern.");
+            throw new IllegalArgumentException("Phone number does not match acceptable pattern.");
 
         // check to see if email is already registered
         String response = httpGetRequest("/db/api.php/users?filter[]=email,eq,"
