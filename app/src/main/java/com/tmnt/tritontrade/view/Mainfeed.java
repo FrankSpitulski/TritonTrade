@@ -13,6 +13,8 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -117,15 +119,66 @@ public class Mainfeed extends AppCompatActivity
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
+
+//        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+//                findViewById(R.id.bottom_navigation);
+//
+//        bottomNavigationView.setOnNavigationItemSelectedListener
+//                (new BottomNavigationView.OnNavigationItemSelectedListener() {
+//                    @Override
+//                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                        Fragment selectedFragment = null;
+//                        Intent in;
+//                        switch (item.getItemId()) {
+//                            case R.id.bottom_mainfeed:
+//                                in =new Intent(getBaseContext(),Mainfeed.class);
+//                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                                startActivity(in);
+//                                return true;
+//                            case R.id.bottom_edit_category:
+////                                selectedFragment = EditCategoryFragment.newInstance();
+//                                in =new Intent(getBaseContext(),Edit_Categories.class);
+//                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                                startActivity(in);
+//                                return true;
+//                            case R.id.bottom_upload:
+////                                selectedFragment = CreatePostFragment.newInstance();
+//                                in =new Intent(getBaseContext(),Create_Post.class);
+//                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                                startActivity(in);
+//                                return true;
+//                            case R.id.bottom_cart:
+//                                selectedFragment = CartFragment.newInstance();
+//                                break;
+//                            case R.id.bottom_profile:
+//                                selectedFragment = ProfileFragment.newInstance();
+//                                break;
+//                        }
+//                        FragmentTransaction transaction = getSupportFragmentManager().
+//                                beginTransaction();
+//                        transaction.replace(R.id.frame_layout, selectedFragment);
+//                        transaction.commit();
+//                        return true;
+//                    }
+//                });
+//        FragmentTransaction transaction = getSupportFragmentManager().
+//                beginTransaction();
+//        transaction.replace(R.id.frame_layout, MainFeedFragment.newInstance());
+//        transaction.commit();
         //bottom tool bar
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
         removeShiftMode(bottomNavigationView);
+
+        bottomNavigationView.getMenu().getItem(0).setChecked(true);
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener(){
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        bottomNavigationView.getMenu().getItem(0);
+
                         if(item.getItemId() == bottom_mainfeed){
                             Intent in=new Intent(getBaseContext(),Mainfeed.class);
                             in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.tmnt.tritontrade.view.Bottom_Tool_Bar">
 
-    <!-- Content Container -->
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/navigation"
+        android:animateLayoutChanges="true"
+        >
+
+    </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
-        app:menu="@menu/bottom_nav_items"
-        />
-
+        app:menu="@menu/bottom_nav_items"/>
 </RelativeLayout>

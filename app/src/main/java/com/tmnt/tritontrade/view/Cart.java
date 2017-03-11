@@ -107,14 +107,20 @@ public class Cart extends AppCompatActivity {
 
 
         //bottom tool bar
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
         removeShiftMode(bottomNavigationView);
+
+
+        bottomNavigationView.getMenu().getItem(3).setChecked(true);
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener(){
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        bottomNavigationView.getMenu().getItem(3);
+
                         if(item.getItemId() == bottom_mainfeed){
                             Intent in=new Intent(getBaseContext(),Mainfeed.class);
                             in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -126,7 +132,6 @@ public class Cart extends AppCompatActivity {
                             startActivity(in);
                             return true;
                         }
-
                         else if (item.getItemId() == bottom_cart){
                             Intent in=new Intent(getBaseContext(),Cart.class);
                             in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

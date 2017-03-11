@@ -142,14 +142,19 @@ public class Profile extends AppCompatActivity {
 
         //bottom tool bar
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
         removeShiftMode(bottomNavigationView);
+
+        bottomNavigationView.getMenu().getItem(4).setChecked(true);
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener(){
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        bottomNavigationView.getMenu().getItem(4);
+
                         if(item.getItemId() == bottom_mainfeed){
                             Intent in=new Intent(getBaseContext(),Mainfeed.class);
                             in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -158,7 +163,6 @@ public class Profile extends AppCompatActivity {
                         }
                         else if (item.getItemId() == bottom_edit_category) {
                             Intent in = new Intent(getBaseContext(), Edit_Categories.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(in);
                             return true;
                         }

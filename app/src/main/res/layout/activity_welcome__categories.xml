@@ -1,13 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:andorid="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_category"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:backgroundTintMode="add"
-    android:elevation="0dp"
+    android:background="@color/common_google_signin_btn_text_dark_default"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -15,45 +12,37 @@
     tools:context="com.tmnt.tritontrade.view.Welcome_Categories">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical">
-
-        <!--android:text="@string/btn_scan_qr"--><![CDATA[
-            android:id="@+id/btn_scan_qr"
-            android:textSize="15dp"
-            />
-
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"><![CDATA[>
         ]]>
 
         <TextView
-            android:id="@+id/title_text"
+            android:id="@+id/title_text1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="cursive"
+            android:fontFamily="sans-serif-condensed"
             android:gravity="center_horizontal"
-            android:text="Welcome!"
+            android:text="Welcome"
             android:textColor="@color/colorPrimary"
             android:textColorLink="?attr/actionMenuTextColor"
-            android:textSize="65sp" />
+            android:textSize="45sp" />
 
         <TextView
-            android:id="@+id/choose_categories"
+            android:id="@+id/choose_categories1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-light"
             android:gravity="center_horizontal"
-            android:text="Now's your chance to only see the items you care about seeing!\n\n Don't worry, you can change these at any time!"
+            android:text="You can customize your main feed to show what you want!"
             android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textSize="24sp"
-            android:textStyle="italic" />
+            android:textSize="24sp" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fillViewport="true">
 
             <RelativeLayout
@@ -71,7 +60,7 @@
 
 
                 <ToggleButton
-                    android:id="@+id/TEXTBOOK1"
+                    android:id="@+id/TEXTBOOK"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_below="@+id/view"
@@ -79,159 +68,157 @@
                     android:layout_marginTop="16dp"
                     android:layout_toStartOf="@+id/view"
                     android:background="@drawable/toggle_textbooks"
-                    android:elevation="24dp"
                     android:fontFamily="sans-serif-condensed"
                     android:text="TEXTBOOK"
                     android:textAlignment="center"
-                    android:textColor="@color/SunYellow"
+                    android:textColor="@color/white"
                     android:textOff="TEXTBOOKS"
                     android:textOn="TEXTBOOKS"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ToggleButton
-                    android:id="@+id/CLOTHES1"
+                    android:id="@+id/CLOTHES"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_alignTop="@+id/TECHNOLOGY1"
+                    android:layout_alignTop="@+id/TECHNOLOGY"
                     android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@+id/TEXTBOOK1"
+                    android:layout_toEndOf="@+id/TEXTBOOK"
                     android:background="@drawable/toggle_clothing"
                     android:checked="false"
                     android:fontFamily="sans-serif-condensed"
                     android:text="CLOTHES"
                     android:textAlignment="center"
-                    android:textColor="@color/SunYellow"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
                     android:textOff="CLOTHING"
                     android:textOn="CLOTHING"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ToggleButton
-                    android:id="@+id/FURNITURE1"
+                    android:id="@+id/FURNITURE"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_alignBaseline="@+id/FOOD1"
-                    android:layout_alignBottom="@+id/FOOD1"
-                    android:layout_alignStart="@+id/SUPPLIES1"
+                    android:layout_alignBaseline="@+id/FOOD"
+                    android:layout_alignBottom="@+id/FOOD"
+                    android:layout_alignStart="@+id/SUPPLIES"
                     android:background="@drawable/toggle_funiture"
                     android:fontFamily="sans-serif-condensed"
                     android:text="FURNITURE"
-                    android:textColor="@color/SunYellow"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
                     android:textOff="FURNITURE"
                     android:textOn="FURNITURE"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ToggleButton
-                    android:id="@+id/FOOD1"
+                    android:id="@+id/FOOD"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_alignStart="@+id/STORAGE1"
-                    android:layout_below="@+id/STORAGE1"
+                    android:layout_alignStart="@+id/STORAGE"
+                    android:layout_below="@+id/STORAGE"
                     android:layout_marginTop="29dp"
                     android:background="@drawable/toggle_food"
                     android:fontFamily="sans-serif-condensed"
                     android:text="FOOD"
-                    android:textColor="@color/SunYellow"
+                    android:textColor="@color/common_google_signin_btn_text_dark_pressed"
                     android:textOff="FOOD"
                     android:textOn="FOOD"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ToggleButton
-                    android:id="@+id/TECHNOLOGY1"
+                    android:id="@+id/TECHNOLOGY"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_alignStart="@+id/TEXTBOOK1"
-                    android:layout_below="@+id/TEXTBOOK1"
+                    android:layout_alignStart="@+id/TEXTBOOK"
+                    android:layout_below="@+id/TEXTBOOK"
                     android:layout_marginTop="23dp"
                     android:background="@drawable/toggle_tech"
                     android:fontFamily="sans-serif-condensed"
                     android:text="TECHNOLOGY"
-                    android:textColor="@color/SunYellow"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
                     android:textOff="TECHNOLOGY"
                     android:textOn="TECHNOLOGY"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ToggleButton
-                    android:id="@+id/SUPPLIES1"
+                    android:id="@+id/SUPPLIES"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_alignStart="@+id/SERVICES1"
-                    android:layout_alignTop="@+id/STORAGE1"
+                    android:layout_alignStart="@+id/SERVICES"
+                    android:layout_alignTop="@+id/STORAGE"
                     android:background="@drawable/toggle_supplies"
                     android:fontFamily="sans-serif-condensed"
                     android:text="SUPPLIES"
-                    android:textColor="@color/SunYellow"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
                     android:textOff="SUPPLIES"
                     android:textOn="SUPPLIES"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ToggleButton
-                    android:id="@+id/STORAGE1"
+                    android:id="@+id/STORAGE"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_alignStart="@+id/MISCS1"
-                    android:layout_below="@+id/SERVICES1"
+                    android:layout_alignStart="@+id/MISCS"
+                    android:layout_below="@+id/SERVICES"
                     android:layout_marginTop="19dp"
                     android:background="@drawable/toggle_storage"
                     android:fontFamily="sans-serif-condensed"
                     android:text="STORAGE"
-                    android:textColor="@color/SunYellow"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
                     android:textOff="STORAGE"
                     android:textOn="STORAGE"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ToggleButton
-                    android:id="@+id/SERVICES1"
+                    android:id="@+id/SERVICES"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_alignBaseline="@+id/MISCS1"
-                    android:layout_alignBottom="@+id/MISCS1"
-                    android:layout_alignStart="@+id/CLOTHES1"
+                    android:layout_alignBaseline="@+id/MISCS"
+                    android:layout_alignBottom="@+id/MISCS"
+                    android:layout_alignStart="@+id/TECHNOLOGY"
                     android:background="@drawable/toggle_services"
                     android:checked="false"
                     android:fontFamily="sans-serif-condensed"
                     android:gravity="center_vertical|center_horizontal|center"
                     android:text="SERVICES"
-                    android:textColor="@color/SunYellow"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
                     android:textOff="SERVICES"
                     android:textOn="SERVICES"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ToggleButton
-                    android:id="@+id/MISCS1"
+                    android:id="@+id/MISCS"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_alignStart="@+id/TECHNOLOGY1"
-                    android:layout_below="@+id/TECHNOLOGY1"
-                    android:layout_marginTop="17dp"
+                    android:layout_alignStart="@+id/CLOTHES"
+                    android:layout_below="@+id/CLOTHES"
+                    android:layout_marginTop="22dp"
                     android:background="@drawable/toggle_misc"
                     android:fontFamily="sans-serif-condensed"
                     android:text="MISC"
-                    android:textColor="@color/SunYellow"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
                     android:textOff="MISC"
                     android:textOn="MISC"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <ToggleButton
-                    android:id="@+id/TRANS1"
+                    android:id="@+id/TRANS"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_alignStart="@+id/CLOTHES1"
-                    android:layout_alignTop="@+id/TEXTBOOK1"
+                    android:layout_alignStart="@+id/CLOTHES"
+                    android:layout_alignTop="@+id/TEXTBOOK"
                     android:background="@drawable/toggle_trans"
-                    android:elevation="24dp"
                     android:fontFamily="sans-serif-condensed"
                     android:gravity="center_vertical|center_horizontal|center"
                     android:text="Rides"
-                    android:textColor="@color/SunYellow"
+                    android:textColor="@color/common_google_signin_btn_text_dark_pressed"
                     android:textOff="Rides"
                     android:textOn="Rides"
                     android:textSize="24sp"
@@ -242,11 +229,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_below="@+id/FURNITURE1"
+                    android:layout_below="@+id/FURNITURE"
                     android:orientation="vertical">
 
                     <Button
-                        android:id="@+id/FOLLOW1"
+                        android:id="@+id/FOLLOW"
                         style="@style/Widget.AppCompat.Button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -257,12 +244,10 @@
                         android:elevation="1dp"
                         android:fontFamily="sans-serif-condensed"
                         android:text="FOLLOW"
-                        android:textAllCaps="true"
-                        android:textAppearance="@style/BB_BottomBarBadge_Text"
-                        android:textColor="@color/SunYellow"
+                        android:textAllCaps="false"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default"
                         android:textSize="36sp"
-                        android:textStyle="bold|italic"
-                        tools:text="Follow" />
+                        android:textStyle="bold|italic" />
 
                 </RelativeLayout>
 
@@ -270,8 +255,15 @@
 
             </RelativeLayout>
         </ScrollView>
-
     </LinearLayout>
 
+    <!--android:text="@string/btn_scan_qr"--><![CDATA[
+            android:id="@+id/btn_scan_qr"
+            android:textSize="15dp"
+            />
+
+
+
+    ]]>
 </RelativeLayout>
 
