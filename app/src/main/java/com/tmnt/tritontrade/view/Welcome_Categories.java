@@ -38,18 +38,18 @@ public class Welcome_Categories extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome__categories);
 
-        textbook = (ToggleButton) findViewById(R.id.TEXTBOOK);
-        clothes = (ToggleButton) findViewById(R.id.CLOTHES);
-        furnitures = (ToggleButton) findViewById(R.id.FURNITURE);
-        foods = (ToggleButton) findViewById(R.id.FOOD);
-        technology = (ToggleButton) findViewById(R.id.TECHNOLOGY);
-        supplies = (ToggleButton) findViewById(R.id.SUPPLIES);
-        storage = (ToggleButton) findViewById(R.id.STORAGE);
-        services = (ToggleButton) findViewById(R.id.SERVICES);
-        miscs = (ToggleButton) findViewById(R.id.MISCS);
-        trans = (ToggleButton) findViewById(R.id.TRANS);
+        textbook = (ToggleButton) findViewById(R.id.TEXTBOOK1);
+        clothes = (ToggleButton) findViewById(R.id.CLOTHES1);
+        furnitures = (ToggleButton) findViewById(R.id.FURNITURE1);
+        foods = (ToggleButton) findViewById(R.id.FOOD1);
+        technology = (ToggleButton) findViewById(R.id.TECHNOLOGY1);
+        supplies = (ToggleButton) findViewById(R.id.SUPPLIES1);
+        storage = (ToggleButton) findViewById(R.id.STORAGE1);
+        services = (ToggleButton) findViewById(R.id.SERVICES1);
+        miscs = (ToggleButton) findViewById(R.id.MISCS1);
+        trans = (ToggleButton) findViewById(R.id.TRANS1);
 
-        follow = (Button) findViewById(R.id.FOLLOW);
+        follow = (Button) findViewById(R.id.FOLLOW1);
 
         final String ID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
         SharedPreferences prefs = getSharedPreferences(ID, Context.MODE_PRIVATE);
@@ -67,8 +67,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "TEXTBOOK Selected", Toast.LENGTH_SHORT).show();
-
                 }
                 else
                 {
@@ -77,8 +75,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "TEXTBOOK Deselected", Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
@@ -92,8 +88,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "CLOTHES Selected", Toast.LENGTH_SHORT).show();
-
                 }
                 else
                 {
@@ -102,7 +96,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "CLOTHES Deselected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -112,21 +105,19 @@ public class Welcome_Categories extends AppCompatActivity{
                 if(furnitures.isChecked())
                 {
                     furnitures.setChecked(true);
-                    set.add("Furnitures");
+                    set.add("Furniture");
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "FURNITURES Selected", Toast.LENGTH_SHORT).show();
 
                 }
                 else
                 {
                     furnitures.setChecked(false);
-                    set.remove("Furnitures");
+                    set.remove("Furniture");
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "FURNITURES Deselected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -140,8 +131,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "FOODS Selected", Toast.LENGTH_SHORT).show();
-
                 }
                 else
                 {
@@ -149,8 +138,7 @@ public class Welcome_Categories extends AppCompatActivity{
                     set.remove("Food");
                     editor.clear();
                     editor.putStringSet(ID,set);
-                    editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "FOODS Deselected", Toast.LENGTH_SHORT).show();
+                    editor.apply();;
                 }
             }
         });
@@ -164,8 +152,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "TECHNOLOGY Selected", Toast.LENGTH_SHORT).show();
-
                 }
                 else
                 {
@@ -174,7 +160,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "TECHNOLOGY Deselected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -188,7 +173,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "SUPPLIES Selected", Toast.LENGTH_SHORT).show();
 
                 }
                 else
@@ -198,7 +182,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "SUPPLIES Deselected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -212,7 +195,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "STORAGE Selected", Toast.LENGTH_SHORT).show();
 
                 }
                 else
@@ -222,7 +204,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "STORAGE Deselected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -236,8 +217,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "SERVICES Selected", Toast.LENGTH_SHORT).show();
-
                 }
                 else
                 {
@@ -246,7 +225,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "SERVICES Deselected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -260,8 +238,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "MISCS Selected", Toast.LENGTH_SHORT).show();
-
                 }
                 else
                 {
@@ -270,7 +246,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "MISCS Deselected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -284,7 +259,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "TRANS Selected", Toast.LENGTH_SHORT).show();
 
                 }
                 else
@@ -294,7 +268,6 @@ public class Welcome_Categories extends AppCompatActivity{
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
-                    Toast.makeText(Welcome_Categories.this, "TRANS Deselected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -303,7 +276,7 @@ public class Welcome_Categories extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(set.isEmpty()){
-                    Toast.makeText(Welcome_Categories.this, "You did not follow any category", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Welcome_Categories.this, "You need to pick at least one category!", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Log.i("DEBUG", "2.set = "+ set);

@@ -15,6 +15,7 @@ import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
+import java.util.IllegalFormatCodePointException;
 
 public class Register_Account extends AppCompatActivity {
 
@@ -42,16 +43,22 @@ public class Register_Account extends AppCompatActivity {
                 try {
                     theName = userName.getText().toString();
                     if(theName.equals("")){
-                        throw new IllegalArgumentException("NAME");
+                        throw new IllegalArgumentException("NO_NAME");
+                    }
+                    if(theName.toLowerCase().contains("fuck") || theName.toLowerCase().contains("ass") || theName.toLowerCase().contains("bitch")){
+                        throw new IllegalArgumentException("NICE_TRY");
                     }
                     theEmail = userEmail.getText().toString();
                     if(!theEmail.matches(".*ucsd.edu$")){
-                        throw new IllegalArgumentException("EMAIL");
+                        throw new IllegalArgumentException("NON_UCSD_EMAIL");
                     }
 
                     thePassword = userPassword.getText().toString();
                     if(thePassword.equals("")) {
-                        throw new IllegalArgumentException("PASSWORD");
+                        throw new IllegalArgumentException("NO_PASSWORD");
+                    }
+                    if(thePassword.length()<4){
+                        throw new IllegalArgumentException("SHORT_PASSWORD");
                     }
                     //get input from the field
                     String numberInput = userPhone.getText().toString();
@@ -69,14 +76,18 @@ public class Register_Account extends AppCompatActivity {
                 } catch(IllegalArgumentException e) {
                     Log.d("DEBUG", e.toString());
 
-                    if(e.getMessage().equals("NAME")) {
-                        Toast.makeText(Register_Account.this, "Bad Username ", Toast.LENGTH_SHORT).show();
-                    }else if(e.getMessage().equals("EMAIL")) {
-                        Toast.makeText(Register_Account.this, "Bad Email", Toast.LENGTH_SHORT).show();
-                    }else if(e.getMessage().equals("PASSWORD")) {
-                        Toast.makeText(Register_Account.this, "Bad Password", Toast.LENGTH_SHORT).show();
+                    if(e.getMessage().equals("NO_NAME")) {
+                        Toast.makeText(Register_Account.this, "Sorry, you need to enter a name!", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("NICE_TRY")) {
+                        Toast.makeText(Register_Account.this, "Nice try, but do you really want people to call you that?", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("NON_UCSD_EMAIL")) {
+                        Toast.makeText(Register_Account.this, "Sorry, you must use your UCSD email.", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("NO_PASSWORD")) {
+                        Toast.makeText(Register_Account.this, "You need to enter a password", Toast.LENGTH_SHORT).show();
+                    }else if(e.getMessage().equals("SHORT_PASSWORD")) {
+                        Toast.makeText(Register_Account.this, "For safety, your password must be greater than 4 characters.", Toast.LENGTH_SHORT).show();
                     }else if(e.getMessage().equals("PHONE")) {
-                        Toast.makeText(Register_Account.this, "Bad Phone", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Register_Account.this, "Please enter a valid phone number. We promise not to contact you.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -165,7 +176,7 @@ public class Register_Account extends AppCompatActivity {
             if(result!=null){
                 startActivity(new Intent(getApplicationContext(), Verify_Account.class));
             }else{
-                Toast.makeText(Register_Account.this, "Register Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Register_Account.this, "Registration Failed", Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:editable="false"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="cursive"
             android:padding="20dp"
             android:paddingBottom="100dp"
             android:paddingEnd="20dp"
@@ -68,9 +68,11 @@
             android:shadowRadius="1"
             android:text="TritonTrade"
             android:textAlignment="center"
-            android:textColor="@color/EightyTransparentSketchBlue"
+            android:textAllCaps="false"
+            android:textColor="@color/SunYellow"
             android:textColorLink="@color/colorPrimary"
-            android:textSize="50sp"
+            android:textSize="60sp"
+            android:textStyle="bold|italic"
             android:typeface="serif"
             android:visibility="visible" />
 
