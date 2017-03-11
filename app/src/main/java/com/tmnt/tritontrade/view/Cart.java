@@ -206,7 +206,7 @@ public class Cart extends AppCompatActivity {
 
                 Intent intent = getIntent();
                 overridePendingTransition(0, 0);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 finish();
                 overridePendingTransition(0, 0);
                 startActivity(intent);
@@ -252,7 +252,7 @@ public class Cart extends AppCompatActivity {
 //                    Toast.makeText(getBaseContext(), ""+postSeller.getProfileID(), Toast.LENGTH_SHORT).show();
 //                }
                 new UpdateUserTask().execute(postSeller);
-                CurrentState.getInstance().setCurrentUser(postSeller);
+                // CurrentState.getInstance().setCurrentUser(postSeller);
                 Intent toSellerProf = new Intent(getApplicationContext(), Profile_NonUser.class);
                 toSellerProf.putExtra("Profile_NonUser", postSeller);
                 startActivity(toSellerProf);
