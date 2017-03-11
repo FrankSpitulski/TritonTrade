@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-import static com.tmnt.tritontrade.view.Register_Account.convertMobileNumberToDatabaseFormat;
+import static com.tmnt.tritontrade.controller.User.convertMobileNumberToDatabaseFormat;
 import static org.junit.Assert.*;
 
 
