@@ -18,4 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/description" />
+
+    <Button
+        android:id="@+id/delete_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:text="DEL" />
+
+
 </LinearLayout>
