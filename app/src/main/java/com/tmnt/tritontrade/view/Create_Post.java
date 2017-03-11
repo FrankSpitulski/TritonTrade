@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -76,8 +77,11 @@ public class Create_Post extends AppCompatActivity {
         setContentView(R.layout.activity_create__post);
         setTitle("Create a Post");
 
+
         addItemsOnCategorySpinner();
         addItemsOnBuyOrSellSpinner();
+        //auto keyboard pop up stopped
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         firstImg = (ImageView) findViewById(R.id.firstImg);
         secondImg = (ImageView) findViewById(R.id.secondImg);
@@ -290,9 +294,20 @@ public class Create_Post extends AppCompatActivity {
             }
             return null;
         }
+
+        /*
+        @Override
+        protected void onPreExecute() {
+        }
+
+        protected void onPostExecute(Void result) {
+        }
+        */
     }
 
-
+    /**
+     * Category selection spinner for the post item
+     */
     public void addItemsOnCategorySpinner(){
         spinner1 = (Spinner) findViewById(R.id.categorySpinner);
         List<String> categoryList = new ArrayList<>();
@@ -310,6 +325,10 @@ public class Create_Post extends AppCompatActivity {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(dataAdapter);
     }
+
+    /**
+     * User selection spinner for buying or selling product
+     */
     public void addItemsOnBuyOrSellSpinner(){
         spinner2 = (Spinner) findViewById(R.id.buyOrSellSpinner);
         List<String> buyOrSellList = new ArrayList<>();
@@ -321,33 +340,6 @@ public class Create_Post extends AppCompatActivity {
         spinner2.setAdapter(dataAdapter);
     }
 
-
-
-    private class CreatePostTask extends AsyncTask<Post, Post, Post> {
-        @Override
-        protected Post doInBackground(Post... params) {
-            try {
-                return Server.addPost(productName,photos,description,price,
-                        tags,profileID,selling,contactInfo);
-            }
-            catch(IOException e) {
-                Log.d("DEBUG", e.toString());
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Post result) {
-            if (result != null) {
-                new UpdateUserTask().execute();
-                CurrentState.getInstance().setCurrentUser(currUser);
-                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
-            } else {
-
-                Toast.makeText(Create_Post.this, "Create Post Failed", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     /*private class GetPathTask extends AsyncTask<String, String, String> {
         @Override
@@ -400,13 +392,41 @@ public class Create_Post extends AppCompatActivity {
             return null;
         }
 
-        /*
-        @Override
-        protected void onPreExecute() {
-        }
 
         protected void onPostExecute(Void result) {
         }
-        */
+
     }
+    /**
+     * Create Post Inner class
+     */
+    private class CreatePostTask extends AsyncTask<Post, Post, Post> {
+        @Override
+        protected Post doInBackground(Post... params) {
+            try {
+                return Server.addPost(productName,photos,description,price,
+                        tags,profileID,selling,contactInfo);
+            }
+            catch(IOException e) {
+                Log.d("DEBUG", e.toString());
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Post result) {
+            if (result != null) {
+                new UpdateUserTask().execute(currUser);
+                CurrentState.getInstance().setCurrentUser(currUser);
+                finish();
+                Toast.makeText(Create_Post.this, "Post Created", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+            } else {
+
+                Toast.makeText(Create_Post.this, "Create Post Failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
 }

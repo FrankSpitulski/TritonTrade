@@ -107,26 +107,34 @@ public class Cart extends AppCompatActivity {
 
 
         //bottom tool bar
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
         removeShiftMode(bottomNavigationView);
+
+
+        bottomNavigationView.getMenu().getItem(3).setChecked(true);
+        bottomNavigationView.setSelected(false);
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener(){
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        bottomNavigationView.getMenu().getItem(3);
+
                         if(item.getItemId() == bottom_mainfeed){
                             Intent in=new Intent(getBaseContext(),Mainfeed.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(in);
                             return true;
                         }
                         else if (item.getItemId() == bottom_edit_category) {
                             Intent in = new Intent(getBaseContext(), Edit_Categories.class);
+                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(in);
                             return true;
                         }
-
                         else if (item.getItemId() == bottom_cart){
                             Intent in=new Intent(getBaseContext(),Cart.class);
                             in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -142,7 +150,8 @@ public class Cart extends AppCompatActivity {
                         }
                         else if(item.getItemId() == bottom_profile){
                             Intent in=new Intent(getBaseContext(),Profile.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(in);
                             return true;
                         }
@@ -197,7 +206,7 @@ public class Cart extends AppCompatActivity {
 
                 Intent intent = getIntent();
                 overridePendingTransition(0, 0);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 finish();
                 overridePendingTransition(0, 0);
                 startActivity(intent);
@@ -233,36 +242,13 @@ public class Cart extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Toast.makeText(getBaseContext(), "Item removed", Toast.LENGTH_SHORT).show();
-
-                //deletes post and reloads page without this  removed post
 
                 new SearchUserTask().execute();
-                User temp = user;
-//                if (postSeller!=null){
-//                    Toast.makeText(getBaseContext(), ""+postSeller.getProfileID(), Toast.LENGTH_SHORT).show();
-//                }
-                new UpdateUserTask().execute(postSeller);
-                CurrentState.getInstance().setCurrentUser(postSeller);
+
+
                 Intent toSellerProf = new Intent(getApplicationContext(), Profile_NonUser.class);
-                toSellerProf.putExtra("Seller", postSeller);
+                toSellerProf.putExtra("Profile_NonUser", postSeller);
                 startActivity(toSellerProf);
-
-                //CurrentState.getInstance().setCurrentUser(user);
-
-
-            /*
-            new UpdateUserTask().execute(currUser);
-            CurrentState.getInstance().setCurrentUser(currUserser);
-
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("updatedUser", currUser);
-            setResult(Activity.RESULT_OK, resultIntent);
-            finish();
-                 */
-
-
-
 
             }
         });
@@ -406,16 +392,7 @@ public class Cart extends AppCompatActivity {
                 public void onClick(View v) {
 //                    *****wont work because user is null, uncomment later*****
                     new SearchUserTask().execute();
-                    if (postSeller != null) {
-                        String sellerEmail = postSeller.getEmail();
-                        String sellerPhone = postSeller.getMobileNumber();
-                        displayContactDialog(sellerEmail, sellerPhone);
-                    } else {
-                        //postSeller was null???? some reason
-                    String sellerEmail = "dummy@ucsd.edu";
-                    String sellerPhone = "+0001 (888) 888-8888";
-                        displayContactDialog(sellerEmail, sellerPhone);
-                    }
+
                 }
             });
 
@@ -518,6 +495,17 @@ public class Cart extends AppCompatActivity {
         protected void onPostExecute(Object result) {
             if (result != null) {
                 postSeller = (User) result;
+                
+                if (postSeller != null) {
+                    String sellerEmail = postSeller.getEmail();
+                    String sellerPhone = postSeller.getMobileNumber();
+                    displayContactDialog(sellerEmail, sellerPhone);
+                } else {
+                    //postSeller was null???? some reason
+                    String sellerEmail = "INVALID EMAIL";
+                    String sellerPhone = "postSeller REFERENCE IS NULL";
+                    displayContactDialog(sellerEmail, sellerPhone);
+                }
             } else {
                 Toast.makeText(Cart.this, "User not Found", Toast.LENGTH_SHORT).show();
             }
