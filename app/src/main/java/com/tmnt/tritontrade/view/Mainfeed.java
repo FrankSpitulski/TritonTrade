@@ -225,6 +225,7 @@ public class Mainfeed extends AppCompatActivity
             }
             @Override
             public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
                 return false;
             }
         });
