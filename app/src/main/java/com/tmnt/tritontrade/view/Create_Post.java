@@ -416,7 +416,7 @@ public class Create_Post extends AppCompatActivity {
         @Override
         protected void onPostExecute(Post result) {
             if (result != null) {
-                new UpdateUserTask().execute();
+                new UpdateUserTask().execute(currUser);
                 CurrentState.getInstance().setCurrentUser(currUser);
                 finish();
                 Toast.makeText(Create_Post.this, "Post Created", Toast.LENGTH_SHORT).show();
