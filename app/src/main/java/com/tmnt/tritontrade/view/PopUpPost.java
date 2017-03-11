@@ -57,10 +57,11 @@ public class PopUpPost extends AppCompatActivity {
             }
         });
 
-        current_user = CurrentState.getInstance().getCurrentUser();
+        final Post p = getIntent().getParcelableExtra("category");
+        loadPost(p);
 
         new GetSellerForProfile()
-                .execute(current_user.getProfileID());
+                .execute(p.getProfileID());
 
         /* ArrayList<String> dummyPhotos = new ArrayList<>();
         dummyPhotos.add("http://xiostorage.com/wp-content/uploads/2015/10/test.png");
@@ -71,8 +72,7 @@ public class PopUpPost extends AppCompatActivity {
 
         //Post dummy = new Post("Doge", dummyPhotos, "Good Doge 4 u.", 12.42f, null, 0, 0, false, false, null, null, false);
 
-        final Post p = getIntent().getParcelableExtra("category");
-        loadPost(p);
+
 
         current_user = CurrentState.getInstance().getCurrentUser();
         if (current_user.getCartIDs().contains(p.getPostID())) {
