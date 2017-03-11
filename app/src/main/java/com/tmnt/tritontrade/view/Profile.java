@@ -42,9 +42,9 @@ import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
 
-public class Profile extends AppCompatActivity {
+    public class Profile extends AppCompatActivity {
 
-    private ListView list;
+        private ListView list;
     private int EDIT_PROFILE = 1;
 
 
@@ -144,7 +144,6 @@ public class Profile extends AppCompatActivity {
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
-        removeShiftMode(bottomNavigationView);
 
         bottomNavigationView.getMenu().getItem(4).setChecked(true);
 
@@ -155,41 +154,38 @@ public class Profile extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         bottomNavigationView.getMenu().getItem(4);
 
-
-                        if(item.getItemId() == bottom_mainfeed){
-                            Intent in=new Intent(getBaseContext(),Mainfeed.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(in);
-                            return true;
+                        Intent in;
+                        switch(item.getItemId()){
+                            case bottom_mainfeed:
+                                in=new Intent(getBaseContext(),Mainfeed.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(in);
+                                return true;
+                            case bottom_edit_category:
+                                in = new Intent(getBaseContext(), Edit_Categories.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(in);
+                                return true;
+                            case bottom_cart:
+                                in=new Intent(getBaseContext(),Cart.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(in);
+                                return true;
+                            case bottom_upload:
+                                in=new Intent(getBaseContext(),Create_Post.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(in);
+                                return true;
+                            case bottom_profile:
+                                in=new Intent(getBaseContext(),Profile.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(in);
+                                return true;
+                            default:
+                                return false;
                         }
-                        else if (item.getItemId() == bottom_edit_category) {
-                            Intent in = new Intent(getBaseContext(), Edit_Categories.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(in);
-                            return true;
-                        }
-                        else if (item.getItemId() == bottom_cart){
-                            Intent in=new Intent(getBaseContext(),Cart.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(in);
-                            return true;
-
-                        }
-                        else if(item.getItemId() == bottom_upload){
-                            Intent in=new Intent(getBaseContext(),Create_Post.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(in);
-                            return true;
-                        }
-                        else if(item.getItemId() == bottom_profile){
-                            Intent in=new Intent(getBaseContext(),Profile.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(in);
-                            return true;
-                        }
-                        return false;
                     }
                 }
         );
@@ -305,25 +301,12 @@ public class Profile extends AppCompatActivity {
         client.disconnect();
     }
 
-    static void removeShiftMode(BottomNavigationView view) {
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
-        try {
-            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
-            shiftingMode.setAccessible(true);
-            shiftingMode.setBoolean(menuView, false);
-            shiftingMode.setAccessible(false);
-            for (int i = 0; i < menuView.getChildCount(); i++) {
-                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-                item.setShiftingMode(false);
-                // set once again checked value, so view will be updated
-                item.setChecked(item.getItemData().isChecked());
-            }
-        } catch (NoSuchFieldException e) {
-            Log.e("ERROR NO SUCH FIELD", "Unable to get shift mode field");
-        } catch (IllegalAccessException e) {
-            Log.e("ERROR ILLEGAL ALG", "Unable to change value of shift mode");
-        }
+    @Override
+    public void onBackPressed() {
+        Intent in=new Intent(getBaseContext(),Mainfeed.class);
+        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(in);
     }
-
 
 }

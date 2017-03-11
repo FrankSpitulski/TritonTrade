@@ -109,8 +109,6 @@ public class Cart extends AppCompatActivity {
         //bottom tool bar
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
-        removeShiftMode(bottomNavigationView);
-
 
         bottomNavigationView.getMenu().getItem(3).setChecked(true);
         bottomNavigationView.setSelected(false);
@@ -121,41 +119,38 @@ public class Cart extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         bottomNavigationView.getMenu().getItem(3);
-
-                        if(item.getItemId() == bottom_mainfeed){
-                            Intent in=new Intent(getBaseContext(),Mainfeed.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(in);
-                            return true;
+                        Intent in;
+                        switch(item.getItemId()){
+                            case bottom_mainfeed:
+                                in=new Intent(getBaseContext(),Mainfeed.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(in);
+                                return true;
+                            case bottom_edit_category:
+                                in = new Intent(getBaseContext(), Edit_Categories.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(in);
+                                return true;
+                            case bottom_cart:
+                                in=new Intent(getBaseContext(),Cart.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(in);
+                                return true;
+                            case bottom_upload:
+                                in=new Intent(getBaseContext(),Create_Post.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(in);
+                                return true;
+                            case bottom_profile:
+                                in=new Intent(getBaseContext(),Profile.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(in);
+                                return true;
+                            default:
+                                return false;
                         }
-                        else if (item.getItemId() == bottom_edit_category) {
-                            Intent in = new Intent(getBaseContext(), Edit_Categories.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(in);
-                            return true;
-                        }
-                        else if (item.getItemId() == bottom_cart){
-                            Intent in=new Intent(getBaseContext(),Cart.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(in);
-                            return true;
-
-                        }
-                        else if(item.getItemId() == bottom_upload){
-                            Intent in=new Intent(getBaseContext(),Create_Post.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(in);
-                            return true;
-                        }
-                        else if(item.getItemId() == bottom_profile){
-                            Intent in=new Intent(getBaseContext(),Profile.class);
-                            in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(in);
-                            return true;
-                        }
-                        return false;
                     }
                 }
         );
@@ -584,6 +579,14 @@ public class Cart extends AppCompatActivity {
 //            }
 //        }
 //    }
+
+    @Override
+    public void onBackPressed() {
+        Intent in=new Intent(getBaseContext(),Mainfeed.class);
+        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(in);
+    }
 
 
 
