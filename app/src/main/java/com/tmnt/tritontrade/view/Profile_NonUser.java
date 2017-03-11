@@ -67,6 +67,7 @@ public class Profile_NonUser extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
+
         /*
         new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.userPic))
                 .execute(currUser.getPhoto());
