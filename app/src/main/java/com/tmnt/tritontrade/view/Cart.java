@@ -32,6 +32,7 @@ import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +43,7 @@ import static com.tmnt.tritontrade.R.id.bottom_edit_category;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
+import static com.tmnt.tritontrade.R.id.view;
 import static com.tmnt.tritontrade.R.layout.cart_item;
 
 public class Cart extends AppCompatActivity {
@@ -54,7 +56,7 @@ public class Cart extends AppCompatActivity {
     ArrayList<Post> postsToView; //'posts' goes through check, then displayed on Cart screen
     Post currentPost;            //current post that is clicked on
     User postSeller;        //user that created the post you are currently looking at
-
+    ArrayList<User> temp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,8 @@ public class Cart extends AppCompatActivity {
         user = CurrentState.getInstance().getCurrentUser();
         cartInt = user.getCartIDs();
         postsToView = new ArrayList<>();
+        ////take away later
+        //postSeller = user;
 
         //get the arraylist of posts in the cart of the user, this method will then populate
         //the cart once the data is retrieved
@@ -215,10 +219,30 @@ public class Cart extends AppCompatActivity {
 
                 new SearchUserTask().execute();
                 User temp = user;
-                //CurrentState.getInstance().setCurrentUser(postSeller);
+//                if (postSeller!=null){
+//                    Toast.makeText(getBaseContext(), ""+postSeller.getProfileID(), Toast.LENGTH_SHORT).show();
+//                }
+                new UpdateUserTask().execute(postSeller);
+                CurrentState.getInstance().setCurrentUser(postSeller);
                 Intent toSellerProf = new Intent(getApplicationContext(), Profile_NonUser.class);
-                toSellerProf.putExtra("Profile_NonUser", postSeller);
-                startActivity(new Intent(getApplicationContext(), Profile_NonUser.class));
+                toSellerProf.putExtra("Seller", postSeller);
+                startActivity(toSellerProf);
+
+                //CurrentState.getInstance().setCurrentUser(user);
+
+
+            /*
+            new UpdateUserTask().execute(currUser);
+            CurrentState.getInstance().setCurrentUser(currUserser);
+
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("updatedUser", currUser);
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+                 */
+
+
+
 
             }
         });
@@ -284,26 +308,21 @@ public class Cart extends AppCompatActivity {
             ImageView image = (ImageView) view.findViewById(R.id.image);
 
 
-//            //display trimmed excerpt for description
-            int descriptionLength;
-//            if (post.getDescription() == null) {
-//                descriptionLength = 0;
-//                description.setText("");
-//            } else {
-//
-//                descriptionLength = post.getDescription().length();
-//
-//                if (descriptionLength >= 100) {
-//                    String descriptionTrim = post.getDescription().substring(0, 100) + "...";
-//                    description.setText(descriptionTrim);
-//                } else {
-//                    description.setText(post.getDescription());
-//                }
-//
-//            }
+//            //testing
+//            description.setText("testing this is position "+ position + '\n' +
+//                    user.getCartIDsString());
 
-            //testing
-            description.setText("testing\n" + user.getCartIDsString());
+
+//            ////////NOTE: POSTSTOVIEW IS NOT IN THE RIGHT ORDER)/////////
+//            String temptitle = "";
+//            for (Post p : postsToView) {
+//                String s = ""+p.getPostID();
+//                temptitle += s + " ";
+//            }
+//
+//            title.setText(temptitle);
+/////////////////////TESTING//////////////
+
 
 
             //set price and rental attributes and default image of post
@@ -312,6 +331,34 @@ public class Cart extends AppCompatActivity {
             title.setText(String.valueOf(post.getProductName()));
             String firstPhoto = post.getPhotos().get(0); //first photo of the ones you uploaded, "default"
             new DownloadPhotosAsyncTask(image).execute(firstPhoto);
+
+            //DISPLAY TITLE
+            if (post.getProductName().length() >= 22) {
+                String titleTrim = post.getDescription().substring(0, 21) + "...";
+                title.setText(String.valueOf(post.getProductName()));
+            } else {
+                title.setText(String.valueOf(post.getProductName()));
+            }
+
+
+            //DISPLAY DESCRIPTION
+            if (post.getProductName().length() >= 17) {
+                if (post.getDescription().length() >= 45) {
+                    String descriptionTrim = post.getDescription().substring(0, 45) + "...";
+                    description.setText(descriptionTrim);
+                } else {
+                    description.setText(post.getDescription());
+                }
+            } else {
+                if (post.getDescription().length() >= 100) {
+                    String descriptionTrim = post.getDescription().substring(0, 98) + "...";
+                    description.setText(descriptionTrim);
+                } else {
+                    description.setText(post.getDescription());
+                }
+            }
+
+
 
 
 
@@ -348,6 +395,21 @@ public class Cart extends AppCompatActivity {
                 }
             });
 
+
+//            title.setText("UserID: "+user.getProfileID() + ", and sellerID: " + currentPost.getProfileID()+
+//                    ", and PostID: "+ currentPost.getPostID());
+//            new SearchUserTask().execute();
+//
+//            if (postSeller == null){
+//                title.setText("this is null");
+//            }
+//            else if (postSeller.getProfileID() == currentPost.getProfileID()){
+//                title.setText("success, this posts sellerID is: "+postSeller.getProfileID());
+//
+//            }
+//            else{
+//                title.setText("its just me");
+//            }
 
             return view;
         }
@@ -430,24 +492,19 @@ public class Cart extends AppCompatActivity {
     }
 
 
-    public class ModifyCurrentUser extends AsyncTask<Object, Object, Object> {
-        @Override
-        protected Object doInBackground(Object... params) {
+    private class UpdateUserTask extends AsyncTask<User, Void, Void> {
+        protected Void doInBackground(User... params) {
             try {
-                Server.modifyExistingUser(user);
-                return true;
-            } catch (IOException e) {
-                Log.d("DEBUG", e.toString());
-                return false;
-            } catch (IllegalArgumentException e2) {
-                Log.d("DEBUG", e2.toString());
-                return false;
+                Server.modifyExistingUser(params[0]);
+
+
+                //   CurrentState.getInstance().setCurrentUser(params[0]);
+
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
             }
-        }
-
-
-        @Override
-        protected void onPostExecute(Object result) { //nothing
+            return null;
         }
 
     }
@@ -476,8 +533,6 @@ public class Cart extends AppCompatActivity {
 //            }
 //        }
 //    }
-
-
 
 
 
