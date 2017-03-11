@@ -145,7 +145,7 @@ public class Create_Post extends AppCompatActivity {
                 try {
                     productName = theName.getText().toString();
                     if(productName.equals("")){
-                        throw new IllegalArgumentException("NO_TITLE");
+                        throw new Exception("NO_TITLE");
                     }
                     description = theDescription.getText().toString();
 
@@ -155,7 +155,8 @@ public class Create_Post extends AppCompatActivity {
                     price = Math.round(price) / 100.0f;
 
                 } catch (Exception e) {
-                    if(e.toString().equals("NO_TITLE")){
+                    Log.d("DEBUG", e.toString());
+                    if(e.getMessage().equals("NO_TITLE")){
                         Toast.makeText(Create_Post.this, "Need a Title", Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(Create_Post.this, "Invalid Price", Toast.LENGTH_SHORT).show();
