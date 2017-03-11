@@ -31,6 +31,7 @@ import com.tmnt.tritontrade.controller.User;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 import java.util.List;
 
 //import static com.tmnt.tritontrade.R.id.imgButton4;
@@ -140,26 +141,22 @@ public class Create_Post extends AppCompatActivity {
                 spinner1 = (Spinner) findViewById(R.id.categorySpinner);
                 spinner2 = (Spinner) findViewById(R.id.buyOrSellSpinner);
 
-
                 try {
                     productName = theName.getText().toString();
-                }catch(IllegalArgumentException e){
-                    Toast.makeText(Create_Post.this, "Invalid Product Name", Toast.LENGTH_SHORT).show();
-                }
-                try {
+                    if(productName.equals("")){
+                        throw new IllegalArgumentException("NO_TITLE");
+                    }
                     description = theDescription.getText().toString();
-                    if (description == null) {
-                        description = "";
-                    } //added because cart keeps fucking up
-                }catch(IllegalArgumentException e){
-                    Toast.makeText(Create_Post.this, "Invalid Description", Toast.LENGTH_SHORT).show();
-                }
-                try {
-                    price = Float.parseFloat(thePrice.getText().toString());
-                }catch(IllegalArgumentException e){
-                    Toast.makeText(Create_Post.this, "Invalid Price", Toast.LENGTH_SHORT).show();
-                }
 
+                    price = Float.parseFloat(thePrice.getText().toString());
+
+                } catch (IllegalArgumentException e) {
+                    if(e.toString().equals("NO_TITLE")){
+                        Toast.makeText(Create_Post.this, "Need a Title", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(Create_Post.this, "Invalid Price", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 String selectedItemText = spinner1.getSelectedItem().toString();
 
                 tags = new ArrayList<String>();
@@ -231,6 +228,7 @@ public class Create_Post extends AppCompatActivity {
                 new CreatePostTask().execute();
             }
         });
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -276,33 +274,6 @@ public class Create_Post extends AppCompatActivity {
             Toast.makeText(this, "Please try again", Toast.LENGTH_LONG).show();
         }
 
-    }
-
-
-    /**
-     * Private Innner class to upload the new profile pic to the server
-     */
-    private class UploadPhotoTask extends AsyncTask<Void, Void, Void> {
-        protected Void doInBackground(Void... params) {
-            try {
-                String s = Server.uploadImage(is, type);
-                photos.add(s);
-
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        /*
-        @Override
-        protected void onPreExecute() {
-        }
-
-        protected void onPostExecute(Void result) {
-        }
-        */
     }
 
     /**
@@ -377,6 +348,27 @@ public class Create_Post extends AppCompatActivity {
 
         startActivityForResult(intent,IMG_RESULT);
     }
+
+
+
+
+    /**
+     * Private Innner class to upload the new profile pic to the server
+     */
+    private class UploadPhotoTask extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... params) {
+            try {
+                String s = Server.uploadImage(is, type);
+                photos.add(s);
+
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
     /**
      * Private Innner class to update the server with the new user info
      */
@@ -391,11 +383,6 @@ public class Create_Post extends AppCompatActivity {
             }
             return null;
         }
-
-
-        protected void onPostExecute(Void result) {
-        }
-
     }
     /**
      * Create Post Inner class
@@ -408,6 +395,9 @@ public class Create_Post extends AppCompatActivity {
                         tags,profileID,selling,contactInfo);
             }
             catch(IOException e) {
+                Log.d("DEBUG", e.toString());
+                return null;
+            } catch (IllegalFormatException e){
                 Log.d("DEBUG", e.toString());
                 return null;
             }

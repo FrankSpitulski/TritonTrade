@@ -325,7 +325,7 @@ public class Server {
             request = request + "&filter[]=tags,cs,:" + tags.get(x) + ":";
         }
         //add so that only has to be one of the ids in the list and convert to objects
-        request = request + "&satisfy=any&order=dateCreated&transform=1";
+        request = request + "&satisfy=any&order=dateCreated,desc&transform=1";
 
         //attempt to convert to array list from json
 
@@ -434,7 +434,7 @@ public class Server {
             request = request + "&filter[]=postID,eq," + ids.get(x);
         }
         //add so that only has to be one of the ids in the list and convert to json
-        request = request + "&satisfy=any&order=dateCreated&transform=1";
+        request = request + "&satisfy=any&order=dateCreated,desc&transform=1";
 
         //list to be outputted
         ArrayList<Post> posts = new ArrayList<Post>();

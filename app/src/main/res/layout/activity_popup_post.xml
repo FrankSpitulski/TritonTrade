@@ -11,9 +11,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="34dp">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
 
         <ScrollView
             android:id="@+id/scrollcontainer"
@@ -87,15 +93,17 @@
                     android:text="Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. "
                     android:textSize="18sp" />
 
+                <Button
+                    android:id="@+id/viewseller"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_weight="1.50"
+                    android:text="View Seller's Profile"
+                    android:textSize="12sp" />
+
             </LinearLayout>
         </ScrollView>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
-
 
         <LinearLayout
             android:layout_width="match_parent"

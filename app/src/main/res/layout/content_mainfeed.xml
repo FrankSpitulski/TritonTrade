@@ -41,13 +41,20 @@
                 android:scrollbarAlwaysDrawHorizontalTrack="false" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
+        <Spinner
+            android:id="@+id/filters"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="275dp" />
+
         <SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="10dp"
+            android:layout_marginRight="80dp"
             android:layout_marginTop="0dp" />
 
     </RelativeLayout>

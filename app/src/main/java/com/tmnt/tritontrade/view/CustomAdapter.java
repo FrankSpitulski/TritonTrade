@@ -26,6 +26,9 @@ import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  * Created by Edward Ji
@@ -38,6 +41,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
     private CustomFilter filter;
     private ArrayList<Post> posts;
     private ArrayList<Post> filterList;
+    private ArrayList<Post> allPosts;
     private LayoutInflater inflater;
     private int count; //Current amount of items displayed
     private int stepNumber; //Amount of items loaded on next display
@@ -53,6 +57,10 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         this.context = context;
         this.count = startCount;
         this.stepNumber=5;
+        allPosts = new ArrayList<Post>(posts.size());
+        for(int i = 0; i < posts.size(); i++){
+            allPosts.add(posts.get(i));
+        }
     }
 
     /**
@@ -61,6 +69,10 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
      */
     public void setPosts(ArrayList<Post> posts) {
         this.posts = posts;
+        allPosts = new ArrayList<Post>(posts.size());
+        for(int i = 0; i < posts.size(); i++){
+            allPosts.add(posts.get(i));
+        }
     }
 
     /**
@@ -174,6 +186,67 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
             }
         });
         return catView;
+    }
+
+    public void setCurrentFilters(String s){
+        setPosts(allPosts);
+        if(s.equals("Most Recent")){
+            //setPosts(allPosts);
+        }
+        else if(s.equals("Price: Lowest to Highest")){
+            class LowToHighComparator implements Comparator<Post> {
+                @Override
+                public int compare(Post o1, Post o2) {
+                    if(o1.getPrice() < o2.getPrice()){
+                        return -1;
+                    }else if(o1.getPrice() > o2.getPrice()){
+                        return 1;
+                    }
+                    return 0;
+                }
+            }
+            Collections.sort(posts, new LowToHighComparator());
+        }
+        else if(s.equals("Price: Highest to Lowest")){
+            class HighToLowComparator implements Comparator<Post> {
+                @Override
+                public int compare(Post o1, Post o2) {
+                    if(o1.getPrice() < o2.getPrice()){
+                        return 1;
+                    }else if(o1.getPrice() > o2.getPrice()){
+                        return -1;
+                    }
+                    return 0;
+                }
+            }
+            Collections.sort(posts, new HighToLowComparator());
+        }
+        else if(s.equals("Buying")){
+            //iterate through each post in the list
+            Iterator<Post> it = posts.iterator();
+            while (it.hasNext()) {
+                Post post = it.next();
+
+                //if the post is marked selling, take it out of the list
+                if (post.getSelling()) {
+                    it.remove();
+                }
+            }
+        }
+        else if(s.equals("Selling")){
+            //iterate through each post in the list
+            Iterator<Post> it = posts.iterator();
+            while (it.hasNext()) {
+                Post post = it.next();
+
+                //if the post is not marked selling, take it out of the list
+                if (!post.getSelling()) {
+                    it.remove();
+                }
+            }
+        }
+
+        notifyDataSetChanged();
     }
 
     /**
