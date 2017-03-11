@@ -55,16 +55,22 @@
                     android:layout_marginTop="20dp"
                     app:srcCompat="@mipmap/doge" />
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_weight="1.50" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="5">
 
                     <TextView
                         android:id="@+id/name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:paddingStart="15dp"
                         android:text="Doge"
                         android:textColor="@color/colorPrimaryDark"
@@ -72,10 +78,10 @@
 
                     <TextView
                         android:id="@+id/price"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:paddingEnd="15dp"
                         android:text="TextView"
                         android:textAlignment="textEnd"

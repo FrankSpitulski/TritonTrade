@@ -23,7 +23,9 @@ import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 /**
@@ -62,15 +64,6 @@ public class PopUpPost extends AppCompatActivity {
 
         new GetSellerForProfile()
                 .execute(p.getProfileID());
-
-        /* ArrayList<String> dummyPhotos = new ArrayList<>();
-        dummyPhotos.add("http://xiostorage.com/wp-content/uploads/2015/10/test.png");
-        dummyPhotos.add("http://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/dogelog.jpg");
-        dummyPhotos.add("https://pbs.twimg.com/profile_images/378800000822867536/3f5a00acf72df93528b6bb7cd0a4fd0c.jpeg");
-        dummyPhotos.add("http://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/dogelog.jpg");
-        dummyPhotos.add("https://pbs.twimg.com/profile_images/378800000822867536/3f5a00acf72df93528b6bb7cd0a4fd0c.jpeg"); */
-
-        //Post dummy = new Post("Doge", dummyPhotos, "Good Doge 4 u.", 12.42f, null, 0, 0, false, false, null, null, false);
 
 
 
@@ -129,7 +122,8 @@ public class PopUpPost extends AppCompatActivity {
         name.setText(p.getProductName());
 
         TextView price = (TextView) findViewById(R.id.price);
-        price.setText("$" + String.valueOf(p.getPrice()));
+        NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.US);
+        price.setText(currency.format(p.getPrice()));
 
         TextView desc = (TextView) findViewById(R.id.description);
         desc.setText(p.getDescription());

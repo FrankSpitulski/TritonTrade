@@ -156,8 +156,11 @@ public class Server {
         try {
             // add post to user's post history
             User user = searchUserIDs(post.getProfileID());
+            Log.d("DEBUG", user.toString());
             user.addToPostHistory(post.getPostID());
+            Log.d("DEBUG", user.toString());
             modifyExistingUser(user);
+            Log.d("DEBUG", searchUserIDs(post.getProfileID()).toString());
         }catch(IOException e){
             post.setDeleted(true);
             modifyExistingPost(post);
@@ -635,7 +638,7 @@ public class Server {
      * @param json The string that represents json data
      * @return The ArrayList of Posts represented in json
      */
-    private static ArrayList<Post> jsonToPost(String json) {
+    public static ArrayList<Post> jsonToPost(String json) {
         //Create the GSON builder to construct the Array List of posts
         GsonBuilder builder = new GsonBuilder();
 
@@ -676,7 +679,7 @@ public class Server {
      * @param posts The array list of posts
      * @return The json of the list
      */
-    static String postToJson(ArrayList<Post> posts) {
+    public static String postToJson(ArrayList<Post> posts) {
         //Create the GSON builder to construct the JSON format of the ArrayList of users
         GsonBuilder builder = new GsonBuilder();
 

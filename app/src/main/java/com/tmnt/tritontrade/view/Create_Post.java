@@ -56,6 +56,7 @@ public class Create_Post extends AppCompatActivity {
     private Spinner spinner1;
     private Spinner spinner2;
     private User currUser;
+    private Post thePost;
 
 
     ImageView firstImg;
@@ -164,8 +165,8 @@ public class Create_Post extends AppCompatActivity {
                 String selectedItemText = spinner1.getSelectedItem().toString();
 
                 tags = new ArrayList<String>();
-                tags.add(theName.getText().toString());
-                tags.add(selectedItemText);
+                tags.add(theName.getText().toString().toLowerCase());
+                tags.add(selectedItemText.toLowerCase());
 
                 profileID = CurrentState.getInstance().getCurrentUser().getProfileID();
                 contactInfo = CurrentState.getInstance().getCurrentUser().getMobileNumber();
@@ -229,14 +230,17 @@ public class Create_Post extends AppCompatActivity {
                     }
                 });
                 if(photos.size()==0){
-                    photos.add(currUser.getDefaultImage());
+                    photos.add(thePost.getDefaultImage());
                 }
 
                 new CreatePostTask().execute();
                 //new UpdateUserTask().execute(currUser);
                 //new getCurrentStateTask().execute();
+
             }
+
         });
+
 
     }
     @Override
@@ -287,13 +291,21 @@ public class Create_Post extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent in=new Intent(getBaseContext(),Mainfeed.class);
+        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(in);
+    }
+
     /**
      * Category selection spinner for the post item
      */
     public void addItemsOnCategorySpinner(){
         spinner1 = (Spinner) findViewById(R.id.categorySpinner);
         List<String> categoryList = new ArrayList<>();
-        categoryList.add("Clothes");
+        categoryList.add("Clothing");
         categoryList.add("Food");
         categoryList.add("Furniture");
         categoryList.add("Storage");
@@ -447,5 +459,6 @@ public class Create_Post extends AppCompatActivity {
                 Toast.makeText(Create_Post.this, "Create Post Failed", Toast.LENGTH_SHORT).show();
             }
         }
+
     }
 }
