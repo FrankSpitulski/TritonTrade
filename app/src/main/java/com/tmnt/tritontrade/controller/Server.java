@@ -277,6 +277,7 @@ public class Server {
                 + email + "&transform=1");
         ArrayList<User> users = jsonToUser(response);
 
+        users = filterDeletedUsers(users);
         //if did not return only one user with that email, not found or something weird happened
         if (users.size() != 1) {
             Log.d("DEBUG", "bad email search");
