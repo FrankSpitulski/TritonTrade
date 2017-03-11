@@ -42,6 +42,7 @@ import static com.tmnt.tritontrade.R.id.bottom_edit_category;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
+import static com.tmnt.tritontrade.R.id.list;
 import static com.tmnt.tritontrade.R.layout.cart_item;
 
 public class Cart extends AppCompatActivity {
@@ -389,6 +390,19 @@ public class Cart extends AppCompatActivity {
                 public void onClick(View v) {
 //                    *****wont work because user is null, uncomment later*****
                     new SearchUserTask(position).execute();
+
+                }
+            });
+
+
+            //Click listener for post
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent popUp = new Intent(context, PopUpPost.class);
+                    popUp.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    popUp.putExtra("category", postsToView.get(position));
+                    ((Activity)context).startActivityForResult(popUp, 1);
 
                 }
             });
