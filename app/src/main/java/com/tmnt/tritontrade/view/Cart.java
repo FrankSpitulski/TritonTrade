@@ -254,7 +254,7 @@ public class Cart extends AppCompatActivity {
                 new UpdateUserTask().execute(postSeller);
                 CurrentState.getInstance().setCurrentUser(postSeller);
                 Intent toSellerProf = new Intent(getApplicationContext(), Profile_NonUser.class);
-                toSellerProf.putExtra("Seller", postSeller);
+                toSellerProf.putExtra("Profile_NonUser", postSeller);
                 startActivity(toSellerProf);
 
                 //CurrentState.getInstance().setCurrentUser(user);
