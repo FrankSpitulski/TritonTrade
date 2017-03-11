@@ -505,8 +505,14 @@ public class InstrumentedServerTest
 
         //add post to database
         try {
-            testPosts.add(Server.addPost("SLIGHTLY USED TURNIP", new ArrayList<String>(),
-                    "TURNIPS ARE GOOD FOR YOUUUU", (float) 42.0, new ArrayList<String>(),
+            ArrayList<String> s = new ArrayList<String>();
+            s.add(Post.getDefaultImage());
+
+            ArrayList<String> q = new ArrayList<String>();
+            q.add("I  AM STEVEEEE");
+            q.add("Clothing");
+            testPosts.add(Server.addPost("SLIGHTLY USED TURNIP", s,
+                    "TURNIPS ARE GOOD FOR YOUUUU", (float) 42.0, q,
                     u.getProfileID(), true, "FIND ME IN KONSTANTIYYE"));
         }
         //fail post not added
@@ -526,15 +532,24 @@ public class InstrumentedServerTest
             fail();
         }
 
+        ArrayList<Post> post1arr = new ArrayList<Post>();
+        post1arr.add(post1);
+
+        ArrayList<Post> post2arr = new ArrayList<Post>();
+        post2arr.add(post2);
+
         //DEBUG IN CASE POST STRINGS ARENT THE SAME
         //TODO CHANGE COMPARISON TO USE JSON WHEN REFACTORED
-        Log.d("DEBUG",post1.toString());
-        Log.d("DEBUG",post2.toString());
+        Log.d("DEBUG",Server.postToJson(post1arr));
+        Log.d("DEBUG",Server.postToJson(post2arr));
 
         //assert that both posts are the same
-        assertTrue(post1.toString().equals(post2.toString()));
+        assertTrue(Server.postToJson(post2arr).equals(Server.postToJson(post1arr)));
         //assert that the user we made to post it is the same
         assertEquals(post2.getProfileID(),u.getProfileID());
+
+        String s = Server.postToJson(post1arr);
+        ArrayList<Post > test = Server.jsonToPost(s);
     }
 
 

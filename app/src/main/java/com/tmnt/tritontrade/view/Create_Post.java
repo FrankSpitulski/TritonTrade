@@ -56,6 +56,7 @@ public class Create_Post extends AppCompatActivity {
     private Spinner spinner1;
     private Spinner spinner2;
     private User currUser;
+    private Post thePost;
 
 
     ImageView firstImg;
@@ -150,6 +151,9 @@ public class Create_Post extends AppCompatActivity {
                     description = theDescription.getText().toString();
 
                     price = Float.parseFloat(thePrice.getText().toString());
+                    // round price to 100ths place
+                    price *= 100.0f;
+                    price = Math.round(price) / 100.0f;
 
                 } catch (IllegalArgumentException e) {
                     if(e.toString().equals("NO_TITLE")){
@@ -161,8 +165,8 @@ public class Create_Post extends AppCompatActivity {
                 String selectedItemText = spinner1.getSelectedItem().toString();
 
                 tags = new ArrayList<String>();
-                tags.add(theName.getText().toString());
-                tags.add(selectedItemText);
+                tags.add(theName.getText().toString().toLowerCase());
+                tags.add(selectedItemText.toLowerCase());
 
                 profileID = CurrentState.getInstance().getCurrentUser().getProfileID();
                 contactInfo = CurrentState.getInstance().getCurrentUser().getMobileNumber();
@@ -226,7 +230,7 @@ public class Create_Post extends AppCompatActivity {
                     }
                 });
                 if(photos.size()==0){
-                    photos.add(currUser.getDefaultImage());
+                    photos.add(thePost.getDefaultImage());
                 }
 
                 new CreatePostTask().execute();
