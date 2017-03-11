@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +26,7 @@ public class Register_Account extends AppCompatActivity {
     static String theEmail = "";
     static String thePassword = "";
     static String thePhone = "";
-
+    static String autoFill = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,35 @@ public class Register_Account extends AppCompatActivity {
 
         registerButton = (Button) findViewById(R.id.nextPageLabel);
 
+        /*final EditText userPhone = (EditText) findViewById(R.id.phoneLabel);
+        autoFill = userPhone.getText().toString();
+        userPhone.addTextChangedListener(new TextWatcher() {
+            int len=0;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+                //String str = userPhone.getText().toString();
+                if(autoFill.length()==1 && len < autoFill.length()){
+                    userPhone.append("+");
+                }
+                if(autoFill.length()==6 && len < autoFill.length()){
+                    userPhone.append(" (");
+                }
+                if (autoFill.length() == 10 && len < autoFill.length()) {
+                    userPhone.append(") ");
+                }
+                if (autoFill.length() == 16 && len < autoFill.length()){
+                    userPhone.append("-");
+                }
+                            /*if((autoFill.length()==5 && len <str.length()) || (str.length()==13 && len <str.length())){
+                                //checking length  for backspace.
+                                etNICNO_Sender.append("-");
+                                //Toast.makeText(getBaseContext(), "add minus", Toast.LENGTH_SHORT).show();
+                            }*/
+          /*  }
+
+        });*/
         registerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 EditText userName = (EditText) findViewById(R.id.nameLabel);
