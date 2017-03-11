@@ -30,6 +30,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
+import static com.tmnt.tritontrade.R.id.bottom_edit_category;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
@@ -82,6 +83,50 @@ public class Profile_NonUser extends AppCompatActivity {
         populateUserInfo(currUser);
         populateList();
 
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
+        bottomNavigationView.getMenu().getItem(0).setChecked(true);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener(){
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        bottomNavigationView.getMenu().getItem(0);
+                        Intent in;
+                        switch(item.getItemId()){
+                            case bottom_mainfeed:
+                                in=new Intent(getBaseContext(),Mainfeed.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(in);
+                                return true;
+                            case bottom_edit_category:
+                                in = new Intent(getBaseContext(), Edit_Categories.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(in);
+                                return true;
+                            case bottom_cart:
+                                in=new Intent(getBaseContext(),Cart.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(in);
+                                return true;
+                            case bottom_upload:
+                                in=new Intent(getBaseContext(),Create_Post.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(in);
+                                return true;
+                            case bottom_profile:
+                                in=new Intent(getBaseContext(),Profile.class);
+                                in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(in);
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                }
+        );
 
     }
 

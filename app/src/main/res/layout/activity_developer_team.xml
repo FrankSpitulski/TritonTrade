@@ -285,7 +285,7 @@
                     android:textAppearance="@style/fontForDevTeamPos"/>
 
                 <TextView
-                    android:text="TextView"
+                    android:text="Guys IF I SEE ANOTHER AUTO GENERATED CLASS HEADER OR A 50 LINE BLOCK WITH NO COMMENTS I WILL COME FOR YOU. ALSO STOP DOING NOTHING WHEN EXCEPTIONS GET THROWN"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/bio9"

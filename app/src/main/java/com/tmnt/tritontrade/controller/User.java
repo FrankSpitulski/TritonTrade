@@ -589,6 +589,57 @@ public class User implements Parcelable {
     }
 
     /**
+     * Converts the user input of various formats into the database format. If no country code
+     * is given, defaults to +1
+     *
+     * Accepted formats:
+     * Database format: "+xxxx (xxx) xxx-xxxx"
+     * No country code: "(xxx) xxx-xxxx"
+     * Just 10 digits: "xxxxxxxxxx"
+     * 10 Digits with space and 2 dashes: "xxx xxx-xxxx"
+     * 10 Digits with dashes: "xxx-xxx-xxxx"
+     *
+     * @param number The user input number
+     * @return The database formatted number, null if the input was not one of the accepted formats
+     */
+    public static String convertMobileNumberToDatabaseFormat(String number)
+    {
+        //if doesnt match any of the formats, return null
+        if(!number.matches("^\\+[0-9][0-9][0-9][0-9] \\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // full
+                && !number.matches("^\\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // without country code
+                && !number.matches("^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$") // just 10 numbers
+                && !number.matches("^[0-9][0-9][0-9] [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$") // 10 numbers with space and two dashes
+                && !number.matches("^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$")) // 10 numbers with dashes
+        {
+            return null;
+        }
+        else if(number.matches("^\\([0-9][0-9][0-9]\\) [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$"))
+        {
+            //no country code, assume is United States, prepend U.S. country code
+            return "+0001 " + number;
+        }
+        else if(number.matches("^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$"))
+        {
+            // if just 10 numbers, add country code and parenthesis
+            return "+0001 (" + number.substring(0, 3) + ") " + number.substring(3, 6) + "-" + number.substring(6);
+        }
+        else if(number.matches("^[0-9][0-9][0-9] [0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$"))
+        {
+            //if no parentheses or country code, add them
+            return "+0001 (" + number.substring(0, 3) + ")" + number.substring(3);
+        }
+        else if(number.matches("^[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$"))
+        {
+            //if use dashes to separate area code and number, replace with parentheis and add country code
+            return "+0001 (" + number.substring(0, 3) + ") " + number.substring(4);
+        }
+
+        //Return the original number, is already in database format
+        return number;
+    }
+
+
+    /**
      * Convert from the json sequence to an arrayList of User Objects
      */
 
@@ -680,6 +731,7 @@ public class User implements Parcelable {
             return jUser;
         }
     }
+
 
     /**
      * Class that is used to store the json user objects when they are being deserialized
