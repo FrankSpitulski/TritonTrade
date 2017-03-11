@@ -126,8 +126,7 @@ public class Profile_NonUser extends AppCompatActivity {
         private ProgressDialog dialog=new ProgressDialog(Profile_NonUser.this);
         protected ArrayList<Post> doInBackground(ArrayList<Integer>... params) {
             try {
-                params[0] = currUser.getPostHistory();
-                ArrayList<Post> posts = Server.searchPostIDs(params[0]);
+                ArrayList<Post> posts = Server.searchPostIDs(currUser.getPostHistory());
                 return posts;
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
