@@ -43,8 +43,6 @@ public class Settings extends AppCompatActivity {
 
     }
 
-    public void setTheme(View view) {
-    }
 
     //////////////////confirmation button for remove from cart//////////////////
     public void displayLogoutDialog() {

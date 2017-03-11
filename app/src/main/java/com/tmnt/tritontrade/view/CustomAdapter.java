@@ -280,9 +280,21 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults results = new FilterResults();
             if(charSequence != null && charSequence.length() != 0){
-                new SearchTask().execute(charSequence.toString().toLowerCase());
+                //Convert to uppercase
+                charSequence = charSequence.toString().toUpperCase();
+                ArrayList<Post> filters = new ArrayList<>();
+
+                for(int i = 0; i < filterList.size(); i++){
+                    if(filterList.get(i).getProductName().toUpperCase().contains(charSequence)){
+                        filters.add(filterList.get(i));
+                    }
+                }
+                results.count = filters.size();
+                results.values=filters;
+            }
+            else{
                 results.count = filterList.size();
-                results.values=filterList;
+                results.values = filterList;
             }
             return results;
         }
@@ -292,6 +304,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
             if(filterResults.values!=null) {
                 posts = (ArrayList<Post>) filterResults.values;
             }
+            notifyDataSetChanged();
         }
     }
 

@@ -192,7 +192,7 @@ public class Register_Account extends AppCompatActivity {
         @Override
         protected Object doInBackground(Object... params) {
             try {
-                return Server.addNewUser(theName, "", "", thePhone, theEmail, thePassword);
+                return Server.addNewUser(theName, User.getDefaultImage(), "", thePhone, theEmail, thePassword);
             } catch (IOException e){
                 Log.d("DEBUG", e.toString());
                 return null;

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -149,6 +150,9 @@ public class Create_Post extends AppCompatActivity {
                     description = theDescription.getText().toString();
 
                     price = Float.parseFloat(thePrice.getText().toString());
+                    // round price to 100ths place
+                    price *= 100.0f;
+                    price = Math.round(price) / 100.0f;
 
                 } catch (IllegalArgumentException e) {
                     if(e.toString().equals("NO_TITLE")){
@@ -173,7 +177,7 @@ public class Create_Post extends AppCompatActivity {
                     selling = true;
                 }
 
-                photos = new ArrayList<String>();
+                //photos = new ArrayList<String>();
                 firstImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -224,8 +228,13 @@ public class Create_Post extends AppCompatActivity {
 
                     }
                 });
+                if(photos.size()==0){
+                    photos.add(currUser.getDefaultImage());
+                }
 
                 new CreatePostTask().execute();
+                //new UpdateUserTask().execute(currUser);
+                //new getCurrentStateTask().execute();
             }
         });
 
@@ -267,6 +276,8 @@ public class Create_Post extends AppCompatActivity {
                 type = mime.getExtensionFromMimeType(cR.getType(selectedImage));
 
                 new Create_Post.UploadPhotoTask().execute();
+                //new UpdateUserTask().execute(currUser);
+                //new getCurrentStateTask().execute();
 
 
             }
@@ -303,8 +314,8 @@ public class Create_Post extends AppCompatActivity {
     public void addItemsOnBuyOrSellSpinner(){
         spinner2 = (Spinner) findViewById(R.id.buyOrSellSpinner);
         List<String> buyOrSellList = new ArrayList<>();
-        buyOrSellList.add("Buying");
         buyOrSellList.add("Selling");
+        buyOrSellList.add("Buying");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, buyOrSellList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -383,7 +394,26 @@ public class Create_Post extends AppCompatActivity {
             }
             return null;
         }
-    }
+    }/*
+    private class getCurrentStateTask extends AsyncTask<User,User,User>{
+        protected User doInBackground(User...params){
+            try{
+                return CurrentState.getInstance().getCurrentUser();
+            }catch(Exception e){
+                Log.d("DEBUG", e.toString());
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(User theUser) {
+            if(theUser!=null){
+                finish();
+                Toast.makeText(Create_Post.this, "Post Created", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+            }
+        }
+    }*/
     /**
      * Create Post Inner class
      */
@@ -391,6 +421,9 @@ public class Create_Post extends AppCompatActivity {
         @Override
         protected Post doInBackground(Post... params) {
             try {
+                for(int i = 0; i< photos.size(); i++){
+                    Log.d("DEBUG", photos.get(i));
+                }
                 return Server.addPost(productName,photos,description,price,
                         tags,profileID,selling,contactInfo);
             }
@@ -402,7 +435,6 @@ public class Create_Post extends AppCompatActivity {
                 return null;
             }
         }
-
         @Override
         protected void onPostExecute(Post result) {
             if (result != null) {
@@ -412,11 +444,8 @@ public class Create_Post extends AppCompatActivity {
                 Toast.makeText(Create_Post.this, "Post Created", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), Mainfeed.class));
             } else {
-
                 Toast.makeText(Create_Post.this, "Create Post Failed", Toast.LENGTH_SHORT).show();
             }
         }
     }
-
-
 }
