@@ -525,8 +525,8 @@ public class Cart extends AppCompatActivity {
                     displayContactDialog(sellerEmail, sellerPhone);
                 } else {
                     //postSeller was null???? some reason
-                    String sellerEmail = "dummy@ucsd.edu";
-                    String sellerPhone = "+0001 (888) 888-8888";
+                    String sellerEmail = "INVALID EMAIL";
+                    String sellerPhone = "postSeller REFERENCE IS NULL";
                     displayContactDialog(sellerEmail, sellerPhone);
                 }
             } else {
