@@ -242,36 +242,13 @@ public class Cart extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Toast.makeText(getBaseContext(), "Item removed", Toast.LENGTH_SHORT).show();
-
-                //deletes post and reloads page without this  removed post
 
                 new SearchUserTask().execute();
-                User temp = user;
-//                if (postSeller!=null){
-//                    Toast.makeText(getBaseContext(), ""+postSeller.getProfileID(), Toast.LENGTH_SHORT).show();
-//                }
-                new UpdateUserTask().execute(postSeller);
-                // CurrentState.getInstance().setCurrentUser(postSeller);
+
+
                 Intent toSellerProf = new Intent(getApplicationContext(), Profile_NonUser.class);
                 toSellerProf.putExtra("Profile_NonUser", postSeller);
                 startActivity(toSellerProf);
-
-                //CurrentState.getInstance().setCurrentUser(user);
-
-
-            /*
-            new UpdateUserTask().execute(currUser);
-            CurrentState.getInstance().setCurrentUser(currUserser);
-
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("updatedUser", currUser);
-            setResult(Activity.RESULT_OK, resultIntent);
-            finish();
-                 */
-
-
-
 
             }
         });
