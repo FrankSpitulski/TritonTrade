@@ -335,19 +335,19 @@ public class Cart extends AppCompatActivity {
             new DownloadPhotosAsyncTask(image).execute(firstPhoto);
 
             //DISPLAY TITLE
-            if (post.getProductName().length() >= 22) {
+            if (post.getProductName().length() >= 39) {
                 //THIS LINE CRASHES THING, VARIALBE WAS NEVER USED
-                //String titleTrim = post.getDescription().substring(0, 21) + "...";
-                title.setText(String.valueOf(post.getProductName()));
+                String titleTrim = post.getDescription().substring(0, 35) + "...";
+                title.setText(String.valueOf(titleTrim));
             } else {
                 title.setText(String.valueOf(post.getProductName()));
             }
 
 
             //DISPLAY DESCRIPTION
-            if (post.getProductName().length() >= 17) {
-                if (post.getDescription().length() >= 45) {
-                    String descriptionTrim = post.getDescription().substring(0, 45) + "...";
+            if (post.getProductName().length() >= 30) {
+                if (post.getDescription().length() >= 70) {
+                    String descriptionTrim = post.getDescription().substring(0, 67) + "...";
                     description.setText(descriptionTrim);
                 } else {
                     description.setText(post.getDescription());
