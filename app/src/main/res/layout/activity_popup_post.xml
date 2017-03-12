@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="1"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
 
@@ -47,7 +47,7 @@
                 <ImageView
                     android:id="@+id/currentphoto"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="250dp"
                     android:layout_marginTop="20dp"
                     app:srcCompat="@mipmap/doge" />
 
@@ -55,7 +55,7 @@
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="0"
                     android:fontFamily="sans-serif-condensed"
                     android:paddingStart="15dp"
@@ -69,25 +69,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="0"
                     android:fontFamily="sans-serif-light"
                     android:paddingEnd="15dp"
                     android:text="TextView"
                     android:textAlignment="textEnd"
                     android:textColor="#008B00"
-                    android:textSize="14sp"
+                    android:textSize="18sp"
                     android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginStart="15dp"
-                    android:fontFamily="casual"
+                    android:layout_margin="20dp"
+                    android:fontFamily="sans-serif"
                     android:text="Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. Doge. "
                     android:textColor="@color/colorPrimary"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/viewseller"
@@ -96,14 +96,15 @@
                     android:layout_height="35dp"
                     android:layout_weight="1.50"
                     android:text="View Seller's Profile"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
+
 
             </LinearLayout>
         </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:orientation="horizontal">
 
 
@@ -113,10 +114,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@color/white"
+                android:fontFamily="sans-serif-condensed"
                 android:text="Cancel"
                 android:textAlignment="gravity"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="14sp" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/cart"
@@ -124,10 +127,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.08"
+                android:background="@color/white"
+                android:fontFamily="sans-serif-condensed"
                 android:text="Add to Cart"
                 android:textAlignment="gravity"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="14sp" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
 
         </LinearLayout>
 

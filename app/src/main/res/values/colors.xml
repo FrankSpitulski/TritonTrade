@@ -5,7 +5,7 @@
     <color name="colorAccent">#4A96AD</color>
     <color name="FiftyTransparentWhite"> #78FFFFFF</color>
     <color name="TwentyTransparentWhite"> #50FFFFFF</color>
-    <color name="FiftyTransparentSketchBlue">#78ebebeb</color>
+    <color name="FiftyTransparentSketchBlue">#78005581</color>
     <color name="EightyTransparentSketchBlue">#B9005581</color>
     <color name="SunYellow">#fdb813</color>
 </resources>
