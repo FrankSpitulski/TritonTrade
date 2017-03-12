@@ -66,8 +66,9 @@ public class Edit_Categories extends AppCompatActivity{
         final Set<String> backupset = prefs.getStringSet(ID,new HashSet<String>());
         final Set<String> savedPrefs = prefs.getStringSet(ID,new HashSet<String>());
         savedPrefs.remove("Furnitures");
+        savedPrefs.remove("Clothing");
         final boolean[] bools = new boolean[10];
-        final String[] fields = {"Textbooks","Clothing","Furniture","Food","Technology","Supplies","Storage","Services","Miscellaneous","Transportation"};
+        final String[] fields = {"Textbooks","Clothes","Furniture","Food","Technology","Supplies","Storage","Services","Miscellaneous","Transportation"};
 
 
         System.out.println(savedPrefs);
@@ -80,7 +81,7 @@ public class Edit_Categories extends AppCompatActivity{
                     textbook.setChecked(true);
                     bools[0] = true;
                     break;
-                case "Clothing":
+                case "Clothes":
                     clothes.setChecked(true);
                     bools[1] = true;
                     break;
@@ -309,6 +310,8 @@ public class Edit_Categories extends AppCompatActivity{
                 editor.clear();
                 editor.putStringSet(ID,savedPrefs);
                 editor.apply();
+                Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
+                        new HashSet<String>()));
 
                 if(savedPrefs.isEmpty()){
                     Toast.makeText(Edit_Categories.this, "You did not follow any categories!", Toast.LENGTH_SHORT).show();
