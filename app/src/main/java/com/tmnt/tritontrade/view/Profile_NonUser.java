@@ -158,10 +158,12 @@ public class Profile_NonUser extends AppCompatActivity {
             if(result != null){
 
                 for(int i = 0; i < result.size(); i++){
+                    if(result.get(i).getActive()) {
+                        productSold.add(result.get(i));
+                    }
+
                     if(result.get(i).getSelling()){
                         selling.add(result.get(i));
-                    } else if(result.get(i).getActive()) {
-                        productSold.add(result.get(i));
                     }
                 }
 

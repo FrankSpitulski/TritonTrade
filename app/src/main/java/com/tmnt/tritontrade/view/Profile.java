@@ -95,10 +95,12 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
             if(result != null){
 
                 for(int i = 0; i < result.size(); i++){
+                    if(result.get(i).getActive()) {
+                        productSold.add(result.get(i));
+                    }
+
                     if(result.get(i).getSelling()){
                         selling.add(result.get(i));
-                    } else if(result.get(i).getActive()) {
-                        productSold.add(result.get(i));
                     }
                 }
 
@@ -144,7 +146,7 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
-
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.getMenu().getItem(4).setChecked(true);
 
 
@@ -218,6 +220,7 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
 
         //Update list to only show Items that have been sold
         adapter = new ProfileListAdaptor(Profile.this, productSold, false);
+
         list.setAdapter(adapter);
         list.deferNotifyDataSetChanged();
     }

@@ -198,7 +198,7 @@
                     android:id="@+id/bio6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Life is like a box of chocolates ... It really sucks if you have diabetes."
+                    android:text="Another software development lead that has nothing to do with concerts, huskies, and memes.  "
                     android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 

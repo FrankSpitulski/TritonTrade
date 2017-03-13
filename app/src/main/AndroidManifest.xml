@@ -48,6 +48,7 @@
         <activity android:name=".view.Edit_Categories" />
         <activity android:name=".view.License_Displays" />
         <activity android:name=".view.ChangePassword" />
+        <activity android:name=".view.PopupEditPost"></activity>
     </application>
 
 </manifest>

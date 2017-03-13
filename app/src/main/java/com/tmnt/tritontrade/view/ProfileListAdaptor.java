@@ -82,7 +82,6 @@ class ProfileListAdaptor extends BaseAdapter {
                 notifyDataSetChanged();
             }
 
-
         }
     }
 
@@ -294,7 +293,10 @@ class ProfileListAdaptor extends BaseAdapter {
 
             @Override
             public void onClick(View view){
-
+                Intent in = new Intent(context, PopupEditPost.class);
+                in.putExtra("Post", posts.get(position));
+                in.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                context.startActivity(in);
             }
         });
 
