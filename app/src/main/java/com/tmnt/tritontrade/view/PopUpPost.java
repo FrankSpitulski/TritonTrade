@@ -1,6 +1,8 @@
 package com.tmnt.tritontrade.view;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -230,6 +232,11 @@ public class PopUpPost extends AppCompatActivity {
     private void updateSellingStatus(Post p) {
         if(!p.getActive()){
             ((TextView) findViewById(R.id.postStatusPopup)).setText("SOLD");
+            TextView text = (TextView) findViewById(R.id.postStatusPopup);
+            text.setTextColor(Color.parseColor("#E50000"));
+            text.setTypeface(null, Typeface.BOLD);
+            TextView text2 = (TextView) findViewById(R.id.price);
+            text2.setTextColor(Color.parseColor("#696969"));
         }else if(p.getSelling()){
             ((TextView) findViewById(R.id.postStatusPopup)).setText("SELLING");
         }else{

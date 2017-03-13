@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.support.v4.util.Pair;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,15 +16,12 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.tmnt.tritontrade.R;
-import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
-import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -175,6 +173,9 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
 
         if(!posts.get(position).getActive()){
             postHolder.postStatusFeed.setText("SOLD");
+            postHolder.postStatusFeed.setTextColor(Color.parseColor("#E50000"));
+            postHolder.postStatusFeed.setTypeface(null, Typeface.BOLD);
+            postHolder.price.setTextColor(Color.parseColor("#696969"));
         }else if(posts.get(position).getSelling()){
             postHolder.postStatusFeed.setText("SELLING");
         }else{

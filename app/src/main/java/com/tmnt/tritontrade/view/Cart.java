@@ -6,11 +6,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -33,7 +32,6 @@ import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +42,6 @@ import static com.tmnt.tritontrade.R.id.bottom_edit_category;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
-import static com.tmnt.tritontrade.R.id.list;
 import static com.tmnt.tritontrade.R.layout.cart_item;
 
 public class Cart extends AppCompatActivity {
@@ -312,6 +309,10 @@ public class Cart extends AppCompatActivity {
             //set price and rental attributes and default image of post
             NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.getDefault());
             String stringPrice = currency.format(post.getPrice());
+            if (post.getActive() == false){
+                price.setTextColor(Color.parseColor("#E50000"));
+                stringPrice += "  (SOLD)";
+            }
             price.setText(stringPrice);
             title.setText(String.valueOf(post.getProductName()));
             String firstPhoto = post.getPhotos().get(0); //first photo of the ones you uploaded, "default"

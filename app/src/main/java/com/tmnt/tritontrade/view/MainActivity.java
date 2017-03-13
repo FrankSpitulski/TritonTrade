@@ -4,23 +4,22 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
-import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -87,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
         // Server.test();
 
         //Adding posts to server for testing
+
+        TextView logo = (TextView)findViewById(R.id.textView4);
+        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/Brotherina.ttf");
+        logo.setTypeface(custom_font);
 
 
     }
