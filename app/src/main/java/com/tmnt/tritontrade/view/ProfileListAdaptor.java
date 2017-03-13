@@ -222,6 +222,9 @@ class ProfileListAdaptor extends BaseAdapter {
             b.setVisibility(View.GONE);
         }
 
+        // TODO: Remove in actual implementation //
+        View b = catView.findViewById(R.id.edit_btn);
+        b.setVisibility(View.GONE);
 
         /*
         if(CurrentState.getInstance() != null) {
