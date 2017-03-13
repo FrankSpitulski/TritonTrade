@@ -191,7 +191,8 @@
                     android:background="@drawable/customborder2"
                     android:ems="10"
                     android:hint="$ 0.00"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:maxLength="10" />
 
                 <Button
                     android:id="@+id/button3"

@@ -27,6 +27,17 @@
                 android:orientation="vertical"
                 android:weightSum="1">
 
+                <TextView
+                    android:id="@+id/post_age_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.50"
+                    android:paddingBottom="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="12dp"
+                    android:text="TextView"
+                    android:textAlignment="textEnd" />
+
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -49,7 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_marginTop="20dp"
-                    app:srcCompat="@mipmap/doge" />
+                    app:srcCompat="@drawable/img" />
 
                 <TextView
                     android:id="@+id/name"
@@ -64,20 +75,33 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="30sp" />
 
-                <TextView
-                    android:id="@+id/price"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="0"
-                    android:fontFamily="sans-serif-light"
-                    android:paddingEnd="15dp"
-                    android:text="TextView"
-                    android:textAlignment="textEnd"
-                    android:textColor="#008B00"
-                    android:textSize="18sp"
-                    android:textStyle="italic" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.50">
+
+                    <TextView
+                        android:id="@+id/postStatusPopup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="TextView" />
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="0"
+                        android:fontFamily="sans-serif-light"
+                        android:paddingEnd="15dp"
+                        android:text="TextView"
+                        android:textAlignment="textEnd"
+                        android:textColor="#008B00"
+                        android:textSize="18sp"
+                        android:textStyle="italic" />
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/description"
@@ -96,6 +120,7 @@
                     android:layout_height="35dp"
                     android:layout_weight="1.50"
                     android:text="View Seller's Profile"
+                    android:textColorLink="@color/colorAccent"
                     android:textSize="14sp" />
 
 
@@ -116,8 +141,9 @@
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:fontFamily="sans-serif-condensed"
-                android:text="Cancel"
+                android:text="CANCEL"
                 android:textAlignment="gravity"
+                android:textAllCaps="false"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp" />
 
@@ -129,8 +155,9 @@
                 android:layout_weight="1.08"
                 android:background="@color/white"
                 android:fontFamily="sans-serif-condensed"
-                android:text="Add to Cart"
+                android:text="ADD TO CART"
                 android:textAlignment="gravity"
+                android:textAllCaps="false"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp" />
 

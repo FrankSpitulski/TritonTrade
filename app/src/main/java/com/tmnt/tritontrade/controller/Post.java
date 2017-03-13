@@ -244,7 +244,7 @@ public class Post implements Parcelable {
      * Getter for active
      * @return true if item of post is active, false otherwise
      */
-    public boolean getSold(){
+    public boolean getActive(){
         return active;
     }
 
@@ -444,7 +444,7 @@ public class Post implements Parcelable {
 
 
                 // Set up the boolean values that must be converted to integers
-                int actTA= (curr.getSold())? 1:0;
+                int actTA= (curr.getActive())? 1:0;
                 int selTA= (curr.getSelling())? 1:0;
                 int delTA= (curr.getDeleted())? 1:0;
 

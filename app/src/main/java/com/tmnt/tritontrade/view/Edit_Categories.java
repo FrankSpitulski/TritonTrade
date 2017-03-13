@@ -317,7 +317,10 @@ public class Edit_Categories extends AppCompatActivity{
                     Toast.makeText(Edit_Categories.this, "You did not follow any categories!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    startActivity(new Intent(getApplicationContext(), Mainfeed.class));
+                    Intent in=new Intent(getBaseContext(),Mainfeed.class);
+                    in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(in);
                 }
             }
         });

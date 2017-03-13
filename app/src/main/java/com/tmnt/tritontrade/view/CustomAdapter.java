@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.util.Pair;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -162,13 +163,24 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         postHolder.description = (TextView) catView.findViewById(R.id.description);
         postHolder.category=(TextView) catView.findViewById(R.id.category_text);
         postHolder.price = (TextView) catView.findViewById(R.id.price);
+        postHolder.timeago = (TextView) catView.findViewById(R.id.post_age);
+        postHolder.postStatusFeed = (TextView) catView.findViewById(R.id.postStatusFeed);
         postHolder.image = (ImageView) catView.findViewById(R.id.row_pic);
 
         postHolder.title.setText(posts.get(position).getProductName());
         postHolder.description.setText(posts.get(position).getDescription());
         postHolder.category.setText(posts.get(position).getTags().get(1).toUpperCase());
-
         postHolder.price.setText(currency.format(posts.get(position).getPrice()));
+        postHolder.timeago.setText(DateUtils.getRelativeTimeSpanString(posts.get(position).getDateCreated().getTime()));
+
+        if(!posts.get(position).getActive()){
+            postHolder.postStatusFeed.setText("SOLD");
+        }else if(posts.get(position).getSelling()){
+            postHolder.postStatusFeed.setText("SELLING");
+        }else{
+            postHolder.postStatusFeed.setText("BUYING");
+        }
+
         if(posts.get(position).getPhotos().get(0)==""){
             postHolder.image.setVisibility(View.GONE);
         }
@@ -273,6 +285,8 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         TextView description;
         TextView price;
         TextView category;
+        TextView postStatusFeed;
+        TextView timeago;
         ImageView image;
     }
 

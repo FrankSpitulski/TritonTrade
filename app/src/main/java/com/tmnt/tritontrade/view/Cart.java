@@ -34,8 +34,10 @@ import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
 import static com.tmnt.tritontrade.R.id.bottom_edit_category;
@@ -110,7 +112,7 @@ public class Cart extends AppCompatActivity {
         //bottom tool bar
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
-
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.getMenu().getItem(3).setChecked(true);
         bottomNavigationView.setSelected(false);
 
@@ -258,26 +260,6 @@ public class Cart extends AppCompatActivity {
     }
 
 
-    void removeShiftMode(BottomNavigationView view) {
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
-        try {
-            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
-            shiftingMode.setAccessible(true);
-            shiftingMode.setBoolean(menuView, false);
-            shiftingMode.setAccessible(false);
-            for (int i = 0; i < menuView.getChildCount(); i++) {
-                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-                item.setShiftingMode(false);
-                // set once again checked value, so view will be updated
-                item.setChecked(item.getItemData().isChecked());
-            }
-        } catch (NoSuchFieldException e) {
-            Log.e("ERROR NO SUCH FIELD", "Unable to get shift mode field");
-        } catch (IllegalAccessException e) {
-            Log.e("ERROR ILLEGAL ALG", "Unable to change value of shift mode");
-        }
-    }
-
 
     //-------------------------------ASYNC TASKS----------------------------------//
 
@@ -327,9 +309,9 @@ public class Cart extends AppCompatActivity {
 /////////////////////TESTING//////////////
 
 
-
             //set price and rental attributes and default image of post
-            String stringPrice = "$" + String.valueOf(post.getPrice());
+            NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.getDefault());
+            String stringPrice = currency.format(post.getPrice());
             price.setText(stringPrice);
             title.setText(String.valueOf(post.getProductName()));
             String firstPhoto = post.getPhotos().get(0); //first photo of the ones you uploaded, "default"
