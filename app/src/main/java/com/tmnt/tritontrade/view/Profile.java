@@ -95,11 +95,11 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
             if(result != null){
 
                 for(int i = 0; i < result.size(); i++){
-                    if(result.get(i).getActive()) {
+                    if(true) {
                         productSold.add(result.get(i));
                     }
 
-                    if(result.get(i).getSelling()){
+                    if(result.get(i).getActive()){
                         selling.add(result.get(i));
                     }
                 }

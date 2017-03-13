@@ -34,7 +34,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:onClick="onForSaleClick"
-            android:text="For Sale"
+            android:text="Active"
             android:textColor="@android:color/white"
             tools:ignore="ButtonStyle" />
 
