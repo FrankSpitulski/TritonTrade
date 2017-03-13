@@ -220,6 +220,7 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
 
         //Update list to only show Items that have been sold
         adapter = new ProfileListAdaptor(Profile.this, productSold, false);
+
         list.setAdapter(adapter);
         list.deferNotifyDataSetChanged();
     }
