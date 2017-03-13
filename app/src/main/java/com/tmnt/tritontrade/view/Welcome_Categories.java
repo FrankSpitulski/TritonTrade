@@ -84,7 +84,7 @@ public class Welcome_Categories extends AppCompatActivity{
                 if(clothes.isChecked())
                 {
                     clothes.setChecked(true);
-                    set.add("Clothing");
+                    set.add("Clothes");
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
@@ -92,7 +92,7 @@ public class Welcome_Categories extends AppCompatActivity{
                 else
                 {
                     clothes.setChecked(false);
-                    set.remove("Clothing");
+                    set.remove("Clothes");
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();

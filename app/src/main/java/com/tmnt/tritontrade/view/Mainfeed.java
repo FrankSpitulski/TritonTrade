@@ -100,8 +100,8 @@ public class Mainfeed extends AppCompatActivity
         //fillDefaultTags(tags);
         /***SET DATA***/
 //        tags.add("food");
-        lastSearchedTags=tags;
         fillDefaultTags(tags);
+        lastSearchedTags=tags;
         setAdapterInfo(tags);
 
 
@@ -274,10 +274,10 @@ public class Mainfeed extends AppCompatActivity
 
         int id = item.getItemId();
         ArrayList<String> tags= new ArrayList<>();
-        if (id == R.id.clothing_sidebar) {
-            tags.add("Clothing");
-        } else if(id==R.id.following_sidebar){
+        if(id==R.id.following_sidebar){
             fillDefaultTags(tags);
+        } else if (id == R.id.clothing_sidebar) {
+            tags.add("Clothes");
         } else if (id == R.id.food_sidebar) {
             tags.add("Food");
         } else if (id == R.id.furniture_sidebar) {

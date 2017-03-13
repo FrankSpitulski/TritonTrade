@@ -305,7 +305,7 @@ public class Create_Post extends AppCompatActivity {
     public void addItemsOnCategorySpinner(){
         spinner1 = (Spinner) findViewById(R.id.categorySpinner);
         List<String> categoryList = new ArrayList<>();
-        categoryList.add("Clothing");
+        categoryList.add("Clothes");
         categoryList.add("Food");
         categoryList.add("Furniture");
         categoryList.add("Storage");
