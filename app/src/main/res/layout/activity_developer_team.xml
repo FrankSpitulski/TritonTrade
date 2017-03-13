@@ -168,7 +168,7 @@
                     android:id="@+id/bio5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="How is global warming reducing terrorism? The ISIS melting.  "
+                    android:text="A software development lead that is a lover of concerts, huskies, and memes"
                     android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
@@ -228,7 +228,7 @@
                     android:id="@+id/bio7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Developed the algorithm to software engineering...check out my website at edwardj.me "
+                    android:text="Psst...it can be solved in linear time. Check out my website at edwardj.me"
                     android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
