@@ -32,7 +32,7 @@ dependencies {
     }
 
     //bottom bar
-    
+
 
     // https://mvnrepository.com/artifact/org.mindrot/jbcrypt
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
