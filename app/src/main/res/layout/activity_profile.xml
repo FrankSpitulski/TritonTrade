@@ -46,7 +46,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:onClick="onSoldClick"
-            android:text="Sold Items"
+            android:text="History"
             android:textColor="@android:color/white" />
     </LinearLayout>
 
