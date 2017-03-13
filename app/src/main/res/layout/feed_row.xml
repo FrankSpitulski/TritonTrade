@@ -107,7 +107,7 @@
         android:maxHeight="135dp"
         android:maxWidth="135dp"
         android:padding="1dp"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         android:visibility="visible"
         app:srcCompat="@drawable/default_photo" />
 
