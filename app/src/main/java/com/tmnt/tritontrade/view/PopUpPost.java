@@ -146,6 +146,8 @@ public class PopUpPost extends AppCompatActivity {
 
         TextView time_ago = (TextView) findViewById(R.id.post_age_2);
         time_ago.setText(DateUtils.getRelativeTimeSpanString(p.getDateCreated().getTime()));
+
+
     }
 
 
@@ -258,6 +260,8 @@ public class PopUpPost extends AppCompatActivity {
         @Override
         protected void onPostExecute(User user) {
             final User seller = user;
+            TextView viewSeller = (TextView) findViewById(R.id.viewseller);
+            viewSeller.setText(seller.getName());
             findViewById(R.id.viewseller).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
