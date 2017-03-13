@@ -218,11 +218,19 @@ public class EditProfile extends AppCompatActivity {
         EditText phone = (EditText) findViewById(R.id.phone);
         EditText bio = (EditText) findViewById(R.id.bio);
 
+        String number = phone.getText().toString();
+        String numberIsValid = User.convertMobileNumberToDatabaseFormat(number);
+
         if(!nameIsValid(username.getText().toString())){
             Toast.makeText(EditProfile.this, "Username is invalid", Toast.LENGTH_SHORT).show();
             return;
-        } else if (!phoneIsValid(phone.getText().toString())) {
-            Toast.makeText(EditProfile.this, "Phone number must be in format\n(000) 000-0000", Toast.LENGTH_SHORT).show();
+        } else if (numberIsValid == null) {
+            Toast.makeText(EditProfile.this, "Phone number is not in correct format\n" +
+                    "Accepted formats:\n" +
+                    "(xxx) xxx-xxxx\n" +
+                    "xxxxxxxxxx\n" +
+                    "xxx xxx-xxxx\n" +
+                    "xxx-xxx-xxxx", Toast.LENGTH_LONG).show();
             return;
         } else if (!bioIsValid(bio.getText().toString())){
             Toast.makeText(EditProfile.this, "Please enter a short description about yourself", Toast.LENGTH_SHORT).show();
@@ -230,7 +238,7 @@ public class EditProfile extends AppCompatActivity {
         } else {
 
             currUser.setName(username.getText().toString());
-            currUser.setMobileNumber("+0001 " + phone.getText().toString());
+            currUser.setMobileNumber(numberIsValid);
             currUser.setBio(bio.getText().toString());
 
             new UpdateUserTask().execute(currUser);
