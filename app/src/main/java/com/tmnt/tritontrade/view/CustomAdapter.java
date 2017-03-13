@@ -162,11 +162,20 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         postHolder.description = (TextView) catView.findViewById(R.id.description);
         postHolder.category=(TextView) catView.findViewById(R.id.category_text);
         postHolder.price = (TextView) catView.findViewById(R.id.price);
+        postHolder.postStatusFeed = (TextView) catView.findViewById(R.id.postStatusFeed);
         postHolder.image = (ImageView) catView.findViewById(R.id.row_pic);
 
         postHolder.title.setText(posts.get(position).getProductName());
         postHolder.description.setText(posts.get(position).getDescription());
         postHolder.category.setText(posts.get(position).getTags().get(1).toUpperCase());
+
+        if(!posts.get(position).getActive()){
+            postHolder.postStatusFeed.setText("SOLD");
+        }else if(posts.get(position).getSelling()){
+            postHolder.postStatusFeed.setText("SELLING");
+        }else{
+            postHolder.postStatusFeed.setText("BUYING");
+        }
 
         postHolder.price.setText(currency.format(posts.get(position).getPrice()));
         if(posts.get(position).getPhotos().get(0)==""){
@@ -273,6 +282,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         TextView description;
         TextView price;
         TextView category;
+        TextView postStatusFeed;
         ImageView image;
     }
 

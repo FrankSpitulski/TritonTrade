@@ -61,7 +61,7 @@ public class PopUpPost extends AppCompatActivity {
 
         final Post p = getIntent().getParcelableExtra("category");
         loadPost(p);
-
+        updateSellingStatus(p);
         new GetSellerForProfile()
                 .execute(p.getProfileID());
 
@@ -71,8 +71,13 @@ public class PopUpPost extends AppCompatActivity {
         if (current_user.getCartIDs().contains(p.getPostID())) {
             cart_status = true;
             ((Button) findViewById(R.id.cart)).setText("REMOVE FROM CART");
+        }else if(current_user.getProfileID() == p.getProfileID()){
+            if(!p.getActive()) {
+                ((Button) findViewById(R.id.cart)).setText("MARK AS ACTIVE");
+            }else{
+                ((Button) findViewById(R.id.cart)).setText("MARK AS SOLD");
+            }
         }
-
         findViewById(R.id.cart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,11 +85,23 @@ public class PopUpPost extends AppCompatActivity {
                 Toast t = new Toast(getApplicationContext());
                 if (cart_status) {
                     current_user.removeFromCart(p.getPostID());
+                    new ModifyUserCart().execute(current_user);
                 } else {
-                    current_user.addToCart(p.getPostID());
-                    startActivity(new Intent(getApplicationContext(), Cart.class));
+                    Log.d("DEBUG", "ADDING TO CART? " + b.getText());
+                    if(b.getText().equals("ADD TO CART")) {
+                        Log.d("DEBUG", "ADDING TO CART");
+                        current_user.addToCart(p.getPostID());
+                        startActivity(new Intent(getApplicationContext(), Cart.class));
+                        new ModifyUserCart().execute(current_user);
+                    }else if(b.getText().equals("MARK AS ACTIVE")){
+                        p.setActive(true);
+                        new ModifyPostState().execute(p);
+                    }else if(b.getText().equals("MARK AS SOLD")){
+                        p.setActive(false);
+                        new ModifyPostState().execute(p);
+                    }
                 }
-                new ModifyUserCart().execute(current_user);
+
             }
         });
     }
@@ -173,6 +190,50 @@ public class PopUpPost extends AppCompatActivity {
             } else {
                 t.makeText(PopUpPost.this, "Bad connection to server or bad post ID", Toast.LENGTH_SHORT);
             }
+        }
+    }
+
+    public class ModifyPostState extends AsyncTask<Post, Void, Post> {
+        @Override
+        protected Post doInBackground(Post... params) {
+            try {
+                Server.modifyExistingPost(params[0]);
+                return params[0];
+            } catch (IOException e) {
+                Log.d("DEBUG", e.toString());
+                return null;
+            } catch (IllegalArgumentException e2) {
+                Log.d("DEBUG", e2.toString());
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Post p) {
+            t.cancel();
+            if (p != null) {
+                if (p.getActive()) {
+                    t.makeText(PopUpPost.this, "Item marked as active", Toast.LENGTH_SHORT).show();
+                    ((Button) findViewById(R.id.cart)).setText("MARK AS SOLD");
+                } else {
+                    t.cancel();
+                    t.makeText(PopUpPost.this, "Item marked as sold", Toast.LENGTH_SHORT).show();
+                    ((Button) findViewById(R.id.cart)).setText("MARK AS ACTIVE");
+                }
+                updateSellingStatus(p);
+            } else {
+                t.makeText(PopUpPost.this, "Bad connection to server or bad post ID", Toast.LENGTH_SHORT);
+            }
+        }
+    }
+
+    private void updateSellingStatus(Post p) {
+        if(!p.getActive()){
+            ((TextView) findViewById(R.id.postStatusPopup)).setText("SOLD");
+        }else if(p.getSelling()){
+            ((TextView) findViewById(R.id.postStatusPopup)).setText("SELLING");
+        }else{
+            ((TextView) findViewById(R.id.postStatusPopup)).setText("BUYING");
         }
     }
 
