@@ -49,14 +49,29 @@
                 android:textSize="20sp"
                 android:textStyle="normal|bold" />
 
-            <TextView
-                android:id="@+id/price"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Price"
-                android:textColor="#008B00"
-                android:textSize="18sp" />
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Price"
+                    android:textColor="#008B00"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/postStatusFeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="Error" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/description"
