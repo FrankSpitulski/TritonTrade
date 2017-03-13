@@ -146,7 +146,7 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
-
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.getMenu().getItem(4).setChecked(true);
 
 

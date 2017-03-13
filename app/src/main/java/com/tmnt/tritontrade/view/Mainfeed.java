@@ -100,8 +100,8 @@ public class Mainfeed extends AppCompatActivity
         //fillDefaultTags(tags);
         /***SET DATA***/
 //        tags.add("food");
-        fillDefaultTags(tags);
         lastSearchedTags=tags;
+        fillDefaultTags(tags);
         setAdapterInfo(tags);
 
 
@@ -131,6 +131,7 @@ public class Mainfeed extends AppCompatActivity
         //bottom tool bar
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(

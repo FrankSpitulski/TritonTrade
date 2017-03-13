@@ -110,7 +110,7 @@ public class Cart extends AppCompatActivity {
         //bottom tool bar
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
-
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.getMenu().getItem(3).setChecked(true);
         bottomNavigationView.setSelected(false);
 
