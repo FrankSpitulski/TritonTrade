@@ -37,7 +37,7 @@ public class Server {
     //Information of Frank's Server
 
     //domain name of server
-    final private static String serverName = "https://spitulski.no-ip.biz";
+    final private static String serverName = "https://tritontrade.ddns.net";
 
     /**
      * Returns the domain name of the database server
