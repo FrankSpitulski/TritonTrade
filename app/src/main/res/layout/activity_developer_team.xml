@@ -23,26 +23,26 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/Rohan"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Rohan"
-                android:paddingBottom="20sp"
-                android:background="#F0F0ED">
+                android:background="#F0F0ED"
+                android:orientation="vertical"
+                android:paddingBottom="20sp">
 
                 <TextView
-                    android:text="Rohan Shah"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/name1"
-                    android:textAppearance="@style/fontForDevTeamName"/>
-
-                <TextView
-                    android:text="Project Manager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Rohan Shah"
+                    android:textAppearance="@style/fontForDevTeamName" />
+
+                <TextView
                     android:id="@+id/position1"
-                    android:textAppearance="@style/fontForDevTeamPos"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Project Manager"
+                    android:textAppearance="@style/fontForDevTeamPos" />
 
                 <TextView
                     android:id="@+id/bio1"
@@ -78,38 +78,38 @@
                     android:id="@+id/bio2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="I like pugs and memes"
                     android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/Terrance"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Terrance"
-                android:paddingBottom="20sp"
-                android:background="#F0F0ED">
+                android:background="#F0F0ED"
+                android:orientation="vertical"
+                android:paddingBottom="20sp">
 
                 <TextView
-                    android:text="Terrence Griffith"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/name3"
-                    android:textAppearance="@style/fontForDevTeamName"/>
-
-                <TextView
-                    android:text="Senior Systems Analyst"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Terrence Griffith"
+                    android:textAppearance="@style/fontForDevTeamName" />
+
+                <TextView
                     android:id="@+id/position3"
-                    android:textAppearance="@style/fontForDevTeamPos"/>
-
-                <TextView
-                    android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Senior Systems Analyst"
+                    android:textAppearance="@style/fontForDevTeamPos" />
+
+                <TextView
                     android:id="@+id/bio3"
-                    android:textAppearance="@style/fontForDevTeamBio"/>/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="There's nothing worse than pooping in an elevator. It really takes shit to a new level."
+                    android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
             <LinearLayout
@@ -138,17 +138,17 @@
                     android:id="@+id/bio4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="How do you find Will Smith in the snow? You look for the fresh prints. "
                     android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/Brian"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Brian"
-                android:paddingBottom="20sp"
-                android:background="#F0F0ED">
+                android:background="#F0F0ED"
+                android:orientation="vertical"
+                android:paddingBottom="20sp">
 
                 <TextView
                     android:id="@+id/name5"
@@ -158,18 +158,18 @@
                     android:textAppearance="@style/fontForDevTeamName" />
 
                 <TextView
-                    android:text="Software Development Lead"
+                    android:id="@+id/position5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/position5"
-                    android:textAppearance="@style/fontForDevTeamPos"/>
+                    android:text="Software Development Lead"
+                    android:textAppearance="@style/fontForDevTeamPos" />
 
                 <TextView
-                    android:text="TextView"
+                    android:id="@+id/bio5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/bio5"
-                    android:textAppearance="@style/fontForDevTeamBio"/>/>
+                    android:text="How is global warming reducing terrorism? The ISIS melting.  "
+                    android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
             <LinearLayout
@@ -198,38 +198,38 @@
                     android:id="@+id/bio6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="Life is like a box of chocolates ... It really sucks if you have diabetes."
                     android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/Edward"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Edward"
-                android:paddingBottom="20sp"
-                android:background="#F0F0ED">
+                android:background="#F0F0ED"
+                android:orientation="vertical"
+                android:paddingBottom="20sp">
 
                 <TextView
-                    android:text="Edward Ji"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/name7"
-                    android:textAppearance="@style/fontForDevTeamName"/>
-
-                <TextView
-                    android:text="Algorithm Specialist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Edward Ji"
+                    android:textAppearance="@style/fontForDevTeamName" />
+
+                <TextView
                     android:id="@+id/position7"
-                    android:textAppearance="@style/fontForDevTeamPos"/>
-
-                <TextView
-                    android:text="TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Algorithm Specialist"
+                    android:textAppearance="@style/fontForDevTeamPos" />
+
+                <TextView
                     android:id="@+id/bio7"
-                    android:textAppearance="@style/fontForDevTeamBio"/>/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Developed the algorithm to software engineering...check out my website at edwardj.me "
+                    android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
             <LinearLayout
@@ -263,33 +263,33 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/Kevin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/Kevin"
-                android:paddingBottom="20sp"
-                android:background="#F0F0ED">
+                android:background="#F0F0ED"
+                android:orientation="vertical"
+                android:paddingBottom="20sp">
 
                 <TextView
-                    android:text="Kevin Mao"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/name9"
-                    android:textAppearance="@style/fontForDevTeamName"/>
-
-                <TextView
-                    android:text="Quality Assurance Lead"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Kevin Mao"
+                    android:textAppearance="@style/fontForDevTeamName" />
+
+                <TextView
                     android:id="@+id/position9"
-                    android:textAppearance="@style/fontForDevTeamPos"/>
-
-                <TextView
-                    android:text="Guys IF I SEE ANOTHER AUTO GENERATED CLASS HEADER OR A 50 LINE BLOCK WITH NO COMMENTS I WILL COME FOR YOU. ALSO STOP DOING NOTHING WHEN EXCEPTIONS GET THROWN"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Quality Assurance Lead"
+                    android:textAppearance="@style/fontForDevTeamPos" />
+
+                <TextView
                     android:id="@+id/bio9"
-                    android:textAppearance="@style/fontForDevTeamBio"/>/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Guys IF I SEE ANOTHER AUTO GENERATED CLASS HEADER OR A 50 LINE BLOCK WITH NO COMMENTS I WILL COME FOR YOU. ALSO STOP DOING NOTHING WHEN EXCEPTIONS GET THROWN"
+                    android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 
             <LinearLayout
@@ -318,7 +318,7 @@
                     android:id="@+id/bio10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="In admiration of everyone on the team and also admires little puppies."
                     android:textAppearance="@style/fontForDevTeamBio" />/>
             </LinearLayout>
 

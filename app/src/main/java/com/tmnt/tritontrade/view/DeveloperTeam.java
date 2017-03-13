@@ -42,17 +42,17 @@ public class DeveloperTeam extends AppCompatActivity {
         //iterate through the arraylist to do something to each name
         for(TextView name: names) {
             //name.setTextAppearance(R.style.fontForDevTeamName);
-            name.setPadding(20, 0, 0, 0);
+            name.setPadding(20, 0, 20, 0);
         }
 
         for(TextView pos: positions){
             //pos.setTextAppearance(R.style.fontForDevTeamPos);
-            pos.setPadding(20, 0, 0, 0);
+            pos.setPadding(20, 0, 20, 0);
         }
 
         for(TextView bio: bios){
             //bio.setTextAppearance(R.style.fontForDevTeamBio);
-            bio.setPadding(20, 0, 0, 0);
+            bio.setPadding(20, 0, 20, 0);
         }
 
         /*
