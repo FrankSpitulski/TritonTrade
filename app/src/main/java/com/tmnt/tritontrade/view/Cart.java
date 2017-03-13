@@ -34,8 +34,10 @@ import com.tmnt.tritontrade.controller.User;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;
 import static com.tmnt.tritontrade.R.id.bottom_edit_category;
@@ -327,9 +329,9 @@ public class Cart extends AppCompatActivity {
 /////////////////////TESTING//////////////
 
 
-
             //set price and rental attributes and default image of post
-            String stringPrice = "$" + String.valueOf(post.getPrice());
+            NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.getDefault());
+            String stringPrice = currency.format(post.getPrice());
             price.setText(stringPrice);
             title.setText(String.valueOf(post.getProductName()));
             String firstPhoto = post.getPhotos().get(0); //first photo of the ones you uploaded, "default"

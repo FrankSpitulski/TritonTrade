@@ -27,6 +27,17 @@
                 android:orientation="vertical"
                 android:weightSum="1">
 
+                <TextView
+                    android:id="@+id/post_age_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.50"
+                    android:paddingBottom="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="12dp"
+                    android:text="TextView"
+                    android:textAlignment="textEnd" />
+
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -49,7 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_marginTop="20dp"
-                    app:srcCompat="@mipmap/doge" />
+                    app:srcCompat="@drawable/img" />
 
                 <TextView
                     android:id="@+id/name"
@@ -109,6 +120,7 @@
                     android:layout_height="35dp"
                     android:layout_weight="1.50"
                     android:text="View Seller's Profile"
+                    android:textColorLink="@color/colorAccent"
                     android:textSize="14sp" />
 
 

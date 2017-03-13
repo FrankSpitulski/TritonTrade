@@ -23,6 +23,16 @@
             android:textColor="#A9A9A9"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/post_age"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.29"
+            android:text="Category"
+            android:textAlignment="textEnd"
+            android:textColor="#A9A9A9"
+            android:textStyle="bold" />
+
 
     </LinearLayout>
 

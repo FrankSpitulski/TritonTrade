@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -91,7 +92,6 @@ public class PopUpPost extends AppCompatActivity {
                     if(b.getText().equals("ADD TO CART")) {
                         Log.d("DEBUG", "ADDING TO CART");
                         current_user.addToCart(p.getPostID());
-                        startActivity(new Intent(getApplicationContext(), Cart.class));
                         new ModifyUserCart().execute(current_user);
                     }else if(b.getText().equals("MARK AS ACTIVE")){
                         p.setActive(true);
@@ -116,9 +116,6 @@ public class PopUpPost extends AppCompatActivity {
         for (int i = 0; i < photos.size(); i++) {
             final ImageView photoView = photos.get(i);
 
-            //photoView.setImageDrawable(photos.get(i).getDrawable());
-            //photoView.setAdjustViewBounds(true);
-            //photoView.setCropToPadding(true);
             photoView.setLayoutParams(photo_params);
             photoView.setPadding(0, 0, 15, 0);
             photoView.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +141,9 @@ public class PopUpPost extends AppCompatActivity {
 
         TextView desc = (TextView) findViewById(R.id.description);
         desc.setText(p.getDescription());
+
+        TextView time_ago = (TextView) findViewById(R.id.post_age_2);
+        time_ago.setText(DateUtils.getRelativeTimeSpanString(p.getDateCreated().getTime()));
     }
 
 
