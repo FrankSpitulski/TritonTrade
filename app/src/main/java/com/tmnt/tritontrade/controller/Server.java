@@ -1,5 +1,7 @@
 package com.tmnt.tritontrade.controller;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
@@ -9,6 +11,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -749,10 +754,14 @@ public class Server {
      * @throws IOException
      */
     public static String uploadImage(InputStream fileStream, String fileExtension) throws IOException {
+        Bitmap bmp = BitmapFactory.decodeStream(fileStream);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 25, stream);
+        InputStream is = new ByteArrayInputStream(stream.toByteArray());
         String charset = "UTF-8";
         String requestURL = serverName + "/img/images.php";
         MultipartUtility multipart = new MultipartUtility(requestURL, charset);
-        multipart.addFilePart("name", "doge." + fileExtension, fileStream);
+        multipart.addFilePart("name", "doge." + fileExtension, is);
         return "/img/" + multipart.finish(); // response from server.
     }
 
