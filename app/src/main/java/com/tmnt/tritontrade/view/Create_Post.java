@@ -133,6 +133,15 @@ public class Create_Post extends AppCompatActivity {
                 tags = new ArrayList<String>();
                 tags.add(theName.getText().toString().toLowerCase());
                 tags.add(selectedItemText.toLowerCase());
+                String[] splitTitle = theName.getText().toString().split(" ");
+                for(String s : splitTitle){
+                    s = s.toLowerCase();
+                    if(s.equals("") || s.equals("in") || s.equals("at") || s.equals("on") || s.equals("the") || s.equals("a") || s.equals("an") || s.equals("by") ||s.equals("of")){
+                        // do not add
+                    }else{
+                        tags.add(s);
+                    }
+                }
 
                 profileID = CurrentState.getInstance().getCurrentUser().getProfileID();
                 contactInfo = CurrentState.getInstance().getCurrentUser().getMobileNumber();

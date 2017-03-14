@@ -4,19 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -42,9 +35,7 @@ import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
-import com.tmnt.tritontrade.controller.User;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -215,7 +206,15 @@ public class Mainfeed extends AppCompatActivity
             public boolean onQueryTextSubmit(String query) {
                // adapter.getFilter().filter(query);
                 ArrayList<String> tagsQ = new ArrayList<String>();
-                tagsQ.add(query);
+                tagsQ.add(query.toLowerCase());
+                String [] querySplit = query.split(" ");
+                for(String s : querySplit){
+                    s = s.toLowerCase();
+                    if(!s.equals("")){
+                        tagsQ.add(s);
+                    }
+                }
+
                 lastSearchedTags=tagsQ;
                 new FeedSetupTask().execute(tagsQ);
                 sv.clearFocus();
@@ -420,15 +419,6 @@ public class Mainfeed extends AppCompatActivity
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
-
-
-
-
-
-
-
-
-
 }
 
 

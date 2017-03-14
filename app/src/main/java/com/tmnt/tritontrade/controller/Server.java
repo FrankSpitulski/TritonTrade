@@ -737,7 +737,7 @@ public class Server {
     private static String httpGetRequest(String request) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitNetwork().build();
         StrictMode.setThreadPolicy(policy);
-        URL url = new URL(serverName + request);
+        URL url = new URL(serverName + request.replaceAll(" ", "%20"));
         HttpsURLConnection client = (HttpsURLConnection) url.openConnection();
         String output = readStream(client.getInputStream());
 
