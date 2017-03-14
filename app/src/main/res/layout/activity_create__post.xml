@@ -133,7 +133,7 @@
                     android:background="@drawable/customborder2"
                     android:ems="10"
                     android:gravity="top"
-                    android:hint="What are you selling?"
+                    android:hint="What are you buying/selling?"
                     android:inputType="textMultiLine" />
 
 
