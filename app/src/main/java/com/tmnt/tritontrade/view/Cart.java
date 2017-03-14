@@ -316,7 +316,7 @@ public class Cart extends AppCompatActivity {
             price.setText(stringPrice);
             title.setText(String.valueOf(post.getProductName()));
             String firstPhoto = post.getPhotos().get(0); //first photo of the ones you uploaded, "default"
-            new DownloadPhotosAsyncTask(image).execute(firstPhoto);
+            new DownloadPhotosAsyncTask(context, image).execute(firstPhoto);
 
             //DISPLAY TITLE
             if (post.getProductName().length() >= 39) {

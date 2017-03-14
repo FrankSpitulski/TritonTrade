@@ -208,7 +208,7 @@ public class Profile_NonUser extends AppCompatActivity {
         //populate the fields with the information obtained from the user
 
         try {
-            new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.userPic))
+            new DownloadPhotosAsyncTask(this, (ImageView) findViewById(R.id.userPic))
                     .execute(currUser.getPhoto());
         } catch (Exception e) {
             ImageView userPic = (ImageView) findViewById(R.id.userPic);

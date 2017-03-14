@@ -18,6 +18,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
@@ -187,8 +188,9 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
         }
         else{
             postHolder.image.setVisibility(View.VISIBLE);
-            new DownloadPhotosAsyncTask(postHolder.image)
+            new DownloadPhotosAsyncTask(context, postHolder.image)
                     .execute(posts.get(position).getPhotos().get(0));
+            //Glide.with(context).load(posts.get(position).getPhotos().get(0)).into(postHolder.image);
         }
 
         //Click listener for post

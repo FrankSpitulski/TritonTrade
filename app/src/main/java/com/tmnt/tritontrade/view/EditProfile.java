@@ -202,7 +202,7 @@ public class EditProfile extends AppCompatActivity {
 
         //set profile photo
 
-        new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.profile_image))
+        new DownloadPhotosAsyncTask(this, (ImageView) findViewById(R.id.profile_image))
                 .execute(user.getPhoto());
 
 

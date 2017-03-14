@@ -131,7 +131,7 @@ public class PopUpPost extends AppCompatActivity {
             photoContainer.addView(photos.get(i), i);
         }
 
-        new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.currentphoto))
+        new DownloadPhotosAsyncTask(this, (ImageView) findViewById(R.id.currentphoto))
                 .execute(p.getPhotos().get(0));
 
         TextView name = (TextView) findViewById(R.id.name);
@@ -156,7 +156,7 @@ public class PopUpPost extends AppCompatActivity {
         ArrayList<ImageView> iv_array = new ArrayList<>();
         for (int i = 0; i < photos.size(); i++) {
             ImageView d = new de.hdodenhof.circleimageview.CircleImageView(getApplicationContext());
-            new DownloadPhotosAsyncTask(d)
+            new DownloadPhotosAsyncTask(this,d)
                     .execute(photos.get(i));
             iv_array.add(d);
         }

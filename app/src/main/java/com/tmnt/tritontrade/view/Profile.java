@@ -131,7 +131,7 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
         sold = (Button) findViewById(R.id.soldButton);
 
         //Set the profile photp
-        new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.userPic))
+        new DownloadPhotosAsyncTask(this, (ImageView) findViewById(R.id.userPic))
                 .execute(currUser.getPhoto());
 
         //populate the fields with the relevant info
@@ -250,7 +250,7 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
 
         //populate the fields with the information obtained from the user
 
-        new DownloadPhotosAsyncTask((ImageView) findViewById(R.id.userPic))
+        new DownloadPhotosAsyncTask(this, (ImageView) findViewById(R.id.userPic))
                 .execute(currUser.getPhoto());
 
         username.setText(user.getName());
