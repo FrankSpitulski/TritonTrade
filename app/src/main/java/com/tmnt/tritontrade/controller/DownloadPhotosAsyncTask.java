@@ -37,7 +37,7 @@ public class DownloadPhotosAsyncTask extends AsyncTask<String, Void, Bitmap> {
         }
 
         protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+            bmImage.setImageBitmap(Bitmap.createScaledBitmap(result, bmImage.getWidth(), bmImage.getHeight(), true));
         }
 }
 
