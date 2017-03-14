@@ -745,6 +745,20 @@ public class Server {
         return output;
     }
 
+    private static float aspect_correct_scale_for_rect(float size, float x, float y){
+        float screenAspect = size / size;
+        float rectAspect = x / y;
+
+        float scaleFactor;
+        if (screenAspect > rectAspect)
+            scaleFactor = size / y;
+        else
+            scaleFactor = size / x;
+
+        return scaleFactor;
+    }
+
+
     /**
      * uploads an image to the server
      *
@@ -754,9 +768,25 @@ public class Server {
      * @throws IOException
      */
     public static String uploadImage(InputStream fileStream, String fileExtension) throws IOException {
+        final float size = 1000;
+        final int quality = 50;
         Bitmap bmp = BitmapFactory.decodeStream(fileStream);
+        int width = bmp.getWidth();
+        int height = bmp.getHeight();
+        float scaleFactor = aspect_correct_scale_for_rect(size, width, height);
+        if(width > size || height > size){
+            width *= scaleFactor;
+            height *= scaleFactor;
+        }
+        if(width < 1){
+            width = 1;
+        }
+        if(height < 1){
+            height = 1;
+        }
+        bmp = Bitmap.createScaledBitmap(bmp, width, height, true);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 25, stream);
+        bmp.compress(Bitmap.CompressFormat.JPEG, quality, stream);
         InputStream is = new ByteArrayInputStream(stream.toByteArray());
         String charset = "UTF-8";
         String requestURL = serverName + "/img/images.php";
