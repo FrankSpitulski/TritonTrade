@@ -137,6 +137,15 @@ public class EditProfile extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Get the result state of the activity that has just finised. In this case it is
+     * the Phone Gallery activity
+     * The User can access their photos to change the profile photo on their phone
+     * @param requestCode the request code sent
+     * @param resultCode the result code recieved
+     * @param data the data passed back
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
@@ -186,6 +195,11 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Populate the information in the Profile relative to the user like name, phone, bio etc
+     * @param user The current user
+     */
     private void populateFields(User user){
 
         //Get references to all the relevant fields in the profle
@@ -212,10 +226,21 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
+
+    /**
+     * If a user selects cancel, do not save any of the edits and return to the profile
+     * @param view
+     */
     public void cancelEdit(View view){
         finish();
     }
 
+
+    /**
+     * If the user wishes to save their data, then check all the input before updating the user in
+     * the database and returning to the Profile screen
+     * @param view
+     */
     public void saveInfo(View view) {
         //Get references to all the relevant fields in the profle
         EditText username = (EditText) findViewById(R.id.username);
@@ -256,6 +281,11 @@ public class EditProfile extends AppCompatActivity {
     }
 
 
+    /**
+     * Check if a string that represents the name is valid
+     * @param username The string to be checked
+     * @return true if the username is valid
+     */
     private boolean nameIsValid(String username){
         if(username.isEmpty()){
             return false;
@@ -264,35 +294,12 @@ public class EditProfile extends AppCompatActivity {
         return true;
     }
 
-    private boolean phoneIsValid(String phoneNumber){
 
-        //Format must be: +0000 (000) 000-0000
-        if(phoneNumber.length() != 14) {
-            return false;
-        }
-
-        char[] numbers = phoneNumber.toCharArray();
-
-        for(int i = 0; i < numbers.length; i++){
-            if(i == 0){
-                if(numbers[i] != '(') {return false;}
-            } else if (i == 4){
-                if(numbers[i] != ')') {return false;}
-            } else if (i == 5) {
-                if (numbers[i] != ' ') { return false;}
-            } else if (i == 9) {
-                if (numbers[i] != '-') { return false;}
-            } else {
-                if(!Character.isDigit(numbers[i])) {
-                    return false;
-                }
-            }
-        }
-
-
-        return true;
-    }
-
+    /**
+     * Check if the String for the user's bio is valid
+     * @param bio the Bio to be checked
+     * @return true if the bio is valid
+     */
     private boolean bioIsValid(String bio){
 
         if(bio.isEmpty()){

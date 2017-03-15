@@ -48,6 +48,8 @@ public class Profile_NonUser extends AppCompatActivity {
 
     private User currUser;
 
+    private boolean isSelling = true;
+
 
     ArrayList<Post> selling = new ArrayList<>();
     ArrayList<Post> productSold = new ArrayList<>();
@@ -179,9 +181,19 @@ public class Profile_NonUser extends AppCompatActivity {
         sold.setTextColor(Color.WHITE);
 
         //Update list to only show items for sale
-        adapter = new ProfileListAdaptor(Profile_NonUser.this, selling, false);
+
+        isSelling = true;
+
+        list = (ListView) findViewById(R.id.list);
+        //random posts
+        ArrayList<Integer> postIds = new ArrayList<>();
+        new PopulateListTask().execute(postIds);
+
+        /*
+        adapter = new ProfileListAdaptor(Profile.this, selling, true);
         list.setAdapter(adapter);
         list.deferNotifyDataSetChanged();
+        */
 
     }
 
@@ -189,10 +201,19 @@ public class Profile_NonUser extends AppCompatActivity {
         sold.setTextColor(Color.parseColor("#FFEE00"));
         forSale.setTextColor(Color.WHITE);
 
+
+        isSelling = false;
+        list = (ListView) findViewById(R.id.list);
+        //random posts
+        ArrayList<Integer> postIds = new ArrayList<>();
+        new PopulateListTask().execute(postIds);
+        /*
         //Update list to only show Items that have been sold
-        adapter = new ProfileListAdaptor(Profile_NonUser.this, productSold, false);
+        adapter = new ProfileListAdaptor(Profile.this, productSold, false);
+
         list.setAdapter(adapter);
         list.deferNotifyDataSetChanged();
+        */
     }
 
     private void populateUserInfo(User user) {

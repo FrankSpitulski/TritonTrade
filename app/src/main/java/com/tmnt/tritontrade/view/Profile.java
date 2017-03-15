@@ -42,22 +42,15 @@ import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
 
-    public class Profile extends AppCompatActivity {
+public class Profile extends AppCompatActivity {
 
-        private ListView list;
-        private int EDIT_PROFILE = 1;
-
-
-        private Button forSale;
-        private Button sold;
-
-
-        private User currUser;
-
-
-        private ProfileListAdaptor adapter;
-
-        private boolean isSelling = true;
+    private ListView list;
+    private int EDIT_PROFILE = 1;
+    private Button forSale;
+    private Button sold;
+    private User currUser;
+    private ProfileListAdaptor adapter;
+    private boolean isSelling = true;
 
 
 
@@ -67,10 +60,19 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
      */
     private GoogleApiClient client;
 
+    /**
+     * Private inner class that populates the List view for the current profile
+     */
     private class PopulateListTask extends AsyncTask<ArrayList<Integer>, Void, ArrayList<Post>>{
         private ProgressDialog dialog=new ProgressDialog(Profile.this);
         ArrayList<Post> selling = new ArrayList<>();
         ArrayList<Post> productSold = new ArrayList<>();
+
+        /**
+         * get the post history from the server
+         * @param params the list of ID's
+         * @return the list of posts
+         */
         protected ArrayList<Post> doInBackground(ArrayList<Integer>... params) {
             try {
                 params[0] = currUser.getPostHistory();
@@ -83,12 +85,19 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
             return null;
         }
 
+        /**
+         * Display a loading sign as it loads
+         */
         @Override
         protected void onPreExecute() {
             this.dialog.setMessage("Loading");
             this.dialog.show();
         }
 
+        /**
+         * Populate the List view using the elements from the return of doInBackground
+         * @param result the result of doInBackground
+         */
         protected void onPostExecute(ArrayList<Post> result) {
             if (dialog.isShowing()) {
                 dialog.dismiss();
@@ -203,6 +212,10 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
     }
 
 
+    /**
+     * Send the user to edit profile if they click the button
+     * @param view
+     */
     public void sendToEditProfile(View view) {
 
         Intent intent = new Intent(this, EditProfile.class);
@@ -211,6 +224,10 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
 
     }
 
+    /**
+     * If the user selects the for sale tab, highlight it and display the relevant posts in the list
+     * @param view
+     */
     public void onForSaleClick (View view){
         forSale.setTextColor(Color.parseColor("#FFEE00"));
         sold.setTextColor(Color.WHITE);
@@ -232,6 +249,10 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
 
     }
 
+    /**
+     * If the user selects the history tab, highlight it and display the relevent history posts
+     * @param view
+     */
     public void onSoldClick (View view){
         sold.setTextColor(Color.parseColor("#FFEE00"));
         forSale.setTextColor(Color.WHITE);
@@ -251,6 +272,12 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
         */
     }
 
+    /**
+     * Called when EditProfile is finished, processes the new user data and displays it
+     * @param requestCode code sent with the activity
+     * @param resultCode code returned from the activity
+     * @param data user object returned from EditProfile
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -264,6 +291,10 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
     }
 
 
+    /**
+     * Updates the fields in Profile to reflect the User information
+     * @param user the current User
+     */
     private void populateUserInfo(User user) {
 
         //Get references to all the relevant fields in the profle
@@ -293,6 +324,9 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
     }
 
 
+    /**
+     * Called when you want to populate the list
+     */
     private void populateList() {
 
         list = (ListView) findViewById(R.id.list);
