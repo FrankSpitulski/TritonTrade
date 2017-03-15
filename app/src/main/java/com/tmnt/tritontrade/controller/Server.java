@@ -330,6 +330,9 @@ public class Server {
         for (int x = 1; x < tags.size(); x++) {
             request = request + "&filter[]=tags,cs,:" + tags.get(x) + ":";
         }
+
+        request = request.replaceAll(" ", "%20");
+
         //add so that only has to be one of the ids in the list and convert to objects
         request = request + "&satisfy=any&order=dateCreated,desc&transform=1";
 
@@ -737,7 +740,7 @@ public class Server {
     private static String httpGetRequest(String request) throws IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitNetwork().build();
         StrictMode.setThreadPolicy(policy);
-        URL url = new URL(serverName + request.replaceAll(" ", "%20"));
+        URL url = new URL(serverName + request);
         HttpsURLConnection client = (HttpsURLConnection) url.openConnection();
         String output = readStream(client.getInputStream());
 
