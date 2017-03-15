@@ -48,9 +48,8 @@ public class Welcome_Categories extends AppCompatActivity{
 
         technology = (ToggleButton) findViewById(R.id.TECHNOLOGY1);
         supplies = (ToggleButton) findViewById(R.id.SUPPLIES1);
-            supplies.setTextOn(CAT_6);
-            supplies.setTextOff(CAT_6);
 
+        storage = (ToggleButton) findViewById(R.id.STORAGE1);
         services = (ToggleButton) findViewById(R.id.SERVICES1);
         miscs = (ToggleButton) findViewById(R.id.MISCS1);
         trans = (ToggleButton) findViewById(R.id.TRANS1);
