@@ -196,7 +196,11 @@ public class EditProfile extends AppCompatActivity {
         //set the Edit text fields
 
         username.setText(user.getName());
-        phone.setText(user.getMobileNumber().substring(6));
+        if((user.getMobileNumber().substring(0,5).equals("+0001"))){
+            phone.setText(user.getMobileNumber().substring(6));
+        } else {
+            phone.setText(user.getMobileNumber());
+        }
         bio.setText(user.getBio());
 
 

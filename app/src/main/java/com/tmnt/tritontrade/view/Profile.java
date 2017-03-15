@@ -45,20 +45,21 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
     public class Profile extends AppCompatActivity {
 
         private ListView list;
-    private int EDIT_PROFILE = 1;
+        private int EDIT_PROFILE = 1;
 
 
-    private Button forSale;
-    private Button sold;
+        private Button forSale;
+        private Button sold;
 
 
-    private User currUser;
+        private User currUser;
 
 
-    ArrayList<Post> selling = new ArrayList<>();
-    ArrayList<Post> productSold = new ArrayList<>();
+        private ProfileListAdaptor adapter;
 
-    ProfileListAdaptor adapter;
+        private boolean isSelling = true;
+
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -68,6 +69,8 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
 
     private class PopulateListTask extends AsyncTask<ArrayList<Integer>, Void, ArrayList<Post>>{
         private ProgressDialog dialog=new ProgressDialog(Profile.this);
+        ArrayList<Post> selling = new ArrayList<>();
+        ArrayList<Post> productSold = new ArrayList<>();
         protected ArrayList<Post> doInBackground(ArrayList<Integer>... params) {
             try {
                 params[0] = currUser.getPostHistory();
@@ -104,7 +107,12 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
                     }
                 }
 
-                adapter = new ProfileListAdaptor(Profile.this, selling, true);
+                if(isSelling) {
+                    adapter = new ProfileListAdaptor(Profile.this, selling, true);
+                } else {
+                    adapter = new ProfileListAdaptor(Profile.this, productSold, true);
+                }
+
                 list.setAdapter(adapter);
             }
 
@@ -208,9 +216,19 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
         sold.setTextColor(Color.WHITE);
 
         //Update list to only show items for sale
+
+        isSelling = true;
+
+        list = (ListView) findViewById(R.id.list);
+        //random posts
+        ArrayList<Integer> postIds = new ArrayList<>();
+        new PopulateListTask().execute(postIds);
+
+        /*
         adapter = new ProfileListAdaptor(Profile.this, selling, true);
         list.setAdapter(adapter);
         list.deferNotifyDataSetChanged();
+        */
 
     }
 
@@ -218,11 +236,19 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
         sold.setTextColor(Color.parseColor("#FFEE00"));
         forSale.setTextColor(Color.WHITE);
 
+
+        isSelling = false;
+        list = (ListView) findViewById(R.id.list);
+        //random posts
+        ArrayList<Integer> postIds = new ArrayList<>();
+        new PopulateListTask().execute(postIds);
+        /*
         //Update list to only show Items that have been sold
         adapter = new ProfileListAdaptor(Profile.this, productSold, false);
 
         list.setAdapter(adapter);
         list.deferNotifyDataSetChanged();
+        */
     }
 
     @Override
@@ -255,7 +281,13 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
 
         username.setText(user.getName());
         email.setText(user.getEmail());
-        phone.setText(user.getMobileNumber().substring(6));
+
+        if((user.getMobileNumber().substring(0,5).equals("+0001"))){
+            phone.setText(user.getMobileNumber().substring(6));
+        } else {
+            phone.setText(user.getMobileNumber());
+        }
+
         bio.setText(user.getBio());
 
     }
