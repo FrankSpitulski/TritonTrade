@@ -46,6 +46,16 @@ import static com.tmnt.tritontrade.R.id.bottom_edit_category;
 import static com.tmnt.tritontrade.R.id.bottom_mainfeed;
 import static com.tmnt.tritontrade.R.id.bottom_profile;
 import static com.tmnt.tritontrade.R.id.bottom_upload;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_1;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_10;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_2;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_3;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_4;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_5;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_6;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_7;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_8;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_9;
 
 /**
  * Created by Edward Ji
@@ -177,6 +187,8 @@ public class Mainfeed extends AppCompatActivity
         String userID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
         SharedPreferences tagNames = getSharedPreferences(userID, Context.MODE_PRIVATE);
         Set<String> tagSet = tagNames.getStringSet(userID,new HashSet<String>());
+
+        System.out.println(tagSet);
         Log.d("DEBUG", "2.set = "+tagNames.getStringSet("set", new HashSet<String>()));
         if(tagSet.isEmpty()){
             return;
@@ -204,16 +216,19 @@ public class Mainfeed extends AppCompatActivity
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-               // adapter.getFilter().filter(query);
+                adapter.getFilter().filter(query);
                 ArrayList<String> tagsQ = new ArrayList<String>();
-                tagsQ.add(query.toLowerCase());
-                String [] querySplit = query.split(" ");
+                tagsQ.add(query);
+
+                /*String [] querySplit = query.split(" ");
                 for(String s : querySplit){
                     s = s.toLowerCase();
+
                     if(!s.equals("")){
                         tagsQ.add(s);
                     }
-                }
+
+                }*/
 
                 lastSearchedTags=tagsQ;
                 new FeedSetupTask().execute(tagsQ);
@@ -277,25 +292,25 @@ public class Mainfeed extends AppCompatActivity
         if(id==R.id.following_sidebar){
             fillDefaultTags(tags);
         } else if (id == R.id.clothing_sidebar) {
-            tags.add("Clothes");
+            tags.add(CAT_1);
         } else if (id == R.id.food_sidebar) {
-            tags.add("Food");
+            tags.add(CAT_2);
         } else if (id == R.id.furniture_sidebar) {
-            tags.add("Furniture");
+            tags.add(CAT_3);
         } else if (id == R.id.services_sidebar) {
-            tags.add("Services");
+            tags.add(CAT_4);
         } else if (id == R.id.storage_sidebar) {
-            tags.add("Storage");
-        } else if (id == R.id.supplies_sidebar) {
-            tags.add("Supplies");
+            tags.add(CAT_5);
+        } else if (id == R.id.tickets_sidebar) {
+            tags.add(CAT_6);
         } else if (id == R.id.technology_sidebar) {
-            tags.add("Technology");
+            tags.add(CAT_7);
         } else if (id == R.id.textbooks_sidebar) {
-            tags.add("Textbooks");
+            tags.add(CAT_8);
         } else if (id == R.id.transportation_sidebar) {
-            tags.add("Transportation");
+            tags.add(CAT_9);
         } else if (id == R.id.misc_sidebar) {
-            tags.add("Miscellaneous");
+            tags.add(CAT_10);
         }
         lastSearchedTags=tags;
         setAdapterInfo(tags);
