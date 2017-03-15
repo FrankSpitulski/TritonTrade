@@ -1,5 +1,6 @@
 package com.tmnt.tritontrade.view;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -382,6 +383,15 @@ public class Create_Post extends AppCompatActivity {
      * Create Post Inner class
      */
     private class CreatePostTask extends AsyncTask<Post, Post, Post> {
+
+        private ProgressDialog dialog=new ProgressDialog(Create_Post.this);
+
+        @Override
+        protected void onPreExecute(){
+            this.dialog.setMessage("Creating post...");
+            this.dialog.show();
+        }
+
         @Override
         protected Post doInBackground(Post... params) {
             try {
@@ -401,6 +411,9 @@ public class Create_Post extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Post result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
             if (result != null) {
                 //new UpdateUserTask().execute(currUser);
                 currUser.addToPostHistory(result.getPostID());
