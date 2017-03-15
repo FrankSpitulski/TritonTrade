@@ -28,6 +28,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String CAT_1 = "Clothes";
+    public static final String CAT_2 = "Food";
+    public static final String CAT_3 = "Furniture";
+    public static final String CAT_4 = "Services";
+    public static final String CAT_5 = "Lost and Found";
+    public static final String CAT_6 = "Tickets";
+    public static final String CAT_7 = "Technology";
+    public static final String CAT_8 = "Textbooks";
+    public static final String CAT_9 = "Transportation";
+    public static final String CAT_10 = "Miscellaneous";
+
     Button loginButton;
     static String userName = "";
     static String password = "";
@@ -88,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         //Adding posts to server for testing
 
         TextView logo = (TextView)findViewById(R.id.textView4);
-        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/Brotherina.ttf");
+        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/Dosis-SemiBold.ttf");
         logo.setTypeface(custom_font);
 
 

@@ -3,12 +3,11 @@ package com.tmnt.tritontrade.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -16,23 +15,33 @@ import android.widget.ToggleButton;
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import static com.tmnt.tritontrade.view.MainActivity.CAT_1;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_10;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_2;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_3;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_4;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_5;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_6;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_7;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_8;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_9;
+
 public class Edit_Categories extends AppCompatActivity{
 
-    private ToggleButton textbook;
-    private ToggleButton clothes;
-    private ToggleButton furniture;
-    private ToggleButton foods;
-    private ToggleButton technology;
-    private ToggleButton supplies;
-    private ToggleButton storage;
-    private ToggleButton services;
-    private ToggleButton miscs;
-    private ToggleButton trans;
+    private ToggleButton cat1;
+    private ToggleButton cat2;
+    private ToggleButton cat3;
+    private ToggleButton cat4;
+    private ToggleButton cat5;
+    private ToggleButton cat6;
+    private ToggleButton cat7;
+    private ToggleButton cat8;
+    private ToggleButton cat9;
+    private ToggleButton cat10;
 
     private Button follow;
     //private Button cancel;
@@ -45,16 +54,17 @@ public class Edit_Categories extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit__categories);
 
-        textbook = (ToggleButton) findViewById(R.id.TEXTBOOK1);
-        clothes = (ToggleButton) findViewById(R.id.CLOTHES1);
-        furniture = (ToggleButton) findViewById(R.id.FURNITURE1);
-        foods = (ToggleButton) findViewById(R.id.FOOD1);
-        technology = (ToggleButton) findViewById(R.id.TECHNOLOGY1);
-        supplies = (ToggleButton) findViewById(R.id.SUPPLIES1);
-        storage = (ToggleButton) findViewById(R.id.STORAGE1);
-        services = (ToggleButton) findViewById(R.id.SERVICES1);
-        miscs = (ToggleButton) findViewById(R.id.MISCS1);
-        trans = (ToggleButton) findViewById(R.id.TRANS1);
+        cat1 = (ToggleButton) findViewById(R.id.TEXTBOOK1);
+            cat1.setText(CAT_8);
+        cat2 = (ToggleButton) findViewById(R.id.CLOTHES1);
+        cat3 = (ToggleButton) findViewById(R.id.FURNITURE1);
+        cat4 = (ToggleButton) findViewById(R.id.FOOD1);
+        cat5 = (ToggleButton) findViewById(R.id.TECHNOLOGY1);
+        cat6 = (ToggleButton) findViewById(R.id.SUPPLIES1);
+        cat7 = (ToggleButton) findViewById(R.id.STORAGE1);
+        cat8 = (ToggleButton) findViewById(R.id.SERVICES1);
+        cat9 = (ToggleButton) findViewById(R.id.MISCS1);
+        cat10 = (ToggleButton) findViewById(R.id.TRANS1);
 
         follow = (Button) findViewById(R.id.FOLLOW1);
        // cancel = (Button) findViewById(R.id.CANCEL);
@@ -65,10 +75,11 @@ public class Edit_Categories extends AppCompatActivity{
 
         final Set<String> backupset = prefs.getStringSet(ID,new HashSet<String>());
         final Set<String> savedPrefs = prefs.getStringSet(ID,new HashSet<String>());
-        savedPrefs.remove("Furnitures");
-        savedPrefs.remove("Clothing");
+        savedPrefs.remove("Supplies");
+        savedPrefs.remove("Storage");
+
         final boolean[] bools = new boolean[10];
-        final String[] fields = {"Textbooks","Clothes","Furniture","Food","Technology","Supplies","Storage","Services","Miscellaneous","Transportation"};
+        final String[] fields = {CAT_8,CAT_1,CAT_3,CAT_2,CAT_7,CAT_6,CAT_5,CAT_4,CAT_10,CAT_9};
 
 
         System.out.println(savedPrefs);
@@ -77,44 +88,44 @@ public class Edit_Categories extends AppCompatActivity{
         while(iterator.hasNext()){
             String cate = iterator.next();
             switch(cate) {
-                case "Textbooks":
-                    textbook.setChecked(true);
+                case CAT_8:
+                    cat1.setChecked(true);
                     bools[0] = true;
                     break;
-                case "Clothes":
-                    clothes.setChecked(true);
+                case CAT_1:
+                    cat2.setChecked(true);
                     bools[1] = true;
                     break;
-                case "Furniture":
-                    furniture.setChecked(true);
+                case CAT_3:
+                    cat3.setChecked(true);
                     bools[2] = true;
                     break;
-                case "Food":
-                    foods.setChecked(true);
+                case CAT_2:
+                    cat4.setChecked(true);
                     bools[3] = true;
                     break;
-                case "Technology":
-                    technology.setChecked(true);
+                case CAT_7:
+                    cat5.setChecked(true);
                     bools[4] = true;
                     break;
-                case "Supplies":
-                    supplies.setChecked(true);
+                case CAT_6:
+                    cat6.setChecked(true);
                     bools[5] = true;
                     break;
-                case "Storage":
-                    storage.setChecked(true);
+                case CAT_5:
+                    cat7.setChecked(true);
                     bools[6] = true;
                     break;
-                case "Services":
-                    services.setChecked(true);
+                case CAT_4:
+                    cat8.setChecked(true);
                     bools[7] = true;
                     break;
-                case "Miscellaneous":
-                    miscs.setChecked(true);
+                case CAT_10:
+                    cat9.setChecked(true);
                     bools[8] = true;
                     break;
-                case "Transportation":
-                    trans.setChecked(true);
+                case CAT_9:
+                    cat10.setChecked(true);
                     bools[9] = true;
                     break;
                 default:
@@ -124,26 +135,28 @@ public class Edit_Categories extends AppCompatActivity{
         Log.i("DEBUG", "2.set = "+prefs.getStringSet("set",
                 new HashSet<String>()));
 
-        textbook.setOnClickListener(new View.OnClickListener() {
+        cat1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(textbook.isChecked())
+                if(cat1.isChecked())
                 {
-                    //textbook.setChecked(true);
+                    //cat1.setChecked(true);
                     bools[0] = true;
+                    cat1.setAnimation(new Animation() {
+                    });
                 }
                 else
                 {
-                    //textbook.setChecked(false);
+                    //cat1.setChecked(false);
                     //savedPrefs.remove("Textbooks");
                     bools[0] = false;
                 }
             }
         });
-        clothes.setOnClickListener(new View.OnClickListener() {
+        cat2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(clothes.isChecked())
+                if(cat2.isChecked())
                 {
                     bools[1] = true;
                     //savedPrefs.add("Clothing");
@@ -151,15 +164,15 @@ public class Edit_Categories extends AppCompatActivity{
                 else
                 {
                     bools[1] = false;
-                    //clothes.setChecked(false);
+                    //cat2.setChecked(false);
                     //savedPrefs.remove("Clothing");
                 }
             }
         });
-        furniture.setOnClickListener(new View.OnClickListener() {
+        cat3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(furniture.isChecked())
+                if(cat3.isChecked())
                 {
                     bools[2] = true;
                     //savedPrefs.add("Furniture");
@@ -172,10 +185,10 @@ public class Edit_Categories extends AppCompatActivity{
                 }
             }
         });
-        foods.setOnClickListener(new View.OnClickListener() {
+        cat4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(foods.isChecked())
+                if(cat4.isChecked())
                 {
                     bools[3] = true;
                     //savedPrefs.add("Food");
@@ -188,10 +201,10 @@ public class Edit_Categories extends AppCompatActivity{
                 }
             }
         });
-        technology.setOnClickListener(new View.OnClickListener() {
+        cat5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(technology.isChecked())
+                if(cat5.isChecked())
                 {
                     bools[4] = true;
                     //savedPrefs.add("Technology");
@@ -204,10 +217,10 @@ public class Edit_Categories extends AppCompatActivity{
                 }
             }
         });
-        supplies.setOnClickListener(new View.OnClickListener() {
+        cat6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(supplies.isChecked())
+                if(cat6.isChecked())
                 {
                     bools[5] = true;
                     //savedPrefs.add("Supplies");
@@ -220,10 +233,10 @@ public class Edit_Categories extends AppCompatActivity{
                 }
             }
         });
-        storage.setOnClickListener(new View.OnClickListener() {
+        cat7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(storage.isChecked())
+                if(cat7.isChecked())
                 {
                     bools[6] = true;
                     //storage.setChecked(true);
@@ -237,45 +250,45 @@ public class Edit_Categories extends AppCompatActivity{
                 }
             }
         });
-        services.setOnClickListener(new View.OnClickListener() {
+        cat8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(services.isChecked())
+                if(cat8.isChecked())
                 {
                     bools[7] = true;
-                    //services.setChecked(true);
+                    //cat8.setChecked(true);
                     //savedPrefs.add("Services");
                 }
                 else
                 {
                     bools[7] = false;
-                    //services.setChecked(false);
+                    //cat8.setChecked(false);
                     //savedPrefs.remove("Services");
                 }
             }
         });
-        miscs.setOnClickListener(new View.OnClickListener() {
+        cat9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(miscs.isChecked())
+                if(cat9.isChecked())
                 {
                     bools[8] = true;
-                    //miscs.setChecked(true);
+                    //cat9.setChecked(true);
                     //savedPrefs.add("Miscellaneous");
 
                 }
                 else
                 {
                     bools[8] = false;
-                    //miscs.setChecked(false);
+                    //cat9.setChecked(false);
                     //savedPrefs.remove("Miscellaneous");
                 }
             }
         });
-        trans.setOnClickListener(new View.OnClickListener() {
+        cat10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(trans.isChecked())
+                if(cat10.isChecked())
                 {
                     bools[9] = true;
                     //trans.setChecked(true);

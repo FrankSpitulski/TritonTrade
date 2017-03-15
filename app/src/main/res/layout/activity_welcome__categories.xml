@@ -161,12 +161,12 @@
                     android:layout_height="150dp"
                     android:layout_alignStart="@+id/SERVICES1"
                     android:layout_alignTop="@+id/STORAGE1"
-                    android:background="@drawable/toggle_supplies"
+                    android:background="@drawable/toggle_tickets"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="SUPPLIES"
+                    android:text="Tickets"
                     android:textColor="@color/SunYellow"
-                    android:textOff="SUPPLIES"
-                    android:textOn="SUPPLIES"
+                    android:textOff="Tickets"
+                    android:textOn="Tickets"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -177,13 +177,13 @@
                     android:layout_alignStart="@+id/MISCS1"
                     android:layout_below="@+id/SERVICES1"
                     android:layout_marginTop="19dp"
-                    android:background="@drawable/toggle_storage"
+                    android:background="@drawable/toggle_lost"
                     android:fontFamily="sans-serif-condensed"
                     android:text="STORAGE"
                     android:textColor="@color/SunYellow"
-                    android:textOff="STORAGE"
-                    android:textOn="STORAGE"
-                    android:textSize="24sp"
+                    android:textOff="@null"
+                    android:textOn="@null"
+                    android:textSize="0dp"
                     android:textStyle="bold" />
 
                 <ToggleButton

@@ -1,5 +1,6 @@
 package com.tmnt.tritontrade.view;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -34,6 +35,17 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.IllegalFormatException;
 import java.util.List;
+
+import static com.tmnt.tritontrade.view.MainActivity.CAT_1;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_10;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_2;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_3;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_4;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_5;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_6;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_7;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_8;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_9;
 
 //import static com.tmnt.tritontrade.R.id.imgButton4;
 //import static com.tmnt.tritontrade.R.id.imgButton5;
@@ -280,15 +292,16 @@ public class Create_Post extends AppCompatActivity {
     public void addItemsOnCategorySpinner(){
         spinner1 = (Spinner) findViewById(R.id.categorySpinner);
         List<String> categoryList = new ArrayList<>();
-        categoryList.add("Clothes");
-        categoryList.add("Food");
-        categoryList.add("Furniture");
-        categoryList.add("Storage");
-        categoryList.add("Supplies");
-        categoryList.add("Technology");
-        categoryList.add("Textbooks");
-        categoryList.add("Transportation");
-        categoryList.add("Miscellaneous");
+        categoryList.add(CAT_1);
+        categoryList.add(CAT_2);
+        categoryList.add(CAT_3);
+        categoryList.add(CAT_4);
+        categoryList.add(CAT_5);
+        categoryList.add(CAT_6);
+        categoryList.add(CAT_7);
+        categoryList.add(CAT_8);
+        categoryList.add(CAT_9);
+        categoryList.add(CAT_10);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, categoryList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -382,6 +395,15 @@ public class Create_Post extends AppCompatActivity {
      * Create Post Inner class
      */
     private class CreatePostTask extends AsyncTask<Post, Post, Post> {
+
+        private ProgressDialog dialog=new ProgressDialog(Create_Post.this);
+
+        @Override
+        protected void onPreExecute(){
+            this.dialog.setMessage("Creating post...");
+            this.dialog.show();
+        }
+
         @Override
         protected Post doInBackground(Post... params) {
             try {
@@ -401,6 +423,9 @@ public class Create_Post extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Post result) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
             if (result != null) {
                 //new UpdateUserTask().execute(currUser);
                 currUser.addToPostHistory(result.getPostID());

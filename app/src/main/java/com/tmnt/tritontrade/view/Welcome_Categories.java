@@ -19,6 +19,9 @@ import com.tmnt.tritontrade.controller.CurrentState;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.tmnt.tritontrade.view.MainActivity.CAT_5;
+import static com.tmnt.tritontrade.view.MainActivity.CAT_6;
+
 public class Welcome_Categories extends AppCompatActivity{
     private ToggleButton textbook;
     private ToggleButton clothes;
@@ -42,9 +45,12 @@ public class Welcome_Categories extends AppCompatActivity{
         clothes = (ToggleButton) findViewById(R.id.CLOTHES1);
         furnitures = (ToggleButton) findViewById(R.id.FURNITURE1);
         foods = (ToggleButton) findViewById(R.id.FOOD1);
+
         technology = (ToggleButton) findViewById(R.id.TECHNOLOGY1);
         supplies = (ToggleButton) findViewById(R.id.SUPPLIES1);
-        storage = (ToggleButton) findViewById(R.id.STORAGE1);
+            supplies.setTextOn(CAT_6);
+            supplies.setTextOff(CAT_6);
+
         services = (ToggleButton) findViewById(R.id.SERVICES1);
         miscs = (ToggleButton) findViewById(R.id.MISCS1);
         trans = (ToggleButton) findViewById(R.id.TRANS1);
@@ -169,7 +175,7 @@ public class Welcome_Categories extends AppCompatActivity{
                 if(supplies.isChecked())
                 {
                     supplies.setChecked(true);
-                    set.add("Supplies");
+                    set.add(CAT_6);
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
@@ -178,7 +184,7 @@ public class Welcome_Categories extends AppCompatActivity{
                 else
                 {
                     supplies.setChecked(false);
-                    set.remove("Supplies");
+                    set.remove(CAT_6);
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
@@ -191,7 +197,7 @@ public class Welcome_Categories extends AppCompatActivity{
                 if(storage.isChecked())
                 {
                     storage.setChecked(true);
-                    set.add("Storage");
+                    set.add(CAT_5);
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
@@ -200,7 +206,7 @@ public class Welcome_Categories extends AppCompatActivity{
                 else
                 {
                     storage.setChecked(false);
-                    set.remove("Storage");
+                    set.remove(CAT_5);
                     editor.clear();
                     editor.putStringSet(ID,set);
                     editor.apply();
