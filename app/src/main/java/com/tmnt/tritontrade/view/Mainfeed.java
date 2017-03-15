@@ -312,6 +312,14 @@ public class Mainfeed extends AppCompatActivity
 
         protected ArrayList<Post> doInBackground(ArrayList<String>... id) {
             try {
+                Log.d("DEBUG",id.length + "");
+                Log.d("DEBUG", id[0].get(0).toString());
+                for (int x = 0; x < id[0].size(); x ++)
+                {
+                    id[0].set(x,id[0].get(x).toLowerCase());
+                }
+
+
                 ArrayList<Post> posts = Server.searchPostTags(id[0]);
                 return posts;
             } catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.tmnt.tritontrade.controller;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -526,6 +527,8 @@ public class Post implements Parcelable {
                 i=0;
                 while (i< _tags.length){
                     if (!_tags[i].equals("")) {
+
+                        Log.d("DEBUG",_tags[i]);
                         tagsTA.add(_tags[i].substring(1, _tags[i].length() - 1));
                     }
                     i= i+1;
