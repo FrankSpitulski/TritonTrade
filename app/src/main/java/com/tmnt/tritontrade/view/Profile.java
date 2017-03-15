@@ -255,7 +255,13 @@ import static com.tmnt.tritontrade.R.id.bottom_upload;
 
         username.setText(user.getName());
         email.setText(user.getEmail());
-        phone.setText(user.getMobileNumber().substring(6));
+
+        if((user.getMobileNumber().substring(0,5).equals("+0001"))){
+            phone.setText(user.getMobileNumber().substring(6));
+        } else {
+            phone.setText(user.getMobileNumber());
+        }
+
         bio.setText(user.getBio());
 
     }
