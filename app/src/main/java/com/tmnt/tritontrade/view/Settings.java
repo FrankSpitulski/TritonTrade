@@ -65,7 +65,7 @@ public class Settings extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "User logged out", Toast.LENGTH_SHORT).show();
 
                 //deletes post and reloads page without this  removed post
-                CurrentState.getInstance().setCurrentUser(null);
+                CurrentState.getInstance().logOut();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
 
