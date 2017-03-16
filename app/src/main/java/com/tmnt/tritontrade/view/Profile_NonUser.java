@@ -127,11 +127,23 @@ public class Profile_NonUser extends AppCompatActivity {
 
     }
 
-    private class PopulateListTask extends AsyncTask<ArrayList<Integer>, Void, ArrayList<Post>> {
+    /**
+     * Private inner class that populates the List view for the current profile
+     */
+    private class PopulateListTask extends AsyncTask<ArrayList<Integer>, Void, ArrayList<Post>>{
         private ProgressDialog dialog=new ProgressDialog(Profile_NonUser.this);
+        ArrayList<Post> selling = new ArrayList<>();
+        ArrayList<Post> productSold = new ArrayList<>();
+
+        /**
+         * get the post history from the server
+         * @param params the list of ID's
+         * @return the list of posts
+         */
         protected ArrayList<Post> doInBackground(ArrayList<Integer>... params) {
             try {
-                ArrayList<Post> posts = Server.searchPostIDs(currUser.getPostHistory());
+                params[0] = currUser.getPostHistory();
+                ArrayList<Post> posts = Server.searchPostIDs(params[0]);
                 return posts;
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
@@ -140,12 +152,19 @@ public class Profile_NonUser extends AppCompatActivity {
             return null;
         }
 
+        /**
+         * Display a loading sign as it loads
+         */
         @Override
         protected void onPreExecute() {
             this.dialog.setMessage("Loading");
             this.dialog.show();
         }
 
+        /**
+         * Populate the List view using the elements from the return of doInBackground
+         * @param result the result of doInBackground
+         */
         protected void onPostExecute(ArrayList<Post> result) {
             if (dialog.isShowing()) {
                 dialog.dismiss();
@@ -164,13 +183,22 @@ public class Profile_NonUser extends AppCompatActivity {
                     }
                 }
 
-                adapter = new ProfileListAdaptor(Profile_NonUser.this, selling, false);
+                if(isSelling) {
+                    adapter = new ProfileListAdaptor(Profile_NonUser.this, selling, true);
+                } else {
+                    adapter = new ProfileListAdaptor(Profile_NonUser.this, productSold, true);
+                }
+
                 list.setAdapter(adapter);
             }
 
         }
     }
 
+    /**
+     * If the user selects the for sale tab, highlight it and display the relevant posts in the list
+     * @param view
+     */
     public void onForSaleClick (View view){
         forSale.setTextColor(Color.parseColor("#FFEE00"));
         sold.setTextColor(Color.WHITE);
@@ -192,6 +220,10 @@ public class Profile_NonUser extends AppCompatActivity {
 
     }
 
+    /**
+     * If the user selects the history tab, highlight it and display the relevent history posts
+     * @param view
+     */
     public void onSoldClick (View view){
         sold.setTextColor(Color.parseColor("#FFEE00"));
         forSale.setTextColor(Color.WHITE);
