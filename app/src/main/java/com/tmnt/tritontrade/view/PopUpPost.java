@@ -98,8 +98,14 @@ public class PopUpPost extends AppCompatActivity {
                     Log.d("DEBUG", "ADDING TO CART? " + b.getText());
                     if(b.getText().equals("ADD TO CART")) {
                         Log.d("DEBUG", "ADDING TO CART");
-                        current_user.addToCart(p.getPostID());
-                        new ModifyUserCart().execute(current_user);
+                        if (p.getActive() == false){
+                            Toast.makeText(PopUpPost.this, "Item is already sold",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            current_user.addToCart(p.getPostID());
+                            new ModifyUserCart().execute(current_user);
+                        }
                     }else if(b.getText().equals("MARK AS ACTIVE")){
                         p.setActive(true);
                         new ModifyPostState().execute(p);

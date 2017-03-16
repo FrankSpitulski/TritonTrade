@@ -66,35 +66,6 @@ public class Cart extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
         setTitle("My Cart");
 
-       /*
-       TO USE LATER:
-
-        USER:
-        public String getCartIDsString()
-        public ArrayList<Integer> getCartIDs()
-        public boolean removeFromCart(int id){ return cartIDs.remove((Integer) new Integer(id)); }
-        public int getPostID()
-
-        public String getMobileNumber()
-        public String getEmail()
-
-
-        SERVER:
-        public static Post searchPostIDs(int id) throws IOException { (SERVER)
-        public static User searchUserIDs(int id) throws IOException {
-
-        POST:
-        public String getContactInfo() ??? when is used
-        public int getProfileID()
-
-
-        WHEN showing contact info in dialog , get
-        int sellerPostID = post.getProfileID();
-        User seller = User.searchUserIDs( sellerPostID );
-        String sellerEmail = seller.getEmail();
-        String sellerPhone = seller.getMobileNumber();
-        *
-        */
 
 
         if(!CurrentState.getInstance().isLoggedIn()){
@@ -104,11 +75,7 @@ public class Cart extends AppCompatActivity {
         //gets posts to load
         user = CurrentState.getInstance().getCurrentUser();
         cartInt = user.getCartIDs();
-//        postsToView = new ArrayList<>();
-//
-//        //get the arraylist of posts in the cart of the user, this method will then populate
-//        //the cart once the data is retrieved
-//        new SearchPostTask().execute();
+
 
 
         //bottom tool bar
@@ -212,7 +179,6 @@ public class Cart extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 startActivity(intent);
 
-                //  startActivity(new Intent(getApplicationContext(), Cart.class));
 
             }
         });
@@ -243,7 +209,7 @@ public class Cart extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // currentPost = postsToView.get(position);
+
                 new SearchUserTask(position).execute();
 
 
@@ -295,20 +261,6 @@ public class Cart extends AppCompatActivity {
             ImageView image = (ImageView) view.findViewById(R.id.image);
 
 
-            //testing
-//            description.setText("testing this is position "+ position + "and postorder:\n" +
-//                    user.getCartIDsString());
-
-
-            ////////NOTE: POSTSTOVIEW IS NOT IN THE RIGHT ORDER)/////////
-//            String temptitle = "";
-//            for (Post p : postsToView) {
-//                String s = ""+p.getPostID();
-//                temptitle += s + " ";
-//            }
-//
-//            title.setText(temptitle);
-/////////////////////TESTING//////////////
 
 
             //set price and rental attributes and default image of post
@@ -325,7 +277,6 @@ public class Cart extends AppCompatActivity {
 
             //DISPLAY TITLE
             if (post.getProductName().length() >= 39) {
-                //THIS LINE CRASHES THING, VARIALBE WAS NEVER USED
                 String titleTrim = post.getDescription().substring(0, 35) + "...";
                 title.setText(String.valueOf(titleTrim));
             } else {
@@ -356,8 +307,6 @@ public class Cart extends AppCompatActivity {
 
             //////////////////remove from cart button//////////////////////
             confirmRemoveButton = (Button) view.findViewById(R.id.remove_button);
-            //currentPost = postsToView.get(position);
-            //confirmRemoveButton.setTag(position);
             confirmRemoveButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -370,8 +319,6 @@ public class Cart extends AppCompatActivity {
 
             //////////////////display contact info button//////////////////////
             displayContactButton = (Button) view.findViewById(R.id.contact_button);
-            //currentPost = postsToView.get(position);
-            //displayRemoveButton.setTag(position);
             displayContactButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -394,22 +341,6 @@ public class Cart extends AppCompatActivity {
 
                 }
             });
-
-
-//            title.setText("UserID: "+user.getProfileID() + ", and sellerID: " + currentPost.getProfileID()+
-//                    ", and PostID: "+ currentPost.getPostID());
-//            new SearchUserTask().execute();
-//
-//            if (postSeller == null){
-//                title.setText("this is null");
-//            }
-//            else if (postSeller.getProfileID() == currentPost.getProfileID()){
-//                title.setText("success, this posts sellerID is: "+postSeller.getProfileID());
-//
-//            }
-//            else{
-//                title.setText("its just me");
-//            }
 
             return view;
         }
@@ -462,8 +393,6 @@ public class Cart extends AppCompatActivity {
                 } //end of loop to get cart order
 
 
-                //set that the posts retrieved from server are to be displayed
-                //postsToView = posts;
 
                 //create our new array adapter
                 adapter = new postArrayAdapter(Cart.this, 0, postsToView);
@@ -534,53 +463,12 @@ public class Cart extends AppCompatActivity {
         }
 
 
-//        @Override
-//        protected void onPostExecute(Object result) { //nothing
-//        }
     }
 
 
-//    private class UpdateUserTask extends AsyncTask<User, Void, Void> {
-//        protected Void doInBackground(User... params) {
-//            try {
-//                Server.modifyExistingUser(params[0]);
-//
-//
-//                //   CurrentState.getInstance().setCurrentUser(params[0]);
-//
-//            } catch (Exception e) {
-//                Log.e("Error", e.getMessage());
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
-//
-//    }
 
 
-//
-//    //ASYNC Task for removing a post from cart
-//    private class RemovePostTask extends AsyncTask<Object, Object, Object> {
-//        @Override
-//        protected Object doInBackground(Object... params) {
-//            try {
-//                return Server.searchPostIDs(cartInt);
-//            } catch (IOException e){
-//                Log.d("DEBUG", e.toString());
-//                return null;
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Object result) {
-//            if(result!=null){
-//                posts = (ArrayList<Post>) result;
-//                startActivity(new Intent(getApplicationContext(), Cart.class));
-//            }else{
-//                Toast.makeText(Cart.this, "Load Failed", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
+
 
     @Override
     public void onBackPressed() {
