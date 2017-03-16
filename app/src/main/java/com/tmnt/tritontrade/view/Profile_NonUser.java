@@ -184,9 +184,9 @@ public class Profile_NonUser extends AppCompatActivity {
                 }
 
                 if(isSelling) {
-                    adapter = new ProfileListAdaptor(Profile_NonUser.this, selling, true);
+                    adapter = new ProfileListAdaptor(Profile_NonUser.this, selling, false);
                 } else {
-                    adapter = new ProfileListAdaptor(Profile_NonUser.this, productSold, true);
+                    adapter = new ProfileListAdaptor(Profile_NonUser.this, productSold, false);
                 }
 
                 list.setAdapter(adapter);
