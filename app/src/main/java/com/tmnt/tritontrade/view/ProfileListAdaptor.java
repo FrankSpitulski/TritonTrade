@@ -12,18 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.tmnt.tritontrade.R;
 import com.tmnt.tritontrade.controller.CurrentState;
-import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
-import com.tmnt.tritontrade.controller.User;
 import com.tmnt.tritontrade.controller.Server;
+import com.tmnt.tritontrade.controller.User;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**

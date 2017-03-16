@@ -1,15 +1,10 @@
 package com.tmnt.tritontrade.controller;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-
-import java.io.InputStream;
 
 /**
  * Async task that downloads an image from the server with the given url, either http://... or just

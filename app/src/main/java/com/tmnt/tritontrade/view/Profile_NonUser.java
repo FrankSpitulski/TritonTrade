@@ -3,14 +3,11 @@ package com.tmnt.tritontrade.view;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,13 +17,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tmnt.tritontrade.R;
-import com.tmnt.tritontrade.controller.CurrentState;
 import com.tmnt.tritontrade.controller.DownloadPhotosAsyncTask;
 import com.tmnt.tritontrade.controller.Post;
 import com.tmnt.tritontrade.controller.Server;
 import com.tmnt.tritontrade.controller.User;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static com.tmnt.tritontrade.R.id.bottom_cart;

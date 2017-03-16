@@ -1,12 +1,11 @@
 package com.tmnt.tritontrade.view;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.tmnt.tritontrade.R;
-import com.tmnt.tritontrade.view.MainActivity;
 
 public class Verify_Account_Two extends AppCompatActivity {
 
