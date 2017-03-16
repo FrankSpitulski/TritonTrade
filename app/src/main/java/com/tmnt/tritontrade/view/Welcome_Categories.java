@@ -56,6 +56,10 @@ public class Welcome_Categories extends AppCompatActivity{
 
         follow = (Button) findViewById(R.id.FOLLOW1);
 
+        if(!CurrentState.getInstance().isLoggedIn()){
+            CurrentState.getInstance().killLogin(this, Welcome_Categories.class);
+        }
+
         final String ID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
         SharedPreferences prefs = getSharedPreferences(ID, Context.MODE_PRIVATE);
 

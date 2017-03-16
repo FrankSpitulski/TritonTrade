@@ -135,6 +135,10 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        if(!CurrentState.getInstance().isLoggedIn()){
+            CurrentState.getInstance().killLogin(this, Profile.class);
+        }
+
         currUser = CurrentState.getInstance().getCurrentUser();
         if(currUser == null) {
             throw new NullPointerException("The User is Null");
@@ -372,7 +376,7 @@ public class Profile extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent in=new Intent(getBaseContext(),Mainfeed.class);
+        Intent in=new Intent(getBaseContext(), Mainfeed.class);
         in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(in);

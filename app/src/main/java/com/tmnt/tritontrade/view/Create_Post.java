@@ -109,6 +109,9 @@ public class Create_Post extends AppCompatActivity {
         imgs.add(fourthImg);
         imgs.add(fifthImg);
 
+        if(!CurrentState.getInstance().isLoggedIn()){
+            CurrentState.getInstance().killLogin(this, Create_Post.class);
+        }
         currUser = CurrentState.getInstance().getCurrentUser();
         createPostButton = (Button) findViewById(R.id.createButton);
 
@@ -155,6 +158,9 @@ public class Create_Post extends AppCompatActivity {
                     }
                 }
 
+                if(!CurrentState.getInstance().isLoggedIn()){
+                    // TODO you goofed if you got here
+                }
                 profileID = CurrentState.getInstance().getCurrentUser().getProfileID();
                 contactInfo = CurrentState.getInstance().getCurrentUser().getMobileNumber();
 

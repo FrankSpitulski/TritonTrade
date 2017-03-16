@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-            if(CurrentState.getInstance().getCurrentUser() != null){
+            if(CurrentState.getInstance().isLoggedIn()){
                 //Sharepreferences
                 String ID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
                 SharedPreferences prefs = getSharedPreferences(ID, Context.MODE_PRIVATE);

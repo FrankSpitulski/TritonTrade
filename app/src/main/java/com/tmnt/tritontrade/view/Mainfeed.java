@@ -184,6 +184,9 @@ public class Mainfeed extends AppCompatActivity
      * @param tags
      */
     private void fillDefaultTags(ArrayList<String> tags){
+        if(!CurrentState.getInstance().isLoggedIn()){
+            CurrentState.getInstance().killLogin(this, Mainfeed.class);
+        }
         String userID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
         SharedPreferences tagNames = getSharedPreferences(userID, Context.MODE_PRIVATE);
         Set<String> tagSet = tagNames.getStringSet(userID,new HashSet<String>());

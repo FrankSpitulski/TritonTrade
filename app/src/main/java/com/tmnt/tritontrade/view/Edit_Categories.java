@@ -69,6 +69,10 @@ public class Edit_Categories extends AppCompatActivity{
         follow = (Button) findViewById(R.id.FOLLOW1);
        // cancel = (Button) findViewById(R.id.CANCEL);
 
+        if(!CurrentState.getInstance().isLoggedIn()){
+            CurrentState.getInstance().killLogin(this, Edit_Categories.class);
+        }
+
         final String ID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
         final SharedPreferences prefs = getSharedPreferences(ID, Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = prefs.edit();

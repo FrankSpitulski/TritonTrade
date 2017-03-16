@@ -70,6 +70,10 @@ public class PopUpPost extends AppCompatActivity {
 
 
 
+        if(!CurrentState.getInstance().isLoggedIn()){
+            CurrentState.getInstance().killLogin(this, PopUpPost.class);
+        }
+
         current_user = CurrentState.getInstance().getCurrentUser();
         if (current_user.getCartIDs().contains(p.getPostID())) {
             cart_status = true;

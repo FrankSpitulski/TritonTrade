@@ -270,6 +270,10 @@ class ProfileListAdaptor extends BaseAdapter {
                                 // Then modify the list returned by the server
                                 _pos = position;
 
+                                if(!CurrentState.getInstance().isLoggedIn()){
+                                    // TODO you goofed if you got here
+                                }
+
                                 // Modify the user's postHistory
                                 currUser = CurrentState.getInstance().getCurrentUser();
                                 ArrayList<Integer> currPH = currUser.getPostHistory();

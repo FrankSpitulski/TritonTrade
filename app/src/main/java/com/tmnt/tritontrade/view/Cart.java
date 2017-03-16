@@ -96,6 +96,10 @@ public class Cart extends AppCompatActivity {
         */
 
 
+        if(!CurrentState.getInstance().isLoggedIn()){
+            CurrentState.getInstance().killLogin(this, Cart.class);
+        }
+
         //gets posts to load
         user = CurrentState.getInstance().getCurrentUser();
         cartInt = user.getCartIDs();

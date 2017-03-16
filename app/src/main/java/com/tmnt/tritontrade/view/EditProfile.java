@@ -55,6 +55,9 @@ public class EditProfile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
 
+        if(!CurrentState.getInstance().isLoggedIn()){
+            CurrentState.getInstance().killLogin(this, EditProfile.class);
+        }
         currUser = CurrentState.getInstance().getCurrentUser();
 
         populateFields(currUser);
