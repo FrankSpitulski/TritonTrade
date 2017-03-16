@@ -3,11 +3,8 @@ package com.tmnt.tritontrade.view;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.tmnt.tritontrade.R;
-import com.tmnt.tritontrade.controller.CurrentState;
 
 /**
  * Created by terrancegriffith on 3/11/17.
