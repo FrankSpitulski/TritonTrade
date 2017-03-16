@@ -271,7 +271,8 @@ class ProfileListAdaptor extends BaseAdapter {
                                 _pos = position;
 
                                 if(!CurrentState.getInstance().isLoggedIn()){
-                                    // TODO you goofed if you got here
+                                    // you goofed if you got here
+                                    return;
                                 }
 
                                 // Modify the user's postHistory

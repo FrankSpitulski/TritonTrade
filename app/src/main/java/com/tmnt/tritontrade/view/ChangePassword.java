@@ -34,7 +34,8 @@ public class ChangePassword extends AppCompatActivity {
 
 
         if(!CurrentState.getInstance().isLoggedIn()){
-            CurrentState.getInstance().killLogin(this, ChangePassword.class);
+            CurrentState.getInstance().killLogin(this);
+            return;
         }
         currUser = CurrentState.getInstance().getCurrentUser();
         verifyText = (EditText) findViewById(R.id.verifyField);

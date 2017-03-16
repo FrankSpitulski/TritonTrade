@@ -56,7 +56,8 @@ public class EditProfile extends AppCompatActivity {
 
 
         if(!CurrentState.getInstance().isLoggedIn()){
-            CurrentState.getInstance().killLogin(this, EditProfile.class);
+            CurrentState.getInstance().killLogin(this);
+            return;
         }
         currUser = CurrentState.getInstance().getCurrentUser();
 

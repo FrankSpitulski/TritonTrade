@@ -136,7 +136,8 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         if(!CurrentState.getInstance().isLoggedIn()){
-            CurrentState.getInstance().killLogin(this, Profile.class);
+            CurrentState.getInstance().killLogin(this);
+            return;
         }
 
         currUser = CurrentState.getInstance().getCurrentUser();

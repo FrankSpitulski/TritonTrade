@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.tmnt.tritontrade.view.MainActivity;
+
 /**
  * Created by frank on 2/23/17.
  */
@@ -12,6 +14,10 @@ public class CurrentState {
     private static CurrentState ourInstance = new CurrentState();
 
     public static CurrentState getInstance() {
+        if(ourInstance == null){
+            ourInstance = new CurrentState();
+            Log.d("DEBUG", "signleton is null. you're in for a ride.");
+        }
         return ourInstance;
     }
 
@@ -36,10 +42,10 @@ public class CurrentState {
         currentUser=null;
     }
 
-    public void killLogin(Activity a, Class c){
-        Log.d("DEBUG", "User session expired from " + a.toString() + " " + c.toString());
+    public void killLogin(Activity a){
+        Log.d("DEBUG", "User session expired from " + a.toString());
         Toast.makeText(a.getBaseContext(), "User session expired.", Toast.LENGTH_SHORT).show();
-        Intent in = new Intent(a.getBaseContext(), c);
+        Intent in = new Intent(a.getBaseContext(), MainActivity.class);
         in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         a.startActivity(in);

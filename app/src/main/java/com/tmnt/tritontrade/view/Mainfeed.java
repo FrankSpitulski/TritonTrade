@@ -185,7 +185,8 @@ public class Mainfeed extends AppCompatActivity
      */
     private void fillDefaultTags(ArrayList<String> tags){
         if(!CurrentState.getInstance().isLoggedIn()){
-            CurrentState.getInstance().killLogin(this, Mainfeed.class);
+            CurrentState.getInstance().killLogin(this);
+            return;
         }
         String userID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());
         SharedPreferences tagNames = getSharedPreferences(userID, Context.MODE_PRIVATE);
@@ -240,7 +241,9 @@ public class Mainfeed extends AppCompatActivity
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                if(adapter != null) {
+                    adapter.getFilter().filter(newText);
+                }
                 return false;
             }
         });

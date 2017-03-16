@@ -70,7 +70,7 @@ public class Edit_Categories extends AppCompatActivity{
        // cancel = (Button) findViewById(R.id.CANCEL);
 
         if(!CurrentState.getInstance().isLoggedIn()){
-            CurrentState.getInstance().killLogin(this, Edit_Categories.class);
+            CurrentState.getInstance().killLogin(this);
         }
 
         final String ID = Integer.toString(CurrentState.getInstance().getCurrentUser().getProfileID());

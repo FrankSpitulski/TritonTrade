@@ -71,7 +71,8 @@ public class PopUpPost extends AppCompatActivity {
 
 
         if(!CurrentState.getInstance().isLoggedIn()){
-            CurrentState.getInstance().killLogin(this, PopUpPost.class);
+            CurrentState.getInstance().killLogin(this);
+            return;
         }
 
         current_user = CurrentState.getInstance().getCurrentUser();
