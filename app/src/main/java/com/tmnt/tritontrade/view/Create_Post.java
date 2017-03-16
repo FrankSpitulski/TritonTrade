@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.IllegalFormatException;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import static com.tmnt.tritontrade.view.MainActivity.CAT_1;
 import static com.tmnt.tritontrade.view.MainActivity.CAT_10;
@@ -43,9 +44,6 @@ import static com.tmnt.tritontrade.view.MainActivity.CAT_6;
 import static com.tmnt.tritontrade.view.MainActivity.CAT_7;
 import static com.tmnt.tritontrade.view.MainActivity.CAT_8;
 import static com.tmnt.tritontrade.view.MainActivity.CAT_9;
-
-//import static com.tmnt.tritontrade.R.id.imgButton4;
-//import static com.tmnt.tritontrade.R.id.imgButton5;
 
 public class Create_Post extends AppCompatActivity {
 
@@ -146,14 +144,9 @@ public class Create_Post extends AppCompatActivity {
                 tags = new ArrayList<String>();
                 tags.add(theName.getText().toString().toLowerCase());
                 tags.add(selectedItemText.toLowerCase());
-                String[] splitTitle = theName.getText().toString().split(" ");
-                for(String s : splitTitle){
-                    s = s.toLowerCase();
-                    if(s.equals("") || s.equals("in") || s.equals("at") || s.equals("on") || s.equals("the") || s.equals("a") || s.equals("an") || s.equals("by") ||s.equals("of") || s.equals("\n") || s.equals(" ")){
-                        // do not add
-                    }else{
-                        tags.add(s);
-                    }
+                ArrayList<String> subTags = getTagsFromTitle(theName.getText().toString().toLowerCase());
+                for(String s : subTags){
+                    tags.add(s);
                 }
 
                 if(!CurrentState.getInstance().isLoggedIn()){
@@ -357,41 +350,24 @@ public class Create_Post extends AppCompatActivity {
         }
     }
 
-    /**
-     * Private Innner class to update the server with the new user info
-     */
-//    private class UpdateUserTask extends AsyncTask<User, Void, Void> {
-//        protected Void doInBackground(User... params) {
-//            try {
-//                Server.modifyExistingUser(params[0]);
-//
-//            } catch (Exception e) {
-//                Log.e("Error", e.getMessage());
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
-//}
-/*
-    private class getCurrentStateTask extends AsyncTask<User,User,User>{
-        protected User doInBackground(User...params){
-            try{
-                return CurrentState.getInstance().getCurrentUser();
-            }catch(Exception e){
-                Log.d("DEBUG", e.toString());
-                return null;
+    private static ArrayList<String> getTagsFromTitle(String title){
+        ArrayList<String> tags = new ArrayList<String>();
+        String[] splitTitle = title.split("( +|\\n+)+");
+        for(String s : splitTitle){
+            s = s.toLowerCase();
+            if(s.equals("") || s.equals("in") || s.equals("at") || s.equals("on") ||
+                    s.equals("the") || s.equals("a") || s.equals("an") || s.equals("by")
+                    || s.equals("of") || s.equals("\n") || s.equals(" ")
+                    || s.equals(":") || s.equals("::")){
+                // do not add
+                Log.d("DEBUG", "Caught trying to add [" + s + "]");
+            }else{
+                tags.add(s);
             }
         }
+        return tags;
+    }
 
-        @Override
-        protected void onPostExecute(User theUser) {
-            if(theUser!=null){
-                finish();
-                Toast.makeText(Create_Post.this, "Post Created", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), Mainfeed.class));
-            }
-        }
-    }*/
     /**
      * Create Post Inner class
      */
