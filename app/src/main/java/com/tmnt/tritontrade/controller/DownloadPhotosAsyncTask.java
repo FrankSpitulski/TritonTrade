@@ -12,8 +12,8 @@ import com.bumptech.glide.Glide;
  */
 
 public class DownloadPhotosAsyncTask extends AsyncTask<String, Void, String> {
-        ImageView bmImage;
-        Context context1;
+        private ImageView bmImage;
+        private Context context1;
 
         public DownloadPhotosAsyncTask(Context context, ImageView bmImage) {
             this.bmImage = bmImage;

@@ -17,7 +17,7 @@ import com.tmnt.tritontrade.controller.Server;
 import java.io.IOException;
 
 public class ForgotPassword extends AppCompatActivity {
-    static String email = "";
+    private static String email = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +64,12 @@ public class ForgotPassword extends AppCompatActivity {
             Toast toast = new Toast(ForgotPassword.this);
             if(result){
                 toast.cancel();
-                toast.makeText(ForgotPassword.this, "Password reset email sent.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForgotPassword.this, "Password reset email sent.", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
             else{
                 toast.cancel();
-                toast.makeText(ForgotPassword.this, "Password reset failed.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForgotPassword.this, "Password reset failed.", Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -49,37 +49,37 @@ import static com.tmnt.tritontrade.view.MainActivity.CAT_9;
 
 public class Create_Post extends AppCompatActivity {
 
-    static String productName = "";
-    static String description;
-    static float price;
-    static ArrayList<String> tags;
-    static int profileID;
-    static boolean selling;
-    static String contactInfo;
+    private static String productName = "";
+    private static String description;
+    private static float price;
+    private static ArrayList<String> tags;
+    private static int profileID;
+    private static boolean selling;
+    private static String contactInfo;
     static String thePath;
-    static InputStream is;
+    private static InputStream is;
     static String extension;
     private static int IMG_RESULT = 1;
-    Button createPostButton;
+    private Button createPostButton;
     private Spinner spinner1;
     private Spinner spinner2;
     private User currUser;
     private Post thePost;
 
 
-    ImageView firstImg;
-    ImageView secondImg;
-    ImageView thirdImg;
-    ImageView fourthImg;
-    ImageView fifthImg;
-    ImageView currImage;
+    private ImageView firstImg;
+    private ImageView secondImg;
+    private ImageView thirdImg;
+    private ImageView fourthImg;
+    private ImageView fifthImg;
+    private ImageView currImage;
 
-    ArrayList<ImageView> imgs = new ArrayList<>();
-    ArrayList<String> photos = new ArrayList<>();
+    private ArrayList<ImageView> imgs = new ArrayList<>();
+    private ArrayList<String> photos = new ArrayList<>();
 
     private int counter = 0;
 
-    static Uri selectedImage;
+    private static Uri selectedImage;
     private String type;
 
     @Override
@@ -164,11 +164,7 @@ public class Create_Post extends AppCompatActivity {
                 contactInfo = CurrentState.getInstance().getCurrentUser().getMobileNumber();
 
 
-                if(spinner2.getSelectedItem().toString().equals("Buying")){
-                    selling = false;
-                }else{
-                    selling = true;
-                }
+                selling = !spinner2.getSelectedItem().toString().equals("Buying");
 
                 //photos = new ArrayList<String>();
                 firstImg.setOnClickListener(new View.OnClickListener() {
@@ -222,7 +218,7 @@ public class Create_Post extends AppCompatActivity {
                     }
                 });
                 if(photos.size()==0){
-                    photos.add(thePost.getDefaultImage());
+                    photos.add(Post.getDefaultImage());
                 }
 
                 new CreatePostTask().execute();
@@ -294,7 +290,7 @@ public class Create_Post extends AppCompatActivity {
     /**
      * Category selection spinner for the post item
      */
-    public void addItemsOnCategorySpinner(){
+    private void addItemsOnCategorySpinner(){
         spinner1 = (Spinner) findViewById(R.id.categorySpinner);
         List<String> categoryList = new ArrayList<>();
         categoryList.add(CAT_1);
@@ -316,7 +312,7 @@ public class Create_Post extends AppCompatActivity {
     /**
      * User selection spinner for buying or selling product
      */
-    public void addItemsOnBuyOrSellSpinner(){
+    private void addItemsOnBuyOrSellSpinner(){
         spinner2 = (Spinner) findViewById(R.id.buyOrSellSpinner);
         List<String> buyOrSellList = new ArrayList<>();
         buyOrSellList.add("Selling");

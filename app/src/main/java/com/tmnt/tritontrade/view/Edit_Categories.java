@@ -160,150 +160,86 @@ public class Edit_Categories extends AppCompatActivity{
         cat2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cat2.isChecked())
-                {
-                    bools[1] = true;
-                    //savedPrefs.add("Clothing");
-                }
-                else
-                {
-                    bools[1] = false;
-                    //cat2.setChecked(false);
-                    //savedPrefs.remove("Clothing");
-                }
+                //savedPrefs.add("Clothing");
+//cat2.setChecked(false);
+//savedPrefs.remove("Clothing");
+                bools[1] = cat2.isChecked();
             }
         });
         cat3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cat3.isChecked())
-                {
-                    bools[2] = true;
-                    //savedPrefs.add("Furniture");
-                }
-                else
-                {
-                    bools[2] = false;
-                    //furniture.setChecked(false);
-                    //savedPrefs.remove("Furniture");
-                }
+                //savedPrefs.add("Furniture");
+//furniture.setChecked(false);
+//savedPrefs.remove("Furniture");
+                bools[2] = cat3.isChecked();
             }
         });
         cat4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cat4.isChecked())
-                {
-                    bools[3] = true;
-                    //savedPrefs.add("Food");
-                }
-                else
-                {
-                    bools[3] = false;
-                    //foods.setChecked(false);
-                    //savedPrefs.remove("Food");
-                }
+                //savedPrefs.add("Food");
+//foods.setChecked(false);
+//savedPrefs.remove("Food");
+                bools[3] = cat4.isChecked();
             }
         });
         cat5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cat5.isChecked())
-                {
-                    bools[4] = true;
-                    //savedPrefs.add("Technology");
-                }
-                else
-                {
-                    bools[4] = false;
-                    //technology.setChecked(false);
-                    //savedPrefs.remove("Technology");
-                }
+                //savedPrefs.add("Technology");
+//technology.setChecked(false);
+//savedPrefs.remove("Technology");
+                bools[4] = cat5.isChecked();
             }
         });
         cat6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cat6.isChecked())
-                {
-                    bools[5] = true;
-                    //savedPrefs.add("Supplies");
-                }
-                else
-                {
-                    bools[5] = false;
-                    //supplies.setChecked(false);
-                    //savedPrefs.remove("Supplies");
-                }
+                //savedPrefs.add("Supplies");
+//supplies.setChecked(false);
+//savedPrefs.remove("Supplies");
+                bools[5] = cat6.isChecked();
             }
         });
         cat7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cat7.isChecked())
-                {
-                    bools[6] = true;
-                    //storage.setChecked(true);
-                    //savedPrefs.add("Storage");
-                }
-                else
-                {
-                    bools[6] = false;
-                    //storage.setChecked(false);
-                    //savedPrefs.remove("Storage");
-                }
+                //storage.setChecked(true);
+//savedPrefs.add("Storage");
+//storage.setChecked(false);
+//savedPrefs.remove("Storage");
+                bools[6] = cat7.isChecked();
             }
         });
         cat8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cat8.isChecked())
-                {
-                    bools[7] = true;
-                    //cat8.setChecked(true);
-                    //savedPrefs.add("Services");
-                }
-                else
-                {
-                    bools[7] = false;
-                    //cat8.setChecked(false);
-                    //savedPrefs.remove("Services");
-                }
+                //cat8.setChecked(true);
+//savedPrefs.add("Services");
+//cat8.setChecked(false);
+//savedPrefs.remove("Services");
+                bools[7] = cat8.isChecked();
             }
         });
         cat9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cat9.isChecked())
-                {
-                    bools[8] = true;
-                    //cat9.setChecked(true);
-                    //savedPrefs.add("Miscellaneous");
-
-                }
-                else
-                {
-                    bools[8] = false;
-                    //cat9.setChecked(false);
-                    //savedPrefs.remove("Miscellaneous");
-                }
+                //cat9.setChecked(true);
+//savedPrefs.add("Miscellaneous");
+//cat9.setChecked(false);
+//savedPrefs.remove("Miscellaneous");
+                bools[8] = cat9.isChecked();
             }
         });
         cat10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cat10.isChecked())
-                {
-                    bools[9] = true;
-                    //trans.setChecked(true);
-                    //savedPrefs.add("Transportation");
-                }
-                else
-                {
-                    bools[9] = false;
-                    //trans.setChecked(false);
-                    //savedPrefs.remove("Transportation");
-                }
+                //trans.setChecked(true);
+//savedPrefs.add("Transportation");
+//trans.setChecked(false);
+//savedPrefs.remove("Transportation");
+                bools[9] = cat10.isChecked();
             }
         });
 

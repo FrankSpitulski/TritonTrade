@@ -17,11 +17,11 @@ public class UserTest {
 
     //a random user profile for testing if set methods return false on invalid input and true
     //on valid input
-    User validUser;
+    private User validUser;
 
     //lists of valid and invalid phone numbers
-    static ArrayList<String> badPhoneNumbers;
-    static ArrayList<String> goodPhoneNumbers;
+    private static ArrayList<String> badPhoneNumbers;
+    private static ArrayList<String> goodPhoneNumbers;
 
     /**
      * Creates background variables once for use in tests, DO NOT MODIFY THESE VARIABLES

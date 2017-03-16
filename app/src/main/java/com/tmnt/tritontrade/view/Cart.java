@@ -47,16 +47,17 @@ import static com.tmnt.tritontrade.R.layout.cart_item;
 public class Cart extends AppCompatActivity {
 
 
-    Button displayContactButton, confirmRemoveButton;
-    User user;                   //self or current user
-    ArrayList<Integer> cartInt;  //list of cart posts' ids, goes through async task, placed into 'posts '
-    ArrayList<Post> posts;       //server retrieves current user's cart
-    ArrayList<Post> postsToView; //'posts' goes through check, then displayed on Cart screen
-    Post currentPost;            //current post that is clicked on
-    User postSeller;        //user that created the post you are currently looking at
+    private Button displayContactButton;
+    private Button confirmRemoveButton;
+    private User user;                   //self or current user
+    private ArrayList<Integer> cartInt;  //list of cart posts' ids, goes through async task, placed into 'posts '
+    private ArrayList<Post> posts;       //server retrieves current user's cart
+    private ArrayList<Post> postsToView; //'posts' goes through check, then displayed on Cart screen
+    private Post currentPost;            //current post that is clicked on
+    private User postSeller;        //user that created the post you are currently looking at
 
-    ListView listView;
-    ArrayAdapter<Post> adapter;
+    private ListView listView;
+    private ArrayAdapter<Post> adapter;
     ArrayList<User> temp;
 
     @Override
@@ -177,7 +178,7 @@ public class Cart extends AppCompatActivity {
 
 
     //////////////////confirmation button for remove from cart//////////////////
-    public void displayConfirmationDialog(final int position) {
+    private void displayConfirmationDialog(final int position) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Confirm");
         alert.setMessage("Are you sure you want to remove this item?");
@@ -223,7 +224,7 @@ public class Cart extends AppCompatActivity {
     //-------------------------------BUTTONS----------------------------------//
 
     /////////////////////confirmation button for remove from cart//////////////////
-    public void displayContactDialog(final int position, String sellerEmail, String sellerPhone) {
+    private void displayContactDialog(final int position, String sellerEmail, String sellerPhone) {
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Contact Seller");
@@ -517,7 +518,7 @@ public class Cart extends AppCompatActivity {
         }
     }
 
-    public class ModifyUserCart extends AsyncTask<Object, Object, Object> {
+    private class ModifyUserCart extends AsyncTask<Object, Object, Object> {
         @Override
         protected Boolean doInBackground(Object... params) {
             try {

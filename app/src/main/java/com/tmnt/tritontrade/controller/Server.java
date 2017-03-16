@@ -106,11 +106,8 @@ public class Server {
 
         response = httpGetRequest("/db/sendPasswordResetEmail.php?validation=" +
                 verificationString + "&email=" + email);
-        if (response.equals("")
-                || response.equals("Mailer Error: You must provide at least one recipient email address.")) {
-            return false;
-        }
-        return true;
+        return !(response.equals("")
+                || response.equals("Mailer Error: You must provide at least one recipient email address."));
     }
 
     /**
@@ -367,7 +364,7 @@ public class Server {
      * @param ids The list of ids to grab
      * @return The list of User objects with the given ids
      */
-    public static ArrayList<User> searchUserIDs(ArrayList<Integer> ids) throws IOException {
+    private static ArrayList<User> searchUserIDs(ArrayList<Integer> ids) throws IOException {
         //if somehow asked with an empty list, return empty list
         if (ids.size() == 0) {
             return new ArrayList<User>();
@@ -541,12 +538,7 @@ public class Server {
         String response = readStream(connection.getInputStream());
 
         //if response from server is bad, return false
-        if (!response.equals("[1]")) {
-            return false;
-        }else {
-            //return success
-            return true;
-        }
+        return response.equals("[1]");
     }
 
     /**
@@ -647,7 +639,7 @@ public class Server {
      * @param json The string that represents json data
      * @return The ArrayList of Posts represented in json
      */
-    public static ArrayList<Post> jsonToPost(String json) {
+    private static ArrayList<Post> jsonToPost(String json) {
         //Create the GSON builder to construct the Array List of posts
         GsonBuilder builder = new GsonBuilder();
 

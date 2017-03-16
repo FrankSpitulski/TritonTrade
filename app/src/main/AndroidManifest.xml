@@ -42,9 +42,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".view.Register_Account_Two" />
         <activity android:name=".view.Verify_Account" />
-        <activity android:name=".view.Verify_Account_Two" />
         <activity android:name=".view.Edit_Categories" />
         <activity android:name=".view.License_Displays" />
         <activity android:name=".view.ChangePassword" />

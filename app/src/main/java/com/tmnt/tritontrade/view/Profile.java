@@ -338,7 +338,7 @@ public class Profile extends AppCompatActivity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    public Action getIndexApiAction() {
+    private Action getIndexApiAction() {
         Thing object = new Thing.Builder()
                 .setName("Profile Page")
                 .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))

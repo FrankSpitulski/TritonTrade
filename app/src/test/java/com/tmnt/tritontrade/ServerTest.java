@@ -1,7 +1,5 @@
 package com.tmnt.tritontrade;
 
-import android.util.Log;
-
 import org.junit.Test;
 import java.util.ArrayList;
 import static org.junit.Assert.*;

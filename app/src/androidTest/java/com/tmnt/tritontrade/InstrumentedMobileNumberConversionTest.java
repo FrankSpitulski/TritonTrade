@@ -21,8 +21,8 @@ import static org.junit.Assert.*;
 public class InstrumentedMobileNumberConversionTest
 {
     //paired array lists that store the unformatted number and the expected result of each
-    static ArrayList<String> unformattedNumbers;
-    static ArrayList<String> databaseFormatNumbers;
+    private static ArrayList<String> unformattedNumbers;
+    private static ArrayList<String> databaseFormatNumbers;
 
     /**
      * Initializes the array lists holding the test cases

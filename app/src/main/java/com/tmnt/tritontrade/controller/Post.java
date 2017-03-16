@@ -339,7 +339,7 @@ public class Post implements Parcelable {
     }
 
     //*********PARCELABLE METHODS************
-    protected Post(Parcel in) {
+    private Post(Parcel in) {
         productName = in.readString();
         if (in.readByte() == 0x01) {
             photos = new ArrayList<String>();
@@ -435,12 +435,12 @@ public class Post implements Parcelable {
 
                 for (int i=0; i< curr.getPhotos().size(); i++){
 
-                    photosTA= photosTA + curr.getPhotos().get(i).toString() + "\n";
+                    photosTA= photosTA + curr.getPhotos().get(i) + "\n";
                 }
 
                 for (int i=0; i< curr.getTags().size(); i++){
 
-                    tagsTA= tagsTA + ":" +curr.getTags().get(i).toString() + ":" + "\n";
+                    tagsTA= tagsTA + ":" + curr.getTags().get(i) + ":" + "\n";
                 }
 
 

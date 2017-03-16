@@ -64,11 +64,11 @@ import static com.tmnt.tritontrade.view.MainActivity.CAT_9;
 public class Mainfeed extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    CustomAdapter adapter;
+    private CustomAdapter adapter;
     private ListView list;
     private SwipeRefreshLayout swipeContainer;
-    ArrayList<String> lastSearchedTags;
-    Spinner filters;
+    private ArrayList<String> lastSearchedTags;
+    private Spinner filters;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -334,7 +334,7 @@ public class Mainfeed extends AppCompatActivity
         protected ArrayList<Post> doInBackground(ArrayList<String>... id) {
             try {
                 Log.d("DEBUG",id.length + "");
-                Log.d("DEBUG", id[0].get(0).toString());
+                Log.d("DEBUG", id[0].get(0));
                 for (int x = 0; x < id[0].size(); x ++)
                 {
                     id[0].set(x,id[0].get(x).toLowerCase());
@@ -387,7 +387,7 @@ public class Mainfeed extends AppCompatActivity
     /**
      * Category selection spinner for the post item
      */
-    public void addItemsOnFiltersSpinner(){
+    private void addItemsOnFiltersSpinner(){
         filters = (Spinner) findViewById(R.id.filters);
         List<String> filterOptions = new ArrayList<>();
         filterOptions.add("Most Recent");
@@ -417,7 +417,7 @@ public class Mainfeed extends AppCompatActivity
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    public Action getIndexApiAction() {
+    private Action getIndexApiAction() {
         Thing object = new Thing.Builder()
                 .setName("Mainfeed Page") // TODO: Define a title for the content shown.
                 // TODO: Make sure this auto-generated URL is correct.

@@ -85,7 +85,7 @@ public class User implements Parcelable {
 
 
     //******PARCELABLE METHODS********
-    protected User(Parcel in) {
+    private User(Parcel in) {
         name = in.readString();
         photo = in.readString();
         profileID = in.readInt();
@@ -190,7 +190,7 @@ public class User implements Parcelable {
      * @param profileID the profileID
      * @return If invalid input, nothing is updated and returns false
      */
-    public boolean setProfileID(int profileID)
+    private boolean setProfileID(int profileID)
     {
         if(profileID == 0)
             return false;
@@ -257,7 +257,7 @@ public class User implements Parcelable {
      * @param email the user email
      * @return If invalid input, nothing is updated and returns false
      */
-    public boolean setEmail(String email)
+    private boolean setEmail(String email)
     {
         if (email == null || !email.matches(".*ucsd.edu$"))
             return false;
@@ -279,7 +279,7 @@ public class User implements Parcelable {
      * @param cartIDs a list of cartIDs
      * @return If invalid input, nothing is updated and returns false
      */
-    public boolean setCartIDs(ArrayList<Integer> cartIDs)
+    private boolean setCartIDs(ArrayList<Integer> cartIDs)
     {
         if(cartIDs==null)
             return false;
@@ -301,7 +301,7 @@ public class User implements Parcelable {
      * @param password the password
      * @return If invalid input, nothing is updated and returns false
      */
-    public boolean setPassword(String password)
+    private boolean setPassword(String password)
     {
         if (password == null)
             return false;
@@ -315,9 +315,7 @@ public class User implements Parcelable {
      * @return whether or not the operation was successful
      */
     public boolean hashAndSetPassword(String password) {
-        if (password == null)
-            return false;
-        return setPassword(Encrypt.hashpw(password , getSalt()));
+        return password != null && setPassword(Encrypt.hashpw(password, getSalt()));
 
     }
 
@@ -343,7 +341,7 @@ public class User implements Parcelable {
      * @param salt
      * @return If invalid input, nothing is updated and returns false
      */
-    public boolean setSalt(String salt)
+    private boolean setSalt(String salt)
     {
         if (salt == null)
             return false;
@@ -375,7 +373,7 @@ public class User implements Parcelable {
      * Getter for emailVerificationLink
      * @return the email verification link
      */
-    public String getEmailVerificationLink(){
+    private String getEmailVerificationLink(){
         return emailVerificationLink;
     }
 
@@ -405,7 +403,7 @@ public class User implements Parcelable {
      * @param deleted
      * @return true if updated, false if not updated
      */
-    public boolean setDeleted(boolean deleted){
+    private boolean setDeleted(boolean deleted){
         this.deleted = deleted;
         return true;
     }
@@ -425,7 +423,7 @@ public class User implements Parcelable {
      * @param id post id
      * @return whether or not the operation was successful
      */
-    public boolean removeFromCart(int id){ return cartIDs.remove((Integer) new Integer(id)); }
+    public boolean removeFromCart(int id){ return cartIDs.remove(new Integer(id)); }
 
     /**
      * adds post to cart by id. swallows duplicates
@@ -442,7 +440,7 @@ public class User implements Parcelable {
      * Returns the postHistory
      * @return the postHistory
      */
-    public String getPostHistoryString()
+    private String getPostHistoryString()
     {
         String history = "";
         for(int i = 0; i < postHistory.size() - 1; i++)
@@ -460,7 +458,7 @@ public class User implements Parcelable {
      * Returns the cartIDs
      * @return the cartIDs
      */
-    public String getCartIDsString()
+    private String getCartIDsString()
     {
         String history = "";
         for (int i = 0; i < cartIDs.size() - 1; i++)
@@ -711,8 +709,8 @@ public class User implements Parcelable {
                 _verified= obj.get("verified").getAsInt();
                 _deleted= obj.get("deleted").getAsInt();
 
-                verified= (_verified==0) ? false : true;
-                deleted= (_deleted==0) ? false : true;
+                verified= _verified != 0;
+                deleted= _deleted != 0;
 
 
                 //Create the user object from the json object

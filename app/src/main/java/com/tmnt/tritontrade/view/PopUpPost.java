@@ -36,9 +36,9 @@ import java.util.Locale;
  */
 
 public class PopUpPost extends AppCompatActivity {
-    Toast t;
+    private Toast t;
     private boolean cart_status = false;
-    public User current_user;
+    private User current_user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,7 +113,7 @@ public class PopUpPost extends AppCompatActivity {
         });
     }
 
-    public void loadPost(Post p) {
+    private void loadPost(Post p) {
         ArrayList<ImageView> photos = loadGallery(p.getPhotos());
         LinearLayout photoContainer = (LinearLayout) findViewById(R.id.gallery);
         photoContainer.setGravity(Gravity.CENTER);
@@ -156,7 +156,7 @@ public class PopUpPost extends AppCompatActivity {
     }
 
 
-    public ArrayList<ImageView> loadGallery(ArrayList<String> photos) {
+    private ArrayList<ImageView> loadGallery(ArrayList<String> photos) {
 
         ArrayList<ImageView> iv_array = new ArrayList<>();
         for (int i = 0; i < photos.size(); i++) {
@@ -168,7 +168,7 @@ public class PopUpPost extends AppCompatActivity {
         return iv_array;
     }
 
-    public class ModifyUserCart extends AsyncTask<User, Void, Boolean> {
+    private class ModifyUserCart extends AsyncTask<User, Void, Boolean> {
         @Override
         protected Boolean doInBackground(User... params) {
             try {
@@ -188,21 +188,21 @@ public class PopUpPost extends AppCompatActivity {
             t.cancel();
             if (bool) {
                 if (cart_status) {
-                    t.makeText(PopUpPost.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PopUpPost.this, "Item removed from cart", Toast.LENGTH_SHORT).show();
                     ((Button) findViewById(R.id.cart)).setText("ADD TO CART");
                 } else {
                     t.cancel();
-                    t.makeText(PopUpPost.this, "Item added to cart", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PopUpPost.this, "Item added to cart", Toast.LENGTH_SHORT).show();
                     ((Button) findViewById(R.id.cart)).setText("REMOVE FROM CART");
                 }
                 cart_status = !cart_status;
             } else {
-                t.makeText(PopUpPost.this, "Bad connection to server or bad post ID", Toast.LENGTH_SHORT);
+                Toast.makeText(PopUpPost.this, "Bad connection to server or bad post ID", Toast.LENGTH_SHORT);
             }
         }
     }
 
-    public class ModifyPostState extends AsyncTask<Post, Void, Post> {
+    private class ModifyPostState extends AsyncTask<Post, Void, Post> {
         @Override
         protected Post doInBackground(Post... params) {
             try {
@@ -222,16 +222,16 @@ public class PopUpPost extends AppCompatActivity {
             t.cancel();
             if (p != null) {
                 if (p.getActive()) {
-                    t.makeText(PopUpPost.this, "Item marked as active", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PopUpPost.this, "Item marked as active", Toast.LENGTH_SHORT).show();
                     ((Button) findViewById(R.id.cart)).setText("MARK AS SOLD");
                 } else {
                     t.cancel();
-                    t.makeText(PopUpPost.this, "Item marked as sold", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PopUpPost.this, "Item marked as sold", Toast.LENGTH_SHORT).show();
                     ((Button) findViewById(R.id.cart)).setText("MARK AS ACTIVE");
                 }
                 updateSellingStatus(p);
             } else {
-                t.makeText(PopUpPost.this, "Bad connection to server or bad post ID", Toast.LENGTH_SHORT);
+                Toast.makeText(PopUpPost.this, "Bad connection to server or bad post ID", Toast.LENGTH_SHORT);
             }
         }
     }
@@ -251,7 +251,7 @@ public class PopUpPost extends AppCompatActivity {
         }
     }
 
-    public class GetSellerForProfile extends AsyncTask<Integer, User, User> {
+    private class GetSellerForProfile extends AsyncTask<Integer, User, User> {
         @Override
         protected User doInBackground(Integer... params) {
             try {

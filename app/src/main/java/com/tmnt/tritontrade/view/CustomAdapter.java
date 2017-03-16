@@ -30,12 +30,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Created by Edward Ji
  */
 
-public class CustomAdapter extends BaseAdapter implements Filterable {
+class CustomAdapter extends BaseAdapter implements Filterable {
 
     private final int startCount = 10; //Start amount of items being displayed
     private Context context;
@@ -68,7 +69,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
      * Setter for posts
      * @param posts
      */
-    public void setPosts(ArrayList<Post> posts) {
+    private void setPosts(ArrayList<Post> posts) {
         this.posts = posts;
         allPosts = new ArrayList<Post>(posts.size());
         for(int i = 0; i < posts.size(); i++){
@@ -182,7 +183,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable {
             postHolder.postStatusFeed.setText("BUYING");
         }
 
-        if(posts.get(position).getPhotos().get(0)==""){
+        if(Objects.equals(posts.get(position).getPhotos().get(0), "")){
             postHolder.image.setVisibility(View.GONE);
         }
         else{

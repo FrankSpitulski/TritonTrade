@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import javax.net.ssl.HttpsURLConnection;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -40,11 +39,11 @@ public class InstrumentedServerTest
 
 
     //List of FUN strings with various possibly problematic strings to test
-    static ArrayList<String> funStrings = new ArrayList<String>();
+    private static ArrayList<String> funStrings = new ArrayList<String>();
     //list of invalid phone numbers
-    static ArrayList<String> badPhoneNumbers = new ArrayList<String>();
+    private static ArrayList<String> badPhoneNumbers = new ArrayList<String>();
     //list of valid phone numbers
-    static ArrayList<String> goodPhoneNumbers = new ArrayList<String>();
+    private static ArrayList<String> goodPhoneNumbers = new ArrayList<String>();
 
     //List of users used in the test, automatically cleaned up from server after each test
     private ArrayList<User> testUsers;

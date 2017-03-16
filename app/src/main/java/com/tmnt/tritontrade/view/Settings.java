@@ -45,7 +45,7 @@ public class Settings extends AppCompatActivity {
 
 
     //////////////////confirmation button for remove from cart//////////////////
-    public void displayLogoutDialog() {
+    private void displayLogoutDialog() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Logout?");
         alert.setMessage("Are you sure you want to log out?");

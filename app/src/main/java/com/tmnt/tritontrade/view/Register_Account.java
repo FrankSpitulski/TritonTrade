@@ -18,11 +18,11 @@ import java.io.IOException;
 
 public class Register_Account extends AppCompatActivity {
 
-    Button registerButton;
-    static String theName = "";
-    static String theEmail = "";
-    static String thePassword = "";
-    static String thePhone = "";
+    private Button registerButton;
+    private static String theName = "";
+    private static String theEmail = "";
+    private static String thePassword = "";
+    private static String thePhone = "";
     static String autoFill = "";
 
     @Override

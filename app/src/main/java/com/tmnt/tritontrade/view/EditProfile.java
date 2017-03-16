@@ -37,8 +37,8 @@ public class EditProfile extends AppCompatActivity {
     private Button changeProfilePic;
     private int IMG_RESULT = 2;
     private int MY_PERMISSIONS_REQUEST_READ_CONTACTS= 1;
-    static InputStream is;
-    static Uri selectedImage;
+    private static InputStream is;
+    private static Uri selectedImage;
     private String type;
 
     @Override
@@ -283,11 +283,8 @@ public class EditProfile extends AppCompatActivity {
      * @return true if the username is valid
      */
     private boolean nameIsValid(String username){
-        if(username.isEmpty()){
-            return false;
-        }
+        return !username.isEmpty();
 
-        return true;
     }
 
 
@@ -298,12 +295,9 @@ public class EditProfile extends AppCompatActivity {
      */
     private boolean bioIsValid(String bio){
 
-        if(bio.isEmpty()){
-            return false;
-        }
+        return !bio.isEmpty();
 
 
-        return true;
     }
 
 }

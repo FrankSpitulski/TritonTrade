@@ -49,7 +49,7 @@ public class Profile_NonUser extends AppCompatActivity {
     ArrayList<Post> selling = new ArrayList<>();
     ArrayList<Post> productSold = new ArrayList<>();
 
-    ProfileListAdaptor adapter;
+    private ProfileListAdaptor adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

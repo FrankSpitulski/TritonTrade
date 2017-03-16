@@ -146,7 +146,7 @@ public class Welcome_Categories extends AppCompatActivity{
                     set.remove("Food");
                     editor.clear();
                     editor.putStringSet(ID,set);
-                    editor.apply();;
+                    editor.apply();
                 }
             }
         });

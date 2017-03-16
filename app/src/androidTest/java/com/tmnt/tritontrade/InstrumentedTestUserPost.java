@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 /**

@@ -50,10 +50,10 @@ public class PopupEditPost extends AppCompatActivity {
     private Button cancelBtn;
 
     // Variables for the post object
-    static String productName = "";
-    static String description;
-    static float price;
-    static ArrayList<String> tags;
+    private static String productName = "";
+    private static String description;
+    private static float price;
+    private static ArrayList<String> tags;
     static int profileID;
     static boolean selling;
     static String contactInfo;
@@ -74,10 +74,10 @@ public class PopupEditPost extends AppCompatActivity {
     private ImageView fifthImg;
     private ImageView currImage;
     private static int IMG_RESULT = 1;
-    static Uri selectedImage;
-    static InputStream is;
+    private static Uri selectedImage;
+    private static InputStream is;
     private String type;
-    ArrayList<String> photos = new ArrayList<>();
+    private ArrayList<String> photos = new ArrayList<>();
     private int counter = 0;
 
     /**
@@ -136,7 +136,7 @@ public class PopupEditPost extends AppCompatActivity {
     }
 
     // Add the items to the category spinner
-    public void addItemsOnCategorySpinner(){
+    private void addItemsOnCategorySpinner(){
         spinner = (Spinner) findViewById(R.id.category_spinner);
         List<String> categoryList = new ArrayList<>();
         categoryList.add(CAT_1);
@@ -303,7 +303,7 @@ public class PopupEditPost extends AppCompatActivity {
         });
 
         if(photos.size()==0){
-            photos.add(currPost.getDefaultImage());
+            photos.add(Post.getDefaultImage());
         }
 
         new EditPostTask().execute();

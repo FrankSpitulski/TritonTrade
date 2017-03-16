@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String CAT_9 = "Transportation";
     public static final String CAT_10 = "Miscellaneous";
 
-    Button loginButton;
-    static String userName = "";
-    static String password = "";
+    private Button loginButton;
+    private static String userName = "";
+    private static String password = "";
 
     // Variables for remembering the users login credentials
     private CheckBox saveLoginCheckBox;
