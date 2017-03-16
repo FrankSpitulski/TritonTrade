@@ -142,9 +142,10 @@ public class Create_Post extends AppCompatActivity {
                 String selectedItemText = spinner1.getSelectedItem().toString();
 
                 tags = new ArrayList<String>();
-                tags.add(theName.getText().toString().toLowerCase());
+                String name = theName.getText().toString().toLowerCase().replaceAll("\n", "");
+                tags.add(name);
                 tags.add(selectedItemText.toLowerCase());
-                ArrayList<String> subTags = getTagsFromTitle(theName.getText().toString().toLowerCase());
+                ArrayList<String> subTags = getTagsFromTitle(name);
                 for(String s : subTags){
                     tags.add(s);
                 }
