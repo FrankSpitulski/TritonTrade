@@ -18,6 +18,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
+
         <TextView
             android:text="Verify Email"
             android:layout_width="wrap_content"
@@ -31,24 +32,28 @@
             android:textSize="30sp" />
 
         <TextView
-            android:text='Refresh this page after you receive the \n verification email to start. A "verify" \n button will appear once your email \n has been approved.'
+            android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/verifyEmailLabel"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="23dp"
-            android:id="@+id/textView7"
+            android:text="A verification email has been sent \n to the email provided. Please \n verify your email and click the \n button below to log in."
             android:textAlignment="center"
             android:textColor="@color/white" />
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:srcCompat="@android:drawable/ic_popup_sync"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/imageButton7"
-            android:background="@android:color/transparent" />
+        <Button
+            android:id="@+id/mainLoginLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/verifyEmailLabel"
+            android:layout_alignStart="@+id/verifyEmailLabel"
+            android:layout_below="@+id/textView7"
+            android:layout_marginTop="76dp"
+            android:background="@color/FiftyTransparentWhite"
+            android:onClick="sendToLogIn"
+            android:text="Log In"
+            android:textColor="@color/white" />
 
         <Button
             android:text="Log In"
@@ -58,10 +63,10 @@
             android:background="@android:color/transparent"
             android:textColor="@color/common_google_signin_btn_text_dark_pressed"
             android:fontFamily="sans-serif-medium"
+            android:onClick="sendToLogIn"
             android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@+id/imageButton7"
-            android:layout_marginStart="29dp"
-            android:onClick="sendToLogIn"/>
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="29dp" />
 
         <TextView
             android:text="Already have an account?"
