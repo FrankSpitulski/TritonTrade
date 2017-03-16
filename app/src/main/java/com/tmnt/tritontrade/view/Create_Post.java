@@ -355,6 +355,7 @@ public class Create_Post extends AppCompatActivity {
         String[] splitTitle = title.split("( +|\\n+)+");
         for(String s : splitTitle){
             s = s.toLowerCase();
+            s = s.replaceAll("\n", "");
             if(s.equals("") || s.equals("in") || s.equals("at") || s.equals("on") ||
                     s.equals("the") || s.equals("a") || s.equals("an") || s.equals("by")
                     || s.equals("of") || s.equals("\n") || s.equals(" ")
