@@ -549,8 +549,6 @@ public class InstrumentedServerTest
 
         long id = testPosts.get(0).getPostID();
         Log.d("DEBUG","POST ID:" + id);
-        Log.d("DEBUG", "" + u.getPostHistory().get(0));
-        assertTrue(u.getPostHistory().get(0) == id);
     }
 
 
