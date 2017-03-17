@@ -35,8 +35,8 @@ $mail->addAddress($email);
 
 //Set the email contents line
 $mail->Subject = 'Triton Trade Password Reset';
-$mail->msgHTML("<html><a href=https://spitulski.no-ip.biz/db/passwordReset.php?validation=" . $validation . ">Click to reset your password.</a></html>");
-$mail->AltBody = "Go to https://spitulski.no-ip.biz/db/passwordReset.php?validation=" . $validation . " to reset your password.";
+$mail->msgHTML("<html><a href=https://tritontrade.ddns.net/db/passwordReset.php?validation=" . $validation . ">Click to reset your password.</a></html>");
+$mail->AltBody = "Go to https://tritontrade.ddns.net/db/passwordReset.php?validation=" . $validation . " to reset your password.";
 
 //send the message, check for errors
 if (!$mail->send()) {
