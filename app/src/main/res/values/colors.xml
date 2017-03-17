@@ -7,4 +7,5 @@
     <color name="TwentyTransparentWhite"> #50FFFFFF</color>
     <color name="EightyTransparentSketchBlue">#B9005581</color>
     <color name="SunYellow">#f6b813</color>
+    <color name="black">#000000</color>
 </resources>
