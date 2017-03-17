@@ -35,8 +35,8 @@ $mail->addAddress($email);
 
 //Set the email contents line
 $mail->Subject = 'Triton Trade Email Validation';
-$mail->msgHTML("<html><a href=https://spitulski.no-ip.biz/db/emailValidation.php?validation=" . $validation . ">Click to validate your email.</a></html>");
-$mail->AltBody = "Go to https://spitulski.no-ip.biz/db/emailValidation.php?validation=" . $validation . " to validate your email.";
+$mail->msgHTML("<html><a href=https://tritontrade.ddns.net/db/emailValidation.php?validation=" . $validation . ">Click to validate your email.</a></html>");
+$mail->AltBody = "Go to https://tritontrade.ddns.net/db/emailValidation.php?validation=" . $validation . " to validate your email.";
 
 //send the message, check for errors
 if (!$mail->send()) {
