@@ -224,7 +224,7 @@ public class Mainfeed extends AppCompatActivity
                 ArrayList<String> tagsQ = new ArrayList<String>();
                 tagsQ.add(query);
 
-                /*String [] querySplit = query.split(" ");
+                String [] querySplit = query.split(" ");
                 for(String s : querySplit){
                     s = s.toLowerCase();
 
@@ -232,7 +232,7 @@ public class Mainfeed extends AppCompatActivity
                         tagsQ.add(s);
                     }
 
-                }*/
+                }
 
                 lastSearchedTags=tagsQ;
                 new FeedSetupTask().execute(tagsQ);
