@@ -230,11 +230,11 @@
                     android:elevation="24dp"
                     android:fontFamily="sans-serif-condensed"
                     android:gravity="center_vertical|center_horizontal|center"
-                    android:text="Rides"
+                    android:text="Transportation"
                     android:textColor="@color/SunYellow"
-                    android:textOff="Rides"
-                    android:textOn="Rides"
-                    android:textSize="24sp"
+                    android:textOff="Transportation"
+                    android:textOn="Transportation"
+                    android:textSize="19sp"
                     android:textStyle="bold" />
 
                 <RelativeLayout
