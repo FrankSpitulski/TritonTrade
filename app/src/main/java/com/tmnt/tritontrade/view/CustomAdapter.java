@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -176,13 +176,19 @@ class CustomAdapter extends BaseAdapter implements Filterable {
 
         if(!posts.get(position).getActive()){
             postHolder.postStatusFeed.setText("SOLD");
-            postHolder.postStatusFeed.setTextColor(Color.parseColor("#E50000"));
+            postHolder.postStatusFeed.setTextColor(ContextCompat.getColor(context, R.color.Sold));
             postHolder.postStatusFeed.setTypeface(null, Typeface.BOLD);
-            postHolder.price.setTextColor(Color.parseColor("#696969"));
+            postHolder.price.setTextColor(ContextCompat.getColor(context, R.color.greyPrice));
         }else if(posts.get(position).getSelling()){
             postHolder.postStatusFeed.setText("SELLING");
+            postHolder.postStatusFeed.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
+            postHolder.postStatusFeed.setTypeface(null, Typeface.NORMAL);
+            postHolder.price.setTextColor(ContextCompat.getColor(context, R.color.greenPrice));
         }else{
             postHolder.postStatusFeed.setText("BUYING");
+            postHolder.postStatusFeed.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
+            postHolder.postStatusFeed.setTypeface(null, Typeface.NORMAL);
+            postHolder.price.setTextColor(ContextCompat.getColor(context, R.color.greenPrice));
         }
 
         if(Objects.equals(posts.get(position).getPhotos().get(0), "")){

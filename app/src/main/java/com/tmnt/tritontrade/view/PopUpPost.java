@@ -112,6 +112,17 @@ public class PopUpPost extends AppCompatActivity {
                     }else if(b.getText().equals("MARK AS SOLD")){
                         p.setActive(false);
                         new ModifyPostState().execute(p);
+
+
+//                        Intent intent = getIntent(f);
+//                        overridePendingTransition(0, 0);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                        finish();
+//                        overridePendingTransition(0, 0);
+//                        startActivity(intent);
+
+
+
                     }
                 }
 
@@ -243,17 +254,24 @@ public class PopUpPost extends AppCompatActivity {
     }
 
     private void updateSellingStatus(Post p) {
+        TextView text = (TextView) findViewById(R.id.postStatusPopup);
+        TextView price = (TextView) findViewById(R.id.price);
+
         if(!p.getActive()){
-            ((TextView) findViewById(R.id.postStatusPopup)).setText("SOLD");
-            TextView text = (TextView) findViewById(R.id.postStatusPopup);
+            text.setText("SOLD");
             text.setTextColor(Color.parseColor("#E50000"));
             text.setTypeface(null, Typeface.BOLD);
-            TextView text2 = (TextView) findViewById(R.id.price);
-            text2.setTextColor(Color.parseColor("#696969"));
+            price.setTextColor(Color.parseColor("#696969"));
         }else if(p.getSelling()){
-            ((TextView) findViewById(R.id.postStatusPopup)).setText("SELLING");
+            text.setText("SELLING");
+            text.setTextColor(Color.parseColor("#005581"));
+            text.setTypeface(null, Typeface.NORMAL);
+            price.setTextColor(Color.parseColor("#008B00"));
         }else{
             ((TextView) findViewById(R.id.postStatusPopup)).setText("BUYING");
+            text.setTextColor(Color.parseColor("#005581"));
+            text.setTypeface(null, Typeface.NORMAL);
+            price.setTextColor(Color.parseColor("#008B00"));
         }
     }
 

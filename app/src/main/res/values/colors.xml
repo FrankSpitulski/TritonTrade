@@ -8,4 +8,7 @@
     <color name="EightyTransparentSketchBlue">#B9005581</color>
     <color name="SunYellow">#f6b813</color>
     <color name="black">#000000</color>
+    <color name="Sold">#E50000</color>
+    <color name="greenPrice">#008B00</color>
+    <color name="greyPrice">#696969</color>
 </resources>
