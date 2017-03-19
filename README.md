@@ -54,10 +54,11 @@ If the application is inactive for long periods of time, the system garbage coll
 
 
 Contact Info:
-	Name: Frank Spitulski
-	Phone: (321) 689-2848
-	Email: fspituls@eng.ucsd.edu
 
-	Name: Edward Ji
-	Phone: (914) 329-0715
-	Email: eyji@ucsd.edu
+Name: Frank Spitulski
+Phone: (321) 689-2848
+Email: fspituls@eng.ucsd.edu
+
+Name: Edward Ji
+Phone: (914) 329-0715
+Email: eyji@ucsd.edu
