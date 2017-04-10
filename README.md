@@ -17,7 +17,8 @@ UCSD email account.
 Google Play Store account.
 
 How to Install:
-Search for “TritonTrade (CSE 110 Project)” in the Google Play Store.
+Search for “TritonTrade (CSE 110 Project)” in the Google Play Store or click this link.
+https://play.google.com/store/apps/details?id=com.tmnt.tritontrade
 If nothing appears, proceed to How to Install without the Play Store.
 Install the TritonTrade application with the install button in the store listing.
 
